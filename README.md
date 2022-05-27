@@ -1,5 +1,5 @@
 # autoware.core
 
-This is one of the prototype repositories for Autoware Core/Universe that AWF agreed to create in the [TSC meeting on 2021/11/17](https://discourse.ros.org/t/technical-steering-committee-tsc-meeting-36-2021-11-17-minutes/23168).
+A core repository of [Autoware](https://github.com/autowarefoundation/autoware), high-quality, stable ROS packages for Autonomous Driving.
 
-Please see [autowarefoundation/autoware](https://github.com/autowarefoundation/autoware) for more details.
+For researchers and developers who extend the functionality of Autoware Core, see [Autoware.Universe](https://github.com/autowarefoundation/autoware.universe).
