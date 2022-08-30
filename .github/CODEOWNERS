@@ -1,0 +1,4 @@
+### Copied from .github/CODEOWNERS-manual ###
+.github/* @autowarefoundation/autoware-maintainers
+
+### Automatically generated from package.xml ###
