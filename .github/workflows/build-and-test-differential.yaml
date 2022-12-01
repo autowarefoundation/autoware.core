@@ -11,12 +11,8 @@ jobs:
       fail-fast: false
       matrix:
         rosdistro:
-          - galactic
           - humble
         include:
-          - rosdistro: galactic
-            container: ros:galactic
-            build-depends-repos: build_depends.repos
           - rosdistro: humble
             container: ros:humble
             build-depends-repos: build_depends.repos
@@ -78,7 +74,7 @@ jobs:
 
       - name: Get modified files
         id: get-modified-files
-        uses: tj-actions/changed-files@v32
+        uses: tj-actions/changed-files@v34
         with:
           files: |
             **/*.cpp
