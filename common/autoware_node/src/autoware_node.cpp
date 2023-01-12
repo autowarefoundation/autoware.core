@@ -13,8 +13,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <rclcpp/rclcpp.hpp>
 #include "autoware_node/autoware_node.hpp"
+
+#include <rclcpp/rclcpp.hpp>
 
 #include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
 
