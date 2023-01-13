@@ -1,5 +1,4 @@
 // Copyright 2022 The Autoware Contributors
-// SPDX-License-Identifier: Apache-2.0
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +19,8 @@
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
 
 #include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
+
+#include <string>
 
 namespace autoware_node
 {

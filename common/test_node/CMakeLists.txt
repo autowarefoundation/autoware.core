@@ -17,8 +17,8 @@ ament_auto_add_library(${library_name} SHARED
 
 rclcpp_components_register_node(${library_name}
   PLUGIN "test_node::TestNode"
-  EXECUTABLE ${executable_name}
-  )
+  EXECUTABLE ${executable_name})
+
 #if(BUILD_TESTING)
 #  find_package(ament_lint_auto REQUIRED)
 #  ament_lint_auto_find_test_dependencies()

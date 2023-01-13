@@ -1,5 +1,4 @@
 // Copyright 2022 The Autoware Contributors
-// SPDX-License-Identifier: Apache-2.0
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,7 +24,7 @@ namespace autoware_control_center
 class AutowareControlCenter : public rclcpp_lifecycle::LifecycleNode
 {
 public:
-  AutowareControlCenter(const rclcpp::NodeOptions & options);
+  explicit AutowareControlCenter(const rclcpp::NodeOptions & options);
 
 private:
 };
