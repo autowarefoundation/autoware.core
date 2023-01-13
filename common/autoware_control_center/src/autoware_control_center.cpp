@@ -24,5 +24,4 @@ AutowareControlCenter::AutowareControlCenter(const rclcpp::NodeOptions & options
   RCLCPP_INFO(get_logger(), "AutowareControlCenter is initialized");
 }
 
-
 }  // namespace autoware_control_center
