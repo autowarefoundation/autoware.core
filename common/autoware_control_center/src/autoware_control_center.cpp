@@ -24,11 +24,5 @@ AutowareControlCenter::AutowareControlCenter(const rclcpp::NodeOptions & options
   RCLCPP_INFO(get_logger(), "AutowareControlCenter is initialized");
 }
 
-void AutowareControlCenter::callback_acc_json_global(
-  const autoware_control_center_msgs::msg::AutowareControlCenterJson::ConstSharedPtr & msg)
-{
-  // log message
-  RCLCPP_INFO(get_logger(), "AutowareControlCenterJson received %s", msg->json_message.c_str());
-}
 
 }  // namespace autoware_control_center
