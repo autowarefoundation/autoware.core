@@ -1,17 +1,5 @@
-# Request
-
-## Name of the registering AutowareNode
 string name_node
-
 ---
-
-# Response
-
-## Status
 autoware_control_center_msgs/StatusRegistration status
-
-## UUID
 unique_identifier_msgs/UUID uuid_node
-
-## Response Log
 string log_response
