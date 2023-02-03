@@ -29,7 +29,7 @@ class AutowareNode : public rclcpp_lifecycle::LifecycleNode
 {
 public:
   AUTOWARE_NODE_PUBLIC
-  AutowareNode(
+  explicit AutowareNode(
     const std::string & node_name, const std::string & ns = "",
     const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
 
