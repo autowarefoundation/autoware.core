@@ -10,8 +10,7 @@ set(msg_dependencies
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/StatusRegistration.msg"
   "srv/AutowareNodeRegister.srv"
-  DEPENDENCIES ${msg_dependencies}
-  ADD_LINTER_TESTS)
+  DEPENDENCIES ${msg_dependencies})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
