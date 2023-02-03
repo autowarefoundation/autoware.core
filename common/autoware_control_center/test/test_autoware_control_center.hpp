@@ -15,7 +15,7 @@
 #ifndef TEST_AUTOWARE_CONTROL_CENTER_HPP_
 #define TEST_AUTOWARE_CONTROL_CENTER_HPP_
 
-class test_autoware_control_center
+class TestAutowareControlCenter
 {
 };
 
