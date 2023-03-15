@@ -41,17 +41,16 @@ AutowareNode::AutowareNode(
 
   RCLCPP_INFO(get_logger(), "Sent request");
 
-//  const auto & response = fut_and_id_response.get();
-//  RCLCPP_INFO(get_logger(), "response: %d", response->status.status);
+  //  const auto & response = fut_and_id_response.get();
+  //  RCLCPP_INFO(get_logger(), "response: %d", response->status.status);
 
-    if (rclcpp::spin_until_future_complete(this->get_node_base_interface(), fut_and_id_response)
-    ==
-        rclcpp::FutureReturnCode::SUCCESS)
-    {
-      RCLCPP_INFO(get_logger(), "response: %d", fut_and_id_response.get()->status.status);
-    } else {
-      RCLCPP_ERROR(get_logger(), "Failed to call service");
-    }
+  if (
+    rclcpp::spin_until_future_complete(this->get_node_base_interface(), fut_and_id_response) ==
+    rclcpp::FutureReturnCode::SUCCESS) {
+    RCLCPP_INFO(get_logger(), "response: %d", fut_and_id_response.get()->status.status);
+  } else {
+    RCLCPP_ERROR(get_logger(), "Failed to call service");
+  }
 }
 
 }  // namespace autoware_node
