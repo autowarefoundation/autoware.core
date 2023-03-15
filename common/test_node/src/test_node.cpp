@@ -22,6 +22,7 @@ namespace test_node
 TestNode::TestNode(const rclcpp::NodeOptions & options)
 : autoware_node::AutowareNode("test_node", "", options)
 {
+  RCLCPP_INFO(get_logger(), "TestNode constructor");
 }
 
 }  // namespace test_node

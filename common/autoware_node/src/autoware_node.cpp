@@ -25,10 +25,33 @@ AutowareNode::AutowareNode(
   const std::string & node_name, const std::string & ns, const rclcpp::NodeOptions & options)
 : LifecycleNode(node_name, ns, options)
 {
+  RCLCPP_INFO(get_logger(), "AutowareNode::AutowareNode()");
   callback_group_mut_ex_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
 
   cli_register_ = create_client<autoware_control_center_msgs::srv::AutowareNodeRegister>(
-    "~/cli/autoware_node_register", rmw_qos_profile_default, callback_group_mut_ex_);
+    "/autoware_control_center/srv/autoware_node_register", rmw_qos_profile_default,
+    callback_group_mut_ex_);
+
+  autoware_control_center_msgs::srv::AutowareNodeRegister::Request::SharedPtr req =
+    std::make_shared<autoware_control_center_msgs::srv::AutowareNodeRegister::Request>();
+
+  req->name_node = node_name;
+
+  auto fut_and_id_response = cli_register_->async_send_request(req);
+
+  RCLCPP_INFO(get_logger(), "Sent request");
+
+//  const auto & response = fut_and_id_response.get();
+//  RCLCPP_INFO(get_logger(), "response: %d", response->status.status);
+
+    if (rclcpp::spin_until_future_complete(this->get_node_base_interface(), fut_and_id_response)
+    ==
+        rclcpp::FutureReturnCode::SUCCESS)
+    {
+      RCLCPP_INFO(get_logger(), "response: %d", fut_and_id_response.get()->status.status);
+    } else {
+      RCLCPP_ERROR(get_logger(), "Failed to call service");
+    }
 }
 
 }  // namespace autoware_node

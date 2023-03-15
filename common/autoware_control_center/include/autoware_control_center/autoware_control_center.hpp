@@ -18,6 +18,8 @@
 #include "autoware_control_center/visibility_control.hpp"
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
 
+#include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
+
 namespace autoware_control_center
 {
 
@@ -27,6 +29,13 @@ public:
   explicit AutowareControlCenter(const rclcpp::NodeOptions & options);
 
 private:
+  rclcpp::CallbackGroup::SharedPtr callback_group_mut_ex_;
+
+  rclcpp::Service<autoware_control_center_msgs::srv::AutowareNodeRegister>::SharedPtr srv_register_;
+
+  void register_node(
+    const autoware_control_center_msgs::srv::AutowareNodeRegister::Request::SharedPtr request,
+    const autoware_control_center_msgs::srv::AutowareNodeRegister::Response::SharedPtr response);
 };
 
 }  // namespace autoware_control_center
