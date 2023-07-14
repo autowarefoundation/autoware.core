@@ -19,7 +19,8 @@
 
 #include <rclcpp/rclcpp.hpp>
 
-#include <autoware_system_msgs/srv/get_version.hpp>
+#include <autoware_system_msgs/srv/get_version_autoware.hpp>
+#include <autoware_system_msgs/srv/get_version_component_interface.hpp>
 
 namespace autoware_version_manager
 {
@@ -31,6 +32,24 @@ public:
 private:
   VersionAutoware version_autoware_;
   VersionInterface version_component_interface_;
+
+  rclcpp::Service<autoware_system_msgs::srv::GetVersionAutoware>::SharedPtr
+    srv_get_version_autoware_;
+  rclcpp::Service<autoware_system_msgs::srv::GetVersionComponentInterface>::SharedPtr
+    srv_get_version_component_interface_;
+
+  void on_get_version_autoware(
+    const std::shared_ptr<rmw_request_id_t> & request_header,
+    const std::shared_ptr<autoware_system_msgs::srv::GetVersionAutoware::Request> & request,
+    const std::shared_ptr<autoware_system_msgs::srv::GetVersionAutoware::Response> & response)
+    const;
+
+  void on_get_version_component_interface(
+    const std::shared_ptr<rmw_request_id_t> & request_header,
+    const std::shared_ptr<autoware_system_msgs::srv::GetVersionComponentInterface::Request> &
+      request,
+    const std::shared_ptr<autoware_system_msgs::srv::GetVersionComponentInterface::Response> &
+      response) const;
 };
 
 }  // namespace autoware_version_manager

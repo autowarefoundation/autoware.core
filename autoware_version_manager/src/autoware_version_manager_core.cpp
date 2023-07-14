@@ -39,7 +39,18 @@ AutowareVersionManagerNode::AutowareVersionManagerNode(const rclcpp::NodeOptions
     exit(EXIT_FAILURE);
   }
 
-  // print
+  srv_get_version_autoware_ = create_service<autoware_system_msgs::srv::GetVersionAutoware>(
+    "get_version_autoware", std::bind(
+                              &AutowareVersionManagerNode::on_get_version_autoware, this,
+                              std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+
+  srv_get_version_component_interface_ =
+    create_service<autoware_system_msgs::srv::GetVersionComponentInterface>(
+      "get_version_component_interface",
+      std::bind(
+        &AutowareVersionManagerNode::on_get_version_component_interface, this,
+        std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+
   RCLCPP_INFO(
     get_logger(), "Autoware version: %d.%02d.%d", version_autoware_.year, version_autoware_.month,
     version_autoware_.micro);
@@ -47,6 +58,31 @@ AutowareVersionManagerNode::AutowareVersionManagerNode(const rclcpp::NodeOptions
   RCLCPP_INFO(
     get_logger(), "Component interface version: %d.%d.%d", version_component_interface_.major,
     version_component_interface_.minor, version_component_interface_.patch);
+}
+
+void AutowareVersionManagerNode::on_get_version_autoware(
+  const std::shared_ptr<rmw_request_id_t> & request_header,
+  const std::shared_ptr<autoware_system_msgs::srv::GetVersionAutoware::Request> & request,
+  const std::shared_ptr<autoware_system_msgs::srv::GetVersionAutoware::Response> & response) const
+{
+  (void)request_header;
+  (void)request;
+  response->month = version_autoware_.month;
+  response->year = version_autoware_.year;
+  response->micro = version_autoware_.micro;
+}
+
+void AutowareVersionManagerNode::on_get_version_component_interface(
+  const std::shared_ptr<rmw_request_id_t> & request_header,
+  const std::shared_ptr<autoware_system_msgs::srv::GetVersionComponentInterface::Request> & request,
+  const std::shared_ptr<autoware_system_msgs::srv::GetVersionComponentInterface::Response> &
+    response) const
+{
+  (void)request_header;
+  (void)request;
+  response->major = version_component_interface_.major;
+  response->minor = version_component_interface_.minor;
+  response->patch = version_component_interface_.patch;
 }
 
 }  // namespace autoware_version_manager
