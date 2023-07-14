@@ -15,7 +15,6 @@
 #include "include/autoware_version_manager_core.hpp"
 
 #include "include/parse_version.hpp"
-#include "include/version_types.hpp"
 
 #include <rclcpp/rclcpp.hpp>
 
