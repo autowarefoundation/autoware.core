@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="path_version_autoware" default="$(find-pkg-share autoware_version_manager)/data/version-autoware.yaml"/>
+  <arg name="path_version_component_interface" default="$(find-pkg-share autoware_version_manager)/data/version-component-interface.yaml"/>
+
+
+  <node pkg="autoware_version_manager" exec="autoware_version_manager_exe" name="autoware_version_manager" output="screen">
+    <param name="path_version_autoware" value="$(var path_version_autoware)"/>
+    <param name="path_version_component_interface" value="$(var path_version_component_interface)"/>
+  </node>
+</launch>
