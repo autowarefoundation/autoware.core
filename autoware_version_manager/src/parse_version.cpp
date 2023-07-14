@@ -27,10 +27,10 @@ namespace parse_version
 
 VersionAutoware parse_autoware_version(const YAML::Node & yaml_node)
 {
-  VersionAutoware version;
-  version.year = yaml_node["year"].as<int>();
-  version.minor = yaml_node["minor"].as<int>();
-  version.micro = yaml_node["micro"].as<int>();
+  VersionAutoware version{};
+  version.year = static_cast<uint16_t>(yaml_node["year"].as<int>());
+  version.month = static_cast<uint16_t>(yaml_node["month"].as<int>());
+  version.micro = static_cast<uint16_t>(yaml_node["micro"].as<int>());
   return version;
 }
 
@@ -42,10 +42,10 @@ VersionAutoware parse_autoware_version(const std::filesystem::path & path)
 
 VersionInterface parse_interface_version(const YAML::Node & yaml_node)
 {
-  VersionInterface version;
-  version.major = yaml_node["major"].as<int>();
-  version.minor = yaml_node["minor"].as<int>();
-  version.patch = yaml_node["patch"].as<int>();
+  VersionInterface version{};
+  version.major = static_cast<uint16_t>(yaml_node["major"].as<int>());
+  version.minor = static_cast<uint16_t>(yaml_node["minor"].as<int>());
+  version.patch = static_cast<uint16_t>(yaml_node["patch"].as<int>());
   return version;
 }
 

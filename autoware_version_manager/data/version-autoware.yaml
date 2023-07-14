@@ -1,5 +1,5 @@
-# Autoware version (CalVer with YYYY.MINOR.MICRO)
+# Autoware version (CalVer with YYYY.0M.MICRO)
 
 year: 2023
-minor: 7
+month: 7
 micro: 0

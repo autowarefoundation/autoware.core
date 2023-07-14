@@ -15,24 +15,28 @@
 #ifndef VERSION_TYPES_HPP_
 #define VERSION_TYPES_HPP_
 
+#include <cstdint>
+
 namespace autoware_version_manager
 {
-// Autoware version (CalVer with YYYY.MINOR.MICRO)
+// Autoware version (CalVer with YYYY.0M.MICRO)
 // https://calver.org/#scheme
 struct VersionAutoware
 {
-  int year;   // year of release
-  int minor;  // increments for non-breaking changes
-  int micro;  // increments for bug fixes or patches
+  using uint16_t = std::uint16_t;
+  uint16_t year;   // year of release
+  uint16_t month;  // month of release
+  uint16_t micro;  // increments for bug fixes or patches
 };
 
 // Autoware component interface version (SemVer)
 // https://semver.org/
 struct VersionInterface
 {
-  int major;  // increments for breaking changes
-  int minor;  // increments for non-breaking changes
-  int patch;  // increments for bug fixes or patches
+  using uint16_t = std::uint16_t;
+  uint16_t major;  // increments for breaking changes
+  uint16_t minor;  // increments for non-breaking changes
+  uint16_t patch;  // increments for bug fixes or patches
 };
 
 }  // namespace autoware_version_manager
