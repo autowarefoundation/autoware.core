@@ -43,7 +43,7 @@ AutowareVersionManagerNode::AutowareVersionManagerNode(const rclcpp::NodeOptions
   RCLCPP_INFO(
     get_logger(), "Autoware version: %d.%02d.%d", version_autoware_.year, version_autoware_.month,
     version_autoware_.micro);
-  
+
   RCLCPP_INFO(
     get_logger(), "Component interface version: %d.%d.%d", version_component_interface_.major,
     version_component_interface_.minor, version_component_interface_.patch);
