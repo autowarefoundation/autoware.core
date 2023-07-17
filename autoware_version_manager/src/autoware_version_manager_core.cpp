@@ -24,17 +24,17 @@ namespace autoware_version_manager
 AutowareVersionManagerNode::AutowareVersionManagerNode(const rclcpp::NodeOptions & node_options)
 : rclcpp::Node("autoware_version_manager_node", node_options)
 {
-  const std::filesystem::path path_version_autoware =
-    declare_parameter<std::string>("path_version_autoware");
-  const std::filesystem::path path_version_component_interface =
-    declare_parameter<std::string>("path_version_component_interface");
-
   try {
+    const std::filesystem::path path_version_autoware =
+      declare_parameter<std::string>("path_version_autoware");
+    const std::filesystem::path path_version_component_interface =
+      declare_parameter<std::string>("path_version_component_interface");
+
     version_autoware_ = parse_version::parse_autoware_version(path_version_autoware);
     version_component_interface_ =
       parse_version::parse_interface_version(path_version_component_interface);
   } catch (const std::exception & e) {
-    RCLCPP_ERROR(get_logger(), "Failed to parse version: %s", e.what());
+    RCLCPP_ERROR(get_logger(), "Exception: %s", e.what());
     exit(EXIT_FAILURE);
   }
 
