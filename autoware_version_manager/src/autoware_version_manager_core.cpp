@@ -18,6 +18,8 @@
 
 #include <rclcpp/rclcpp.hpp>
 
+#include <ament_index_cpp/get_package_share_directory.hpp>
+
 namespace autoware_version_manager
 {
 
@@ -25,8 +27,7 @@ AutowareVersionManagerNode::AutowareVersionManagerNode(const rclcpp::NodeOptions
 : rclcpp::Node("autoware_version_manager_node", node_options)
 {
   try {
-    const std::filesystem::path path_version_autoware =
-      declare_parameter<std::string>("path_version_autoware");
+    const std::filesystem::path path_version_autoware = ament_index_cpp::get_package_share_directory("autoware_version_manager") + "/data/version-autoware.yaml";
     const std::filesystem::path path_version_component_interface =
       declare_parameter<std::string>("path_version_component_interface");
 
