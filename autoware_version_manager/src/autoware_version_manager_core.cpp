@@ -28,7 +28,13 @@ AutowareVersionManagerNode::AutowareVersionManagerNode(const rclcpp::NodeOptions
 {
   AutowareVersionReaderNode autoware_version_reader_node(rclcpp::NodeOptions{});
 
-  version_autoware_ = autoware_version_reader_node.get_version_autoware();
+  if (auto version_autoware = get_version_autoware_directly()) {
+    version_autoware_ = version_autoware.value();
+  } else {
+    RCLCPP_ERROR(get_logger(), "Couldn't get the Autoware version");
+    exit(EXIT_FAILURE);
+  }
+
   version_component_interface_ = autoware_version_reader_node.get_version_component_interface();
 
   srv_get_version_autoware_ = create_service<autoware_system_msgs::srv::GetVersionAutoware>(

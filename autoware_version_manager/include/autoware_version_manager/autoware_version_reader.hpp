@@ -19,6 +19,8 @@
 
 #include <rclcpp/rclcpp.hpp>
 
+#include <optional>
+
 namespace autoware_version_manager
 {
 class AutowareVersionReaderNode : public rclcpp::Node
@@ -33,6 +35,8 @@ private:
   VersionAutoware version_autoware_;
   VersionInterface version_component_interface_;
 };
+
+std::optional<VersionAutoware> get_version_autoware_directly();
 
 }  // namespace autoware_version_manager
 

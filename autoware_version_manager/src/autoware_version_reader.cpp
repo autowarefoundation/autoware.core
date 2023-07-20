@@ -60,4 +60,19 @@ const VersionInterface & AutowareVersionReaderNode::get_version_component_interf
   return version_component_interface_;
 }
 
+std::optional<VersionAutoware> get_version_autoware_directly()
+{
+  try {
+    const std::filesystem::path path_version_autoware =
+      ament_index_cpp::get_package_share_directory("autoware_version_manager") +
+      "/data/version-autoware.yamla";
+
+    auto version_autoware = parse_version::parse_autoware_version(path_version_autoware);
+
+    return version_autoware;
+  } catch (const std::exception & e) {
+    RCLCPP_ERROR(rclcpp::get_logger("get_version_autoware"), "Exception: %s", e.what());
+    return std::nullopt;
+  }
+}
 }  // namespace autoware_version_manager
