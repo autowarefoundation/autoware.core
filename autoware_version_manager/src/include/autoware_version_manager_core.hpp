@@ -15,7 +15,7 @@
 #ifndef AUTOWARE_VERSION_MANAGER_CORE_HPP_
 #define AUTOWARE_VERSION_MANAGER_CORE_HPP_
 
-#include "version_types.hpp"
+#include "autoware_version_manager/version_types.hpp"
 
 #include <rclcpp/rclcpp.hpp>
 

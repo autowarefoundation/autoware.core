@@ -14,6 +14,7 @@
 
 #include "include/autoware_version_manager_core.hpp"
 
+#include "autoware_version_manager/autoware_version_reader.hpp"
 #include "include/parse_version.hpp"
 
 #include <ament_index_cpp/get_package_share_directory.hpp>
@@ -25,20 +26,10 @@ namespace autoware_version_manager
 AutowareVersionManagerNode::AutowareVersionManagerNode(const rclcpp::NodeOptions & node_options)
 : rclcpp::Node("autoware_version_manager_node", node_options)
 {
-  try {
-    const std::filesystem::path path_version_autoware =
-      ament_index_cpp::get_package_share_directory("autoware_version_manager") +
-      "/data/version-autoware.yaml";
-    const std::filesystem::path path_version_component_interface =
-      declare_parameter<std::string>("path_version_component_interface");
+  AutowareVersionReaderNode autoware_version_reader_node(rclcpp::NodeOptions{});
 
-    version_autoware_ = parse_version::parse_autoware_version(path_version_autoware);
-    version_component_interface_ =
-      parse_version::parse_interface_version(path_version_component_interface);
-  } catch (const std::exception & e) {
-    RCLCPP_ERROR(get_logger(), "Exception: %s", e.what());
-    exit(EXIT_FAILURE);
-  }
+  version_autoware_ = autoware_version_reader_node.get_version_autoware();
+  version_component_interface_ = autoware_version_reader_node.get_version_component_interface();
 
   srv_get_version_autoware_ = create_service<autoware_system_msgs::srv::GetVersionAutoware>(
     "get_version_autoware", std::bind(

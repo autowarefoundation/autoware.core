@@ -12,27 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef PARSE_VERSION_HPP_
-#define PARSE_VERSION_HPP_
+#ifndef AUTOWARE_VERSION_MANAGER__AUTOWARE_VERSION_READER_HPP_
+#define AUTOWARE_VERSION_MANAGER__AUTOWARE_VERSION_READER_HPP_
 
 #include "autoware_version_manager/version_types.hpp"
 
-#include <yaml-cpp/yaml.h>
-
-#include <filesystem>
+#include <rclcpp/rclcpp.hpp>
 
 namespace autoware_version_manager
 {
-namespace parse_version
+class AutowareVersionReaderNode : public rclcpp::Node
 {
+public:
+  explicit AutowareVersionReaderNode(const rclcpp::NodeOptions & node_options);
 
-VersionAutoware parse_autoware_version(const YAML::Node & yaml_node);
-VersionAutoware parse_autoware_version(const std::filesystem::path & path);
+  const VersionAutoware & get_version_autoware() const;
+  const VersionInterface & get_version_component_interface() const;
 
-VersionInterface parse_interface_version(const YAML::Node & yaml_node);
-VersionInterface parse_interface_version(const std::filesystem::path & path);
+private:
+  VersionAutoware version_autoware_;
+  VersionInterface version_component_interface_;
+};
 
-}  // namespace parse_version
 }  // namespace autoware_version_manager
 
-#endif  // PARSE_VERSION_HPP_
+#endif  // AUTOWARE_VERSION_MANAGER__AUTOWARE_VERSION_READER_HPP_

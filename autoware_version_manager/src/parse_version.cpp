@@ -14,7 +14,7 @@
 
 #include "include/parse_version.hpp"
 
-#include "include/version_types.hpp"
+#include "autoware_version_manager/version_types.hpp"
 
 #include <yaml-cpp/yaml.h>
 

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef VERSION_TYPES_HPP_
-#define VERSION_TYPES_HPP_
+#ifndef AUTOWARE_VERSION_MANAGER__VERSION_TYPES_HPP_
+#define AUTOWARE_VERSION_MANAGER__VERSION_TYPES_HPP_
 
 #include <cstdint>
 
@@ -41,4 +41,4 @@ struct VersionInterface
 
 }  // namespace autoware_version_manager
 
-#endif  // VERSION_TYPES_HPP_
+#endif  // AUTOWARE_VERSION_MANAGER__VERSION_TYPES_HPP_
