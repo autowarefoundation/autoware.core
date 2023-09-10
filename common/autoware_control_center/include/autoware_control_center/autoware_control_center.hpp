@@ -16,6 +16,7 @@
 #define AUTOWARE_CONTROL_CENTER__AUTOWARE_CONTROL_CENTER_HPP_
 
 #include "autoware_control_center/visibility_control.hpp"
+#include "autoware_control_center/node_registry.hpp"
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
 
 #include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
@@ -32,6 +33,8 @@ private:
   rclcpp::CallbackGroup::SharedPtr callback_group_mut_ex_;
 
   rclcpp::Service<autoware_control_center_msgs::srv::AutowareNodeRegister>::SharedPtr srv_register_;
+
+  NodeRegistry node_registry_;
 
   void register_node(
     const autoware_control_center_msgs::srv::AutowareNodeRegister::Request::SharedPtr request,
