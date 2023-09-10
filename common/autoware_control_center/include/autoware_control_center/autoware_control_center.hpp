@@ -15,8 +15,8 @@
 #ifndef AUTOWARE_CONTROL_CENTER__AUTOWARE_CONTROL_CENTER_HPP_
 #define AUTOWARE_CONTROL_CENTER__AUTOWARE_CONTROL_CENTER_HPP_
 
-#include "autoware_control_center/visibility_control.hpp"
 #include "autoware_control_center/node_registry.hpp"
+#include "autoware_control_center/visibility_control.hpp"
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
 
 #include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
