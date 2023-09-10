@@ -50,8 +50,7 @@ AutowareNode::AutowareNode(
     rclcpp::FutureReturnCode::SUCCESS) {
     auto response = fut_and_id_response.get();
     std::string str_uuid = tier4_autoware_utils::toHexString(response->uuid_node);
-    RCLCPP_INFO(
-      get_logger(), "response: %d, %s", response->status.status, str_uuid.c_str());
+    RCLCPP_INFO(get_logger(), "response: %d, %s", response->status.status, str_uuid.c_str());
   } else {
     RCLCPP_ERROR(get_logger(), "Failed to call service");
   }
