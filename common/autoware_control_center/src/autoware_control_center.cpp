@@ -14,6 +14,8 @@
 
 #include "autoware_control_center/autoware_control_center.hpp"
 
+#include <tier4_autoware_utils/ros/uuid_helper.hpp>
+
 namespace autoware_control_center
 {
 AutowareControlCenter::AutowareControlCenter(const rclcpp::NodeOptions & options)
@@ -37,6 +39,7 @@ void AutowareControlCenter::register_node(
 {
   RCLCPP_INFO(get_logger(), "register_node is called from %s", request->name_node.c_str());
 
+  response->uuid_node = tier4_autoware_utils::generateUUID();
   response->status.status =
     autoware_control_center_msgs::srv::AutowareNodeRegister::Response::_status_type::SUCCESS;
 }

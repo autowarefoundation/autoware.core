@@ -15,6 +15,7 @@
 #include "autoware_node/autoware_node.hpp"
 
 #include <rclcpp/rclcpp.hpp>
+#include <tier4_autoware_utils/ros/uuid_helper.hpp>
 
 #include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
 
@@ -47,7 +48,10 @@ AutowareNode::AutowareNode(
   if (
     rclcpp::spin_until_future_complete(this->get_node_base_interface(), fut_and_id_response) ==
     rclcpp::FutureReturnCode::SUCCESS) {
-    RCLCPP_INFO(get_logger(), "response: %d", fut_and_id_response.get()->status.status);
+    auto response = fut_and_id_response.get();
+    std::string str_uuid = tier4_autoware_utils::toHexString(response->uuid_node);
+    RCLCPP_INFO(
+      get_logger(), "response: %d, %s", response->status.status, str_uuid.c_str());
   } else {
     RCLCPP_ERROR(get_logger(), "Failed to call service");
   }

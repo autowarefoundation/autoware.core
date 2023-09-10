@@ -13,6 +13,7 @@
   <depend>autoware_control_center_msgs</depend>
   <depend>nlohmann-json-dev</depend>
   <depend>rclcpp_lifecycle</depend>
+  <depend>tier4_autoware_utils</depend>
 
   <test_depend>ament_cmake_ros</test_depend>
   <test_depend>ament_lint_auto</test_depend>

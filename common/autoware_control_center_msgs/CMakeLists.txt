@@ -5,9 +5,11 @@ find_package(ament_cmake_auto REQUIRED)
 ament_auto_find_build_dependencies()
 
 set(msg_dependencies
+  builtin_interfaces
   unique_identifier_msgs)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
+  "msg/Heartbeat.msg"
   "msg/StatusRegistration.msg"
   "srv/AutowareNodeRegister.srv"
   DEPENDENCIES ${msg_dependencies})
