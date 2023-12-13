@@ -1,0 +1,5 @@
+string name_node
+---
+autoware_control_center_msgs/StatusRegistration status
+unique_identifier_msgs/UUID uuid_node
+string log_response

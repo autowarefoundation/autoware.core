@@ -12,6 +12,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/Heartbeat.msg"
   "msg/StatusRegistration.msg"
   "srv/AutowareNodeRegister.srv"
+  "srv/AutowareNodeUnregister.srv"
   DEPENDENCIES ${msg_dependencies})
 
 if(BUILD_TESTING)

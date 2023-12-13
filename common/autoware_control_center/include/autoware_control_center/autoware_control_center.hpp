@@ -20,6 +20,7 @@
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
 
 #include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
+#include "autoware_control_center_msgs/srv/autoware_node_unregister.hpp"
 
 namespace autoware_control_center
 {
@@ -33,12 +34,17 @@ private:
   rclcpp::CallbackGroup::SharedPtr callback_group_mut_ex_;
 
   rclcpp::Service<autoware_control_center_msgs::srv::AutowareNodeRegister>::SharedPtr srv_register_;
+  rclcpp::Service<autoware_control_center_msgs::srv::AutowareNodeUnregister>::SharedPtr srv_unregister_;
 
   NodeRegistry node_registry_;
 
   void register_node(
     const autoware_control_center_msgs::srv::AutowareNodeRegister::Request::SharedPtr request,
     const autoware_control_center_msgs::srv::AutowareNodeRegister::Response::SharedPtr response);
+
+  void unregister_node(
+    const autoware_control_center_msgs::srv::AutowareNodeUnregister::Request::SharedPtr request, 
+    const autoware_control_center_msgs::srv::AutowareNodeUnregister::Response::SharedPtr response);
 };
 
 }  // namespace autoware_control_center

@@ -13,11 +13,24 @@
 // limitations under the License.
 
 #include "autoware_control_center/autoware_control_center.hpp"
+#include "autoware_control_center/node_registry.hpp"
 
 #include <tier4_autoware_utils/ros/uuid_helper.hpp>
+#include <unique_identifier_msgs/msg/uuid.hpp>
+
+
 
 namespace autoware_control_center
 {
+unique_identifier_msgs::msg::UUID createDefaultUUID() {
+    unique_identifier_msgs::msg::UUID default_uuid;
+
+    // Use std::generate to fill the UUID with zeros
+    std::generate(default_uuid.uuid.begin(), default_uuid.uuid.end(), []() { return 0; });
+
+    return default_uuid;
+}
+
 AutowareControlCenter::AutowareControlCenter(const rclcpp::NodeOptions & options)
 : LifecycleNode("autoware_control_center", options)
 {
@@ -31,6 +44,9 @@ AutowareControlCenter::AutowareControlCenter(const rclcpp::NodeOptions & options
   srv_register_ = create_service<autoware_control_center_msgs::srv::AutowareNodeRegister>(
     "~/srv/autoware_node_register", std::bind(&AutowareControlCenter::register_node, this, _1, _2),
     rmw_qos_profile_services_default, callback_group_mut_ex_);
+  srv_unregister_ = create_service<autoware_control_center_msgs::srv::AutowareNodeUnregister>(
+    "~/srv/autoware_node_unregister", std::bind(&AutowareControlCenter::unregister_node, this, _1, _2),
+    rmw_qos_profile_services_default, callback_group_mut_ex_);
 }
 
 void AutowareControlCenter::register_node(
@@ -39,9 +55,37 @@ void AutowareControlCenter::register_node(
 {
   RCLCPP_INFO(get_logger(), "register_node is called from %s", request->name_node.c_str());
 
-  response->uuid_node = tier4_autoware_utils::generateUUID();
-  response->status.status =
-    autoware_control_center_msgs::srv::AutowareNodeRegister::Response::_status_type::SUCCESS;
+  std::optional<unique_identifier_msgs::msg::UUID> node_uuid = node_registry_.register_node(request->name_node.c_str(), tier4_autoware_utils::generateUUID());
+
+  if (node_uuid == std::nullopt) {
+    response->uuid_node = createDefaultUUID();
+    response->status.status = 
+      autoware_control_center_msgs::srv::AutowareNodeRegister::Response::_status_type::FAILURE;
+  } else {
+    response->uuid_node = node_uuid.value();
+    response->status.status =
+      autoware_control_center_msgs::srv::AutowareNodeRegister::Response::_status_type::SUCCESS;
+  }
 }
+
+void AutowareControlCenter::unregister_node(
+  const autoware_control_center_msgs::srv::AutowareNodeUnregister::Request::SharedPtr request, 
+  const autoware_control_center_msgs::srv::AutowareNodeUnregister::Response::SharedPtr response)
+{
+  RCLCPP_INFO(get_logger(), "unregister_node is called from %s", request->name_node.c_str());
+
+  std::optional<unique_identifier_msgs::msg::UUID> node_uuid = node_registry_.unregister_node(request->name_node.c_str());
+
+  if (node_uuid == std::nullopt) {
+    response->uuid_node = createDefaultUUID();
+    response->status.status = 
+      autoware_control_center_msgs::srv::AutowareNodeUnregister::Response::_status_type::FAILURE;
+  } else {
+    response->uuid_node = node_uuid.value();
+    response->status.status = 
+      autoware_control_center_msgs::srv::AutowareNodeUnregister::Response::_status_type::SUCCESS;
+  }
+}
+
 
 }  // namespace autoware_control_center

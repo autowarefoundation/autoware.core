@@ -18,31 +18,33 @@
 
 namespace autoware_control_center
 {
-void NodeRegistry::register_node(
+std::optional<unique_identifier_msgs::msg::UUID> NodeRegistry::register_node(
   const std::string & name, const unique_identifier_msgs::msg::UUID & uuid)
 {
   if (is_registered(name)) {
     RCLCPP_WARN(
       rclcpp::get_logger("NodeRegistry"), "Node %s is already registered. Ignoring.", name.c_str());
-    return;
+    return std::nullopt;
   }
 
   autoware_node_info_map_[name] = {rclcpp::Clock().now(), name, uuid};
 
   RCLCPP_INFO(rclcpp::get_logger("NodeRegistry"), "Node %s is registered.", name.c_str());
+  return autoware_node_info_map_.at(name).uuid;
 }
 
-void NodeRegistry::unregister_node(const std::string & name)
+std::optional<unique_identifier_msgs::msg::UUID> NodeRegistry::unregister_node(const std::string & name)
 {
   if (!is_registered(name)) {
     RCLCPP_WARN(
       rclcpp::get_logger("NodeRegistry"), "Node %s is not registered. Ignoring.", name.c_str());
-    return;
+    return std::nullopt;
   }
-
+  unique_identifier_msgs::msg::UUID node_uuid = autoware_node_info_map_.at(name).uuid;
   autoware_node_info_map_.erase(name);
 
   RCLCPP_INFO(rclcpp::get_logger("NodeRegistry"), "Node %s is unregistered.", name.c_str());
+  return node_uuid;
 }
 
 bool NodeRegistry::is_registered(const std::string & name) const
