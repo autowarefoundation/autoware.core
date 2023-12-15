@@ -24,6 +24,7 @@
 
 namespace autoware_control_center
 {
+unique_identifier_msgs::msg::UUID createDefaultUUID();
 
 class AutowareControlCenter : public rclcpp_lifecycle::LifecycleNode
 {
@@ -34,7 +35,8 @@ private:
   rclcpp::CallbackGroup::SharedPtr callback_group_mut_ex_;
 
   rclcpp::Service<autoware_control_center_msgs::srv::AutowareNodeRegister>::SharedPtr srv_register_;
-  rclcpp::Service<autoware_control_center_msgs::srv::AutowareNodeUnregister>::SharedPtr srv_unregister_;
+  rclcpp::Service<autoware_control_center_msgs::srv::AutowareNodeUnregister>::SharedPtr
+    srv_unregister_;
 
   NodeRegistry node_registry_;
 
@@ -43,7 +45,7 @@ private:
     const autoware_control_center_msgs::srv::AutowareNodeRegister::Response::SharedPtr response);
 
   void unregister_node(
-    const autoware_control_center_msgs::srv::AutowareNodeUnregister::Request::SharedPtr request, 
+    const autoware_control_center_msgs::srv::AutowareNodeUnregister::Request::SharedPtr request,
     const autoware_control_center_msgs::srv::AutowareNodeUnregister::Response::SharedPtr response);
 };
 

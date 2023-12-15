@@ -33,7 +33,8 @@ std::optional<unique_identifier_msgs::msg::UUID> NodeRegistry::register_node(
   return autoware_node_info_map_.at(name).uuid;
 }
 
-std::optional<unique_identifier_msgs::msg::UUID> NodeRegistry::unregister_node(const std::string & name)
+std::optional<unique_identifier_msgs::msg::UUID> NodeRegistry::unregister_node(
+  const std::string & name)
 {
   if (!is_registered(name)) {
     RCLCPP_WARN(
