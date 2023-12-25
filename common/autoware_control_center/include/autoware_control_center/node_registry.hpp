@@ -40,7 +40,7 @@ public:
   std::optional<unique_identifier_msgs::msg::UUID> register_node(
     const std::string & name, const unique_identifier_msgs::msg::UUID & uuid);
 
-  std::optional<unique_identifier_msgs::msg::UUID> unregister_node(const std::string & name);
+  std::optional<unique_identifier_msgs::msg::UUID> deregister_node(const std::string & name);
 
   bool is_registered(const std::string & name) const;
 

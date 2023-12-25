@@ -33,7 +33,7 @@ std::optional<unique_identifier_msgs::msg::UUID> NodeRegistry::register_node(
   return autoware_node_info_map_.at(name).uuid;
 }
 
-std::optional<unique_identifier_msgs::msg::UUID> NodeRegistry::unregister_node(
+std::optional<unique_identifier_msgs::msg::UUID> NodeRegistry::deregister_node(
   const std::string & name)
 {
   if (!is_registered(name)) {
@@ -44,7 +44,7 @@ std::optional<unique_identifier_msgs::msg::UUID> NodeRegistry::unregister_node(
   unique_identifier_msgs::msg::UUID node_uuid = autoware_node_info_map_.at(name).uuid;
   autoware_node_info_map_.erase(name);
 
-  RCLCPP_INFO(rclcpp::get_logger("NodeRegistry"), "Node %s is unregistered.", name.c_str());
+  RCLCPP_INFO(rclcpp::get_logger("NodeRegistry"), "Node %s is deregistered.", name.c_str());
   return node_uuid;
 }
 

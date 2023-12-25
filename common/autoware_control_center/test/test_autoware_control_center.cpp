@@ -63,7 +63,7 @@ TEST_F(AutowareControlCenterTest, RegisterNode)
   EXPECT_EQ(1, result.get()->status.status);
 }
 
-TEST_F(AutowareControlCenterTest, UnregisterNode)
+TEST_F(AutowareControlCenterTest, DeregisterNode)
 {
   std::string node_name = "test_node";
   auto client_reg = autoware_control_center_
@@ -86,22 +86,22 @@ TEST_F(AutowareControlCenterTest, UnregisterNode)
   EXPECT_EQ(1, result_reg.get()->status.status) << "Node register request fail";
   // TODO(lexavtanke) add uuid check
 
-  // Unregister node
-  auto client_unreg = autoware_control_center_
-    ->create_client<autoware_control_center_msgs::srv::AutowareNodeUnregister>(
-    "/autoware_control_center/srv/autoware_node_unregister");
-  if (!client_unreg->wait_for_service(20s)) {
-    ASSERT_TRUE(false) << "Node unregister service not available after waiting";
+  // Deregister node
+  auto client_dereg = autoware_control_center_
+    ->create_client<autoware_control_center_msgs::srv::AutowareNodeDeregister>(
+    "/autoware_control_center/srv/autoware_node_deregister");
+  if (!client_dereg->wait_for_service(20s)) {
+    ASSERT_TRUE(false) << "Node deregister service not available after waiting";
   }
 
-  auto request_unreg =
-    std::make_shared<autoware_control_center_msgs::srv::AutowareNodeUnregister::Request>();
-  request_unreg->name_node = node_name;
+  auto request_dereg =
+    std::make_shared<autoware_control_center_msgs::srv::AutowareNodeDeregister::Request>();
+  request_dereg->name_node = node_name;
 
-  auto result_unreg = client_unreg->async_send_request(request_unreg);
-  ret = rclcpp::spin_until_future_complete(autoware_control_center_, result_unreg, 5s);
+  auto result_dereg = client_dereg->async_send_request(request_dereg);
+  ret = rclcpp::spin_until_future_complete(autoware_control_center_, result_dereg, 5s);
 
   ASSERT_EQ(ret, rclcpp::FutureReturnCode::SUCCESS);
-  EXPECT_EQ(1, result_unreg.get()->status.status) << "Node unregister request fail";
+  EXPECT_EQ(1, result_dereg.get()->status.status) << "Node deregister request fail";
   // TODO(lexavtanke) add uuid check
 }

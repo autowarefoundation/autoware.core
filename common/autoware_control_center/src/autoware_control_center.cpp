@@ -45,9 +45,9 @@ AutowareControlCenter::AutowareControlCenter(const rclcpp::NodeOptions & options
   srv_register_ = create_service<autoware_control_center_msgs::srv::AutowareNodeRegister>(
     "~/srv/autoware_node_register", std::bind(&AutowareControlCenter::register_node, this, _1, _2),
     rmw_qos_profile_services_default, callback_group_mut_ex_);
-  srv_unregister_ = create_service<autoware_control_center_msgs::srv::AutowareNodeUnregister>(
-    "~/srv/autoware_node_unregister",
-    std::bind(&AutowareControlCenter::unregister_node, this, _1, _2),
+  srv_deregister_ = create_service<autoware_control_center_msgs::srv::AutowareNodeDeregister>(
+    "~/srv/autoware_node_deregister",
+    std::bind(&AutowareControlCenter::deregister_node, this, _1, _2),
     rmw_qos_profile_services_default, callback_group_mut_ex_);
 }
 
@@ -71,23 +71,23 @@ void AutowareControlCenter::register_node(
   }
 }
 
-void AutowareControlCenter::unregister_node(
-  const autoware_control_center_msgs::srv::AutowareNodeUnregister::Request::SharedPtr request,
-  const autoware_control_center_msgs::srv::AutowareNodeUnregister::Response::SharedPtr response)
+void AutowareControlCenter::deregister_node(
+  const autoware_control_center_msgs::srv::AutowareNodeDeregister::Request::SharedPtr request,
+  const autoware_control_center_msgs::srv::AutowareNodeDeregister::Response::SharedPtr response)
 {
-  RCLCPP_INFO(get_logger(), "unregister_node is called from %s", request->name_node.c_str());
+  RCLCPP_INFO(get_logger(), "deregister_node is called from %s", request->name_node.c_str());
 
   std::optional<unique_identifier_msgs::msg::UUID> node_uuid =
-    node_registry_.unregister_node(request->name_node.c_str());
+    node_registry_.deregister_node(request->name_node.c_str());
 
   if (node_uuid == std::nullopt) {
     response->uuid_node = createDefaultUUID();
     response->status.status =
-      autoware_control_center_msgs::srv::AutowareNodeUnregister::Response::_status_type::FAILURE;
+      autoware_control_center_msgs::srv::AutowareNodeDeregister::Response::_status_type::FAILURE;
   } else {
     response->uuid_node = node_uuid.value();
     response->status.status =
-      autoware_control_center_msgs::srv::AutowareNodeUnregister::Response::_status_type::SUCCESS;
+      autoware_control_center_msgs::srv::AutowareNodeDeregister::Response::_status_type::SUCCESS;
   }
 }
 
