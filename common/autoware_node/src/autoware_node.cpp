@@ -19,6 +19,11 @@
 
 #include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
 
+#include <chrono>
+
+
+using namespace std::chrono_literals;
+
 namespace autoware_node
 {
 
@@ -27,33 +32,62 @@ AutowareNode::AutowareNode(
 : LifecycleNode(node_name, ns, options)
 {
   RCLCPP_INFO(get_logger(), "AutowareNode::AutowareNode()");
+  self_name = node_name;
   callback_group_mut_ex_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
 
   cli_register_ = create_client<autoware_control_center_msgs::srv::AutowareNodeRegister>(
     "/autoware_control_center/srv/autoware_node_register", rmw_qos_profile_default,
     callback_group_mut_ex_);
 
-  autoware_control_center_msgs::srv::AutowareNodeRegister::Request::SharedPtr req =
-    std::make_shared<autoware_control_center_msgs::srv::AutowareNodeRegister::Request>();
+  register_timer_ = this->create_wall_timer(
+    500ms, std::bind(&AutowareNode::register_callback, this));
 
-  req->name_node = node_name;
-
-  auto fut_and_id_response = cli_register_->async_send_request(req);
-
-  RCLCPP_INFO(get_logger(), "Sent request");
 
   //  const auto & response = fut_and_id_response.get();
   //  RCLCPP_INFO(get_logger(), "response: %d", response->status.status);
 
-  if (
-    rclcpp::spin_until_future_complete(this->get_node_base_interface(), fut_and_id_response) ==
-    rclcpp::FutureReturnCode::SUCCESS) {
-    auto response = fut_and_id_response.get();
-    std::string str_uuid = tier4_autoware_utils::toHexString(response->uuid_node);
-    RCLCPP_INFO(get_logger(), "response: %d, %s", response->status.status, str_uuid.c_str());
-  } else {
-    RCLCPP_ERROR(get_logger(), "Failed to call service");
+}
+
+void AutowareNode::register_callback()
+{
+  RCLCPP_INFO(get_logger(), "Register callback");
+  if (registered) {
+    RCLCPP_INFO(get_logger(), "It was registered before");
+    return;
   }
+
+
+  if (!cli_register_->service_is_ready()) {
+    RCLCPP_WARN(get_logger(), "%s is unavailable", cli_register_->get_service_name());
+    return;
+  }
+
+  autoware_control_center_msgs::srv::AutowareNodeRegister::Request::SharedPtr req =
+    std::make_shared<autoware_control_center_msgs::srv::AutowareNodeRegister::Request>();
+
+  req->name_node = self_name;
+
+  using ServiceResponseFuture =
+    rclcpp::Client<autoware_control_center_msgs::srv::AutowareNodeRegister>::SharedFuture;
+  auto response_received_callback = [this](ServiceResponseFuture future) {
+      auto response = future.get();
+      std::string str_uuid = tier4_autoware_utils::toHexString(response->uuid_node);
+      RCLCPP_INFO(get_logger(), "response: %d, %s", response->status.status, str_uuid.c_str());
+
+      if (response->status.status == 1) {
+        registered = true;
+        self_uuid = response->uuid_node;
+        RCLCPP_INFO(get_logger(), "Node was registered");
+        register_timer_->cancel();
+        RCLCPP_INFO(get_logger(), "Register timer was cancelled");
+      } else {
+        RCLCPP_ERROR(get_logger(), "Failed to register node");
+      }
+    };
+
+  auto future_result = cli_register_->async_send_request(req, response_received_callback);
+
+  RCLCPP_INFO(get_logger(), "Sent request");
 }
 
 }  // namespace autoware_node

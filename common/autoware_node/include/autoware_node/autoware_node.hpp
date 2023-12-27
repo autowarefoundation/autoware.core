@@ -36,6 +36,13 @@ public:
   rclcpp::CallbackGroup::SharedPtr callback_group_mut_ex_;
 
   rclcpp::Client<autoware_control_center_msgs::srv::AutowareNodeRegister>::SharedPtr cli_register_;
+  rclcpp::TimerBase::SharedPtr register_timer_;
+  bool registered;
+  unique_identifier_msgs::msg::UUID self_uuid;
+  std::string self_name;
+
+private:
+  void register_callback();
 };
 
 }  // namespace autoware_node
