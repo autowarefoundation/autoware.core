@@ -19,6 +19,7 @@
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
 
 #include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
+#include "autoware_control_center_msgs/srv/autoware_control_center_deregister.hpp"
 
 #include <string>
 
@@ -36,13 +37,19 @@ public:
   rclcpp::CallbackGroup::SharedPtr callback_group_mut_ex_;
 
   rclcpp::Client<autoware_control_center_msgs::srv::AutowareNodeRegister>::SharedPtr cli_register_;
+  rclcpp::Service<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>::SharedPtr srv_deregister_;
   rclcpp::TimerBase::SharedPtr register_timer_;
   bool registered;
   unique_identifier_msgs::msg::UUID self_uuid;
+  unique_identifier_msgs::msg::UUID acc_uuid;
   std::string self_name;
 
 private:
   void register_callback();
+  void deregister(
+    const autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request::SharedPtr request,
+    const autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Response::SharedPtr response
+  );
 };
 
 }  // namespace autoware_node

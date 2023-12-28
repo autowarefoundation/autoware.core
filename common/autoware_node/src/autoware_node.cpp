@@ -42,10 +42,11 @@ AutowareNode::AutowareNode(
   register_timer_ = this->create_wall_timer(
     500ms, std::bind(&AutowareNode::register_callback, this));
 
-
-  //  const auto & response = fut_and_id_response.get();
-  //  RCLCPP_INFO(get_logger(), "response: %d", response->status.status);
-
+  using std::placeholders::_1;
+  using std::placeholders::_2;
+  srv_deregister_ = create_service<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>(
+    "~/srv/acc_deregister", std::bind(&AutowareNode::deregister, this, _1, _2), 
+    rmw_qos_profile_services_default, callback_group_mut_ex_);  
 }
 
 void AutowareNode::register_callback()
@@ -55,7 +56,6 @@ void AutowareNode::register_callback()
     RCLCPP_INFO(get_logger(), "It was registered before");
     return;
   }
-
 
   if (!cli_register_->service_is_ready()) {
     RCLCPP_WARN(get_logger(), "%s is unavailable", cli_register_->get_service_name());
@@ -88,6 +88,28 @@ void AutowareNode::register_callback()
   auto future_result = cli_register_->async_send_request(req, response_received_callback);
 
   RCLCPP_INFO(get_logger(), "Sent request");
+}
+
+void AutowareNode::deregister(
+  const autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request::SharedPtr request,
+  const autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Response::SharedPtr response)
+{
+  RCLCPP_DEBUG(get_logger(), "Deregister callback");
+  std::string str_uuid = tier4_autoware_utils::toHexString(request->uuid_acc);
+  RCLCPP_INFO(get_logger(), "Request from %s", str_uuid.c_str());
+  response->name_node = self_name;
+  
+  if (!registered) {
+    RCLCPP_WARN(get_logger(), "Node wasn't registered");
+    response->status.status = 
+      autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Response::_status_type::FAILURE;
+  } else {
+    registered = false;
+    response->status.status =
+      autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Response::_status_type::SUCCESS;
+    this->register_timer_->reset();
+  }
+
 }
 
 }  // namespace autoware_node

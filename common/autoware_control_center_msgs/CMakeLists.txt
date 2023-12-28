@@ -13,6 +13,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/StatusRegistration.msg"
   "srv/AutowareNodeRegister.srv"
   "srv/AutowareNodeDeregister.srv"
+  "srv/AutowareControlCenterDeregister.srv"
   DEPENDENCIES ${msg_dependencies})
 
 if(BUILD_TESTING)
