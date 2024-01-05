@@ -46,6 +46,8 @@ public:
 
   std::optional<unique_identifier_msgs::msg::UUID> get_uuid(const std::string & name) const;
 
+  bool is_empty();
+
 private:
   std::unordered_map<std::string, AutowareNodeInfo> autoware_node_info_map_;
 };

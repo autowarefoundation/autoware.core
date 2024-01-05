@@ -63,4 +63,11 @@ std::optional<unique_identifier_msgs::msg::UUID> NodeRegistry::get_uuid(
   return autoware_node_info_map_.at(name).uuid;
 }
 
+bool NodeRegistry::is_empty()
+{
+  if (autoware_node_info_map_.empty()) {
+    return true;
+  }
+  return false;
+}
 }  // namespace autoware_control_center
