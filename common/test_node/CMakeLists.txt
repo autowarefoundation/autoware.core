@@ -26,4 +26,9 @@ rclcpp_components_register_node(${library_name}
 #  target_link_libraries(test_autoware_node ${PROJECT_NAME})
 #endif()
 
+install(DIRECTORY
+  launch
+  DESTINATION share/${PROJECT_NAME}/
+)
+
 ament_auto_package()

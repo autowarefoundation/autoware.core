@@ -32,7 +32,7 @@ AutowareNode::AutowareNode(
 : LifecycleNode(node_name, ns, options)
 {
   RCLCPP_INFO(get_logger(), "AutowareNode::AutowareNode()");
-  self_name = node_name;
+  self_name = this->get_name();
   callback_group_mut_ex_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
 
   cli_register_ = create_client<autoware_control_center_msgs::srv::AutowareNodeRegister>(
@@ -94,7 +94,7 @@ void AutowareNode::deregister(
   const autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request::SharedPtr request,
   const autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Response::SharedPtr response)
 {
-  RCLCPP_DEBUG(get_logger(), "Deregister callback");
+  RCLCPP_INFO(get_logger(), "Deregister callback");
   std::string str_uuid = tier4_autoware_utils::toHexString(request->uuid_acc);
   RCLCPP_INFO(get_logger(), "Request from %s", str_uuid.c_str());
   response->name_node = self_name;
@@ -109,7 +109,6 @@ void AutowareNode::deregister(
       autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Response::_status_type::SUCCESS;
     this->register_timer_->reset();
   }
-
 }
 
 }  // namespace autoware_node
