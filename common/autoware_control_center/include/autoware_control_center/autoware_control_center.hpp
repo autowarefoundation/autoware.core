@@ -40,6 +40,10 @@ private:
 
   NodeRegistry node_registry_;
 
+  rclcpp::TimerBase::SharedPtr startup_timer_;
+  int countdown;
+  unique_identifier_msgs::msg::UUID acc_uuid;
+
   void register_node(
     const autoware_control_center_msgs::srv::AutowareNodeRegister::Request::SharedPtr request,
     const autoware_control_center_msgs::srv::AutowareNodeRegister::Response::SharedPtr response);
@@ -47,6 +51,9 @@ private:
   void deregister_node(
     const autoware_control_center_msgs::srv::AutowareNodeDeregister::Request::SharedPtr request,
     const autoware_control_center_msgs::srv::AutowareNodeDeregister::Response::SharedPtr response);
+  
+  void startup_callback();
+
 };
 
 }  // namespace autoware_control_center

@@ -15,10 +15,16 @@
 #include "autoware_control_center/autoware_control_center.hpp"
 
 #include "autoware_control_center/node_registry.hpp"
+#include "autoware_control_center_msgs/srv/autoware_control_center_deregister.hpp"
+
 
 #include <tier4_autoware_utils/ros/uuid_helper.hpp>
 
 #include <unique_identifier_msgs/msg/uuid.hpp>
+
+#include <chrono>
+
+using namespace std::chrono_literals;
 
 namespace autoware_control_center
 {
@@ -49,6 +55,10 @@ AutowareControlCenter::AutowareControlCenter(const rclcpp::NodeOptions & options
     "~/srv/autoware_node_deregister",
     std::bind(&AutowareControlCenter::deregister_node, this, _1, _2),
     rmw_qos_profile_services_default, callback_group_mut_ex_);
+
+  acc_uuid = tier4_autoware_utils::generateUUID();
+  countdown = 10;
+  startup_timer_ = this->create_wall_timer(500ms, std::bind(&AutowareControlCenter::startup_callback, this));
 }
 
 void AutowareControlCenter::register_node(
@@ -91,4 +101,64 @@ void AutowareControlCenter::deregister_node(
   }
 }
 
+void AutowareControlCenter::startup_callback()
+{ 
+// wait for 10 sec and 
+  if (countdown < 1 && node_registry_.is_empty()) {
+    RCLCPP_INFO(get_logger(), "Startup timeout is over. Map is empty. Start re-registering procedure.");
+    // list auwoware nodes 
+    // iterate list, create client and send calls
+    RCLCPP_INFO(get_logger(), "List services.");
+    std::map<std::string, std::vector<std::string>> srv_list = this->get_service_names_and_types();
+    for (auto const &pair: srv_list) {
+      RCLCPP_INFO(get_logger(), pair.first.c_str());
+    }
+    auto it = srv_list.begin();
+    // filter out srv with type autoware_control_center_msgs/srv/AutowareControlCenterDeregister
+    while (it != srv_list.end()) {
+      if (it->second[0] != "autoware_control_center_msgs/srv/AutowareControlCenterDeregister") {
+        srv_list.erase(it++);
+      } else {
+        ++it;
+      }
+    }
+    RCLCPP_INFO(get_logger(), "Filtered service list");
+    for (auto const &pair: srv_list) {
+      RCLCPP_INFO(get_logger(), pair.first.c_str());
+    }
+    // create srv 
+    rclcpp::Client<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>::SharedPtr dereg_client_ = 
+      create_client<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>("/test_node/srv/acc_deregister");
+    // create request 
+    autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request::SharedPtr req =
+    std::make_shared<autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request>();
+
+    req->uuid_acc = acc_uuid;
+
+    using ServiceResponseFuture =
+      rclcpp::Client<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>::SharedFuture;
+    // lambda for async request   
+    auto response_received_callback = [this](ServiceResponseFuture future) {
+      auto response = future.get();
+      RCLCPP_INFO(get_logger(), "response: %d, %s", response->status.status, response->name_node.c_str());
+
+      if (response->status.status == 1) {
+        RCLCPP_INFO(get_logger(), "Node was deregistered");
+      } else {
+        RCLCPP_ERROR(get_logger(), "Failed to deregister node");
+      }
+    };
+
+    auto future_result = dereg_client_->async_send_request(req, response_received_callback);
+    RCLCPP_INFO(get_logger(), "Sent request");
+  }
+  // check if some node has been registered
+  if (node_registry_.is_empty()) {
+    RCLCPP_INFO(get_logger(), "Node register map is empty. Countdown is %d", countdown);
+  } else {
+    RCLCPP_INFO(get_logger(), "Some node was registered. Stop timer.");
+    this->startup_timer_->cancel();
+  }
+  countdown -= 1;
+}
 }  // namespace autoware_control_center
