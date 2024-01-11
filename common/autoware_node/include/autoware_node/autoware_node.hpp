@@ -20,6 +20,7 @@
 
 #include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
 #include "autoware_control_center_msgs/srv/autoware_control_center_deregister.hpp"
+#include "autoware_control_center_msgs/msg/heartbeat.hpp"
 
 #include <string>
 
@@ -38,6 +39,8 @@ public:
 
   rclcpp::Client<autoware_control_center_msgs::srv::AutowareNodeRegister>::SharedPtr cli_register_;
   rclcpp::Service<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>::SharedPtr srv_deregister_;
+  rclcpp::Publisher<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr heartbeat_pub_;
+  rclcpp::TimerBase::SharedPtr heartbeat_timer_;
   rclcpp::TimerBase::SharedPtr register_timer_;
   bool registered;
   unique_identifier_msgs::msg::UUID self_uuid;
@@ -46,10 +49,12 @@ public:
 
 private:
   void register_callback();
+  void heartbeat_callback();
   void deregister(
     const autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request::SharedPtr request,
     const autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Response::SharedPtr response
   );
+  uint16_t sequence_number;
 };
 
 }  // namespace autoware_node

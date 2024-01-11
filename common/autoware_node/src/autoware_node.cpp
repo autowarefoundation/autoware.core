@@ -24,6 +24,8 @@
 
 using namespace std::chrono_literals;
 
+constexpr std::chrono::milliseconds LEASE_DELTA = 20ms; ///< Buffer added to heartbeat to define lease.
+
 namespace autoware_node
 {
 
@@ -32,7 +34,24 @@ AutowareNode::AutowareNode(
 : LifecycleNode(node_name, ns, options)
 {
   RCLCPP_INFO(get_logger(), "AutowareNode::AutowareNode()");
+  declare_parameter<int>("period", 200); // TODO lexavtanke: remove default and add schema 
+  std::chrono::milliseconds heartbeat_period(get_parameter("period").as_int());
   self_name = this->get_name();
+  sequence_number = 0;
+
+  // The granted lease is essentially infite here, i.e., only reader/watchdog will notify
+  // violations. XXX causes segfault for cyclone dds, hence pass explicit lease life > heartbeat.
+  rclcpp::QoS qos_profile(1);
+  qos_profile
+      .liveliness(RMW_QOS_POLICY_LIVELINESS_MANUAL_BY_TOPIC)
+      .liveliness_lease_duration(heartbeat_period + LEASE_DELTA)
+      .deadline(heartbeat_period + LEASE_DELTA);
+
+  // assert liveliness on the 'heartbeat' topic
+  heartbeat_pub_ = this->create_publisher<autoware_control_center_msgs::msg::Heartbeat>("~/heartbeat", qos_profile);
+  heartbeat_timer_ = this->create_wall_timer(heartbeat_period,
+                                    std::bind(&AutowareNode::heartbeat_callback, this));
+  
   callback_group_mut_ex_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
 
   cli_register_ = create_client<autoware_control_center_msgs::srv::AutowareNodeRegister>(
@@ -88,6 +107,15 @@ void AutowareNode::register_callback()
   auto future_result = cli_register_->async_send_request(req, response_received_callback);
 
   RCLCPP_INFO(get_logger(), "Sent request");
+}
+
+void AutowareNode::heartbeat_callback()
+{
+  auto message = autoware_control_center_msgs::msg::Heartbeat();
+  message.stamp = this->get_clock()->now(); 
+  message.sequence_number = sequence_number++;
+  RCLCPP_INFO(this->get_logger(), "Publishing heartbeat, sent at [%i]", message.stamp.sec);
+  heartbeat_pub_->publish(message); 
 }
 
 void AutowareNode::deregister(
