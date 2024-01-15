@@ -37,15 +37,15 @@ public:
       std::make_shared<autoware_control_center::AutowareControlCenter>(rclcpp::NodeOptions());
   }
 
-  void TearDown() override {rclcpp::shutdown();}
+  void TearDown() override { rclcpp::shutdown(); }
   autoware_control_center::AutowareControlCenter::SharedPtr autoware_control_center_;
 };
 
 TEST_F(AutowareControlCenterTest, RegisterNode)
 {
   auto client = autoware_control_center_
-    ->create_client<autoware_control_center_msgs::srv::AutowareNodeRegister>(
-    "/autoware_control_center/srv/autoware_node_register");
+                  ->create_client<autoware_control_center_msgs::srv::AutowareNodeRegister>(
+                    "/autoware_control_center/srv/autoware_node_register");
   if (!client->wait_for_service(20s)) {
     ASSERT_TRUE(false) << "Node register service not available after waiting";
   }
@@ -67,8 +67,8 @@ TEST_F(AutowareControlCenterTest, DeregisterNode)
 {
   std::string node_name = "test_node";
   auto client_reg = autoware_control_center_
-    ->create_client<autoware_control_center_msgs::srv::AutowareNodeRegister>(
-    "/autoware_control_center/srv/autoware_node_register");
+                      ->create_client<autoware_control_center_msgs::srv::AutowareNodeRegister>(
+                        "/autoware_control_center/srv/autoware_node_register");
 
   if (!client_reg->wait_for_service(20s)) {
     ASSERT_TRUE(false) << "Node register service not available after waiting";
@@ -88,8 +88,8 @@ TEST_F(AutowareControlCenterTest, DeregisterNode)
 
   // Deregister node
   auto client_dereg = autoware_control_center_
-    ->create_client<autoware_control_center_msgs::srv::AutowareNodeDeregister>(
-    "/autoware_control_center/srv/autoware_node_deregister");
+                        ->create_client<autoware_control_center_msgs::srv::AutowareNodeDeregister>(
+                          "/autoware_control_center/srv/autoware_node_deregister");
   if (!client_dereg->wait_for_service(20s)) {
     ASSERT_TRUE(false) << "Node deregister service not available after waiting";
   }

@@ -20,10 +20,10 @@
   <depend>rcutils</depend>
   <depend>tier4_autoware_utils</depend>
 
+  <test_depend>ament_cmake_gtest</test_depend>
   <test_depend>ament_cmake_ros</test_depend>
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
-  <test_depend>ament_cmake_gtest</test_depend>  
   <test_depend>rclcpp</test_depend>
 
   <export>

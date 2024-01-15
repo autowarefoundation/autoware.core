@@ -19,8 +19,8 @@
 #include "autoware_control_center/visibility_control.hpp"
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
 
-#include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
 #include "autoware_control_center_msgs/srv/autoware_node_deregister.hpp"
+#include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
 
 namespace autoware_control_center
 {
@@ -51,9 +51,8 @@ private:
   void deregister_node(
     const autoware_control_center_msgs::srv::AutowareNodeDeregister::Request::SharedPtr request,
     const autoware_control_center_msgs::srv::AutowareNodeDeregister::Response::SharedPtr response);
-  
-  void startup_callback();
 
+  void startup_callback();
 };
 
 }  // namespace autoware_control_center
