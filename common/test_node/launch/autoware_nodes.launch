@@ -1,7 +1,7 @@
 <launch>
     <node pkg="test_node" exec="test_node" name="test_node"/>
-    <node pkg="test_node" exec="test_node" name="test_node1" namespace="autocore1"/>
-    <node pkg="test_node" exec="test_node" name="test_node2" namespace="autocore2"/>
+    <node pkg="test_node" exec="test_node" name="test_node1"/>
+    <node pkg="test_node" exec="test_node" name="test_node2"/>
     <node pkg="test_node" exec="test_node" name="test_node3" namespace="autocore3"/>
     <!-- <node pkg="autoware_control_center" exec="autoware_control_center" name="autoware_control_center"/> -->
 </launch>

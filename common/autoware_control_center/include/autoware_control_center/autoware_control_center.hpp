@@ -21,6 +21,7 @@
 
 #include "autoware_control_center_msgs/srv/autoware_node_deregister.hpp"
 #include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
+#include "autoware_control_center_msgs/msg/heartbeat.hpp"
 
 namespace autoware_control_center
 {
@@ -37,12 +38,17 @@ private:
   rclcpp::Service<autoware_control_center_msgs::srv::AutowareNodeRegister>::SharedPtr srv_register_;
   rclcpp::Service<autoware_control_center_msgs::srv::AutowareNodeDeregister>::SharedPtr
     srv_deregister_;
-
   NodeRegistry node_registry_;
+  std::unordered_map<std::string,
+    rclcpp::Subscription<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr>
+  heartbeat_sub_map_;
+
 
   rclcpp::TimerBase::SharedPtr startup_timer_;
   int countdown;
   unique_identifier_msgs::msg::UUID acc_uuid;
+  /// The lease duration granted to the remote (heartbeat) publisher
+  std::chrono::milliseconds lease_duration_;
 
   void register_node(
     const autoware_control_center_msgs::srv::AutowareNodeRegister::Request::SharedPtr request,
@@ -53,6 +59,9 @@ private:
     const autoware_control_center_msgs::srv::AutowareNodeDeregister::Response::SharedPtr response);
 
   void startup_callback();
+
+  rclcpp::Subscription<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr create_heartbeat_sub(
+    const std::string & node_name);
 };
 
 }  // namespace autoware_control_center

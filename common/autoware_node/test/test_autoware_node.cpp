@@ -13,3 +13,23 @@
 // limitations under the License.
 
 #include "test_autoware_node.hpp"
+
+#include "autoware_node/autoware_node.hpp"
+#include "gtest/gtest.h"
+// #include "rclcpp_components/rclcpp.hpp"
+
+// class AutowareNodeTest : public ::testing::Test
+// {
+// public:
+//   void SetUp() override
+//   {
+//     rclcpp::init(0, nullptr);
+//     autoware_node_ =
+//       std::make_shared<autoware_node::AutowareNode(rclcpp::NodeOptions());
+//   }
+
+//   void TearDown() override {rclcpp::shutdown();}
+//   autoware_node::AutowareNode::SharedPtr autoware_node_;
+// }
+
+// TEST_F(AutowareNodeTest, Sen)
