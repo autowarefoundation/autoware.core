@@ -18,8 +18,8 @@
 
 #include <tier4_autoware_utils/ros/uuid_helper.hpp>
 
-#include "autoware_control_center_msgs/msg/heartbeat.hpp"
 #include "autoware_control_center_msgs/msg/autoware_node_report.hpp"
+#include "autoware_control_center_msgs/msg/heartbeat.hpp"
 #include "autoware_control_center_msgs/srv/autoware_control_center_deregister.hpp"
 #include <unique_identifier_msgs/msg/uuid.hpp>
 
@@ -58,10 +58,11 @@ AutowareControlCenter::AutowareControlCenter(const rclcpp::NodeOptions & options
     "~/srv/autoware_node_deregister",
     std::bind(&AutowareControlCenter::deregister_node, this, _1, _2),
     rmw_qos_profile_services_default, callback_group_mut_ex_);
-  
+
   node_reports_pub_ = create_publisher<autoware_control_center_msgs::msg::AutowareNodeReports>(
     "~/autoware_node_reports", 1);
-  node_reports_timer_ = create_wall_timer(1000ms, std::bind(&AutowareControlCenter::node_reports_callback, this));
+  node_reports_timer_ =
+    create_wall_timer(1000ms, std::bind(&AutowareControlCenter::node_reports_callback, this));
 
   acc_uuid = tier4_autoware_utils::generateUUID();
   countdown = 10;

@@ -1,5 +1,5 @@
-# NodeStatus message designed to provide current status of Autoware node registered to Autoware Control Center 
+# NodeStatus message designed to provide current status of Autoware node registered to Autoware Control Center
 
 string name_node
-bool alive 
+bool alive
 builtin_interfaces/Duration last_heartbeat

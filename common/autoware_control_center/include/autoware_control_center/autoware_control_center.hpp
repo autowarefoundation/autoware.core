@@ -19,8 +19,8 @@
 #include "autoware_control_center/visibility_control.hpp"
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
 
-#include "autoware_control_center_msgs/msg/heartbeat.hpp"
 #include "autoware_control_center_msgs/msg/autoware_node_reports.hpp"
+#include "autoware_control_center_msgs/msg/heartbeat.hpp"
 #include "autoware_control_center_msgs/srv/autoware_node_deregister.hpp"
 #include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
 
@@ -45,7 +45,8 @@ private:
   rclcpp::Service<autoware_control_center_msgs::srv::AutowareNodeRegister>::SharedPtr srv_register_;
   rclcpp::Service<autoware_control_center_msgs::srv::AutowareNodeDeregister>::SharedPtr
     srv_deregister_;
-  rclcpp::Publisher<autoware_control_center_msgs::msg::AutowareNodeReports>::SharedPtr node_reports_pub_;
+  rclcpp::Publisher<autoware_control_center_msgs::msg::AutowareNodeReports>::SharedPtr
+    node_reports_pub_;
   NodeRegistry node_registry_;
   std::unordered_map<
     std::string, rclcpp::Subscription<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr>
