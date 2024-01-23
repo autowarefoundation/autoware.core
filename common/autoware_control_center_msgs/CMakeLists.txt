@@ -11,6 +11,8 @@ set(msg_dependencies
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/Heartbeat.msg"
   "msg/StatusRegistration.msg"
+  "msg/AutowareNodeReport.msg"
+  "msg/AutowareNodeReports.msg"
   "srv/AutowareNodeRegister.srv"
   "srv/AutowareNodeDeregister.srv"
   "srv/AutowareControlCenterDeregister.srv"
