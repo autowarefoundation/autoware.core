@@ -20,12 +20,19 @@
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
 
 #include "autoware_control_center_msgs/msg/heartbeat.hpp"
+#include "autoware_control_center_msgs/msg/autoware_node_reports.hpp"
 #include "autoware_control_center_msgs/srv/autoware_node_deregister.hpp"
 #include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
 
 namespace autoware_control_center
 {
 unique_identifier_msgs::msg::UUID createDefaultUUID();
+
+struct AutowareNodeStatus
+{
+  bool alive;
+  rclcpp::Time last_heartbeat;
+};
 
 class AutowareControlCenter : public rclcpp_lifecycle::LifecycleNode
 {
@@ -38,12 +45,15 @@ private:
   rclcpp::Service<autoware_control_center_msgs::srv::AutowareNodeRegister>::SharedPtr srv_register_;
   rclcpp::Service<autoware_control_center_msgs::srv::AutowareNodeDeregister>::SharedPtr
     srv_deregister_;
+  rclcpp::Publisher<autoware_control_center_msgs::msg::AutowareNodeReports>::SharedPtr node_reports_pub_;
   NodeRegistry node_registry_;
   std::unordered_map<
     std::string, rclcpp::Subscription<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr>
     heartbeat_sub_map_;
+  std::unordered_map<std::string, AutowareNodeStatus> node_status_map_;
 
   rclcpp::TimerBase::SharedPtr startup_timer_;
+  rclcpp::TimerBase::SharedPtr node_reports_timer_;
   int countdown;
   unique_identifier_msgs::msg::UUID acc_uuid;
   /// The lease duration granted to the remote (heartbeat) publisher
@@ -61,6 +71,8 @@ private:
 
   rclcpp::Subscription<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr
   create_heartbeat_sub(const std::string & node_name);
+
+  void node_reports_callback();
 };
 
 }  // namespace autoware_control_center

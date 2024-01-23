@@ -19,6 +19,7 @@
 #include <tier4_autoware_utils/ros/uuid_helper.hpp>
 
 #include "autoware_control_center_msgs/msg/heartbeat.hpp"
+#include "autoware_control_center_msgs/msg/autoware_node_report.hpp"
 #include "autoware_control_center_msgs/srv/autoware_control_center_deregister.hpp"
 #include <unique_identifier_msgs/msg/uuid.hpp>
 
@@ -57,6 +58,10 @@ AutowareControlCenter::AutowareControlCenter(const rclcpp::NodeOptions & options
     "~/srv/autoware_node_deregister",
     std::bind(&AutowareControlCenter::deregister_node, this, _1, _2),
     rmw_qos_profile_services_default, callback_group_mut_ex_);
+  
+  node_reports_pub_ = create_publisher<autoware_control_center_msgs::msg::AutowareNodeReports>(
+    "~/autoware_node_reports", 1);
+  node_reports_timer_ = create_wall_timer(1000ms, std::bind(&AutowareControlCenter::node_reports_callback, this));
 
   acc_uuid = tier4_autoware_utils::generateUUID();
   countdown = 10;
@@ -176,7 +181,7 @@ void AutowareControlCenter::startup_callback()
 }
 
 rclcpp::Subscription<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr
-AutowareControlCenter ::create_heartbeat_sub(const std::string & node_name)
+AutowareControlCenter::create_heartbeat_sub(const std::string & node_name)
 {
   RCLCPP_INFO(get_logger(), "Create heart sub is called.");
   rclcpp::QoS qos_profile_ = rclcpp::QoS(10);
@@ -185,7 +190,7 @@ AutowareControlCenter ::create_heartbeat_sub(const std::string & node_name)
 
   rclcpp::SubscriptionOptions heartbeat_sub_options_;
   heartbeat_sub_options_.event_callbacks.liveliness_callback =
-    [this](rclcpp::QOSLivelinessChangedInfo & event) -> void {
+    [=](rclcpp::QOSLivelinessChangedInfo & event) -> void {
     printf("Reader Liveliness changed event: \n");
     printf("  alive_count: %d\n", event.alive_count);
     printf("  not_alive_count: %d\n", event.not_alive_count);
@@ -193,19 +198,35 @@ AutowareControlCenter ::create_heartbeat_sub(const std::string & node_name)
     printf("  not_alive_count_change: %d\n", event.not_alive_count_change);
     if (event.alive_count == 0) {
       RCLCPP_ERROR(get_logger(), "Heartbeat was not received");
+      node_status_map_[node_name].alive = false;
     }
   };
 
-  std::string topic_name = "/" + node_name + "/heartbeat";
+  std::string topic_name = node_name + "/heartbeat";
   RCLCPP_INFO(get_logger(), "Topic to subscribe is %s", topic_name.c_str());
   rclcpp::Subscription<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr heartbeat_sub_;
   heartbeat_sub_ = create_subscription<autoware_control_center_msgs::msg::Heartbeat>(
     topic_name, qos_profile_,
-    [this](const typename autoware_control_center_msgs::msg::Heartbeat::SharedPtr msg) -> void {
+    [=](const typename autoware_control_center_msgs::msg::Heartbeat::SharedPtr msg) -> void {
       RCLCPP_INFO(get_logger(), "Watchdog raised, heartbeat sent at [%d.x]", msg->stamp.sec);
+      node_status_map_[node_name].alive = true;
+      node_status_map_[node_name].last_heartbeat = msg->stamp;
     },
     heartbeat_sub_options_);
-
+  node_status_map_.insert({node_name, {false, this->now()}});
   return heartbeat_sub_;
+}
+
+void AutowareControlCenter::node_reports_callback()
+{
+  autoware_control_center_msgs::msg::AutowareNodeReports msg;
+  for (auto const & [name, info] : node_status_map_) {
+    autoware_control_center_msgs::msg::AutowareNodeReport report;
+    report.name_node = name;
+    report.alive = info.alive;
+    report.last_heartbeat = this->now() - info.last_heartbeat;
+    msg.nodes.push_back(report);
+  }
+  node_reports_pub_->publish(msg);
 }
 }  // namespace autoware_control_center
