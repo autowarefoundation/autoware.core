@@ -36,7 +36,13 @@ AutowareNode::AutowareNode(
   RCLCPP_INFO(get_logger(), "AutowareNode::AutowareNode()");
   declare_parameter<int>("period", 200);  // TODO lexavtanke: remove default and add schema
   std::chrono::milliseconds heartbeat_period(get_parameter("period").as_int());
-  self_name = this->get_name();
+  std::string self_namespace(this->get_namespace());
+  std::string name(this->get_name());
+  if (self_namespace.length() > 1) {
+    self_name = self_namespace + "/" + name;
+  } else {
+    self_name = name;
+  }
   sequence_number = 0;
 
   // The granted lease is essentially infite here, i.e., only reader/watchdog will notify
