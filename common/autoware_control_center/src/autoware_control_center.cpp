@@ -66,6 +66,7 @@ AutowareControlCenter::AutowareControlCenter(const rclcpp::NodeOptions & options
 
   acc_uuid = tier4_autoware_utils::generateUUID();
   countdown = 10;
+  startup = true;
   startup_timer_ =
     this->create_wall_timer(500ms, std::bind(&AutowareControlCenter::startup_callback, this));
 }
@@ -118,16 +119,11 @@ void AutowareControlCenter::deregister_node(
 void AutowareControlCenter::startup_callback()
 {
   // wait for 10 sec and
-  if (countdown < 1 && node_registry_.is_empty()) {
+  if (countdown < 1 && node_registry_.is_empty() && startup) {
     RCLCPP_INFO(
       get_logger(), "Startup timeout is over. Map is empty. Start re-registering procedure.");
     // list auwoware nodes
-    // iterate list, create client and send calls
-    RCLCPP_INFO(get_logger(), "List services.");
     std::map<std::string, std::vector<std::string>> srv_list = this->get_service_names_and_types();
-    for (auto const & pair : srv_list) {
-      RCLCPP_INFO(get_logger(), pair.first.c_str());
-    }
     auto it = srv_list.begin();
     // filter out srv with type autoware_control_center_msgs/srv/AutowareControlCenterDeregister
     while (it != srv_list.end()) {
@@ -139,37 +135,36 @@ void AutowareControlCenter::startup_callback()
     }
     RCLCPP_INFO(get_logger(), "Filtered service list");
     for (auto const & pair : srv_list) {
-      RCLCPP_INFO(get_logger(), pair.first.c_str());
-    }
-    // create srv
-    rclcpp::Client<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>::SharedPtr
-      dereg_client_ =
-        create_client<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>(
-          "/test_node/srv/acc_deregister");
-    // create request
-    autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request::SharedPtr req =
-      std::make_shared<
-        autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request>();
+      RCLCPP_INFO(get_logger(), pair.first.c_str()); // print service name 
+      rclcpp::Client<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>::SharedPtr
+        dereg_client_ = create_client<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>(
+          pair.first);
+      autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request::SharedPtr req = 
+      std::make_shared<autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request>();
 
-    req->uuid_acc = acc_uuid;
+      req->uuid_acc = acc_uuid;
 
-    using ServiceResponseFuture = rclcpp::Client<
-      autoware_control_center_msgs::srv::AutowareControlCenterDeregister>::SharedFuture;
-    // lambda for async request
-    auto response_received_callback = [this](ServiceResponseFuture future) {
-      auto response = future.get();
-      RCLCPP_INFO(
-        get_logger(), "response: %d, %s", response->status.status, response->name_node.c_str());
+      using ServiceResponseFuture = rclcpp::Client<
+        autoware_control_center_msgs::srv::AutowareControlCenterDeregister>::SharedFuture;
+      // lambda for async request
+      auto response_received_callback = [this](ServiceResponseFuture future) {
+        auto response = future.get();
+        RCLCPP_INFO(
+          get_logger(), "response: %d, %s", response->status.status, response->name_node.c_str());
 
-      if (response->status.status == 1) {
-        RCLCPP_INFO(get_logger(), "Node was deregistered");
-      } else {
-        RCLCPP_ERROR(get_logger(), "Failed to deregister node");
+        if (response->status.status == 1) {
+          RCLCPP_INFO(get_logger(), "Node was deregistered");
+        } else {
+          RCLCPP_ERROR(get_logger(), "Failed to deregister node");
+        }
+      };
+
+      if (dereg_client_->service_is_ready()) {
+        auto future_result = dereg_client_->async_send_request(req, response_received_callback);
+        RCLCPP_INFO(get_logger(), "Sent request to %s", pair.first.c_str());
       }
-    };
-
-    auto future_result = dereg_client_->async_send_request(req, response_received_callback);
-    RCLCPP_INFO(get_logger(), "Sent request");
+    }
+    startup = false;
   }
   // check if some node has been registered
   if (node_registry_.is_empty()) {

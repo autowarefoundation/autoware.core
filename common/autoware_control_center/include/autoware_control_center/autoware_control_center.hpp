@@ -59,6 +59,7 @@ private:
   unique_identifier_msgs::msg::UUID acc_uuid;
   /// The lease duration granted to the remote (heartbeat) publisher
   std::chrono::milliseconds lease_duration_;
+  bool startup;
 
   void register_node(
     const autoware_control_center_msgs::srv::AutowareNodeRegister::Request::SharedPtr request,
