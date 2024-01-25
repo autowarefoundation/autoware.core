@@ -135,12 +135,14 @@ void AutowareControlCenter::startup_callback()
     }
     RCLCPP_INFO(get_logger(), "Filtered service list");
     for (auto const & pair : srv_list) {
-      RCLCPP_INFO(get_logger(), pair.first.c_str()); // print service name 
+      RCLCPP_INFO(get_logger(), pair.first.c_str());  // print service name
       rclcpp::Client<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>::SharedPtr
-        dereg_client_ = create_client<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>(
-          pair.first);
-      autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request::SharedPtr req = 
-      std::make_shared<autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request>();
+        dereg_client_ =
+          create_client<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>(
+            pair.first);
+      autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request::SharedPtr req =
+        std::make_shared<
+          autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request>();
 
       req->uuid_acc = acc_uuid;
 
