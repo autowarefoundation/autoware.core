@@ -59,7 +59,8 @@ AutowareControlCenter::AutowareControlCenter(const rclcpp::NodeOptions & options
     std::bind(&AutowareControlCenter::deregister_node, this, _1, _2),
     rmw_qos_profile_services_default, callback_group_mut_ex_);
   srv_node_error_ = create_service<autoware_control_center_msgs::srv::AutowareNodeError>(
-    "~/srv/autoware_node_error", std::bind(&AutowareControlCenter::autoware_node_error, this, _1, _2),
+    "~/srv/autoware_node_error",
+    std::bind(&AutowareControlCenter::autoware_node_error, this, _1, _2),
     rmw_qos_profile_services_default, callback_group_mut_ex_);
 
   node_reports_pub_ = create_publisher<autoware_control_center_msgs::msg::AutowareNodeReports>(
@@ -217,14 +218,7 @@ AutowareControlCenter::create_heartbeat_sub(const std::string & node_name)
   // alive, last_heartbeat, node_report, state
   autoware_control_center_msgs::msg::AutowareNodeState un_state;
   un_state.status = autoware_control_center_msgs::msg::AutowareNodeState::UNKNOWN;
-  node_status_map_.insert({
-    node_name, {
-      false, 
-      this->now(), 
-      "", 
-      un_state
-      }
-  }); 
+  node_status_map_.insert({node_name, {false, this->now(), "", un_state}});
   return heartbeat_sub_;
 }
 
@@ -252,13 +246,15 @@ void AutowareControlCenter::autoware_node_error(
   if (node_registry_.is_registered(request->name_node)) {
     node_status_map_[request->name_node].node_report = request->message;
     node_status_map_[request->name_node].state = request->state;
-    
-    response->status.status = autoware_control_center_msgs::srv::AutowareNodeError::Response::_status_type::SUCCESS;
+
+    response->status.status =
+      autoware_control_center_msgs::srv::AutowareNodeError::Response::_status_type::SUCCESS;
     response->uuid_node = node_registry_.get_uuid(request->name_node).value();
   } else {
-    response->status.status = autoware_control_center_msgs::srv::AutowareNodeError::Response::_status_type::FAILURE;
+    response->status.status =
+      autoware_control_center_msgs::srv::AutowareNodeError::Response::_status_type::FAILURE;
     response->uuid_node = createDefaultUUID();
-    response->log_response = request->name_node + " node was not registered."; 
+    response->log_response = request->name_node + " node was not registered.";
   }
 }
 
