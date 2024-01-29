@@ -58,6 +58,9 @@ AutowareControlCenter::AutowareControlCenter(const rclcpp::NodeOptions & options
     "~/srv/autoware_node_deregister",
     std::bind(&AutowareControlCenter::deregister_node, this, _1, _2),
     rmw_qos_profile_services_default, callback_group_mut_ex_);
+  srv_node_error_ = create_service<autoware_control_center_msgs::srv::AutowareNodeError>(
+    "~/srv/autoware_node_error", std::bind(&AutowareControlCenter::autoware_node_error, this, _1, _2),
+    rmw_qos_profile_services_default, callback_group_mut_ex_);
 
   node_reports_pub_ = create_publisher<autoware_control_center_msgs::msg::AutowareNodeReports>(
     "~/autoware_node_reports", 1);
@@ -211,20 +214,52 @@ AutowareControlCenter::create_heartbeat_sub(const std::string & node_name)
       node_status_map_[node_name].last_heartbeat = msg->stamp;
     },
     heartbeat_sub_options_);
-  node_status_map_.insert({node_name, {false, this->now()}});
+  // alive, last_heartbeat, node_report, state
+  autoware_control_center_msgs::msg::AutowareNodeState un_state;
+  un_state.status = autoware_control_center_msgs::msg::AutowareNodeState::UNKNOWN;
+  node_status_map_.insert({
+    node_name, {
+      false, 
+      this->now(), 
+      "", 
+      un_state
+      }
+  }); 
   return heartbeat_sub_;
 }
 
 void AutowareControlCenter::node_reports_callback()
 {
   autoware_control_center_msgs::msg::AutowareNodeReports msg;
+  rclcpp::Time stamp = this->now();
+  msg.stamp = stamp;
   for (auto const & [name, info] : node_status_map_) {
     autoware_control_center_msgs::msg::AutowareNodeReport report;
     report.name_node = name;
     report.alive = info.alive;
-    report.last_heartbeat = this->now() - info.last_heartbeat;
+    report.last_heartbeat = stamp - info.last_heartbeat;
     msg.nodes.push_back(report);
   }
   node_reports_pub_->publish(msg);
 }
+
+void AutowareControlCenter::autoware_node_error(
+  const autoware_control_center_msgs::srv::AutowareNodeError::Request::SharedPtr request,
+  const autoware_control_center_msgs::srv::AutowareNodeError::Response::SharedPtr response)
+{
+  RCLCPP_INFO(get_logger(), "autoware_node_error is called from %s", request->name_node.c_str());
+  // node_report
+  if (node_registry_.is_registered(request->name_node)) {
+    node_status_map_[request->name_node].node_report = request->message;
+    node_status_map_[request->name_node].state = request->state;
+    
+    response->status.status = autoware_control_center_msgs::srv::AutowareNodeError::Response::_status_type::SUCCESS;
+    response->uuid_node = node_registry_.get_uuid(request->name_node).value();
+  } else {
+    response->status.status = autoware_control_center_msgs::srv::AutowareNodeError::Response::_status_type::FAILURE;
+    response->uuid_node = createDefaultUUID();
+    response->log_response = request->name_node + " node was not registered."; 
+  }
+}
+
 }  // namespace autoware_control_center

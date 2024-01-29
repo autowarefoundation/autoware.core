@@ -15,6 +15,7 @@
 #ifndef AUTOWARE_CONTROL_CENTER__AUTOWARE_CONTROL_CENTER_HPP_
 #define AUTOWARE_CONTROL_CENTER__AUTOWARE_CONTROL_CENTER_HPP_
 
+
 #include "autoware_control_center/node_registry.hpp"
 #include "autoware_control_center/visibility_control.hpp"
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
@@ -23,15 +24,23 @@
 #include "autoware_control_center_msgs/msg/heartbeat.hpp"
 #include "autoware_control_center_msgs/srv/autoware_node_deregister.hpp"
 #include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
+#include "autoware_control_center_msgs/srv/autoware_node_error.hpp"
+
+#include <string>
+#include <unordered_map>
 
 namespace autoware_control_center
 {
 unique_identifier_msgs::msg::UUID createDefaultUUID();
 
+enum class HealthState {Unknown = 0, Healthy = 1, Warning = 2, Error = 3}; 
+
 struct AutowareNodeStatus
 {
   bool alive;
   rclcpp::Time last_heartbeat;
+  std::string node_report;
+  autoware_control_center_msgs::msg::AutowareNodeState state;
 };
 
 class AutowareControlCenter : public rclcpp_lifecycle::LifecycleNode
@@ -45,6 +54,7 @@ private:
   rclcpp::Service<autoware_control_center_msgs::srv::AutowareNodeRegister>::SharedPtr srv_register_;
   rclcpp::Service<autoware_control_center_msgs::srv::AutowareNodeDeregister>::SharedPtr
     srv_deregister_;
+  rclcpp::Service<autoware_control_center_msgs::srv::AutowareNodeError>::SharedPtr srv_node_error_;
   rclcpp::Publisher<autoware_control_center_msgs::msg::AutowareNodeReports>::SharedPtr
     node_reports_pub_;
   NodeRegistry node_registry_;
@@ -68,6 +78,10 @@ private:
   void deregister_node(
     const autoware_control_center_msgs::srv::AutowareNodeDeregister::Request::SharedPtr request,
     const autoware_control_center_msgs::srv::AutowareNodeDeregister::Response::SharedPtr response);
+  
+  void autoware_node_error(
+    const autoware_control_center_msgs::srv::AutowareNodeError::Request::SharedPtr request,
+    const autoware_control_center_msgs::srv::AutowareNodeError::Response::SharedPtr response);
 
   void startup_callback();
 
