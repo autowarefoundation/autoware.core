@@ -145,12 +145,12 @@ void AutowareNode::deregister(
     response->status.status = autoware_control_center_msgs::srv::AutowareControlCenterDeregister::
       Response::_status_type::FAILURE;
   } else {
-    RCLCPP_WARN(get_logger(), "Node registered");
+    RCLCPP_WARN(get_logger(), "Node deregistered");
     registered = false;
     response->status.status = autoware_control_center_msgs::srv::AutowareControlCenterDeregister::
       Response::_status_type::SUCCESS;
     response->log_response = self_name + " was deregistered";
-    response->uuid_node = self_uuid;
+    response->name_node = self_name;
     this->register_timer_->reset();
   }
 }
