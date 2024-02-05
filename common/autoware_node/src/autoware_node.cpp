@@ -18,6 +18,8 @@
 #include <tier4_autoware_utils/ros/uuid_helper.hpp>
 
 #include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
+// #include "autoware_control_center_msgs/srv/autoware_node_error.hpp"
+
 
 #include <chrono>
 
@@ -73,6 +75,9 @@ AutowareNode::AutowareNode(
     create_service<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>(
       "~/srv/acc_deregister", std::bind(&AutowareNode::deregister, this, _1, _2),
       rmw_qos_profile_services_default, callback_group_mut_ex_);
+
+  cli_node_error_ = create_client<autoware_control_center_msgs::srv::AutowareNodeError>(
+  "/autoware_control_center/srv/autoware_node_error", rmw_qos_profile_default, callback_group_mut_ex_);
 }
 
 void AutowareNode::register_callback()
@@ -87,7 +92,6 @@ void AutowareNode::register_callback()
     RCLCPP_WARN(get_logger(), "%s is unavailable", cli_register_->get_service_name());
     return;
   }
-
   autoware_control_center_msgs::srv::AutowareNodeRegister::Request::SharedPtr req =
     std::make_shared<autoware_control_center_msgs::srv::AutowareNodeRegister::Request>();
 
@@ -141,11 +145,51 @@ void AutowareNode::deregister(
     response->status.status = autoware_control_center_msgs::srv::AutowareControlCenterDeregister::
       Response::_status_type::FAILURE;
   } else {
+    RCLCPP_WARN(get_logger(), "Node registered");
     registered = false;
     response->status.status = autoware_control_center_msgs::srv::AutowareControlCenterDeregister::
       Response::_status_type::SUCCESS;
+    response->log_response = self_name + " was deregistered";
+    response->uuid_node = self_uuid;
     this->register_timer_->reset();
   }
+}
+
+void AutowareNode::send_state(
+    const autoware_control_center_msgs::msg::AutowareNodeState & node_state, 
+    std::string message)
+{
+  if (!cli_node_error_->service_is_ready()) {
+    RCLCPP_WARN(get_logger(), "%s is unavailable", cli_register_->get_service_name());
+    return;
+  }
+  autoware_control_center_msgs::srv::AutowareNodeError::Request::SharedPtr req =
+    std::make_shared<autoware_control_center_msgs::srv::AutowareNodeError::Request>();
+
+  req->name_node = self_name;  
+  req->state = node_state;
+  req->message = message;
+
+  using ServiceResponseFuture =
+    rclcpp::Client<autoware_control_center_msgs::srv::AutowareNodeError>::SharedFuture;
+  auto response_received_callback = [this](ServiceResponseFuture future) {
+    auto response = future.get();
+    std::string str_uuid = tier4_autoware_utils::toHexString(response->uuid_node);
+    RCLCPP_INFO(get_logger(), 
+                "response: %d, %s, %s", 
+                response->status.status, 
+                str_uuid.c_str(), 
+                response->log_response.c_str());
+
+    if (response->status.status == 1) {
+      RCLCPP_INFO(get_logger(), "Node state was received by ACC");
+    } else {
+      RCLCPP_ERROR(get_logger(), "Failed to send Node state to ACC");
+    }
+  };
+
+  auto future_result = cli_node_error_->async_send_request(req, response_received_callback);
+  RCLCPP_INFO(get_logger(), "Send node state");
 }
 
 }  // namespace autoware_node
