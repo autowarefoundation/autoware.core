@@ -20,7 +20,6 @@
 #include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
 // #include "autoware_control_center_msgs/srv/autoware_node_error.hpp"
 
-
 #include <chrono>
 
 using namespace std::chrono_literals;
@@ -77,7 +76,8 @@ AutowareNode::AutowareNode(
       rmw_qos_profile_services_default, callback_group_mut_ex_);
 
   cli_node_error_ = create_client<autoware_control_center_msgs::srv::AutowareNodeError>(
-  "/autoware_control_center/srv/autoware_node_error", rmw_qos_profile_default, callback_group_mut_ex_);
+    "/autoware_control_center/srv/autoware_node_error", rmw_qos_profile_default,
+    callback_group_mut_ex_);
 }
 
 void AutowareNode::register_callback()
@@ -156,8 +156,7 @@ void AutowareNode::deregister(
 }
 
 void AutowareNode::send_state(
-    const autoware_control_center_msgs::msg::AutowareNodeState & node_state, 
-    std::string message)
+  const autoware_control_center_msgs::msg::AutowareNodeState & node_state, std::string message)
 {
   if (!cli_node_error_->service_is_ready()) {
     RCLCPP_WARN(get_logger(), "%s is unavailable", cli_register_->get_service_name());
@@ -166,7 +165,7 @@ void AutowareNode::send_state(
   autoware_control_center_msgs::srv::AutowareNodeError::Request::SharedPtr req =
     std::make_shared<autoware_control_center_msgs::srv::AutowareNodeError::Request>();
 
-  req->name_node = self_name;  
+  req->name_node = self_name;
   req->state = node_state;
   req->message = message;
 
@@ -175,11 +174,9 @@ void AutowareNode::send_state(
   auto response_received_callback = [this](ServiceResponseFuture future) {
     auto response = future.get();
     std::string str_uuid = tier4_autoware_utils::toHexString(response->uuid_node);
-    RCLCPP_INFO(get_logger(), 
-                "response: %d, %s, %s", 
-                response->status.status, 
-                str_uuid.c_str(), 
-                response->log_response.c_str());
+    RCLCPP_INFO(
+      get_logger(), "response: %d, %s, %s", response->status.status, str_uuid.c_str(),
+      response->log_response.c_str());
 
     if (response->status.status == 1) {
       RCLCPP_INFO(get_logger(), "Node state was received by ACC");
