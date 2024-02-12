@@ -24,6 +24,11 @@
 #include "autoware_control_center_msgs/srv/autoware_node_error.hpp"
 #include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
 
+#include "rclcpp/subscription_options.hpp"
+#include "rclcpp/subscription.hpp"
+#include "rclcpp/subscription_traits.hpp"
+#include "rclcpp/message_memory_strategy.hpp"
+
 #include <string>
 
 namespace autoware_node
@@ -36,6 +41,52 @@ public:
   explicit AutowareNode(
     const std::string & node_name, const std::string & ns = "",
     const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
+
+  template<
+  typename MessageT,
+  typename CallbackT,
+  typename AllocatorT = std::allocator<void>,
+  typename SubscriptionT = rclcpp::Subscription<MessageT, AllocatorT>,
+  typename MessageMemoryStrategyT = typename SubscriptionT::MessageMemoryStrategyType>
+  std::shared_ptr<SubscriptionT> create_monitored_subscription(
+    const std::string & topic_name,
+    const float hz, 
+    const rclcpp::QoS & qos,
+    CallbackT && callback,
+    const rclcpp::SubscriptionOptions & options =
+    rclcpp::SubscriptionOptions(),
+    typename MessageMemoryStrategyT::SharedPtr msg_mem_strat = (
+      MessageMemoryStrategyT::create_default()
+    )
+  );
+
+  template<
+  typename MessageT,
+  typename CallbackT,
+  typename AllocatorT = std::allocator<void>,
+  typename SubscriptionT = rclcpp::Subscription<MessageT, AllocatorT>>
+  std::shared_ptr<SubscriptionT> create_simple_monitored_subscription(
+    const std::string & topic_name,
+    const rclcpp::QoS & qos,
+    CallbackT && callback);
+
+  template<
+    typename MessageT,
+    typename CallbackT,
+    typename AllocatorT = std::allocator<void>,
+    typename SubscriptionT = rclcpp::Subscription<MessageT, AllocatorT>,
+    typename MessageMemoryStrategyT = typename SubscriptionT::MessageMemoryStrategyType>
+  std::shared_ptr<SubscriptionT>
+  test_create_subscription(
+    const std::string & topic_name,
+    const rclcpp::QoS & qos,
+    CallbackT && callback,
+    const rclcpp::SubscriptionOptionsWithAllocator<AllocatorT> & options =
+    rclcpp_lifecycle::create_default_subscription_options<AllocatorT>(),
+    typename MessageMemoryStrategyT::SharedPtr msg_mem_strat = (
+      MessageMemoryStrategyT::create_default()
+    )
+  );
 
   rclcpp::CallbackGroup::SharedPtr callback_group_mut_ex_;
 

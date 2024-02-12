@@ -19,6 +19,8 @@
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
 #include "test_node/visibility_control.hpp"
 
+
+#include "std_msgs/msg/string.hpp"
 namespace test_node
 {
 
@@ -27,6 +29,10 @@ class TestNode : public autoware_node::AutowareNode
 public:
   TEST_NODE_PUBLIC
   explicit TestNode(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
+
+private:
+  void topic_callback(const std_msgs::msg::String::SharedPtr msg);
+  rclcpp::Subscription<std_msgs::msg::String>::SharedPtr monitored_subscription_;
 };
 
 }  // namespace test_node
