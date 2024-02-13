@@ -48,7 +48,7 @@ AutowareControlCenter::AutowareControlCenter(const rclcpp::NodeOptions & options
   std::chrono::milliseconds lease_duration_(get_parameter("lease_duration").as_int());
 
   callback_group_mut_ex_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
-  
+
   using std::placeholders::_1;
   using std::placeholders::_2;
   srv_register_ = create_service<autoware_control_center_msgs::srv::AutowareNodeRegister>(
@@ -126,7 +126,7 @@ void AutowareControlCenter::startup_callback()
   // check if some node has been registered
   if (node_registry_.is_empty()) {
     RCLCPP_INFO(get_logger(), "Node register map is empty. Countdown is %d", countdown);
-  } 
+  }
   if (countdown < 1 && node_registry_.is_empty() && startup) {
     RCLCPP_INFO(
       get_logger(), "Startup timeout is over. Map is empty. Start re-registering procedure.");
@@ -149,7 +149,7 @@ void AutowareControlCenter::startup_callback()
       rclcpp::Client<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>::SharedPtr
         dereg_client_ =
           create_client<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>(
-          pair.first);
+            pair.first);
       autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request::SharedPtr req =
         std::make_shared<
           autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request>();
@@ -162,7 +162,8 @@ void AutowareControlCenter::startup_callback()
       auto response_received_callback = [this](ServiceResponseFuture future) {
         auto response = future.get();
         RCLCPP_INFO(
-          get_logger(), "Deregister response: %d, %s", response->status.status, response->name_node.c_str());
+          get_logger(), "Deregister response: %d, %s", response->status.status,
+          response->name_node.c_str());
 
         if (response->status.status == 1) {
           RCLCPP_INFO(get_logger(), "Node was deregistered");
