@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.8)
 project(test_node)
 
 find_package(ament_cmake_auto REQUIRED)
+find_package(std_msgs REQUIRED)
 ament_auto_find_build_dependencies()
 
 autoware_package()
@@ -18,6 +19,10 @@ ament_auto_add_library(${library_name} SHARED
 rclcpp_components_register_node(${library_name}
   PLUGIN "test_node::TestNode"
   EXECUTABLE ${executable_name})
+
+add_executable(test_pub src/test_pub.cpp)
+ament_target_dependencies(test_pub rclcpp std_msgs)
+
 
 #if(BUILD_TESTING)
 #  find_package(ament_lint_auto REQUIRED)
