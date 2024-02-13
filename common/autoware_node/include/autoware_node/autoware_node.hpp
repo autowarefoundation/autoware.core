@@ -58,35 +58,54 @@ public:
     typename MessageMemoryStrategyT::SharedPtr msg_mem_strat = (
       MessageMemoryStrategyT::create_default()
     )
-  );
+  )
+  {
+    // create proper qos based on input parameter 
+    // update lease duration and deadline in qos 
+    RCLCPP_INFO(get_logger(), "Create monitored subscription to topic %s", topic_name.c_str());
+    std::chrono::milliseconds lease_duration{static_cast<int>(1.0 / hz * 1000 * 1.1)};  // add 10 % gap to lease duration (buffer)
+    rclcpp::QoS qos_profile = qos;
+    qos_profile.liveliness(RMW_QOS_POLICY_LIVELINESS_MANUAL_BY_TOPIC)
+      .liveliness_lease_duration(lease_duration)
+      .deadline(lease_duration);
 
-  template<
-  typename MessageT,
-  typename CallbackT,
-  typename AllocatorT = std::allocator<void>,
-  typename SubscriptionT = rclcpp::Subscription<MessageT, AllocatorT>>
-  std::shared_ptr<SubscriptionT> create_simple_monitored_subscription(
-    const std::string & topic_name,
-    const rclcpp::QoS & qos,
-    CallbackT && callback);
+    rclcpp::SubscriptionOptions sub_options = options;
+    sub_options.event_callbacks.deadline_callback = 
+      [=](rclcpp::QOSDeadlineRequestedInfo& event) -> void {
+          RCLCPP_ERROR(get_logger(), "Requested deadline missed - total %d delta %d",
+            event.total_count, event.total_count_change);
+          // NodeError service call 
+          std::string msg = "Deadline for topic " + topic_name + " was missed.";
+          autoware_control_center_msgs::msg::AutowareNodeState node_state;
+          node_state.status = autoware_control_center_msgs::msg::AutowareNodeState::ERROR;
+          send_state(node_state, msg);
+        };
 
-  template<
-    typename MessageT,
-    typename CallbackT,
-    typename AllocatorT = std::allocator<void>,
-    typename SubscriptionT = rclcpp::Subscription<MessageT, AllocatorT>,
-    typename MessageMemoryStrategyT = typename SubscriptionT::MessageMemoryStrategyType>
-  std::shared_ptr<SubscriptionT>
-  test_create_subscription(
-    const std::string & topic_name,
-    const rclcpp::QoS & qos,
-    CallbackT && callback,
-    const rclcpp::SubscriptionOptionsWithAllocator<AllocatorT> & options =
-    rclcpp_lifecycle::create_default_subscription_options<AllocatorT>(),
-    typename MessageMemoryStrategyT::SharedPtr msg_mem_strat = (
-      MessageMemoryStrategyT::create_default()
-    )
-  );
+    sub_options.event_callbacks.liveliness_callback = 
+      [=](rclcpp::QOSLivelinessChangedInfo & event) -> void {
+          RCLCPP_INFO(get_logger(), "%s topic liveliness info changed", topic_name.c_str());
+          printf("Reader Liveliness changed event: \n");
+          printf("  alive_count: %d\n", event.alive_count);
+          printf("  not_alive_count: %d\n", event.not_alive_count);
+          printf("  alive_count_change: %d\n", event.alive_count_change);
+          printf("  not_alive_count_change: %d\n", event.not_alive_count_change);
+          if (event.alive_count == 0) {
+            RCLCPP_ERROR(get_logger(), "%s topic publisher is not alive.", topic_name.c_str());
+            // NodeError service call 
+            std::string msg = topic_name + " topic publisher is not alive.";
+            autoware_control_center_msgs::msg::AutowareNodeState node_state;
+            node_state.status = autoware_control_center_msgs::msg::AutowareNodeState::ERROR;
+            send_state(node_state, msg);
+          }
+        };
+
+    return create_subscription<MessageT>  (
+        topic_name,
+        qos_profile,
+        std::forward<CallbackT>(callback),
+        sub_options,
+        msg_mem_strat);
+  }
 
   rclcpp::CallbackGroup::SharedPtr callback_group_mut_ex_;
 
