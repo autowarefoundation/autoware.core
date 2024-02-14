@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Generate token
         id: generate-token
-        uses: tibdex/github-app-token@v1
+        uses: tibdex/github-app-token@v2
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.PRIVATE_KEY }}
@@ -28,6 +28,6 @@ jobs:
         with:
           token: ${{ steps.generate-token.outputs.token }}
           pr-labels: |
-            bot
-            sync-files
+            tag:bot
+            tag:sync-files
           auto-merge-method: squash
