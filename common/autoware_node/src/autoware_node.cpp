@@ -14,8 +14,8 @@
 
 #include "autoware_node/autoware_node.hpp"
 
-#include <rclcpp/rclcpp.hpp>
 #include <autoware_utils/ros/uuid_helper.hpp>
+#include <rclcpp/rclcpp.hpp>
 
 #include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
 // #include "autoware_control_center_msgs/srv/autoware_node_error.hpp"
