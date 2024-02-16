@@ -22,7 +22,7 @@ if(BUILD_TESTING)
   target_include_directories(test_autoware_control_center PRIVATE ${PROJECT_SOURCE_DIR}/include)
   ament_target_dependencies(test_autoware_control_center
                           "rclcpp"
-                          "tier4_autoware_utils"
+                          "autoware_utils"
                           "rclcpp_lifecycle"
                           "autoware_control_center_msgs")
 endif()

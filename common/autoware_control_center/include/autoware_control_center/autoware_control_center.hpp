@@ -30,7 +30,6 @@
 
 namespace autoware_control_center
 {
-unique_identifier_msgs::msg::UUID createDefaultUUID();
 
 enum class HealthState { Unknown = 0, Healthy = 1, Warning = 2, Error = 3 };
 

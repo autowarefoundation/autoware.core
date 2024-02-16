@@ -16,7 +16,7 @@
 
 #include "autoware_control_center/node_registry.hpp"
 
-#include <tier4_autoware_utils/ros/uuid_helper.hpp>
+#include <autoware_utils/ros/uuid_helper.hpp>
 
 #include "autoware_control_center_msgs/msg/autoware_node_report.hpp"
 #include "autoware_control_center_msgs/msg/heartbeat.hpp"
@@ -29,15 +29,6 @@ using namespace std::chrono_literals;
 
 namespace autoware_control_center
 {
-unique_identifier_msgs::msg::UUID createDefaultUUID()
-{
-  unique_identifier_msgs::msg::UUID default_uuid;
-
-  // Use std::generate to fill the UUID with zeros
-  std::generate(default_uuid.uuid.begin(), default_uuid.uuid.end(), []() { return 0; });
-
-  return default_uuid;
-}
 
 AutowareControlCenter::AutowareControlCenter(const rclcpp::NodeOptions & options)
 : LifecycleNode("autoware_control_center", options)
@@ -68,7 +59,7 @@ AutowareControlCenter::AutowareControlCenter(const rclcpp::NodeOptions & options
   node_reports_timer_ =
     create_wall_timer(1000ms, std::bind(&AutowareControlCenter::node_reports_callback, this));
 
-  acc_uuid = tier4_autoware_utils::generateUUID();
+  acc_uuid = autoware_utils::generate_uuid();
   countdown = 10;
   startup = true;
   startup_timer_ =
@@ -82,10 +73,10 @@ void AutowareControlCenter::register_node(
   RCLCPP_INFO(get_logger(), "register_node is called from %s", request->name_node.c_str());
 
   std::optional<unique_identifier_msgs::msg::UUID> node_uuid =
-    node_registry_.register_node(request->name_node.c_str(), tier4_autoware_utils::generateUUID());
+    node_registry_.register_node(request->name_node.c_str(), autoware_utils::generate_uuid());
 
   if (node_uuid == std::nullopt) {
-    response->uuid_node = createDefaultUUID();
+    response->uuid_node = autoware_utils::generate_default_uuid();
     response->status.status =
       autoware_control_center_msgs::srv::AutowareNodeRegister::Response::_status_type::FAILURE;
   } else {
@@ -110,7 +101,7 @@ void AutowareControlCenter::deregister_node(
     node_registry_.deregister_node(request->name_node.c_str());
 
   if (node_uuid == std::nullopt) {
-    response->uuid_node = createDefaultUUID();
+    response->uuid_node = autoware_utils::generate_default_uuid();
     response->status.status =
       autoware_control_center_msgs::srv::AutowareNodeDeregister::Response::_status_type::FAILURE;
   } else {
@@ -253,7 +244,7 @@ void AutowareControlCenter::autoware_node_error(
   } else {
     response->status.status =
       autoware_control_center_msgs::srv::AutowareNodeError::Response::_status_type::FAILURE;
-    response->uuid_node = createDefaultUUID();
+    response->uuid_node = autoware_utils::generate_default_uuid();
     response->log_response = request->name_node + " node was not registered.";
   }
 }
