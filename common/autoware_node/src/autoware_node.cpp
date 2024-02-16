@@ -15,7 +15,7 @@
 #include "autoware_node/autoware_node.hpp"
 
 #include <rclcpp/rclcpp.hpp>
-#include <tier4_autoware_utils/ros/uuid_helper.hpp>
+#include <autoware_utils/ros/uuid_helper.hpp>
 
 #include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
 // #include "autoware_control_center_msgs/srv/autoware_node_error.hpp"
@@ -101,7 +101,7 @@ void AutowareNode::register_callback()
     rclcpp::Client<autoware_control_center_msgs::srv::AutowareNodeRegister>::SharedFuture;
   auto response_received_callback = [this](ServiceResponseFuture future) {
     auto response = future.get();
-    std::string str_uuid = tier4_autoware_utils::toHexString(response->uuid_node);
+    std::string str_uuid = autoware_utils::to_hex_string(response->uuid_node);
     RCLCPP_INFO(get_logger(), "response: %d, %s", response->status.status, str_uuid.c_str());
 
     if (response->status.status == 1) {
@@ -136,7 +136,7 @@ void AutowareNode::deregister(
     response)
 {
   RCLCPP_INFO(get_logger(), "Deregister callback");
-  std::string str_uuid = tier4_autoware_utils::toHexString(request->uuid_acc);
+  std::string str_uuid = autoware_utils::to_hex_string(request->uuid_acc);
   RCLCPP_INFO(get_logger(), "Request from %s", str_uuid.c_str());
   response->name_node = self_name;
 
@@ -173,7 +173,7 @@ void AutowareNode::send_state(
     rclcpp::Client<autoware_control_center_msgs::srv::AutowareNodeError>::SharedFuture;
   auto response_received_callback = [this](ServiceResponseFuture future) {
     auto response = future.get();
-    std::string str_uuid = tier4_autoware_utils::toHexString(response->uuid_node);
+    std::string str_uuid = autoware_utils::to_hex_string(response->uuid_node);
     RCLCPP_INFO(
       get_logger(), "response: %d, %s, %s", response->status.status, str_uuid.c_str(),
       response->log_response.c_str());
