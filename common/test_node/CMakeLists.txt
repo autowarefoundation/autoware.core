@@ -15,6 +15,7 @@ set(library_name ${executable_name}_core)
 
 ament_auto_add_library(${library_name} SHARED
   src/test_node.cpp)
+ament_target_dependencies(${library_name} rclcpp std_msgs)
 
 rclcpp_components_register_node(${library_name}
   PLUGIN "test_node::TestNode"
