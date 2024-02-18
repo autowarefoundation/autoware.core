@@ -43,7 +43,7 @@ public:
     const std::string & node_name, const std::string & ns = "",
     const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
 
-// cspell:ignore strat
+  // cspell:ignore strat
   template <
     typename MessageT, typename CallbackT, typename AllocatorT = std::allocator<void>,
     typename SubscriptionT = rclcpp::Subscription<MessageT, AllocatorT>,
