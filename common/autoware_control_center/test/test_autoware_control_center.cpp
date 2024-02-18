@@ -86,7 +86,7 @@ TEST_F(AutowareControlCenterTest, DeregisterNode)
   ASSERT_EQ(ret, rclcpp::FutureReturnCode::SUCCESS);
   EXPECT_EQ(1, result_reg.get()->status.status) << "Node register request fail";
   // TODO(lexavtanke) add uuid check
-
+  // cspell:ignore dereg
   // Deregister node
   auto client_dereg = autoware_control_center_
                         ->create_client<autoware_control_center_msgs::srv::AutowareNodeDeregister>(
