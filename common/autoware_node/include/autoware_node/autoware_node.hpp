@@ -28,7 +28,9 @@
 #include "autoware_control_center_msgs/srv/autoware_node_error.hpp"
 #include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
 
+#include <memory>
 #include <string>
+#include <utility>
 
 namespace autoware_node
 {
@@ -41,6 +43,7 @@ public:
     const std::string & node_name, const std::string & ns = "",
     const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
 
+// cspell:ignore strat
   template <
     typename MessageT, typename CallbackT, typename AllocatorT = std::allocator<void>,
     typename SubscriptionT = rclcpp::Subscription<MessageT, AllocatorT>,

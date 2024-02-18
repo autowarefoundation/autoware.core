@@ -22,7 +22,7 @@
 
 #include <chrono>
 
-using namespace std::chrono_literals;
+using std::chrono::operator""ms;
 
 constexpr std::chrono::milliseconds LEASE_DELTA =
   20ms;  ///< Buffer added to heartbeat to define lease.
@@ -35,7 +35,7 @@ AutowareNode::AutowareNode(
 : LifecycleNode(node_name, ns, options)
 {
   RCLCPP_INFO(get_logger(), "AutowareNode::AutowareNode()");
-  declare_parameter<int>("period", 200);  // TODO lexavtanke: remove default and add schema
+  declare_parameter<int>("period", 200);  // TODO(lexavtanke): remove default and add schema
   std::chrono::milliseconds heartbeat_period(get_parameter("period").as_int());
   std::string self_namespace(this->get_namespace());
   std::string name(this->get_name());
@@ -46,7 +46,7 @@ AutowareNode::AutowareNode(
   }
   sequence_number = 0;
 
-  // The granted lease is essentially infite here, i.e., only reader/watchdog will notify
+  // The granted lease is essentially infinite here, i.e., only reader/watchdog will notify
   // violations. XXX causes segfault for cyclone dds, hence pass explicit lease life > heartbeat.
   rclcpp::QoS qos_profile(1);
   qos_profile.liveliness(RMW_QOS_POLICY_LIVELINESS_MANUAL_BY_TOPIC)
