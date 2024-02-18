@@ -25,7 +25,8 @@
 #include <memory>
 #include <string>
 
-using namespace std::chrono_literals;
+using std::chrono::operator""ms;
+using std::chrono::operator""s;
 
 class AutowareControlCenterTest : public ::testing::Test
 {

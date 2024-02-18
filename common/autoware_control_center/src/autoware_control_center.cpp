@@ -25,7 +25,7 @@
 
 #include <chrono>
 
-using namespace std::chrono_literals;
+using std::chrono::operator""ms;
 
 namespace autoware_control_center
 {
@@ -123,7 +123,6 @@ void AutowareControlCenter::startup_callback()
       get_logger(), "Startup timeout is over. Map is empty. Start re-registering procedure.");
     this->startup_timer_->cancel();
     RCLCPP_INFO(get_logger(), "Startup timer stop.");
-    // list auwoware nodes
     std::map<std::string, std::vector<std::string>> srv_list = this->get_service_names_and_types();
     auto it = srv_list.begin();
     // filter out srv with type autoware_control_center_msgs/srv/AutowareControlCenterDeregister
@@ -138,6 +137,7 @@ void AutowareControlCenter::startup_callback()
     for (auto const & pair : srv_list) {
       RCLCPP_INFO(get_logger(), pair.first.c_str());  // print service name
       rclcpp::Client<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>::SharedPtr
+        // cspell:ignore dereg
         dereg_client_ =
           create_client<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>(
             pair.first);
