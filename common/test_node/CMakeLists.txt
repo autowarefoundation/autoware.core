@@ -21,7 +21,7 @@ rclcpp_components_register_node(${library_name}
   PLUGIN "test_node::TestNode"
   EXECUTABLE ${executable_name})
 
-add_executable(test_pub src/test_pub.cpp)
+ament_auto_add_executable(test_pub src/test_pub.cpp)
 ament_target_dependencies(test_pub rclcpp std_msgs)
 
 
