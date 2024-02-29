@@ -23,10 +23,11 @@ std::optional<unique_identifier_msgs::msg::UUID> NodeRegistry::register_node(
 {
   if (is_registered(name)) {
     RCLCPP_INFO(
-      rclcpp::get_logger("NodeRegistry"), "Node %s has been registered before. Register again.", name.c_str());
-      autoware_node_info_map_[name].time_registering = rclcpp::Clock().now();
-      autoware_node_info_map_[name].uuid = uuid;
-      autoware_node_info_map_[name].num_registered += 1;
+      rclcpp::get_logger("NodeRegistry"), "Node %s has been registered before. Register again.",
+      name.c_str());
+    autoware_node_info_map_[name].time_registering = rclcpp::Clock().now();
+    autoware_node_info_map_[name].uuid = uuid;
+    autoware_node_info_map_[name].num_registered += 1;
   } else {
     autoware_node_info_map_[name] = {rclcpp::Clock().now(), name, uuid, 1};
     RCLCPP_INFO(rclcpp::get_logger("NodeRegistry"), "Node %s is registered.", name.c_str());
