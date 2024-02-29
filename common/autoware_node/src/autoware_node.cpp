@@ -116,8 +116,13 @@ void AutowareNode::register_callback()
   };
 
   auto future_result = cli_register_->async_send_request(req, response_received_callback);
-
   RCLCPP_INFO(get_logger(), "Sent request");
+
+  std::string msg = self_name + " node started";
+  autoware_control_center_msgs::msg::AutowareNodeState node_state;
+  node_state.status = autoware_control_center_msgs::msg::AutowareNodeState::NORMAL;
+  send_state(node_state, msg);
+  RCLCPP_INFO(get_logger(), "Sent node state");
 }
 
 void AutowareNode::heartbeat_callback()
