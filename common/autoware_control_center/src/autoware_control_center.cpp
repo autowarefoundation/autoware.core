@@ -184,11 +184,11 @@ AutowareControlCenter::create_heartbeat_sub(const std::string & node_name)
   rclcpp::SubscriptionOptions heartbeat_sub_options_;
   heartbeat_sub_options_.event_callbacks.liveliness_callback =
     [=](rclcpp::QOSLivelinessChangedInfo & event) -> void {
-    printf("Reader Liveliness changed event: \n");
-    printf("  alive_count: %d\n", event.alive_count);
-    printf("  not_alive_count: %d\n", event.not_alive_count);
-    printf("  alive_count_change: %d\n", event.alive_count_change);
-    printf("  not_alive_count_change: %d\n", event.not_alive_count_change);
+    RCLCPP_INFO(get_logger(), "Reader Liveliness changed event:");
+    RCLCPP_INFO(get_logger(), "  alive_count: %d", event.alive_count);
+    RCLCPP_INFO(get_logger(), "  not_alive_count: %d", event.not_alive_count);
+    RCLCPP_INFO(get_logger(), "  alive_count_change: %d", event.alive_count_change);
+    RCLCPP_INFO(get_logger(), "  not_alive_count_change: %d", event.not_alive_count_change);
     if (event.alive_count == 0) {
       RCLCPP_ERROR(get_logger(), "Heartbeat was not received");
       node_status_map_[node_name].alive = false;
@@ -220,8 +220,11 @@ void AutowareControlCenter::node_reports_callback()
   msg.stamp = stamp;
   for (auto const & [name, info] : node_status_map_) {
     autoware_control_center_msgs::msg::AutowareNodeReport report;
+    report.uuid_node = node_registry_.get_uuid(name).value();
     report.name_node = name;
     report.alive = info.alive;
+    report.last_node_state = info.state;
+    report.node_report = info.node_report;
     report.last_heartbeat = stamp - info.last_heartbeat;
     msg.nodes.push_back(report);
   }

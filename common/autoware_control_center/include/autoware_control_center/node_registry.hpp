@@ -30,6 +30,7 @@ struct AutowareNodeInfo
   rclcpp::Time time_registering;
   std::string name;
   unique_identifier_msgs::msg::UUID uuid;
+  int num_registered;
 };
 
 class NodeRegistry
