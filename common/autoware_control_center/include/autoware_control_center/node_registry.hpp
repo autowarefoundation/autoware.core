@@ -15,12 +15,10 @@
 #ifndef AUTOWARE_CONTROL_CENTER__NODE_REGISTRY_HPP_
 #define AUTOWARE_CONTROL_CENTER__NODE_REGISTRY_HPP_
 
-#include <rclcpp/rclcpp.hpp>
-
-#include <unique_identifier_msgs/msg/uuid.hpp>
-
 #include <optional>
+#include <rclcpp/rclcpp.hpp>
 #include <string>
+#include <unique_identifier_msgs/msg/uuid.hpp>
 #include <unordered_map>
 
 namespace autoware_control_center

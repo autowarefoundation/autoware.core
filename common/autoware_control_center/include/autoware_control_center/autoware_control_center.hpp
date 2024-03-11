@@ -15,18 +15,17 @@
 #ifndef AUTOWARE_CONTROL_CENTER__AUTOWARE_CONTROL_CENTER_HPP_
 #define AUTOWARE_CONTROL_CENTER__AUTOWARE_CONTROL_CENTER_HPP_
 
+#include <string>
+#include <unordered_map>
+
 #include "autoware_control_center/node_registry.hpp"
 #include "autoware_control_center/visibility_control.hpp"
-#include "rclcpp_lifecycle/lifecycle_node.hpp"
-
 #include "autoware_control_center_msgs/msg/autoware_node_reports.hpp"
 #include "autoware_control_center_msgs/msg/heartbeat.hpp"
 #include "autoware_control_center_msgs/srv/autoware_node_deregister.hpp"
 #include "autoware_control_center_msgs/srv/autoware_node_error.hpp"
 #include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
-
-#include <string>
-#include <unordered_map>
+#include "rclcpp_lifecycle/lifecycle_node.hpp"
 
 namespace autoware_control_center
 {
@@ -58,7 +57,7 @@ private:
   NodeRegistry node_registry_;
   std::unordered_map<
     std::string, rclcpp::Subscription<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr>
-    heartbeat_sub_map_;
+  heartbeat_sub_map_;
   std::unordered_map<std::string, AutowareNodeStatus> node_status_map_;
 
   rclcpp::TimerBase::SharedPtr startup_timer_;
