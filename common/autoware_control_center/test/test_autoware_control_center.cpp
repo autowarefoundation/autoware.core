@@ -14,18 +14,18 @@
 
 #include "test_autoware_control_center.hpp"
 
+#include "autoware_control_center/autoware_control_center.hpp"
+#include "gtest/gtest.h"
+#include "rclcpp/rclcpp.hpp"
+
+#include <autoware_utils/ros/uuid_helper.hpp>
+
+#include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
+
 #include <chrono>
 #include <iostream>
 #include <memory>
 #include <string>
-
-#include "autoware_control_center/autoware_control_center.hpp"
-#include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
-#include <autoware_utils/ros/uuid_helper.hpp>
-
-
-#include "gtest/gtest.h"
-#include "rclcpp/rclcpp.hpp"
 
 using std::chrono::operator""ms;
 using std::chrono::operator""s;
@@ -40,15 +40,15 @@ public:
       std::make_shared<autoware_control_center::AutowareControlCenter>(rclcpp::NodeOptions());
   }
 
-  void TearDown() override {rclcpp::shutdown();}
+  void TearDown() override { rclcpp::shutdown(); }
   autoware_control_center::AutowareControlCenter::SharedPtr autoware_control_center_;
 };
 
 TEST_F(AutowareControlCenterTest, RegisterNode)
 {
   auto client = autoware_control_center_
-    ->create_client<autoware_control_center_msgs::srv::AutowareNodeRegister>(
-    "/autoware_control_center/srv/autoware_node_register");
+                  ->create_client<autoware_control_center_msgs::srv::AutowareNodeRegister>(
+                    "/autoware_control_center/srv/autoware_node_register");
   if (!client->wait_for_service(20s)) {
     ASSERT_TRUE(false) << "Node register service not available after waiting";
   }
@@ -70,8 +70,8 @@ TEST_F(AutowareControlCenterTest, DeregisterNode)
 {
   std::string node_name = "test_node";
   auto client_reg = autoware_control_center_
-    ->create_client<autoware_control_center_msgs::srv::AutowareNodeRegister>(
-    "/autoware_control_center/srv/autoware_node_register");
+                      ->create_client<autoware_control_center_msgs::srv::AutowareNodeRegister>(
+                        "/autoware_control_center/srv/autoware_node_register");
 
   if (!client_reg->wait_for_service(20s)) {
     ASSERT_TRUE(false) << "Node register service not available after waiting";
@@ -93,8 +93,8 @@ TEST_F(AutowareControlCenterTest, DeregisterNode)
   // cspell:ignore dereg
   // Deregister node
   auto client_dereg = autoware_control_center_
-    ->create_client<autoware_control_center_msgs::srv::AutowareNodeDeregister>(
-    "/autoware_control_center/srv/autoware_node_deregister");
+                        ->create_client<autoware_control_center_msgs::srv::AutowareNodeDeregister>(
+                          "/autoware_control_center/srv/autoware_node_deregister");
   if (!client_dereg->wait_for_service(20s)) {
     ASSERT_TRUE(false) << "Node deregister service not available after waiting";
   }
@@ -115,9 +115,9 @@ TEST_F(AutowareControlCenterTest, DeregisterNode)
 TEST_F(AutowareControlCenterTest, NodeErrorServiceNotRegistered)
 {
   std::string node_name = "test_node";
-  auto client = autoware_control_center_
-    ->create_client<autoware_control_center_msgs::srv::AutowareNodeError>(
-    "/autoware_control_center/srv/autoware_node_error");
+  auto client =
+    autoware_control_center_->create_client<autoware_control_center_msgs::srv::AutowareNodeError>(
+      "/autoware_control_center/srv/autoware_node_error");
 
   if (!client->wait_for_service(20s)) {
     ASSERT_TRUE(false) << "Node error service not available after waiting";
@@ -139,17 +139,16 @@ TEST_F(AutowareControlCenterTest, NodeErrorServiceNotRegistered)
   EXPECT_EQ(0, result_error_payload->status.status) << "Node error request wrong status";
   std::string log_msg = node_name + " node was not registered.";
   EXPECT_EQ(log_msg, result_error_payload->log_response) << "Received wrong log response";
-  EXPECT_EQ(
-    autoware_utils::generate_default_uuid(),
-    result_error_payload->uuid_node) << "Received wrong uuid";
+  EXPECT_EQ(autoware_utils::generate_default_uuid(), result_error_payload->uuid_node)
+    << "Received wrong uuid";
 }
 
 TEST_F(AutowareControlCenterTest, NodeErrorService)
 {
   std::string node_name = "test_node";
   auto client_reg = autoware_control_center_
-    ->create_client<autoware_control_center_msgs::srv::AutowareNodeRegister>(
-    "/autoware_control_center/srv/autoware_node_register");
+                      ->create_client<autoware_control_center_msgs::srv::AutowareNodeRegister>(
+                        "/autoware_control_center/srv/autoware_node_register");
 
   if (!client_reg->wait_for_service(20s)) {
     ASSERT_TRUE(false) << "Node register service not available after waiting";
@@ -168,9 +167,9 @@ TEST_F(AutowareControlCenterTest, NodeErrorService)
   EXPECT_EQ(1, result_reg_payload->status.status) << "Node register request fail";
   unique_identifier_msgs::msg::UUID uuid_node = result_reg_payload->uuid_node;
 
-  auto error_client = autoware_control_center_
-    ->create_client<autoware_control_center_msgs::srv::AutowareNodeError>(
-    "/autoware_control_center/srv/autoware_node_error");
+  auto error_client =
+    autoware_control_center_->create_client<autoware_control_center_msgs::srv::AutowareNodeError>(
+      "/autoware_control_center/srv/autoware_node_error");
 
   if (!error_client->wait_for_service(20s)) {
     ASSERT_TRUE(false) << "Node error service not available after waiting";

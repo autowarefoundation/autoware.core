@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <gtest/gtest.h>
+#include "autoware_control_center/node_registry.hpp"
 
 #include <autoware_utils/ros/uuid_helper.hpp>
 
-#include "autoware_control_center/node_registry.hpp"
+#include <gtest/gtest.h>
 
 // Test fixture for NodeRegistry
 class NodeRegistryTest : public ::testing::Test

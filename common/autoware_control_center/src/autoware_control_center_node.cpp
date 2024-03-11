@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <memory>
+#include "autoware_control_center/autoware_control_center.hpp"
+
 #include <rclcpp/rclcpp.hpp>
 
-#include "autoware_control_center/autoware_control_center.hpp"
+#include <memory>
 
 int main(int argc, char * argv[])
 {
