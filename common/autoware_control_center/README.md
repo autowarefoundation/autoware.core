@@ -2,7 +2,7 @@
 
 ## Overview
 
-Autoware Control Center is a Autoware.Core package designed to manage and monitor Autoware nodes within a system. It provides services for registering, deregistering, and handling errors for Autoware nodes, as well as publishing reports on their status.
+Autoware Control Center is a Autoware.Core package designed to manage and monitor Autoware nodes within a system. It provides services for registration, de-registration and handling errors for Autoware nodes, as well as publishing reports on their status.
 
 ACC capabilities include:
 
@@ -21,9 +21,9 @@ There is no dedicated launch file for autoware_control_center. So you need to ru
 ros2 run autoware_control_center autoware_control_center
 ```
 
-ACC has startup timer and waits for 10 sec for any node to be registered. If atleast one node is registered ACC starts normal work. If not ACC will think that it was relaunched after crash and will start re-register procedure.
+ACC has startup timer and waits for 10 sec for any node to be registered. If at least one node is registered ACC starts normal work. If not ACC will think that it was relaunched after crash and will start re-register procedure.
 
-It will list all _autoware_nodes_ with _AutowareContolCenterDeregister_ service and will send request to each node. So all nodes will have to register to the new instance of ACC. After this proceedure ACC will start regular work. If the list will be empty ACC will keep going and will publish empty messages to the _autoware_node_reports_ topic.
+It will list all _autoware_nodes_ with _AutowareControlCenterDeregister_ service and will send request to each node. So all nodes will have to register to the new instance of ACC. After this procedure ACC will start regular work. If the list will be empty ACC will keep going and will publish empty messages to the _autoware_node_reports_ topic.
 
 Expected heartbeat frequency is 5 Hz. It can be configured by `lease_duration` parameter. Lease duration must be >= heartbeat's period in _autoware_node_ as there is some network overhead. If the granted `lease_duration`` time will be violated such _autoware_node_ will be considered as not alive.
 
@@ -35,4 +35,4 @@ Expected heartbeat frequency is 5 Hz. It can be configured by `lease_duration` p
 
 ## Design
 
-Heartbeat funtionality is based on ros2 [software_watchdogs](https://github.com/ros-safety/software_watchdogs) package.
+Heartbeat functionality is based on ros2 [software_watchdogs](https://github.com/ros-safety/software_watchdogs) package.
