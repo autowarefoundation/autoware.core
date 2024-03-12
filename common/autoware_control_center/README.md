@@ -25,7 +25,7 @@ ACC has startup timer and waits for 10 sec for any node to be registered. If at 
 
 It will list all _autoware_nodes_ with _AutowareControlCenterDeregister_ service and will send request to each node. So all nodes will have to register to the new instance of ACC. After this procedure ACC will start regular work. If the list will be empty ACC will keep going and will publish empty messages to the _autoware_node_reports_ topic.
 
-Expected heartbeat frequency is 5 Hz. It can be configured by `lease_duration` parameter. Lease duration must be >= heartbeat's period in _autoware_node_ as there is some network overhead. If the granted `lease_duration`` time will be violated such _autoware_node_ will be considered as not alive.
+Expected heartbeat frequency is 5 Hz. It can be configured by `lease_duration` parameter. Lease duration must be >= heartbeat's period in _autoware_node_ as there is some network overhead. If the granted `lease*duration`` time will be violated such \_autoware_node* will be considered as not alive.
 
 ## Parameters
 
