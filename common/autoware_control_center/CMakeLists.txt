@@ -9,7 +9,6 @@ autoware_package()
 ament_auto_add_executable(${PROJECT_NAME} src/autoware_control_center_node.cpp
   src/autoware_control_center.cpp
   src/node_registry.cpp)
-#target_link_libraries(${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
