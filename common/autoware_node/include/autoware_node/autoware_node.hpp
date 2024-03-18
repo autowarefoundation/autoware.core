@@ -80,11 +80,10 @@ public:
     sub_options.event_callbacks.liveliness_callback =
       [=](rclcpp::QOSLivelinessChangedInfo & event) -> void {
       RCLCPP_INFO(get_logger(), "%s topic liveliness info changed", topic_name.c_str());
-      printf("Reader Liveliness changed event: \n");
-      printf("  alive_count: %d\n", event.alive_count);
-      printf("  not_alive_count: %d\n", event.not_alive_count);
-      printf("  alive_count_change: %d\n", event.alive_count_change);
-      printf("  not_alive_count_change: %d\n", event.not_alive_count_change);
+      RCLCPP_INFO(get_logger(), "  alive_count: %d", event.alive_count);
+      RCLCPP_INFO(get_logger(), "  not_alive_count: %d", event.not_alive_count);
+      RCLCPP_INFO(get_logger(), "  alive_count_change: %d", event.alive_count_change);
+      RCLCPP_INFO(get_logger(), "  not_alive_count_change: %d", event.not_alive_count_change);
       if (event.alive_count == 0) {
         RCLCPP_ERROR(get_logger(), "%s topic publisher is not alive.", topic_name.c_str());
         // NodeError service call

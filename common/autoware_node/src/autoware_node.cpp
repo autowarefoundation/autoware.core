@@ -18,7 +18,6 @@
 #include <rclcpp/rclcpp.hpp>
 
 #include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
-// #include "autoware_control_center_msgs/srv/autoware_node_error.hpp"
 
 #include <chrono>
 
