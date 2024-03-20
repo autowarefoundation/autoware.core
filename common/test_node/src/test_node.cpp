@@ -29,7 +29,7 @@ TestNode::TestNode(const rclcpp::NodeOptions & options)
     autoware_node::AutowareNode::self_name.c_str());
   monitored_subscription_ =
     autoware_node::AutowareNode::create_monitored_subscription<std_msgs::msg::String>(
-      "topic", 10, 10, std::bind(&TestNode::topic_callback, this, _1));
+    "topic", 10, 10, std::bind(&TestNode::topic_callback, this, _1));
 }
 
 void TestNode::topic_callback(const std_msgs::msg::String::SharedPtr msg)
