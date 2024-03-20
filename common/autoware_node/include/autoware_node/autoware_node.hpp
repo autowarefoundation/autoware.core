@@ -44,7 +44,7 @@ public:
     const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
 
   // cspell:ignore strat
-  template <
+  template<
     typename MessageT, typename CallbackT, typename AllocatorT = std::allocator<void>,
     typename SubscriptionT = rclcpp::Subscription<MessageT, AllocatorT>,
     typename MessageMemoryStrategyT = typename SubscriptionT::MessageMemoryStrategyType>
@@ -52,7 +52,7 @@ public:
     const std::string & topic_name, const float hz, const rclcpp::QoS & qos, CallbackT && callback,
     const rclcpp::SubscriptionOptions & options = rclcpp::SubscriptionOptions(),
     typename MessageMemoryStrategyT::SharedPtr msg_mem_strat =
-      (MessageMemoryStrategyT::create_default()))
+    (MessageMemoryStrategyT::create_default()))
   {
     // create proper qos based on input parameter
     // update lease duration and deadline in qos
@@ -61,38 +61,38 @@ public:
       static_cast<int>(1.0 / hz * 1000 * 1.1)};  // add 10 % gap to lease duration (buffer)
     rclcpp::QoS qos_profile = qos;
     qos_profile.liveliness(RMW_QOS_POLICY_LIVELINESS_MANUAL_BY_TOPIC)
-      .liveliness_lease_duration(lease_duration)
-      .deadline(lease_duration);
+    .liveliness_lease_duration(lease_duration)
+    .deadline(lease_duration);
 
     rclcpp::SubscriptionOptions sub_options = options;
     sub_options.event_callbacks.deadline_callback =
-      [=](rclcpp::QOSDeadlineRequestedInfo & event) -> void {
-      RCLCPP_ERROR(
-        get_logger(), "Requested deadline missed - total %d delta %d", event.total_count,
-        event.total_count_change);
-      // NodeError service call
-      std::string msg = "Deadline for topic " + topic_name + " was missed.";
-      autoware_control_center_msgs::msg::AutowareNodeState node_state;
-      node_state.status = autoware_control_center_msgs::msg::AutowareNodeState::ERROR;
-      send_state(node_state, msg);
-    };
-
-    sub_options.event_callbacks.liveliness_callback =
-      [=](rclcpp::QOSLivelinessChangedInfo & event) -> void {
-      RCLCPP_INFO(get_logger(), "%s topic liveliness info changed", topic_name.c_str());
-      RCLCPP_INFO(get_logger(), "  alive_count: %d", event.alive_count);
-      RCLCPP_INFO(get_logger(), "  not_alive_count: %d", event.not_alive_count);
-      RCLCPP_INFO(get_logger(), "  alive_count_change: %d", event.alive_count_change);
-      RCLCPP_INFO(get_logger(), "  not_alive_count_change: %d", event.not_alive_count_change);
-      if (event.alive_count == 0) {
-        RCLCPP_ERROR(get_logger(), "%s topic publisher is not alive.", topic_name.c_str());
+      [ = ](rclcpp::QOSDeadlineRequestedInfo & event) -> void {
+        RCLCPP_ERROR(
+          get_logger(), "Requested deadline missed - total %d delta %d", event.total_count,
+          event.total_count_change);
         // NodeError service call
-        std::string msg = topic_name + " topic publisher is not alive.";
+        std::string msg = "Deadline for topic " + topic_name + " was missed.";
         autoware_control_center_msgs::msg::AutowareNodeState node_state;
         node_state.status = autoware_control_center_msgs::msg::AutowareNodeState::ERROR;
         send_state(node_state, msg);
-      }
-    };
+      };
+
+    sub_options.event_callbacks.liveliness_callback =
+      [ = ](rclcpp::QOSLivelinessChangedInfo & event) -> void {
+        RCLCPP_INFO(get_logger(), "%s topic liveliness info changed", topic_name.c_str());
+        RCLCPP_INFO(get_logger(), "  alive_count: %d", event.alive_count);
+        RCLCPP_INFO(get_logger(), "  not_alive_count: %d", event.not_alive_count);
+        RCLCPP_INFO(get_logger(), "  alive_count_change: %d", event.alive_count_change);
+        RCLCPP_INFO(get_logger(), "  not_alive_count_change: %d", event.not_alive_count_change);
+        if (event.alive_count == 0) {
+          RCLCPP_ERROR(get_logger(), "%s topic publisher is not alive.", topic_name.c_str());
+          // NodeError service call
+          std::string msg = topic_name + " topic publisher is not alive.";
+          autoware_control_center_msgs::msg::AutowareNodeState node_state;
+          node_state.status = autoware_control_center_msgs::msg::AutowareNodeState::ERROR;
+          send_state(node_state, msg);
+        }
+      };
 
     return create_subscription<MessageT>(
       topic_name, qos_profile, std::forward<CallbackT>(callback), sub_options, msg_mem_strat);
@@ -119,9 +119,9 @@ private:
     const autoware_control_center_msgs::msg::AutowareNodeState &, std::string message);
   void deregister(
     const autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request::SharedPtr
-      request,
+    request,
     const autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Response::SharedPtr
-      response);
+    response);
   uint16_t sequence_number;
 };
 
