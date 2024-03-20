@@ -137,13 +137,13 @@ void AutowareControlCenter::startup_callback()
     for (auto const & pair : srv_list) {
       RCLCPP_INFO(get_logger(), pair.first.c_str());  // print service name
       rclcpp::Client<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>::SharedPtr
-        // cspell:ignore dereg
+      // cspell:ignore dereg
         dereg_client_ =
-          create_client<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>(
-            pair.first);
+        create_client<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>(
+        pair.first);
       autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request::SharedPtr req =
         std::make_shared<
-          autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request>();
+        autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request>();
 
       req->uuid_acc = acc_uuid;
 
@@ -151,17 +151,17 @@ void AutowareControlCenter::startup_callback()
         autoware_control_center_msgs::srv::AutowareControlCenterDeregister>::SharedFuture;
       // lambda for async request
       auto response_received_callback = [this](ServiceResponseFuture future) {
-        auto response = future.get();
-        RCLCPP_INFO(
-          get_logger(), "Deregister response: %d, %s", response->status.status,
-          response->name_node.c_str());
+          auto response = future.get();
+          RCLCPP_INFO(
+            get_logger(), "Deregister response: %d, %s", response->status.status,
+            response->name_node.c_str());
 
-        if (response->status.status == 1) {
-          RCLCPP_INFO(get_logger(), "Node was deregistered");
-        } else {
-          RCLCPP_ERROR(get_logger(), "Failed to deregister node");
-        }
-      };
+          if (response->status.status == 1) {
+            RCLCPP_INFO(get_logger(), "Node was deregistered");
+          } else {
+            RCLCPP_ERROR(get_logger(), "Failed to deregister node");
+          }
+        };
 
       if (dereg_client_->service_is_ready()) {
         auto future_result = dereg_client_->async_send_request(req, response_received_callback);
@@ -179,28 +179,28 @@ AutowareControlCenter::create_heartbeat_sub(const std::string & node_name)
   RCLCPP_INFO(get_logger(), "Create heart sub is called.");
   rclcpp::QoS qos_profile_ = rclcpp::QoS(10);
   qos_profile_.liveliness(RMW_QOS_POLICY_LIVELINESS_MANUAL_BY_TOPIC)
-    .liveliness_lease_duration(lease_duration_);
+  .liveliness_lease_duration(lease_duration_);
 
   rclcpp::SubscriptionOptions heartbeat_sub_options_;
   heartbeat_sub_options_.event_callbacks.liveliness_callback =
-    [=](rclcpp::QOSLivelinessChangedInfo & event) -> void {
-    RCLCPP_INFO(get_logger(), "Reader Liveliness changed event:");
-    RCLCPP_INFO(get_logger(), "  alive_count: %d", event.alive_count);
-    RCLCPP_INFO(get_logger(), "  not_alive_count: %d", event.not_alive_count);
-    RCLCPP_INFO(get_logger(), "  alive_count_change: %d", event.alive_count_change);
-    RCLCPP_INFO(get_logger(), "  not_alive_count_change: %d", event.not_alive_count_change);
-    if (event.alive_count == 0) {
-      RCLCPP_ERROR(get_logger(), "Heartbeat was not received");
-      node_status_map_[node_name].alive = false;
-    }
-  };
+    [ = ](rclcpp::QOSLivelinessChangedInfo & event) -> void {
+      RCLCPP_INFO(get_logger(), "Reader Liveliness changed event:");
+      RCLCPP_INFO(get_logger(), "  alive_count: %d", event.alive_count);
+      RCLCPP_INFO(get_logger(), "  not_alive_count: %d", event.not_alive_count);
+      RCLCPP_INFO(get_logger(), "  alive_count_change: %d", event.alive_count_change);
+      RCLCPP_INFO(get_logger(), "  not_alive_count_change: %d", event.not_alive_count_change);
+      if (event.alive_count == 0) {
+        RCLCPP_ERROR(get_logger(), "Heartbeat was not received");
+        node_status_map_[node_name].alive = false;
+      }
+    };
 
   std::string topic_name = node_name + "/heartbeat";
   RCLCPP_INFO(get_logger(), "Topic to subscribe is %s", topic_name.c_str());
   rclcpp::Subscription<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr heartbeat_sub_;
   heartbeat_sub_ = create_subscription<autoware_control_center_msgs::msg::Heartbeat>(
     topic_name, qos_profile_,
-    [=](const typename autoware_control_center_msgs::msg::Heartbeat::SharedPtr msg) -> void {
+    [ = ](const typename autoware_control_center_msgs::msg::Heartbeat::SharedPtr msg) -> void {
       RCLCPP_INFO(get_logger(), "Watchdog raised, heartbeat sent at [%d.x]", msg->stamp.sec);
       node_status_map_[node_name].alive = true;
       node_status_map_[node_name].last_heartbeat = msg->stamp;
