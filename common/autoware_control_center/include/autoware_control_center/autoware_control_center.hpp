@@ -58,7 +58,7 @@ private:
   NodeRegistry node_registry_;
   std::unordered_map<
     std::string, rclcpp::Subscription<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr>
-  heartbeat_sub_map_;
+    heartbeat_sub_map_;
   std::unordered_map<std::string, AutowareNodeStatus> node_status_map_;
 
   rclcpp::TimerBase::SharedPtr startup_timer_;

@@ -29,8 +29,7 @@ using std::chrono::operator""ms;
 class MinimalPublisher : public rclcpp::Node
 {
 public:
-  MinimalPublisher()
-  : Node("minimal_publisher"), count_(0)
+  MinimalPublisher() : Node("minimal_publisher"), count_(0)
   {
     rclcpp::QoS qos_profile(10);
     declare_parameter<int>("hz", 10);
@@ -38,8 +37,8 @@ public:
     std::chrono::milliseconds timer_period{static_cast<int>(1.0 / hz * 1000)};
     std::chrono::milliseconds lease_duration{static_cast<int>(1.0 / hz * 1000 * 1.1)};
     qos_profile.liveliness(RMW_QOS_POLICY_LIVELINESS_MANUAL_BY_TOPIC)
-    .liveliness_lease_duration(lease_duration)
-    .deadline(lease_duration);
+      .liveliness_lease_duration(lease_duration)
+      .deadline(lease_duration);
     publisher_ = this->create_publisher<std_msgs::msg::String>("topic", qos_profile);
     timer_ =
       this->create_wall_timer(timer_period, std::bind(&MinimalPublisher::timer_callback, this));
