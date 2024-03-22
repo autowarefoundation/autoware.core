@@ -44,6 +44,7 @@ AutowareNode::AutowareNode(
     self_name = name;
   }
   sequence_number = 0;
+  registered = false;
 
   // The granted lease is essentially infinite here, i.e., only reader/watchdog will notify
   // violations. XXX causes segfault for cyclone dds, hence pass explicit lease life > heartbeat.
@@ -93,28 +94,11 @@ void AutowareNode::register_callback()
   }
   autoware_control_center_msgs::srv::AutowareNodeRegister::Request::SharedPtr req =
     std::make_shared<autoware_control_center_msgs::srv::AutowareNodeRegister::Request>();
-
   req->name_node = self_name;
 
-  using ServiceResponseFuture =
-    rclcpp::Client<autoware_control_center_msgs::srv::AutowareNodeRegister>::SharedFuture;
-  auto response_received_callback = [this](ServiceResponseFuture future) {
-    auto response = future.get();
-    std::string str_uuid = autoware_utils::to_hex_string(response->uuid_node);
-    RCLCPP_INFO(get_logger(), "response: %d, %s", response->status.status, str_uuid.c_str());
-
-    if (response->status.status == 1) {
-      registered = true;
-      self_uuid = response->uuid_node;
-      RCLCPP_INFO(get_logger(), "Node was registered");
-      register_timer_->cancel();
-      RCLCPP_INFO(get_logger(), "Register timer was cancelled");
-    } else {
-      RCLCPP_ERROR(get_logger(), "Failed to register node");
-    }
-  };
-
-  auto future_result = cli_register_->async_send_request(req, response_received_callback);
+  auto future_result = cli_register_->async_send_request(req,
+                                        std::bind(&AutowareNode::node_register_future_callback, 
+                                          this, std::placeholders::_1));
   RCLCPP_INFO(get_logger(), "Sent request");
 
   std::string msg = self_name + " node started";
@@ -163,7 +147,7 @@ void AutowareNode::send_state(
   const autoware_control_center_msgs::msg::AutowareNodeState & node_state, std::string message)
 {
   if (!cli_node_error_->service_is_ready()) {
-    RCLCPP_WARN(get_logger(), "%s is unavailable", cli_register_->get_service_name());
+    RCLCPP_WARN(get_logger(), "%s is unavailable", cli_node_error_->get_service_name());
     return;
   }
   autoware_control_center_msgs::srv::AutowareNodeError::Request::SharedPtr req =
@@ -173,24 +157,47 @@ void AutowareNode::send_state(
   req->state = node_state;
   req->message = message;
 
-  using ServiceResponseFuture =
-    rclcpp::Client<autoware_control_center_msgs::srv::AutowareNodeError>::SharedFuture;
-  auto response_received_callback = [this](ServiceResponseFuture future) {
-    auto response = future.get();
-    std::string str_uuid = autoware_utils::to_hex_string(response->uuid_node);
-    RCLCPP_INFO(
-      get_logger(), "response: %d, %s, %s", response->status.status, str_uuid.c_str(),
-      response->log_response.c_str());
-
-    if (response->status.status == 1) {
-      RCLCPP_INFO(get_logger(), "Node state was received by ACC");
-    } else {
-      RCLCPP_ERROR(get_logger(), "Failed to send Node state to ACC");
-    }
-  };
-
-  auto future_result = cli_node_error_->async_send_request(req, response_received_callback);
+  auto future_result = cli_node_error_->async_send_request(req,
+                                          std::bind(
+                                            &AutowareNode::node_error_furture_callback,
+                                            this, 
+                                            std::placeholders::_1));
   RCLCPP_INFO(get_logger(), "Send node state");
+}
+
+
+using AutowareNodeRegisterServiceResponseFuture =
+  rclcpp::Client<autoware_control_center_msgs::srv::AutowareNodeRegister>::SharedFuture;
+void AutowareNode::node_register_future_callback(AutowareNodeRegisterServiceResponseFuture future) {
+  auto response = future.get();
+  std::string str_uuid = autoware_utils::to_hex_string(response->uuid_node);
+  RCLCPP_INFO(get_logger(), "response: %d, %s", response->status.status, str_uuid.c_str());
+
+  if (response->status.status == 1) {
+    registered = true;
+    self_uuid = response->uuid_node;
+    RCLCPP_INFO(get_logger(), "Node was registered");
+    register_timer_->cancel();
+    RCLCPP_INFO(get_logger(), "Register timer was cancelled");
+  } else {
+    RCLCPP_ERROR(get_logger(), "Failed to register node");
+  }
+}
+
+using AutowareNodeErrorServiceResponseFuture =
+  rclcpp::Client<autoware_control_center_msgs::srv::AutowareNodeError>::SharedFuture;
+void AutowareNode::node_error_furture_callback(AutowareNodeErrorServiceResponseFuture future) {
+  auto response = future.get();
+  std::string str_uuid = autoware_utils::to_hex_string(response->uuid_node);
+  RCLCPP_INFO(
+    get_logger(), "response: %d, %s, %s", response->status.status, str_uuid.c_str(),
+    response->log_response.c_str());
+
+  if (response->status.status == 1) {
+    RCLCPP_INFO(get_logger(), "Node state was received by ACC");
+  } else {
+    RCLCPP_ERROR(get_logger(), "Failed to send Node state to ACC");
+  }
 }
 
 }  // namespace autoware_node

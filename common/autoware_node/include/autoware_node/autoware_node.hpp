@@ -115,6 +115,12 @@ public:
 private:
   void register_callback();
   void heartbeat_callback();
+  using AutowareNodeRegisterServiceResponseFuture =
+    rclcpp::Client<autoware_control_center_msgs::srv::AutowareNodeRegister>::SharedFuture;
+  void node_register_future_callback(AutowareNodeRegisterServiceResponseFuture future);
+  using AutowareNodeErrorServiceResponseFuture =
+    rclcpp::Client<autoware_control_center_msgs::srv::AutowareNodeError>::SharedFuture;
+  void node_error_furture_callback(AutowareNodeErrorServiceResponseFuture future);
   void send_state(
     const autoware_control_center_msgs::msg::AutowareNodeState &, std::string message);
   void deregister(
