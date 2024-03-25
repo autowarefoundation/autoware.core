@@ -23,6 +23,7 @@
 #include "autoware_control_center_msgs/srv/autoware_control_center_deregister.hpp"
 #include <unique_identifier_msgs/msg/uuid.hpp>
 
+
 #include <chrono>
 
 using std::chrono::operator""ms;
@@ -37,7 +38,7 @@ AutowareControlCenter::AutowareControlCenter(const rclcpp::NodeOptions & options
   RCLCPP_INFO(get_logger(), "AutowareControlCenter is initialized");
   declare_parameter<int>("lease_duration", 220);  // TODO(lexavtanke): remove default and add schema
   std::chrono::milliseconds lease_duration_(get_parameter("lease_duration").as_int());
-
+  
   callback_group_mut_ex_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
 
   using std::placeholders::_1;
@@ -80,6 +81,10 @@ void AutowareControlCenter::register_node(
     response->status.status =
       autoware_control_center_msgs::srv::AutowareNodeRegister::Response::_status_type::FAILURE;
   } else {
+    // alive, last_heartbeat, node_report, state
+    autoware_control_center_msgs::msg::AutowareNodeState un_state;
+    un_state.status = autoware_control_center_msgs::msg::AutowareNodeState::UNKNOWN;
+    node_status_map_.insert({request->name_node, {false, this->now(), "", un_state}});
     // Create heartbeat sub
     rclcpp::Subscription<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr
       heartbeat_node_sub = create_heartbeat_sub(request->name_node.c_str());
@@ -177,7 +182,7 @@ rclcpp::Subscription<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr
 AutowareControlCenter::create_heartbeat_sub(const std::string & node_name)
 {
   RCLCPP_INFO(get_logger(), "Create heart sub is called.");
-  rclcpp::QoS qos_profile_ = rclcpp::QoS(10);
+rclcpp::QoS qos_profile_ = rclcpp::QoS(10);
   qos_profile_.liveliness(RMW_QOS_POLICY_LIVELINESS_MANUAL_BY_TOPIC)
     .liveliness_lease_duration(lease_duration_);
 
@@ -195,10 +200,7 @@ AutowareControlCenter::create_heartbeat_sub(const std::string & node_name)
     topic_name, qos_profile_,
     bound_heartbeat_callback_func,
     heartbeat_sub_options_);
-  // alive, last_heartbeat, node_report, state
-  autoware_control_center_msgs::msg::AutowareNodeState un_state;
-  un_state.status = autoware_control_center_msgs::msg::AutowareNodeState::UNKNOWN;
-  node_status_map_.insert({node_name, {false, this->now(), "", un_state}});
+
   return heartbeat_sub_;
 }
 
