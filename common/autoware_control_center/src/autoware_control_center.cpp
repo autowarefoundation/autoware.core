@@ -135,7 +135,7 @@ void AutowareControlCenter::startup_callback()
     }
     RCLCPP_INFO(get_logger(), "Filtered service list");
     for (auto const & pair : srv_list) {
-      RCLCPP_INFO(get_logger(), pair.first.c_str());  // print service name
+      RCLCPP_INFO(get_logger(), "Service Name: %s", pair.first.c_str());
       rclcpp::Client<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>::SharedPtr
         // cspell:ignore dereg
         dereg_client_ =
@@ -182,29 +182,18 @@ AutowareControlCenter::create_heartbeat_sub(const std::string & node_name)
     .liveliness_lease_duration(lease_duration_);
 
   rclcpp::SubscriptionOptions heartbeat_sub_options_;
-  heartbeat_sub_options_.event_callbacks.liveliness_callback =
-    [=](rclcpp::QOSLivelinessChangedInfo & event) -> void {
-    RCLCPP_INFO(get_logger(), "Reader Liveliness changed event:");
-    RCLCPP_INFO(get_logger(), "  alive_count: %d", event.alive_count);
-    RCLCPP_INFO(get_logger(), "  not_alive_count: %d", event.not_alive_count);
-    RCLCPP_INFO(get_logger(), "  alive_count_change: %d", event.alive_count_change);
-    RCLCPP_INFO(get_logger(), "  not_alive_count_change: %d", event.not_alive_count_change);
-    if (event.alive_count == 0) {
-      RCLCPP_ERROR(get_logger(), "Heartbeat was not received");
-      node_status_map_[node_name].alive = false;
-    }
-  };
+  std::function<void(rclcpp::QOSLivelinessChangedInfo & event)> bound_liveliness_callback_func =
+    std::bind(&AutowareControlCenter::liveliness_callback, this,  std::placeholders::_1, node_name);
+  heartbeat_sub_options_.event_callbacks.liveliness_callback = bound_liveliness_callback_func;
 
-  std::string topic_name = node_name + "/heartbeat";
+  const std::string topic_name = node_name + "/heartbeat";
   RCLCPP_INFO(get_logger(), "Topic to subscribe is %s", topic_name.c_str());
   rclcpp::Subscription<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr heartbeat_sub_;
+  std::function<void(const typename autoware_control_center_msgs::msg::Heartbeat::SharedPtr msg)> bound_heartbeat_callback_func =
+    std::bind(&AutowareControlCenter::heartbeat_callback, this,  std::placeholders::_1, node_name);
   heartbeat_sub_ = create_subscription<autoware_control_center_msgs::msg::Heartbeat>(
     topic_name, qos_profile_,
-    [=](const typename autoware_control_center_msgs::msg::Heartbeat::SharedPtr msg) -> void {
-      RCLCPP_INFO(get_logger(), "Watchdog raised, heartbeat sent at [%d.x]", msg->stamp.sec);
-      node_status_map_[node_name].alive = true;
-      node_status_map_[node_name].last_heartbeat = msg->stamp;
-    },
+    bound_heartbeat_callback_func,
     heartbeat_sub_options_);
   // alive, last_heartbeat, node_report, state
   autoware_control_center_msgs::msg::AutowareNodeState un_state;
@@ -251,5 +240,28 @@ void AutowareControlCenter::autoware_node_error(
     response->log_response = request->name_node + " node was not registered.";
   }
 }
+
+
+void AutowareControlCenter::liveliness_callback(rclcpp::QOSLivelinessChangedInfo & event,
+                                        const std::string & node_name)
+{
+    RCLCPP_INFO(get_logger(), "Reader Liveliness changed event:");
+    RCLCPP_INFO(get_logger(), "  alive_count: %d", event.alive_count);
+    RCLCPP_INFO(get_logger(), "  not_alive_count: %d", event.not_alive_count);
+    RCLCPP_INFO(get_logger(), "  alive_count_change: %d", event.alive_count_change);
+    RCLCPP_INFO(get_logger(), "  not_alive_count_change: %d", event.not_alive_count_change);
+    if (event.alive_count == 0) {
+      RCLCPP_ERROR(get_logger(), "Heartbeat was not received");
+      node_status_map_[node_name].alive = false;
+    }
+}
+
+void AutowareControlCenter::heartbeat_callback(const typename autoware_control_center_msgs::msg::Heartbeat::SharedPtr msg,
+                                                    const std::string & node_name)
+{
+      RCLCPP_INFO(get_logger(), "Watchdog raised, heartbeat sent at [%d.x]", msg->stamp.sec);
+      node_status_map_[node_name].alive = true;
+      node_status_map_[node_name].last_heartbeat = msg->stamp;
+    }
 
 }  // namespace autoware_control_center

@@ -87,6 +87,9 @@ private:
   create_heartbeat_sub(const std::string & node_name);
 
   void node_reports_callback();
+  void liveliness_callback(rclcpp::QOSLivelinessChangedInfo & event, const std::string & node_name);
+  void heartbeat_callback(const typename autoware_control_center_msgs::msg::Heartbeat::SharedPtr msg,
+                                                    const std::string & node_name);
 };
 
 }  // namespace autoware_control_center
