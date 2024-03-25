@@ -129,15 +129,16 @@ void AutowareControlCenter::startup_callback()
     this->startup_timer_->cancel();
     RCLCPP_INFO(get_logger(), "Startup timer stop.");
     std::map<std::string, std::vector<std::string>> srv_list = this->get_service_names_and_types();
-    auto it = srv_list.begin();
-    // filter out srv with type autoware_control_center_msgs/srv/AutowareControlCenterDeregister
-    while (it != srv_list.end()) {
-      if (it->second[0] != "autoware_control_center_msgs/srv/AutowareControlCenterDeregister") {
-        srv_list.erase(it++);
-      } else {
-        ++it;
-      }
-    }
+    filter_deregister_services(srv_list);
+    // auto it = srv_list.begin();
+    // // filter out srv with type autoware_control_center_msgs/srv/AutowareControlCenterDeregister
+    // while (it != srv_list.end()) {
+    //   if (it->second[0] != "autoware_control_center_msgs/srv/AutowareControlCenterDeregister") {
+    //     srv_list.erase(it++);
+    //   } else {
+    //     ++it;
+    //   }
+    // }
     RCLCPP_INFO(get_logger(), "Filtered service list");
     for (auto const & pair : srv_list) {
       RCLCPP_INFO(get_logger(), "Service Name: %s", pair.first.c_str());
@@ -265,5 +266,18 @@ void AutowareControlCenter::heartbeat_callback(const typename autoware_control_c
       node_status_map_[node_name].alive = true;
       node_status_map_[node_name].last_heartbeat = msg->stamp;
     }
+
+void AutowareControlCenter::filter_deregister_services(std::map<std::string, std::vector<std::string>>& srv_list)
+{
+  auto it = srv_list.begin();
+  // filter out srv with type autoware_control_center_msgs/srv/AutowareControlCenterDeregister
+  while (it != srv_list.end()) {
+    if (it->second[0] != "autoware_control_center_msgs/srv/AutowareControlCenterDeregister") {
+      srv_list.erase(it++);
+    } else {
+      ++it;
+    }
+  }
+}
 
 }  // namespace autoware_control_center
