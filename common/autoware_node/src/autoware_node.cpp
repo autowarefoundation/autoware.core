@@ -96,9 +96,8 @@ void AutowareNode::register_callback()
     std::make_shared<autoware_control_center_msgs::srv::AutowareNodeRegister::Request>();
   req->name_node = self_name;
 
-  auto future_result = cli_register_->async_send_request(req,
-                                        std::bind(&AutowareNode::node_register_future_callback, 
-                                          this, std::placeholders::_1));
+  auto future_result = cli_register_->async_send_request(
+    req, std::bind(&AutowareNode::node_register_future_callback, this, std::placeholders::_1));
   RCLCPP_INFO(get_logger(), "Sent request");
 
   std::string msg = self_name + " node started";
@@ -157,18 +156,15 @@ void AutowareNode::send_state(
   req->state = node_state;
   req->message = message;
 
-  auto future_result = cli_node_error_->async_send_request(req,
-                                          std::bind(
-                                            &AutowareNode::node_error_furture_callback,
-                                            this, 
-                                            std::placeholders::_1));
+  auto future_result = cli_node_error_->async_send_request(
+    req, std::bind(&AutowareNode::node_error_furture_callback, this, std::placeholders::_1));
   RCLCPP_INFO(get_logger(), "Send node state");
 }
 
-
 using AutowareNodeRegisterServiceResponseFuture =
   rclcpp::Client<autoware_control_center_msgs::srv::AutowareNodeRegister>::SharedFuture;
-void AutowareNode::node_register_future_callback(AutowareNodeRegisterServiceResponseFuture future) {
+void AutowareNode::node_register_future_callback(AutowareNodeRegisterServiceResponseFuture future)
+{
   auto response = future.get();
   std::string str_uuid = autoware_utils::to_hex_string(response->uuid_node);
   RCLCPP_INFO(get_logger(), "response: %d, %s", response->status.status, str_uuid.c_str());
@@ -186,7 +182,8 @@ void AutowareNode::node_register_future_callback(AutowareNodeRegisterServiceResp
 
 using AutowareNodeErrorServiceResponseFuture =
   rclcpp::Client<autoware_control_center_msgs::srv::AutowareNodeError>::SharedFuture;
-void AutowareNode::node_error_furture_callback(AutowareNodeErrorServiceResponseFuture future) {
+void AutowareNode::node_error_furture_callback(AutowareNodeErrorServiceResponseFuture future)
+{
   auto response = future.get();
   std::string str_uuid = autoware_utils::to_hex_string(response->uuid_node);
   RCLCPP_INFO(
