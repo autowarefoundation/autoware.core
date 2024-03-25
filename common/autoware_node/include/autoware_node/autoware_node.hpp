@@ -120,7 +120,7 @@ private:
   void node_register_future_callback(AutowareNodeRegisterServiceResponseFuture future);
   using AutowareNodeErrorServiceResponseFuture =
     rclcpp::Client<autoware_control_center_msgs::srv::AutowareNodeError>::SharedFuture;
-  void node_error_furture_callback(AutowareNodeErrorServiceResponseFuture future);
+  void node_error_future_callback(AutowareNodeErrorServiceResponseFuture future);
   void send_state(
     const autoware_control_center_msgs::msg::AutowareNodeState &, std::string message);
   void deregister(

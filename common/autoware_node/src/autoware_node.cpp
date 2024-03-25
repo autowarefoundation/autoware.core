@@ -157,7 +157,7 @@ void AutowareNode::send_state(
   req->message = message;
 
   auto future_result = cli_node_error_->async_send_request(
-    req, std::bind(&AutowareNode::node_error_furture_callback, this, std::placeholders::_1));
+    req, std::bind(&AutowareNode::node_error_future_callback, this, std::placeholders::_1));
   RCLCPP_INFO(get_logger(), "Send node state");
 }
 
@@ -182,7 +182,7 @@ void AutowareNode::node_register_future_callback(AutowareNodeRegisterServiceResp
 
 using AutowareNodeErrorServiceResponseFuture =
   rclcpp::Client<autoware_control_center_msgs::srv::AutowareNodeError>::SharedFuture;
-void AutowareNode::node_error_furture_callback(AutowareNodeErrorServiceResponseFuture future)
+void AutowareNode::node_error_future_callback(AutowareNodeErrorServiceResponseFuture future)
 {
   auto response = future.get();
   std::string str_uuid = autoware_utils::to_hex_string(response->uuid_node);
