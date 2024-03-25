@@ -88,9 +88,10 @@ private:
 
   void node_reports_callback();
   void liveliness_callback(rclcpp::QOSLivelinessChangedInfo & event, const std::string & node_name);
-  void heartbeat_callback(const typename autoware_control_center_msgs::msg::Heartbeat::SharedPtr msg,
-                                                    const std::string & node_name);
-  void filter_deregister_services(std::map<std::string, std::vector<std::string>>& srv_list);
+  void heartbeat_callback(
+    const typename autoware_control_center_msgs::msg::Heartbeat::SharedPtr msg,
+    const std::string & node_name);
+  void filter_deregister_services(std::map<std::string, std::vector<std::string>> & srv_list);
 };
 
 }  // namespace autoware_control_center

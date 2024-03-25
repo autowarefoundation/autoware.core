@@ -23,7 +23,6 @@
 #include "autoware_control_center_msgs/srv/autoware_control_center_deregister.hpp"
 #include <unique_identifier_msgs/msg/uuid.hpp>
 
-
 #include <chrono>
 
 using std::chrono::operator""ms;
@@ -38,7 +37,7 @@ AutowareControlCenter::AutowareControlCenter(const rclcpp::NodeOptions & options
   RCLCPP_INFO(get_logger(), "AutowareControlCenter is initialized");
   declare_parameter<int>("lease_duration", 220);  // TODO(lexavtanke): remove default and add schema
   std::chrono::milliseconds lease_duration_(get_parameter("lease_duration").as_int());
-  
+
   callback_group_mut_ex_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
 
   using std::placeholders::_1;
@@ -183,24 +182,23 @@ rclcpp::Subscription<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr
 AutowareControlCenter::create_heartbeat_sub(const std::string & node_name)
 {
   RCLCPP_INFO(get_logger(), "Create heart sub is called.");
-rclcpp::QoS qos_profile_ = rclcpp::QoS(10);
+  rclcpp::QoS qos_profile_ = rclcpp::QoS(10);
   qos_profile_.liveliness(RMW_QOS_POLICY_LIVELINESS_MANUAL_BY_TOPIC)
     .liveliness_lease_duration(lease_duration_);
 
   rclcpp::SubscriptionOptions heartbeat_sub_options_;
   std::function<void(rclcpp::QOSLivelinessChangedInfo & event)> bound_liveliness_callback_func =
-    std::bind(&AutowareControlCenter::liveliness_callback, this,  std::placeholders::_1, node_name);
+    std::bind(&AutowareControlCenter::liveliness_callback, this, std::placeholders::_1, node_name);
   heartbeat_sub_options_.event_callbacks.liveliness_callback = bound_liveliness_callback_func;
 
   const std::string topic_name = node_name + "/heartbeat";
   RCLCPP_INFO(get_logger(), "Topic to subscribe is %s", topic_name.c_str());
   rclcpp::Subscription<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr heartbeat_sub_;
-  std::function<void(const typename autoware_control_center_msgs::msg::Heartbeat::SharedPtr msg)> bound_heartbeat_callback_func =
-    std::bind(&AutowareControlCenter::heartbeat_callback, this,  std::placeholders::_1, node_name);
+  std::function<void(const typename autoware_control_center_msgs::msg::Heartbeat::SharedPtr msg)>
+    bound_heartbeat_callback_func =
+      std::bind(&AutowareControlCenter::heartbeat_callback, this, std::placeholders::_1, node_name);
   heartbeat_sub_ = create_subscription<autoware_control_center_msgs::msg::Heartbeat>(
-    topic_name, qos_profile_,
-    bound_heartbeat_callback_func,
-    heartbeat_sub_options_);
+    topic_name, qos_profile_, bound_heartbeat_callback_func, heartbeat_sub_options_);
 
   return heartbeat_sub_;
 }
@@ -244,30 +242,31 @@ void AutowareControlCenter::autoware_node_error(
   }
 }
 
-
-void AutowareControlCenter::liveliness_callback(rclcpp::QOSLivelinessChangedInfo & event,
-                                        const std::string & node_name)
+void AutowareControlCenter::liveliness_callback(
+  rclcpp::QOSLivelinessChangedInfo & event, const std::string & node_name)
 {
-    RCLCPP_INFO(get_logger(), "Reader Liveliness changed event:");
-    RCLCPP_INFO(get_logger(), "  alive_count: %d", event.alive_count);
-    RCLCPP_INFO(get_logger(), "  not_alive_count: %d", event.not_alive_count);
-    RCLCPP_INFO(get_logger(), "  alive_count_change: %d", event.alive_count_change);
-    RCLCPP_INFO(get_logger(), "  not_alive_count_change: %d", event.not_alive_count_change);
-    if (event.alive_count == 0) {
-      RCLCPP_ERROR(get_logger(), "Heartbeat was not received");
-      node_status_map_[node_name].alive = false;
-    }
+  RCLCPP_INFO(get_logger(), "Reader Liveliness changed event:");
+  RCLCPP_INFO(get_logger(), "  alive_count: %d", event.alive_count);
+  RCLCPP_INFO(get_logger(), "  not_alive_count: %d", event.not_alive_count);
+  RCLCPP_INFO(get_logger(), "  alive_count_change: %d", event.alive_count_change);
+  RCLCPP_INFO(get_logger(), "  not_alive_count_change: %d", event.not_alive_count_change);
+  if (event.alive_count == 0) {
+    RCLCPP_ERROR(get_logger(), "Heartbeat was not received");
+    node_status_map_[node_name].alive = false;
+  }
 }
 
-void AutowareControlCenter::heartbeat_callback(const typename autoware_control_center_msgs::msg::Heartbeat::SharedPtr msg,
-                                                    const std::string & node_name)
+void AutowareControlCenter::heartbeat_callback(
+  const typename autoware_control_center_msgs::msg::Heartbeat::SharedPtr msg,
+  const std::string & node_name)
 {
-      RCLCPP_INFO(get_logger(), "Watchdog raised, heartbeat sent at [%d.x]", msg->stamp.sec);
-      node_status_map_[node_name].alive = true;
-      node_status_map_[node_name].last_heartbeat = msg->stamp;
-    }
+  RCLCPP_INFO(get_logger(), "Watchdog raised, heartbeat sent at [%d.x]", msg->stamp.sec);
+  node_status_map_[node_name].alive = true;
+  node_status_map_[node_name].last_heartbeat = msg->stamp;
+}
 
-void AutowareControlCenter::filter_deregister_services(std::map<std::string, std::vector<std::string>>& srv_list)
+void AutowareControlCenter::filter_deregister_services(
+  std::map<std::string, std::vector<std::string>> & srv_list)
 {
   auto it = srv_list.begin();
   // filter out srv with type autoware_control_center_msgs/srv/AutowareControlCenterDeregister
