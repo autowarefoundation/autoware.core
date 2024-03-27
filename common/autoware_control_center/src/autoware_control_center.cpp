@@ -25,7 +25,6 @@
 
 #include <chrono>
 
-using std::chrono::operator""ms;
 
 namespace autoware_control_center
 {
@@ -36,7 +35,13 @@ AutowareControlCenter::AutowareControlCenter(const rclcpp::NodeOptions & options
   // log info
   RCLCPP_INFO(get_logger(), "AutowareControlCenter is initialized");
   declare_parameter<int>("lease_duration", 220);  // TODO(lexavtanke): remove default and add schema
+  declare_parameter<double>("startup_duration", 10.0);
+  declare_parameter<int>("startup_callback_period", 500);
+  declare_parameter<int>("node_report_period", 1000);
   std::chrono::milliseconds lease_duration_(get_parameter("lease_duration").as_int());
+  startup_duration_ = get_parameter("startup_duration").as_double();
+  std::chrono::milliseconds startup_callback_period(get_parameter("startup_callback_period").as_int());
+  std::chrono::milliseconds node_report_period(get_parameter("node_report_period").as_int());
 
   callback_group_mut_ex_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
 
@@ -57,13 +62,13 @@ AutowareControlCenter::AutowareControlCenter(const rclcpp::NodeOptions & options
   node_reports_pub_ = create_publisher<autoware_control_center_msgs::msg::AutowareNodeReports>(
     "~/autoware_node_reports", 1);
   node_reports_timer_ =
-    create_wall_timer(1000ms, std::bind(&AutowareControlCenter::node_reports_callback, this));
+    create_wall_timer(node_report_period, std::bind(&AutowareControlCenter::node_reports_callback, this));
 
-  acc_uuid = autoware_utils::generate_uuid();
-  countdown = 10;
-  startup = true;
+  acc_uuid_ = autoware_utils::generate_uuid();
+  startup_ = true;
+  startup_timestamp_ = this->get_clock()->now();
   startup_timer_ =
-    this->create_wall_timer(500ms, std::bind(&AutowareControlCenter::startup_callback, this));
+    this->create_wall_timer(startup_callback_period, std::bind(&AutowareControlCenter::startup_callback, this));
 }
 
 void AutowareControlCenter::register_node(
@@ -80,9 +85,9 @@ void AutowareControlCenter::register_node(
     response->status.status =
       autoware_control_center_msgs::srv::AutowareNodeRegister::Response::_status_type::FAILURE;
   } else {
-    // alive, last_heartbeat, node_report, state
     autoware_control_center_msgs::msg::AutowareNodeState un_state;
     un_state.status = autoware_control_center_msgs::msg::AutowareNodeState::UNKNOWN;
+    // alive, last_heartbeat, node_report, state
     node_status_map_.insert({request->name_node, {false, this->now(), "", un_state}});
     // Create heartbeat sub
     rclcpp::Subscription<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr
@@ -117,28 +122,24 @@ void AutowareControlCenter::deregister_node(
 
 void AutowareControlCenter::startup_callback()
 {
-  // wait for 10 sec and
+  // wait for N sec and
   // check if some node has been registered
+  float time_difference = rclcpp::Duration(this->get_clock()->now() - startup_timestamp_).seconds();
   if (node_registry_.is_empty()) {
-    RCLCPP_INFO(get_logger(), "Node register map is empty. Countdown is %d", countdown);
+    RCLCPP_INFO(get_logger(), "Node register map is empty. Waiting for %.1f s.", time_difference);
   }
-  if (countdown < 1 && node_registry_.is_empty() && startup) {
+  if (time_difference > startup_duration_ && node_registry_.is_empty() && startup_) {
     RCLCPP_INFO(
       get_logger(), "Startup timeout is over. Map is empty. Start re-registering procedure.");
     this->startup_timer_->cancel();
     RCLCPP_INFO(get_logger(), "Startup timer stop.");
     std::map<std::string, std::vector<std::string>> srv_list = this->get_service_names_and_types();
     filter_deregister_services(srv_list);
-    // auto it = srv_list.begin();
-    // // filter out srv with type autoware_control_center_msgs/srv/AutowareControlCenterDeregister
-    // while (it != srv_list.end()) {
-    //   if (it->second[0] != "autoware_control_center_msgs/srv/AutowareControlCenterDeregister") {
-    //     srv_list.erase(it++);
-    //   } else {
-    //     ++it;
-    //   }
-    // }
-    RCLCPP_INFO(get_logger(), "Filtered service list");
+
+    RCLCPP_INFO(get_logger(), "Filtered service list:");
+    if (srv_list.empty()) {
+      RCLCPP_INFO(get_logger(), "Empty.");
+    }
     for (auto const & pair : srv_list) {
       RCLCPP_INFO(get_logger(), "Service Name: %s", pair.first.c_str());
       rclcpp::Client<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>::SharedPtr
@@ -150,7 +151,7 @@ void AutowareControlCenter::startup_callback()
         std::make_shared<
           autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request>();
 
-      req->uuid_acc = acc_uuid;
+      req->uuid_acc = acc_uuid_;
 
       using ServiceResponseFuture = rclcpp::Client<
         autoware_control_center_msgs::srv::AutowareControlCenterDeregister>::SharedFuture;
@@ -173,9 +174,8 @@ void AutowareControlCenter::startup_callback()
         RCLCPP_INFO(get_logger(), "Sent request to %s", pair.first.c_str());
       }
     }
-    startup = false;
+    startup_ = false;
   }
-  countdown -= 1;
 }
 
 rclcpp::Subscription<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr

@@ -63,11 +63,12 @@ private:
 
   rclcpp::TimerBase::SharedPtr startup_timer_;
   rclcpp::TimerBase::SharedPtr node_reports_timer_;
-  int countdown;
-  unique_identifier_msgs::msg::UUID acc_uuid;
+  unique_identifier_msgs::msg::UUID acc_uuid_;
   /// The lease duration granted to the remote (heartbeat) publisher
   std::chrono::milliseconds lease_duration_;
-  bool startup;
+  double startup_duration_;
+  rclcpp::Time startup_timestamp_;
+  bool startup_;
 
   void register_node(
     const autoware_control_center_msgs::srv::AutowareNodeRegister::Request::SharedPtr request,
