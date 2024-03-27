@@ -2,7 +2,7 @@
 
 ## Overview
 
-Autoware Control Center is a Autoware.Core package designed to manage and monitor Autoware nodes within a system. It provides services for registration, de-registration and handling errors for Autoware nodes, as well as publishing reports on their status.
+Autoware Control Center (ACC) is an Autoware.Core package designed to manage and monitor Autoware nodes within a system. It provides services for registration, de-registration and handling errors for Autoware nodes, as well as publishing reports on their status.
 
 ACC capabilities include:
 
