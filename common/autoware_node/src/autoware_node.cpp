@@ -18,6 +18,7 @@
 #include <rclcpp/rclcpp.hpp>
 
 #include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
+#include "autoware_control_center_msgs/msg/status.hpp"
 
 #include <chrono>
 
@@ -34,8 +35,10 @@ AutowareNode::AutowareNode(
 : LifecycleNode(node_name, ns, options)
 {
   RCLCPP_INFO(get_logger(), "AutowareNode::AutowareNode()");
-  declare_parameter<int>("period", 200);  // TODO(lexavtanke): remove default and add schema
-  std::chrono::milliseconds heartbeat_period(get_parameter("period").as_int());
+  declare_parameter<int>("heartbeat_period", 200);  // TODO(lexavtanke): remove default and add schema
+  declare_parameter<int>("register_timer_period", 500);
+  std::chrono::milliseconds heartbeat_period(get_parameter("heartbeat_period").as_int());
+  std::chrono::milliseconds register_timer_period(get_parameter("register_timer_period").as_int());
   std::string self_namespace(this->get_namespace());
   std::string name(this->get_name());
   if (self_namespace.length() > 1) {
@@ -66,7 +69,7 @@ AutowareNode::AutowareNode(
     callback_group_mut_ex_);
 
   register_timer_ =
-    this->create_wall_timer(500ms, std::bind(&AutowareNode::register_callback, this));
+    this->create_wall_timer(register_timer_period, std::bind(&AutowareNode::register_callback, this));
 
   using std::placeholders::_1;
   using std::placeholders::_2;
@@ -169,7 +172,7 @@ void AutowareNode::node_register_future_callback(AutowareNodeRegisterServiceResp
   std::string str_uuid = autoware_utils::to_hex_string(response->uuid_node);
   RCLCPP_INFO(get_logger(), "response: %d, %s", response->status.status, str_uuid.c_str());
 
-  if (response->status.status == 1) {
+  if (response->status.status == autoware_control_center_msgs::msg::Status::SUCCESS) {
     registered = true;
     self_uuid = response->uuid_node;
     RCLCPP_INFO(get_logger(), "Node was registered");
