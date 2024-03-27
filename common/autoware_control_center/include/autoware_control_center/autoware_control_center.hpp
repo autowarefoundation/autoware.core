@@ -26,7 +26,9 @@
 #include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
 
 #include <string>
+#include <map>
 #include <unordered_map>
+#include <vector>
 
 namespace autoware_control_center
 {
