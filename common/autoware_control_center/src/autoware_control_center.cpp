@@ -25,7 +25,6 @@
 
 #include <chrono>
 
-
 namespace autoware_control_center
 {
 
@@ -40,7 +39,8 @@ AutowareControlCenter::AutowareControlCenter(const rclcpp::NodeOptions & options
   declare_parameter<int>("node_report_period", 1000);
   std::chrono::milliseconds lease_duration_(get_parameter("lease_duration").as_int());
   startup_duration_ = get_parameter("startup_duration").as_double();
-  std::chrono::milliseconds startup_callback_period(get_parameter("startup_callback_period").as_int());
+  std::chrono::milliseconds startup_callback_period(
+    get_parameter("startup_callback_period").as_int());
   std::chrono::milliseconds node_report_period(get_parameter("node_report_period").as_int());
 
   callback_group_mut_ex_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
@@ -61,14 +61,14 @@ AutowareControlCenter::AutowareControlCenter(const rclcpp::NodeOptions & options
 
   node_reports_pub_ = create_publisher<autoware_control_center_msgs::msg::AutowareNodeReports>(
     "~/autoware_node_reports", 1);
-  node_reports_timer_ =
-    create_wall_timer(node_report_period, std::bind(&AutowareControlCenter::node_reports_callback, this));
+  node_reports_timer_ = create_wall_timer(
+    node_report_period, std::bind(&AutowareControlCenter::node_reports_callback, this));
 
   acc_uuid_ = autoware_utils::generate_uuid();
   startup_ = true;
   startup_timestamp_ = this->get_clock()->now();
-  startup_timer_ =
-    this->create_wall_timer(startup_callback_period, std::bind(&AutowareControlCenter::startup_callback, this));
+  startup_timer_ = this->create_wall_timer(
+    startup_callback_period, std::bind(&AutowareControlCenter::startup_callback, this));
 }
 
 void AutowareControlCenter::register_node(
