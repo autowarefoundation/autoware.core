@@ -3,8 +3,10 @@
 <package format="3">
   <name>autoware_control_center</name>
   <version>0.0.0</version>
-  <description>Autoware Control Center (ACC) is an Autoware.Core package designed to manage 
-    and monitor Autoware nodes within a system.</description>
+  <description>
+    Autoware Control Center (ACC) is an Autoware.Core package designed to manage
+    and monitor Autoware nodes within a system.
+  </description>
   <maintainer email="mfc@leodrive.ai">M. Fatih Cırıt</maintainer>
   <license>Apache-2.0</license>
 

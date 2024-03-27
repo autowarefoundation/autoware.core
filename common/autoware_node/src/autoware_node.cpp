@@ -17,8 +17,8 @@
 #include <autoware_utils/ros/uuid_helper.hpp>
 #include <rclcpp/rclcpp.hpp>
 
-#include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
 #include "autoware_control_center_msgs/msg/status.hpp"
+#include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
 
 #include <chrono>
 
@@ -35,7 +35,8 @@ AutowareNode::AutowareNode(
 : LifecycleNode(node_name, ns, options)
 {
   RCLCPP_INFO(get_logger(), "AutowareNode::AutowareNode()");
-  declare_parameter<int>("heartbeat_period", 200);  // TODO(lexavtanke): remove default and add schema
+  declare_parameter<int>(
+    "heartbeat_period", 200);  // TODO(lexavtanke): remove default and add schema
   declare_parameter<int>("register_timer_period", 500);
   std::chrono::milliseconds heartbeat_period(get_parameter("heartbeat_period").as_int());
   std::chrono::milliseconds register_timer_period(get_parameter("register_timer_period").as_int());
@@ -68,8 +69,8 @@ AutowareNode::AutowareNode(
     "/autoware_control_center/srv/autoware_node_register", rmw_qos_profile_default,
     callback_group_mut_ex_);
 
-  register_timer_ =
-    this->create_wall_timer(register_timer_period, std::bind(&AutowareNode::register_callback, this));
+  register_timer_ = this->create_wall_timer(
+    register_timer_period, std::bind(&AutowareNode::register_callback, this));
 
   using std::placeholders::_1;
   using std::placeholders::_2;

@@ -25,8 +25,8 @@
 #include "autoware_control_center_msgs/srv/autoware_node_error.hpp"
 #include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
 
-#include <string>
 #include <map>
+#include <string>
 #include <unordered_map>
 #include <vector>
 
