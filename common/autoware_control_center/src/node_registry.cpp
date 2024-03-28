@@ -1,0 +1,76 @@
+// Copyright 2022 The Autoware Contributors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#include "autoware_control_center/node_registry.hpp"
+
+#include <rclcpp/rclcpp.hpp>
+
+namespace autoware_control_center
+{
+std::optional<unique_identifier_msgs::msg::UUID> NodeRegistry::register_node(
+  const std::string & name, const unique_identifier_msgs::msg::UUID & uuid)
+{
+  if (is_registered(name)) {
+    RCLCPP_INFO(
+      rclcpp::get_logger("NodeRegistry"), "Node %s has been registered before. Register again.",
+      name.c_str());
+    autoware_node_info_map_[name].time_registering = rclcpp::Clock().now();
+    autoware_node_info_map_[name].uuid = uuid;
+    autoware_node_info_map_[name].num_registered += 1;
+  } else {
+    autoware_node_info_map_[name] = {rclcpp::Clock().now(), name, uuid, 1};
+    RCLCPP_INFO(rclcpp::get_logger("NodeRegistry"), "Node %s is registered.", name.c_str());
+  }
+
+  return autoware_node_info_map_.at(name).uuid;
+}
+
+std::optional<unique_identifier_msgs::msg::UUID> NodeRegistry::deregister_node(
+  const std::string & name)
+{
+  if (!is_registered(name)) {
+    RCLCPP_WARN(
+      rclcpp::get_logger("NodeRegistry"), "Node %s is not registered. Ignoring.", name.c_str());
+    return std::nullopt;
+  }
+  unique_identifier_msgs::msg::UUID node_uuid = autoware_node_info_map_.at(name).uuid;
+  autoware_node_info_map_.erase(name);
+
+  RCLCPP_INFO(rclcpp::get_logger("NodeRegistry"), "Node %s is deregistered.", name.c_str());
+  return node_uuid;
+}
+
+bool NodeRegistry::is_registered(const std::string & name) const
+{
+  return autoware_node_info_map_.find(name) != autoware_node_info_map_.end();
+}
+
+std::optional<unique_identifier_msgs::msg::UUID> NodeRegistry::get_uuid(
+  const std::string & name) const
+{
+  if (!is_registered(name)) {
+    return std::nullopt;
+  }
+
+  return autoware_node_info_map_.at(name).uuid;
+}
+
+bool NodeRegistry::is_empty()
+{
+  if (autoware_node_info_map_.empty()) {
+    return true;
+  }
+  return false;
+}
+}  // namespace autoware_control_center

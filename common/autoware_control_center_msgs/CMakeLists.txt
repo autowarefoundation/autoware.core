@@ -1,0 +1,28 @@
+cmake_minimum_required(VERSION 3.14)
+project(autoware_control_center_msgs)
+
+find_package(ament_cmake_auto REQUIRED)
+ament_auto_find_build_dependencies()
+
+set(msg_dependencies
+  builtin_interfaces
+  unique_identifier_msgs)
+
+rosidl_generate_interfaces(${PROJECT_NAME}
+"msg/AutowareNodeReport.msg"
+"msg/AutowareNodeReports.msg"
+"msg/AutowareNodeState.msg"
+  "msg/Heartbeat.msg"
+  "msg/Status.msg"
+  "srv/AutowareControlCenterDeregister.srv"
+  "srv/AutowareNodeDeregister.srv"
+  "srv/AutowareNodeError.srv"
+  "srv/AutowareNodeRegister.srv"
+  DEPENDENCIES ${msg_dependencies})
+
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  ament_lint_auto_find_test_dependencies()
+endif()
+
+ament_auto_package()
