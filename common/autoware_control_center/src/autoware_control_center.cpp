@@ -162,7 +162,7 @@ void AutowareControlCenter::startup_callback()
           get_logger(), "Deregister response: %d, %s", response->status.status,
           response->name_node.c_str());
 
-        if (response->status.status == 1) {
+        if (response->status.status == autoware_control_center_msgs::msg::Status::SUCCESS) {
           RCLCPP_INFO(get_logger(), "Node was deregistered");
         } else {
           RCLCPP_ERROR(get_logger(), "Failed to deregister node");
