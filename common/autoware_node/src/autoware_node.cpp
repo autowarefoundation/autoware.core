@@ -194,7 +194,7 @@ void AutowareNode::node_error_future_callback(AutowareNodeErrorServiceResponseFu
     get_logger(), "response: %d, %s, %s", response->status.status, str_uuid.c_str(),
     response->log_response.c_str());
 
-  if (response->status.status == 1) {
+  if (response->status.status == autoware_control_center_msgs::msg::Status::SUCCESS) {
     RCLCPP_INFO(get_logger(), "Node state was received by ACC");
   } else {
     RCLCPP_ERROR(get_logger(), "Failed to send Node state to ACC");
