@@ -18,7 +18,6 @@
   <depend>lifecycle_msgs</depend>
   <depend>rclcpp_components</depend>
   <depend>rclcpp_lifecycle</depend>
-  <!-- cspell:ignore bondcpp -->
 
   <test_depend>ament_cmake_gtest</test_depend>
   <test_depend>ament_cmake_ros</test_depend>
