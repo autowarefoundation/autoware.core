@@ -3,7 +3,7 @@
 <package format="3">
   <name>test_node</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>Test package for Autoware Control Center and Autoware Node.</description>
   <maintainer email="mfc@leodrive.ai">M. Fatih Cırıt</maintainer>
   <license>Apache-2.0</license>
 
@@ -12,7 +12,6 @@
 
   <depend>autoware_control_center_msgs</depend>
   <depend>autoware_node</depend>
-  <depend>nlohmann-json-dev</depend>
   <depend>rclcpp</depend>
   <depend>rclcpp_components</depend>
   <depend>rclcpp_lifecycle</depend>
