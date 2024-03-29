@@ -43,8 +43,8 @@ public:
     const std::string & node_name, const std::string & ns = "",
     const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
   /*!
-  Create subscription to provided topic with topic_name and monitors period of received messages. 
-  If desired period is violated the Autoware Node informs the Autoware Control Center. 
+  Create subscription to provided topic with topic_name and monitors period of received messages.
+  If desired period is violated the Autoware Node informs the Autoware Control Center.
   \param[topic_name] The name of the monitored topic.
   \param[hz] The desired heartrate of the topic.
   \param[qos] The desired QoS for the topic.
