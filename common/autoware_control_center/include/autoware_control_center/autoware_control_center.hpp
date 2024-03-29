@@ -73,11 +73,12 @@ private:
   rclcpp::Publisher<autoware_control_center_msgs::msg::AutowareNodeReports>::SharedPtr
     node_reports_pub_;
   /*!
-  Store registered nodes names and uuid. Provide methods for registration, de-registration and others.
+  Store registered nodes names and uuid. Provide methods for registration, de-registration and
+  others.
   */
   NodeRegistry node_registry_;
   /*!
-  Store subscribers to all heartbeat topics of registered Autoware Nodes. 
+  Store subscribers to all heartbeat topics of registered Autoware Nodes.
   */
   std::unordered_map<
     std::string, rclcpp::Subscription<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr>
@@ -116,30 +117,30 @@ private:
   bool startup_;
 
   /*!
-  Callback for the register node service.  
+  Callback for the register node service.
   */
   void register_node(
     const autoware_control_center_msgs::srv::AutowareNodeRegister::Request::SharedPtr request,
     const autoware_control_center_msgs::srv::AutowareNodeRegister::Response::SharedPtr response);
-  
+
   /*!
-  Callback for the deregister node service.  
+  Callback for the deregister node service.
   */
   void deregister_node(
     const autoware_control_center_msgs::srv::AutowareNodeDeregister::Request::SharedPtr request,
     const autoware_control_center_msgs::srv::AutowareNodeDeregister::Response::SharedPtr response);
-  
+
   /*!
-  Callback for the autoware error node service. 
-  It reseives status message from Autoware node and store information to the node_status_map_. 
+  Callback for the autoware error node service.
+  It reseives status message from Autoware node and store information to the node_status_map_.
   */
   void autoware_node_error(
     const autoware_control_center_msgs::srv::AutowareNodeError::Request::SharedPtr request,
     const autoware_control_center_msgs::srv::AutowareNodeError::Response::SharedPtr response);
 
   /*!
-  Callback for the startup timer. Check if there is no registered node for the particular period of time. 
-  After it will list all nodes in the system and call the deregister service of them.  
+  Callback for the startup timer. Check if there is no registered node for the particular period of
+  time. After it will list all nodes in the system and call the deregister service of them.
   */
   void startup_callback();
 
@@ -151,13 +152,13 @@ private:
   create_heartbeat_sub(const std::string & node_name);
 
   /*!
-  Publish node reports to autoware_node_reports topic. 
+  Publish node reports to autoware_node_reports topic.
   */
   void node_reports_callback();
 
   /*!
-  Update node_status_map_ info for the node with node name if liveliness of the heartbeat topic publisher has changed.
-  \param[node_name] The name of the node which info should be updated.
+  Update node_status_map_ info for the node with node name if liveliness of the heartbeat topic
+  publisher has changed. \param[node_name] The name of the node which info should be updated.
   */
   void liveliness_callback(rclcpp::QOSLivelinessChangedInfo & event, const std::string & node_name);
 
@@ -168,7 +169,7 @@ private:
   void heartbeat_callback(
     const typename autoware_control_center_msgs::msg::Heartbeat::SharedPtr msg,
     const std::string & node_name);
-  
+
   /*!
   Filter out deregister services from list of all services in the system by type.
   \param[srv_list] The list of services available in the system.
