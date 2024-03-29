@@ -59,7 +59,7 @@ private:
   */
   rclcpp::Service<autoware_control_center_msgs::srv::AutowareNodeRegister>::SharedPtr srv_register_;
   /*!
-  Service for deregistering an Autoware Node from the Autoware Contol Service.
+  Service for de-registering an Autoware Node from the Autoware Control Service.
   */
   rclcpp::Service<autoware_control_center_msgs::srv::AutowareNodeDeregister>::SharedPtr
     srv_deregister_;
@@ -132,7 +132,7 @@ private:
 
   /*!
   Callback for the autoware error node service.
-  It reseives status message from Autoware node and store information to the node_status_map_.
+  It receives status message from Autoware node and store information to the node_status_map_.
   */
   void autoware_node_error(
     const autoware_control_center_msgs::srv::AutowareNodeError::Request::SharedPtr request,
@@ -163,7 +163,7 @@ private:
   void liveliness_callback(rclcpp::QOSLivelinessChangedInfo & event, const std::string & node_name);
 
   /*!
-  Update node_status_map_ info for the node with node name  then heartbeat message is reseived.
+  Update node_status_map_ info for the node with node name  then heartbeat message is received.
   \param[node_name] The name of the node which info should be updated.
   */
   void heartbeat_callback(
