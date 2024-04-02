@@ -37,7 +37,7 @@ AutowareControlCenter::AutowareControlCenter(const rclcpp::NodeOptions & options
   declare_parameter<double>("startup_duration", 10.0);
   declare_parameter<int>("startup_callback_period", 500);
   declare_parameter<int>("node_report_period", 1000);
-  std::chrono::milliseconds lease_duration_(get_parameter("lease_duration").as_int());
+  lease_duration_ = std::chrono::milliseconds(get_parameter("lease_duration").as_int());
   startup_duration_ = get_parameter("startup_duration").as_double();
   std::chrono::milliseconds startup_callback_period(
     get_parameter("startup_callback_period").as_int());
@@ -206,7 +206,7 @@ AutowareControlCenter::create_heartbeat_sub(const std::string & node_name)
 void AutowareControlCenter::node_reports_callback()
 {
   autoware_control_center_msgs::msg::AutowareNodeReports msg;
-  rclcpp::Time stamp = this->now();
+  const rclcpp::Time stamp = this->now();
   msg.stamp = stamp;
   for (auto const & [name, info] : node_status_map_) {
     autoware_control_center_msgs::msg::AutowareNodeReport report;
