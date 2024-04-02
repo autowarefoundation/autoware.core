@@ -165,8 +165,6 @@ void AutowareNode::send_state(
   RCLCPP_INFO(get_logger(), "Send node state");
 }
 
-using AutowareNodeRegisterServiceResponseFuture =
-  rclcpp::Client<autoware_control_center_msgs::srv::AutowareNodeRegister>::SharedFuture;
 void AutowareNode::node_register_future_callback(AutowareNodeRegisterServiceResponseFuture future)
 {
   auto response = future.get();
@@ -184,8 +182,6 @@ void AutowareNode::node_register_future_callback(AutowareNodeRegisterServiceResp
   }
 }
 
-using AutowareNodeErrorServiceResponseFuture =
-  rclcpp::Client<autoware_control_center_msgs::srv::AutowareNodeError>::SharedFuture;
 void AutowareNode::node_error_future_callback(AutowareNodeErrorServiceResponseFuture future)
 {
   auto response = future.get();

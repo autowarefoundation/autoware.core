@@ -35,6 +35,11 @@
 namespace autoware_node
 {
 
+using AutowareNodeRegisterServiceResponseFuture =
+  rclcpp::Client<autoware_control_center_msgs::srv::AutowareNodeRegister>::SharedFuture;
+using AutowareNodeErrorServiceResponseFuture =
+  rclcpp::Client<autoware_control_center_msgs::srv::AutowareNodeError>::SharedFuture;
+
 class AutowareNode : public rclcpp_lifecycle::LifecycleNode
 {
 public:
