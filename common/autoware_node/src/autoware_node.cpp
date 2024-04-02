@@ -100,11 +100,11 @@ void AutowareNode::register_callback()
     std::make_shared<autoware_control_center_msgs::srv::AutowareNodeRegister::Request>();
   req->name_node = self_name;
 
-  auto future_result = cli_register_->async_send_request(
+  cli_register_->async_send_request(
     req, std::bind(&AutowareNode::node_register_future_callback, this, std::placeholders::_1));
   RCLCPP_INFO(get_logger(), "Sent request");
 
-  std::string msg = self_name + " node started";
+  const std::string msg = self_name + " node started";
   autoware_control_center_msgs::msg::AutowareNodeState node_state;
   node_state.status = autoware_control_center_msgs::msg::AutowareNodeState::NORMAL;
   send_state(node_state, msg);
@@ -160,14 +160,14 @@ void AutowareNode::send_state(
   req->state = node_state;
   req->message = message;
 
-  auto future_result = cli_node_error_->async_send_request(
+  cli_node_error_->async_send_request(
     req, std::bind(&AutowareNode::node_error_future_callback, this, std::placeholders::_1));
   RCLCPP_INFO(get_logger(), "Send node state");
 }
 
 void AutowareNode::node_register_future_callback(AutowareNodeRegisterServiceResponseFuture future)
 {
-  auto response = future.get();
+  const auto response = future.get();
   std::string str_uuid = autoware_utils::to_hex_string(response->uuid_node);
   RCLCPP_INFO(get_logger(), "response: %d, %s", response->status.status, str_uuid.c_str());
 
