@@ -6,12 +6,12 @@ Autoware Control Center (ACC) is an Autoware.Core package designed to manage and
 
 ACC capabilities include:
 
-- ACC provides _AutowareNodeRegister_ service. It allows each _autoware_node_ to be registered to ACC instance.
-- ACC provides _AutowareNodeDeregister_ service. _Autoware_node_ is able to deregister it self from ACC via call to this service.
+- ACC provides _AutowareNodeRegister_ service. It allows each _Autoware_Node_ to be registered to ACC instance.
+- ACC provides _AutowareNodeDeregister_ service. _Autoware_Node_ is able to deregister itself from ACC via call to this service.
 - ACC keeps track of registered _autoware_nodes_ internally with use of the _node_registry_.
-- ACC provides _AutowareNodeError_ service. It allows each _autoware_node_ send it's state to ACC.
-- ACC subscribe to _heartbeat_ topic of _autoware_node_ after it's registration. ACC controls liveliness of _autoware_node_ by  monitoring this topic.
-- ACC publishes reports on a current status of registered _autoware_nodes_ to the _autoware_node_reports_ topic.
+- ACC provides _AutowareNodeError_ service. It allows each _Autoware_Node_ send it's state to ACC.
+- ACC subscribes to _heartbeat_ topic of _Autoware_Node_ after its registration. ACC controls liveliness' of _Autoware_Nodes_ by monitoring this topic.
+- ACC publishes reports on a current status of registered _Autoware_Nodes_ to the _autoware_node_reports_ topic.
 
 ## Usage
 
