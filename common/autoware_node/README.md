@@ -2,9 +2,7 @@
 
 ## Overview
 
-<!-- cspell:ignore registrate -->
-
-Autoware Node is an Autoware.Core package designed to provide a base class for all future nodes in the system. It provides ability to registrate node to _Autoware_control_center_ (ACC), report node state, publish heartbeat and subscribe to monitored topics. It also inherits all lifecycle control capabilities of the base class [LifecycleNode](https://docs.ros2.org/latest/api/rclcpp_lifecycle/classrclcpp__lifecycle_1_1LifecycleNode.html)
+Autoware Node is an Autoware.Core package designed to provide a base class for all future nodes in the system. It provides ability to register node to _Autoware_control_center_ (ACC), report node state, publish heartbeat and subscribe to monitored topics. It also inherits all lifecycle control capabilities of the base class [LifecycleNode](https://docs.ros2.org/latest/api/rclcpp_lifecycle/classrclcpp__lifecycle_1_1LifecycleNode.html)
 
 ## Usage
 
