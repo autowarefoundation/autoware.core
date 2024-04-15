@@ -10,9 +10,7 @@ You can use _autoware_node_ as a base class for any node in Autoware.Core system
 
 ## Design
 
-<!-- cspell:ignore  ROS2 -->
-
-_Autoware_node_ inherits from  ROS2 [_lifecycle_node_](https://design.ros2.org/articles/node_lifecycle.html) and has all basic functions of it.
+_Autoware_node_ inherits from ROS 2 [_lifecycle_node_](https://design.ros2.org/articles/node_lifecycle.html) and has all basic functions of it.
 
 Below are the main add-ons and how they work.
 
