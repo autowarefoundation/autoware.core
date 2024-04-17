@@ -188,7 +188,7 @@ private:
   /*!
   The sequential number of the Heartbeat message.
   */
-  uint16_t sequence_number;
+  uint16_t sequence_number_;
 };
 
 }  // namespace autoware_node

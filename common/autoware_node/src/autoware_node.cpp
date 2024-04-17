@@ -24,7 +24,7 @@
 
 using std::chrono::operator""ms;
 
-constexpr std::chrono::milliseconds LEASE_DELTA =
+constexpr std::chrono::milliseconds lease_delta =
   20ms;  ///< Buffer added to heartbeat to define lease.
 
 namespace autoware_node
@@ -47,15 +47,15 @@ AutowareNode::AutowareNode(
   } else {
     self_name = name;
   }
-  sequence_number = 0;
+  sequence_number_ = 0;
   registered = false;
 
   // The granted lease is essentially infinite here, i.e., only reader/watchdog will notify
   // violations. XXX causes segfault for cyclone dds, hence pass explicit lease life > heartbeat.
   rclcpp::QoS qos_profile(1);
   qos_profile.liveliness(RMW_QOS_POLICY_LIVELINESS_MANUAL_BY_TOPIC)
-    .liveliness_lease_duration(heartbeat_period + LEASE_DELTA)
-    .deadline(heartbeat_period + LEASE_DELTA);
+    .liveliness_lease_duration(heartbeat_period + lease_delta)
+    .deadline(heartbeat_period + lease_delta);
 
   // assert liveliness on the 'heartbeat' topic
   heartbeat_pub_ = this->create_publisher<autoware_control_center_msgs::msg::Heartbeat>(
@@ -115,7 +115,7 @@ void AutowareNode::heartbeat_callback()
 {
   auto message = autoware_control_center_msgs::msg::Heartbeat();
   message.stamp = this->get_clock()->now();
-  message.sequence_number = sequence_number++;
+  message.sequence_number = sequence_number_++;
   RCLCPP_INFO(this->get_logger(), "Publishing heartbeat, sent at [%i]", message.stamp.sec);
   heartbeat_pub_->publish(message);
 }
@@ -158,7 +158,7 @@ void AutowareNode::send_state(
 
   req->name_node = self_name;
   req->state = node_state;
-  req->message = message;
+  req->message = std::move(message);
 
   cli_node_error_->async_send_request(
     req, std::bind(&AutowareNode::node_error_future_callback, this, std::placeholders::_1));
@@ -167,7 +167,7 @@ void AutowareNode::send_state(
 
 void AutowareNode::node_register_future_callback(AutowareNodeRegisterServiceResponseFuture future)
 {
-  const auto response = future.get();
+  const auto & response = future.get();
   std::string str_uuid = autoware_utils::to_hex_string(response->uuid_node);
   RCLCPP_INFO(get_logger(), "response: %d, %s", response->status.status, str_uuid.c_str());
 
@@ -184,7 +184,7 @@ void AutowareNode::node_register_future_callback(AutowareNodeRegisterServiceResp
 
 void AutowareNode::node_error_future_callback(AutowareNodeErrorServiceResponseFuture future)
 {
-  auto response = future.get();
+  const auto & response = future.get();
   std::string str_uuid = autoware_utils::to_hex_string(response->uuid_node);
   RCLCPP_INFO(
     get_logger(), "response: %d, %s, %s", response->status.status, str_uuid.c_str(),

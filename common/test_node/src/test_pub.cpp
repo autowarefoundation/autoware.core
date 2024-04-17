@@ -21,7 +21,6 @@
 #include <memory>
 #include <string>
 
-using std::chrono::operator""ms;
 
 /* This example creates a subclass of Node and uses std::bind() to register a
  * member function as a callback from the timer. */
@@ -29,11 +28,11 @@ using std::chrono::operator""ms;
 class MinimalPublisher : public rclcpp::Node
 {
 public:
-  MinimalPublisher() : Node("minimal_publisher"), count_(0)
+  MinimalPublisher() : Node("minimal_publisher"), count_{0}
   {
     rclcpp::QoS qos_profile(10);
     declare_parameter<int>("hz", 10);
-    int hz = get_parameter("hz").as_int();
+    const auto hz = get_parameter("hz").as_int();
     std::chrono::milliseconds timer_period{static_cast<int>(1.0 / hz * 1000)};
     std::chrono::milliseconds lease_duration{static_cast<int>(1.0 / hz * 1000 * 1.1)};
     qos_profile.liveliness(RMW_QOS_POLICY_LIVELINESS_MANUAL_BY_TOPIC)
