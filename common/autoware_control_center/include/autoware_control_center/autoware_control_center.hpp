@@ -174,7 +174,8 @@ private:
   Filter out deregister services from list of all services in the system by type.
   \param[srv_list] The list of services available in the system.
   */
-  static void filter_deregister_services(std::map<std::string, std::vector<std::string>> & srv_list);
+  static void filter_deregister_services(
+    std::map<std::string, std::vector<std::string>> & srv_list);
 };
 
 }  // namespace autoware_control_center

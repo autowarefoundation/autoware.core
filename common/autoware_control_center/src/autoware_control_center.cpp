@@ -78,7 +78,7 @@ void AutowareControlCenter::register_node(
   RCLCPP_INFO(get_logger(), "register_node is called from %s", request->name_node.c_str());
 
   std::optional<unique_identifier_msgs::msg::UUID> node_uuid =
-    node_registry_.register_node(request->name_node , autoware_utils::generate_uuid());
+    node_registry_.register_node(request->name_node, autoware_utils::generate_uuid());
 
   if (node_uuid == std::nullopt) {
     response->uuid_node = autoware_utils::generate_default_uuid();
@@ -91,7 +91,7 @@ void AutowareControlCenter::register_node(
     node_status_map_.insert({request->name_node, {false, this->now(), "", un_state}});
     // Create heartbeat sub
     rclcpp::Subscription<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr
-      heartbeat_node_sub = create_heartbeat_sub(request->name_node  );
+      heartbeat_node_sub = create_heartbeat_sub(request->name_node);
     heartbeat_sub_map_.insert({request->name_node, heartbeat_node_sub});
     RCLCPP_INFO(get_logger(), "Subscribed to topic %s", heartbeat_node_sub->get_topic_name());
     response->uuid_node = node_uuid.value();
@@ -107,7 +107,7 @@ void AutowareControlCenter::deregister_node(
   RCLCPP_INFO(get_logger(), "deregister_node is called from %s", request->name_node.c_str());
 
   std::optional<unique_identifier_msgs::msg::UUID> node_uuid =
-    node_registry_.deregister_node( request->name_node);
+    node_registry_.deregister_node(request->name_node);
 
   if (node_uuid == std::nullopt) {
     response->uuid_node = autoware_utils::generate_default_uuid();
@@ -122,9 +122,10 @@ void AutowareControlCenter::deregister_node(
 
 void AutowareControlCenter::startup_callback()
 {
-  // wait for N sec and 
+  // wait for N sec and
   // check if some node has been registered
-  double time_difference = rclcpp::Duration(this->get_clock()->now() - startup_timestamp_).seconds();
+  double time_difference =
+    rclcpp::Duration(this->get_clock()->now() - startup_timestamp_).seconds();
   if (node_registry_.is_empty()) {
     RCLCPP_INFO(get_logger(), "Node register map is empty. Waiting for %.1f s.", time_difference);
   }
