@@ -27,57 +27,57 @@ protected:
 
 TEST_F(NodeRegistryTest, RegisterNodeTest)
 {
-  std::string nodeName = "test_node";
+  std::string node_name = "test_node";
   unique_identifier_msgs::msg::UUID uuid;
   uuid = autoware_utils::generate_uuid();
 
-  auto result = registry.register_node(nodeName, uuid);
+  auto result = registry.register_node(node_name, uuid);
 
   ASSERT_TRUE(result.has_value());
   EXPECT_EQ(result.value(), uuid);
-  EXPECT_TRUE(registry.is_registered(nodeName));
+  EXPECT_TRUE(registry.is_registered(node_name));
 }
 
 TEST_F(NodeRegistryTest, SameNameRegister)
 {
-  std::string nodeName = "test_node";
+  std::string node_name = "test_node";
   unique_identifier_msgs::msg::UUID first_uuid;
   first_uuid = autoware_utils::generate_uuid();
 
-  auto first_result = registry.register_node(nodeName, first_uuid);
+  auto first_result = registry.register_node(node_name, first_uuid);
   ASSERT_TRUE(first_result.has_value());
 
   unique_identifier_msgs::msg::UUID second_uuid;
   second_uuid = autoware_utils::generate_uuid();
-  auto second_result = registry.register_node(nodeName, second_uuid);
+  auto second_result = registry.register_node(node_name, second_uuid);
 
   ASSERT_TRUE(second_result.has_value());
   EXPECT_EQ(second_result.value(), second_uuid);
-  EXPECT_TRUE(registry.is_registered(nodeName));
+  EXPECT_TRUE(registry.is_registered(node_name));
 }
 
 TEST_F(NodeRegistryTest, DeregisterNodeTest)
 {
-  std::string nodeName = "test_node";
+  std::string node_name = "test_node";
   unique_identifier_msgs::msg::UUID uuid;
   uuid = autoware_utils::generate_uuid();
 
-  registry.register_node(nodeName, uuid);
-  auto result = registry.deregister_node(nodeName);
+  registry.register_node(node_name, uuid);
+  auto result = registry.deregister_node(node_name);
 
   ASSERT_TRUE(result.has_value());
   EXPECT_EQ(result.value(), uuid);
-  EXPECT_FALSE(registry.is_registered(nodeName));
+  EXPECT_FALSE(registry.is_registered(node_name));
 }
 
 TEST_F(NodeRegistryTest, GetUUIDTest)
 {
-  std::string nodeName = "test_node";
+  std::string node_name = "test_node";
   unique_identifier_msgs::msg::UUID uuid;
   uuid = autoware_utils::generate_uuid();
 
-  registry.register_node(nodeName, uuid);
-  auto result = registry.get_uuid(nodeName);
+  registry.register_node(node_name, uuid);
+  auto result = registry.get_uuid(node_name);
 
   ASSERT_TRUE(result.has_value());
   EXPECT_EQ(result.value(), uuid);

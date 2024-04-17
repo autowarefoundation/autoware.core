@@ -26,7 +26,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
-
+  
 using std::chrono::operator""s;
 
 class AutowareControlCenterTest : public ::testing::Test
