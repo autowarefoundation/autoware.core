@@ -131,7 +131,8 @@ TEST_F(AutowareControlCenterTest, NodeErrorServiceNotRegistered)
   error_request->message = "test message";
 
   auto result_error = client->async_send_request(error_request);
-  auto ret = rclcpp::spin_until_future_complete(autoware_control_center_, result_error, std::chrono::seconds(5));
+  auto ret = rclcpp::spin_until_future_complete(
+    autoware_control_center_, result_error, std::chrono::seconds(5));
 
   ASSERT_EQ(ret, rclcpp::FutureReturnCode::SUCCESS);
   auto result_error_payload = result_error.get();
@@ -183,7 +184,8 @@ TEST_F(AutowareControlCenterTest, NodeErrorService)
   error_request->message = "test message";
 
   auto result_error = error_client->async_send_request(error_request);
-  auto ret_err = rclcpp::spin_until_future_complete(autoware_control_center_, result_error, std::chrono::seconds(5));
+  auto ret_err = rclcpp::spin_until_future_complete(
+    autoware_control_center_, result_error, std::chrono::seconds(5));
 
   ASSERT_EQ(ret_err, rclcpp::FutureReturnCode::SUCCESS);
   auto result_error_payload = result_error.get();
