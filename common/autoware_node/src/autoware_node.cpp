@@ -22,10 +22,7 @@
 
 #include <chrono>
 
-using std::chrono::operator""ms;
-
-constexpr std::chrono::milliseconds lease_delta =
-  20ms;  ///< Buffer added to heartbeat to define lease.
+constexpr std::chrono::milliseconds lease_delta(20);  ///< Buffer added to heartbeat to define lease.
 
 namespace autoware_node
 {

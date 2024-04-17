@@ -48,7 +48,7 @@ TEST_F(AutowareControlCenterTest, RegisterNode)
   auto client = autoware_control_center_
                   ->create_client<autoware_control_center_msgs::srv::AutowareNodeRegister>(
                     "/autoware_control_center/srv/autoware_node_register");
-  if (!client->wait_for_service(20s)) {
+  if (!client->wait_for_service(std::chrono::seconds(20))) {
     ASSERT_TRUE(false) << "Node register service not available after waiting";
   }
 
@@ -58,7 +58,7 @@ TEST_F(AutowareControlCenterTest, RegisterNode)
 
   auto result = client->async_send_request(request);
   auto ret = rclcpp::spin_until_future_complete(
-    autoware_control_center_, result, 5s);  // Wait for the result.
+    autoware_control_center_, result, std::chrono::seconds(5));  // Wait for the result.
 
   ASSERT_EQ(ret, rclcpp::FutureReturnCode::SUCCESS);
 
@@ -72,7 +72,7 @@ TEST_F(AutowareControlCenterTest, DeregisterNode)
                       ->create_client<autoware_control_center_msgs::srv::AutowareNodeRegister>(
                         "/autoware_control_center/srv/autoware_node_register");
 
-  if (!client_reg->wait_for_service(20s)) {
+  if (!client_reg->wait_for_service(std::chrono::seconds(20))) {
     ASSERT_TRUE(false) << "Node register service not available after waiting";
   }
   // Register node first
@@ -82,7 +82,7 @@ TEST_F(AutowareControlCenterTest, DeregisterNode)
 
   auto result_reg = client_reg->async_send_request(request_reg);
   auto ret = rclcpp::spin_until_future_complete(
-    autoware_control_center_, result_reg, 5s);  // Wait for the result.
+    autoware_control_center_, result_reg, std::chrono::seconds(5));  // Wait for the result.
 
   ASSERT_EQ(ret, rclcpp::FutureReturnCode::SUCCESS);
   auto result_reg_payload = result_reg.get();
@@ -94,7 +94,7 @@ TEST_F(AutowareControlCenterTest, DeregisterNode)
   auto client_dereg = autoware_control_center_
                         ->create_client<autoware_control_center_msgs::srv::AutowareNodeDeregister>(
                           "/autoware_control_center/srv/autoware_node_deregister");
-  if (!client_dereg->wait_for_service(20s)) {
+  if (!client_dereg->wait_for_service(std::chrono::seconds(20))) {
     ASSERT_TRUE(false) << "Node deregister service not available after waiting";
   }
 
@@ -118,7 +118,7 @@ TEST_F(AutowareControlCenterTest, NodeErrorServiceNotRegistered)
     autoware_control_center_->create_client<autoware_control_center_msgs::srv::AutowareNodeError>(
       "/autoware_control_center/srv/autoware_node_error");
 
-  if (!client->wait_for_service(20s)) {
+  if (!client->wait_for_service(std::chrono::seconds(20))) {
     ASSERT_TRUE(false) << "Node error service not available after waiting";
   }
 
@@ -131,7 +131,7 @@ TEST_F(AutowareControlCenterTest, NodeErrorServiceNotRegistered)
   error_request->message = "test message";
 
   auto result_error = client->async_send_request(error_request);
-  auto ret = rclcpp::spin_until_future_complete(autoware_control_center_, result_error, 5s);
+  auto ret = rclcpp::spin_until_future_complete(autoware_control_center_, result_error, std::chrono::seconds(5));
 
   ASSERT_EQ(ret, rclcpp::FutureReturnCode::SUCCESS);
   auto result_error_payload = result_error.get();
@@ -149,7 +149,7 @@ TEST_F(AutowareControlCenterTest, NodeErrorService)
                       ->create_client<autoware_control_center_msgs::srv::AutowareNodeRegister>(
                         "/autoware_control_center/srv/autoware_node_register");
 
-  if (!client_reg->wait_for_service(20s)) {
+  if (!client_reg->wait_for_service(std::chrono::seconds(20))) {
     ASSERT_TRUE(false) << "Node register service not available after waiting";
   }
   // Register node first
@@ -159,7 +159,7 @@ TEST_F(AutowareControlCenterTest, NodeErrorService)
 
   auto result_reg = client_reg->async_send_request(request_reg);
   auto ret_reg = rclcpp::spin_until_future_complete(
-    autoware_control_center_, result_reg, 5s);  // Wait for the result.
+    autoware_control_center_, result_reg, std::chrono::seconds(5));  // Wait for the result.
 
   ASSERT_EQ(ret_reg, rclcpp::FutureReturnCode::SUCCESS);
   auto result_reg_payload = result_reg.get();
@@ -170,7 +170,7 @@ TEST_F(AutowareControlCenterTest, NodeErrorService)
     autoware_control_center_->create_client<autoware_control_center_msgs::srv::AutowareNodeError>(
       "/autoware_control_center/srv/autoware_node_error");
 
-  if (!error_client->wait_for_service(20s)) {
+  if (!error_client->wait_for_service(std::chrono::seconds(20))) {
     ASSERT_TRUE(false) << "Node error service not available after waiting";
   }
 
@@ -183,7 +183,7 @@ TEST_F(AutowareControlCenterTest, NodeErrorService)
   error_request->message = "test message";
 
   auto result_error = error_client->async_send_request(error_request);
-  auto ret_err = rclcpp::spin_until_future_complete(autoware_control_center_, result_error, 5s);
+  auto ret_err = rclcpp::spin_until_future_complete(autoware_control_center_, result_error, std::chrono::seconds(5));
 
   ASSERT_EQ(ret_err, rclcpp::FutureReturnCode::SUCCESS);
   auto result_error_payload = result_error.get();

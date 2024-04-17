@@ -27,11 +27,11 @@
 class MinimalPublisher : public rclcpp::Node
 {
 public:
-  MinimalPublisher() : Node("minimal_publisher"), count_{0}
+  MinimalPublisher() : Node("minimal_publisher")
   {
     rclcpp::QoS qos_profile(10);
-    declare_parameter<int>("hz", 10);
-    const auto hz = get_parameter("hz").as_int();
+    declare_parameter<double>("hz", 10.0);
+    const double hz = get_parameter("hz").as_double();
     std::chrono::milliseconds timer_period{static_cast<int>(1.0 / hz * 1000)};
     std::chrono::milliseconds lease_duration{static_cast<int>(1.0 / hz * 1000 * 1.1)};
     qos_profile.liveliness(RMW_QOS_POLICY_LIVELINESS_MANUAL_BY_TOPIC)
@@ -52,7 +52,7 @@ private:
   }
   rclcpp::TimerBase::SharedPtr timer_;
   rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;
-  size_t count_;
+  size_t count_ = 0;
 };
 
 int main(int argc, char * argv[])
