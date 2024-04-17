@@ -78,7 +78,7 @@ void AutowareControlCenter::register_node(
   RCLCPP_INFO(get_logger(), "register_node is called from %s", request->name_node.c_str());
 
   std::optional<unique_identifier_msgs::msg::UUID> node_uuid =
-    node_registry_.register_node(request->name_node.c_str(), autoware_utils::generate_uuid());
+    node_registry_.register_node(request->name_node , autoware_utils::generate_uuid());
 
   if (node_uuid == std::nullopt) {
     response->uuid_node = autoware_utils::generate_default_uuid();
@@ -91,7 +91,7 @@ void AutowareControlCenter::register_node(
     node_status_map_.insert({request->name_node, {false, this->now(), "", un_state}});
     // Create heartbeat sub
     rclcpp::Subscription<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr
-      heartbeat_node_sub = create_heartbeat_sub(request->name_node.c_str());
+      heartbeat_node_sub = create_heartbeat_sub(request->name_node  );
     heartbeat_sub_map_.insert({request->name_node, heartbeat_node_sub});
     RCLCPP_INFO(get_logger(), "Subscribed to topic %s", heartbeat_node_sub->get_topic_name());
     response->uuid_node = node_uuid.value();
@@ -107,7 +107,7 @@ void AutowareControlCenter::deregister_node(
   RCLCPP_INFO(get_logger(), "deregister_node is called from %s", request->name_node.c_str());
 
   std::optional<unique_identifier_msgs::msg::UUID> node_uuid =
-    node_registry_.deregister_node(request->name_node.c_str());
+    node_registry_.deregister_node( request->name_node);
 
   if (node_uuid == std::nullopt) {
     response->uuid_node = autoware_utils::generate_default_uuid();
@@ -122,9 +122,9 @@ void AutowareControlCenter::deregister_node(
 
 void AutowareControlCenter::startup_callback()
 {
-  // wait for N sec and
+  // wait for N sec and 
   // check if some node has been registered
-  float time_difference = rclcpp::Duration(this->get_clock()->now() - startup_timestamp_).seconds();
+  double time_difference = rclcpp::Duration(this->get_clock()->now() - startup_timestamp_).seconds();
   if (node_registry_.is_empty()) {
     RCLCPP_INFO(get_logger(), "Node register map is empty. Waiting for %.1f s.", time_difference);
   }
@@ -144,7 +144,7 @@ void AutowareControlCenter::startup_callback()
       RCLCPP_INFO(get_logger(), "Service Name: %s", pair.first.c_str());
       rclcpp::Client<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>::SharedPtr
         // cspell:ignore dereg
-        dereg_client_ =
+        dereg_client =
           create_client<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>(
             pair.first);
       autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request::SharedPtr req =
@@ -156,8 +156,8 @@ void AutowareControlCenter::startup_callback()
       using ServiceResponseFuture = rclcpp::Client<
         autoware_control_center_msgs::srv::AutowareControlCenterDeregister>::SharedFuture;
       // lambda for async request
-      auto response_received_callback = [this](ServiceResponseFuture future) {
-        auto response = future.get();
+      auto response_received_callback = [this](const ServiceResponseFuture future) {
+        const auto & response = future.get();
         RCLCPP_INFO(
           get_logger(), "Deregister response: %d, %s", response->status.status,
           response->name_node.c_str());
@@ -169,8 +169,8 @@ void AutowareControlCenter::startup_callback()
         }
       };
 
-      if (dereg_client_->service_is_ready()) {
-        auto future_result = dereg_client_->async_send_request(req, response_received_callback);
+      if (dereg_client->service_is_ready()) {
+        auto future_result = dereg_client->async_send_request(req, response_received_callback);
         RCLCPP_INFO(get_logger(), "Sent request to %s", pair.first.c_str());
       }
     }
@@ -182,25 +182,25 @@ rclcpp::Subscription<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr
 AutowareControlCenter::create_heartbeat_sub(const std::string & node_name)
 {
   RCLCPP_INFO(get_logger(), "Create heart sub is called.");
-  rclcpp::QoS qos_profile_ = rclcpp::QoS(10);
-  qos_profile_.liveliness(RMW_QOS_POLICY_LIVELINESS_MANUAL_BY_TOPIC)
+  auto qos_profile = rclcpp::QoS(10);
+  qos_profile.liveliness(RMW_QOS_POLICY_LIVELINESS_MANUAL_BY_TOPIC)
     .liveliness_lease_duration(lease_duration_);
 
-  rclcpp::SubscriptionOptions heartbeat_sub_options_;
+  rclcpp::SubscriptionOptions heartbeat_sub_options;
   std::function<void(rclcpp::QOSLivelinessChangedInfo & event)> bound_liveliness_callback_func =
     std::bind(&AutowareControlCenter::liveliness_callback, this, std::placeholders::_1, node_name);
-  heartbeat_sub_options_.event_callbacks.liveliness_callback = bound_liveliness_callback_func;
+  heartbeat_sub_options.event_callbacks.liveliness_callback = bound_liveliness_callback_func;
 
   const std::string topic_name = node_name + "/heartbeat";
   RCLCPP_INFO(get_logger(), "Topic to subscribe is %s", topic_name.c_str());
-  rclcpp::Subscription<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr heartbeat_sub_;
+  rclcpp::Subscription<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr heartbeat_sub;
   std::function<void(const typename autoware_control_center_msgs::msg::Heartbeat::SharedPtr msg)>
     bound_heartbeat_callback_func =
       std::bind(&AutowareControlCenter::heartbeat_callback, this, std::placeholders::_1, node_name);
-  heartbeat_sub_ = create_subscription<autoware_control_center_msgs::msg::Heartbeat>(
-    topic_name, qos_profile_, bound_heartbeat_callback_func, heartbeat_sub_options_);
+  heartbeat_sub = create_subscription<autoware_control_center_msgs::msg::Heartbeat>(
+    topic_name, qos_profile, bound_heartbeat_callback_func, heartbeat_sub_options);
 
-  return heartbeat_sub_;
+  return heartbeat_sub;
 }
 
 void AutowareControlCenter::node_reports_callback()
