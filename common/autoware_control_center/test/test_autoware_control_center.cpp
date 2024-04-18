@@ -27,8 +27,6 @@
 #include <memory>
 #include <string>
 
-using std::chrono::operator""s;
-
 class AutowareControlCenterTest : public ::testing::Test
 {
 public:
@@ -103,7 +101,7 @@ TEST_F(AutowareControlCenterTest, DeregisterNode)
   request_dereg->name_node = node_name;
 
   auto result_dereg = client_dereg->async_send_request(request_dereg);
-  ret = rclcpp::spin_until_future_complete(autoware_control_center_, result_dereg, 5s);
+  ret = rclcpp::spin_until_future_complete(autoware_control_center_, result_dereg, std::chrono::seconds(5));
 
   ASSERT_EQ(ret, rclcpp::FutureReturnCode::SUCCESS);
   auto result_dereg_payload = result_dereg.get();
