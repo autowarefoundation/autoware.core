@@ -29,7 +29,7 @@ namespace autoware_control_center
 {
 
 AutowareControlCenter::AutowareControlCenter(const rclcpp::NodeOptions & options)
-: LifecycleNode("autoware_control_center", options),lease_duration_{0}
+: LifecycleNode("autoware_control_center", options), lease_duration_{0}
 {
   // log info
   RCLCPP_INFO(get_logger(), "AutowareControlCenter is initialized");
