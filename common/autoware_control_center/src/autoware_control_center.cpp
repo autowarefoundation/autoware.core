@@ -157,6 +157,7 @@ void AutowareControlCenter::startup_callback()
       using ServiceResponseFuture = rclcpp::Client<
         autoware_control_center_msgs::srv::AutowareControlCenterDeregister>::SharedFuture;
       // lambda for async request
+      // NOLINTNEXTLINE(performance-unnecessary-value-param)
       auto response_received_callback = [this](const ServiceResponseFuture future) {
         const auto & response = future.get();
         RCLCPP_INFO(
