@@ -156,7 +156,7 @@ void AutowareControlCenter::on_startup()
       auto future_result = dereg_client->async_send_request(req, response_received_callback);
       RCLCPP_DEBUG(get_logger(), "Sent request to %s", pair.first.c_str());
     }
-  }  
+  }
 }
 
 rclcpp::Subscription<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr
