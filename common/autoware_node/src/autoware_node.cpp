@@ -32,7 +32,7 @@ AutowareNode::AutowareNode(
   const std::string & node_name, const std::string & ns, const rclcpp::NodeOptions & options)
 : LifecycleNode(node_name, ns, options)
 {
-  RCLCPP_INFO(get_logger(), "AutowareNode::AutowareNode()");
+  RCLCPP_DEBUG(get_logger(), "AutowareNode::AutowareNode()");
   declare_parameter<int>(
     "heartbeat_period", 200);  // TODO(lexavtanke): remove default and add schema
   declare_parameter<int>("register_timer_period", 500);
@@ -84,9 +84,9 @@ AutowareNode::AutowareNode(
 
 void AutowareNode::register_callback()
 {
-  RCLCPP_INFO(get_logger(), "Register callback");
+  RCLCPP_DEBUG(get_logger(), "Register callback");
   if (registered) {
-    RCLCPP_INFO(get_logger(), "It was registered before");
+    RCLCPP_DEBUG(get_logger(), "It was registered before");
     return;
   }
 
@@ -100,13 +100,13 @@ void AutowareNode::register_callback()
 
   cli_register_->async_send_request(
     req, std::bind(&AutowareNode::node_register_future_callback, this, std::placeholders::_1));
-  RCLCPP_INFO(get_logger(), "Sent request");
+  RCLCPP_DEBUG(get_logger(), "Sent request");
 
   const std::string msg = self_name + " node started";
   autoware_control_center_msgs::msg::AutowareNodeState node_state;
   node_state.status = autoware_control_center_msgs::msg::AutowareNodeState::NORMAL;
   send_state(node_state, msg);
-  RCLCPP_INFO(get_logger(), "Sent node state");
+  RCLCPP_DEBUG(get_logger(), "Sent node state");
 }
 
 void AutowareNode::heartbeat_callback()
@@ -114,7 +114,7 @@ void AutowareNode::heartbeat_callback()
   auto message = autoware_control_center_msgs::msg::Heartbeat();
   message.stamp = this->get_clock()->now();
   message.sequence_number = sequence_number_++;
-  RCLCPP_INFO(this->get_logger(), "Publishing heartbeat, sent at [%i]", message.stamp.sec);
+  RCLCPP_DEBUG(this->get_logger(), "Publishing heartbeat, sent at [%i]", message.stamp.sec);
   heartbeat_pub_->publish(message);
 }
 
@@ -124,9 +124,9 @@ void AutowareNode::deregister(
   const autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Response::SharedPtr
     response)
 {
-  RCLCPP_INFO(get_logger(), "Deregister callback");
+  RCLCPP_DEBUG(get_logger(), "Deregister callback");
   std::string str_uuid = autoware_utils::to_hex_string(request->uuid_acc);
-  RCLCPP_INFO(get_logger(), "Request from %s", str_uuid.c_str());
+  RCLCPP_DEBUG(get_logger(), "Request from %s", str_uuid.c_str());
   response->name_node = self_name;
 
   if (!registered) {
@@ -160,21 +160,21 @@ void AutowareNode::send_state(
 
   cli_node_error_->async_send_request(
     req, std::bind(&AutowareNode::node_error_future_callback, this, std::placeholders::_1));
-  RCLCPP_INFO(get_logger(), "Send node state");
+  RCLCPP_DEBUG(get_logger(), "Send node state");
 }
 // NOLINTNEXTLINE(performance-unnecessary-value-param)
 void AutowareNode::node_register_future_callback(AutowareNodeRegisterServiceResponseFuture future)
 {
   const auto & response = future.get();
   std::string str_uuid = autoware_utils::to_hex_string(response->uuid_node);
-  RCLCPP_INFO(get_logger(), "response: %d, %s", response->status.status, str_uuid.c_str());
+  RCLCPP_DEBUG(get_logger(), "response: %d, %s", response->status.status, str_uuid.c_str());
 
   if (response->status.status == autoware_control_center_msgs::msg::Status::SUCCESS) {
     registered = true;
     self_uuid = response->uuid_node;
-    RCLCPP_INFO(get_logger(), "Node was registered");
+    RCLCPP_DEBUG(get_logger(), "Node was registered");
     register_timer_->cancel();
-    RCLCPP_INFO(get_logger(), "Register timer was cancelled");
+    RCLCPP_DEBUG(get_logger(), "Register timer was cancelled");
   } else {
     RCLCPP_ERROR(get_logger(), "Failed to register node");
   }
@@ -184,12 +184,12 @@ void AutowareNode::node_error_future_callback(AutowareNodeErrorServiceResponseFu
 {
   const auto & response = future.get();
   std::string str_uuid = autoware_utils::to_hex_string(response->uuid_node);
-  RCLCPP_INFO(
+  RCLCPP_DEBUG(
     get_logger(), "response: %d, %s, %s", response->status.status, str_uuid.c_str(),
     response->log_response.c_str());
 
   if (response->status.status == autoware_control_center_msgs::msg::Status::SUCCESS) {
-    RCLCPP_INFO(get_logger(), "Node state was received by ACC");
+    RCLCPP_DEBUG(get_logger(), "Node state was received by ACC");
   } else {
     RCLCPP_ERROR(get_logger(), "Failed to send Node state to ACC");
   }

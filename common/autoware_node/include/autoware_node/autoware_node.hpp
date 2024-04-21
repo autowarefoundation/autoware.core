@@ -61,7 +61,7 @@ public:
   {
     // create proper qos based on input parameter
     // update lease duration and deadline in qos
-    RCLCPP_INFO(get_logger(), "Create monitored subscription to topic %s", topic_name.c_str());
+    RCLCPP_DEBUG(get_logger(), "Create monitored subscription to topic %s", topic_name.c_str());
     std::chrono::milliseconds lease_duration{
       static_cast<int>(1.0 / hz * 1000 * 1.1)};  // add 10 % gap to lease duration (buffer)
     rclcpp::QoS qos_profile = qos;
@@ -84,11 +84,11 @@ public:
 
     sub_options.event_callbacks.liveliness_callback =
       [=](rclcpp::QOSLivelinessChangedInfo & event) -> void {
-      RCLCPP_INFO(get_logger(), "%s topic liveliness info changed", topic_name.c_str());
-      RCLCPP_INFO(get_logger(), "  alive_count: %d", event.alive_count);
-      RCLCPP_INFO(get_logger(), "  not_alive_count: %d", event.not_alive_count);
-      RCLCPP_INFO(get_logger(), "  alive_count_change: %d", event.alive_count_change);
-      RCLCPP_INFO(get_logger(), "  not_alive_count_change: %d", event.not_alive_count_change);
+      RCLCPP_DEBUG(get_logger(), "%s topic liveliness info changed", topic_name.c_str());
+      RCLCPP_DEBUG(get_logger(), "  alive_count: %d", event.alive_count);
+      RCLCPP_DEBUG(get_logger(), "  not_alive_count: %d", event.not_alive_count);
+      RCLCPP_DEBUG(get_logger(), "  alive_count_change: %d", event.alive_count_change);
+      RCLCPP_DEBUG(get_logger(), "  not_alive_count_change: %d", event.not_alive_count_change);
       if (event.alive_count == 0) {
         RCLCPP_ERROR(get_logger(), "%s topic publisher is not alive.", topic_name.c_str());
         // NodeError service call

@@ -22,7 +22,7 @@ std::optional<unique_identifier_msgs::msg::UUID> NodeRegistry::register_node(
   const std::string & name, const unique_identifier_msgs::msg::UUID & uuid)
 {
   if (is_registered(name)) {
-    RCLCPP_INFO(
+    RCLCPP_DEBUG(
       rclcpp::get_logger("NodeRegistry"), "Node %s has been registered before. Register again.",
       name.c_str());
     autoware_node_info_map_[name].time_registering = rclcpp::Clock().now();
@@ -30,7 +30,7 @@ std::optional<unique_identifier_msgs::msg::UUID> NodeRegistry::register_node(
     autoware_node_info_map_[name].num_registered += 1;
   } else {
     autoware_node_info_map_[name] = {rclcpp::Clock().now(), name, uuid, 1};
-    RCLCPP_INFO(rclcpp::get_logger("NodeRegistry"), "Node %s is registered.", name.c_str());
+    RCLCPP_DEBUG(rclcpp::get_logger("NodeRegistry"), "Node %s is registered.", name.c_str());
   }
 
   return autoware_node_info_map_.at(name).uuid;
@@ -47,7 +47,7 @@ std::optional<unique_identifier_msgs::msg::UUID> NodeRegistry::deregister_node(
   unique_identifier_msgs::msg::UUID node_uuid = autoware_node_info_map_.at(name).uuid;
   autoware_node_info_map_.erase(name);
 
-  RCLCPP_INFO(rclcpp::get_logger("NodeRegistry"), "Node %s is deregistered.", name.c_str());
+  RCLCPP_DEBUG(rclcpp::get_logger("NodeRegistry"), "Node %s is deregistered.", name.c_str());
   return node_uuid;
 }
 
