@@ -34,13 +34,8 @@ AutowareControlCenter::AutowareControlCenter(const rclcpp::NodeOptions & options
   // log info
   RCLCPP_INFO(get_logger(), "AutowareControlCenter is initialized");
   declare_parameter<int>("lease_duration", 220);  // TODO(lexavtanke): remove default and add schema
-  declare_parameter<double>("startup_duration", 10.0);
-  declare_parameter<int>("startup_callback_period", 500);
   declare_parameter<int>("node_report_period", 1000);
   lease_duration_ = std::chrono::milliseconds(get_parameter("lease_duration").as_int());
-  startup_duration_ = get_parameter("startup_duration").as_double();
-  std::chrono::milliseconds startup_callback_period(
-    get_parameter("startup_callback_period").as_int());
   std::chrono::milliseconds node_report_period(get_parameter("node_report_period").as_int());
 
   callback_group_mut_ex_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
@@ -65,10 +60,7 @@ AutowareControlCenter::AutowareControlCenter(const rclcpp::NodeOptions & options
     node_report_period, std::bind(&AutowareControlCenter::node_reports_callback, this));
 
   acc_uuid_ = autoware_utils::generate_uuid();
-  startup_ = true;
-  startup_timestamp_ = this->get_clock()->now();
-  startup_timer_ = this->create_wall_timer(
-    startup_callback_period, std::bind(&AutowareControlCenter::startup_callback, this));
+  on_startup();
 }
 
 void AutowareControlCenter::register_node(
@@ -120,64 +112,51 @@ void AutowareControlCenter::deregister_node(
   }
 }
 
-void AutowareControlCenter::startup_callback()
+void AutowareControlCenter::on_startup()
 {
-  // wait for N sec and
-  // check if some node has been registered
-  double time_difference =
-    rclcpp::Duration(this->get_clock()->now() - startup_timestamp_).seconds();
-  if (node_registry_.is_empty()) {
-    RCLCPP_INFO(get_logger(), "Node register map is empty. Waiting for %.1f s.", time_difference);
+  RCLCPP_INFO(get_logger(), "ACC startup called");
+  std::map<std::string, std::vector<std::string>> srv_list = this->get_service_names_and_types();
+  filter_deregister_services(srv_list);
+
+  RCLCPP_INFO(get_logger(), "Filtered service list:");
+  if (srv_list.empty()) {
+    RCLCPP_INFO(get_logger(), "Empty.");
   }
-  if (time_difference > startup_duration_ && node_registry_.is_empty() && startup_) {
-    RCLCPP_INFO(
-      get_logger(), "Startup timeout is over. Map is empty. Start re-registering procedure.");
-    this->startup_timer_->cancel();
-    RCLCPP_INFO(get_logger(), "Startup timer stop.");
-    std::map<std::string, std::vector<std::string>> srv_list = this->get_service_names_and_types();
-    filter_deregister_services(srv_list);
+  for (auto const & pair : srv_list) {
+    RCLCPP_INFO(get_logger(), "Service Name: %s", pair.first.c_str());
+    rclcpp::Client<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>::SharedPtr
+      // cspell:ignore dereg
+      dereg_client =
+        create_client<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>(
+          pair.first);
+    autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request::SharedPtr req =
+      std::make_shared<
+        autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request>();
 
-    RCLCPP_INFO(get_logger(), "Filtered service list:");
-    if (srv_list.empty()) {
-      RCLCPP_INFO(get_logger(), "Empty.");
-    }
-    for (auto const & pair : srv_list) {
-      RCLCPP_INFO(get_logger(), "Service Name: %s", pair.first.c_str());
-      rclcpp::Client<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>::SharedPtr
-        // cspell:ignore dereg
-        dereg_client =
-          create_client<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>(
-            pair.first);
-      autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request::SharedPtr req =
-        std::make_shared<
-          autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request>();
+    req->uuid_acc = acc_uuid_;
 
-      req->uuid_acc = acc_uuid_;
+    using ServiceResponseFuture = rclcpp::Client<
+      autoware_control_center_msgs::srv::AutowareControlCenterDeregister>::SharedFuture;
+    // lambda for async request
+    // NOLINTNEXTLINE(performance-unnecessary-value-param)
+    auto response_received_callback = [this](const ServiceResponseFuture future) {
+      const auto & response = future.get();
+      RCLCPP_INFO(
+        get_logger(), "Deregister response: %d, %s", response->status.status,
+        response->name_node.c_str());
 
-      using ServiceResponseFuture = rclcpp::Client<
-        autoware_control_center_msgs::srv::AutowareControlCenterDeregister>::SharedFuture;
-      // lambda for async request
-      // NOLINTNEXTLINE(performance-unnecessary-value-param)
-      auto response_received_callback = [this](const ServiceResponseFuture future) {
-        const auto & response = future.get();
-        RCLCPP_INFO(
-          get_logger(), "Deregister response: %d, %s", response->status.status,
-          response->name_node.c_str());
-
-        if (response->status.status == autoware_control_center_msgs::msg::Status::SUCCESS) {
-          RCLCPP_INFO(get_logger(), "Node was deregistered");
-        } else {
-          RCLCPP_ERROR(get_logger(), "Failed to deregister node");
-        }
-      };
-
-      if (dereg_client->service_is_ready()) {
-        auto future_result = dereg_client->async_send_request(req, response_received_callback);
-        RCLCPP_INFO(get_logger(), "Sent request to %s", pair.first.c_str());
+      if (response->status.status == autoware_control_center_msgs::msg::Status::SUCCESS) {
+        RCLCPP_INFO(get_logger(), "Node was deregistered");
+      } else {
+        RCLCPP_ERROR(get_logger(), "Failed to deregister node");
       }
+    };
+
+    if (dereg_client->service_is_ready()) {
+      auto future_result = dereg_client->async_send_request(req, response_received_callback);
+      RCLCPP_INFO(get_logger(), "Sent request to %s", pair.first.c_str());
     }
-    startup_ = false;
-  }
+  }  
 }
 
 rclcpp::Subscription<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr

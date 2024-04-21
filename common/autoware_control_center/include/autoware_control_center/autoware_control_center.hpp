@@ -87,10 +87,7 @@ private:
   Store information about registered Autoware Nodes statuses.
   */
   std::unordered_map<std::string, AutowareNodeStatus> node_status_map_;
-  /*!
-  Control startup procedure of the  Autoware Control Center.
-  */
-  rclcpp::TimerBase::SharedPtr startup_timer_;
+
   /*!
   Control publishing to the autoware_node_reports topic.
   */
@@ -103,18 +100,6 @@ private:
   The lease duration granted to the remote (heartbeat) publisher.
   */
   std::chrono::milliseconds lease_duration_;
-  /*!
-  The period for node registration during the startup of the Autoware Control Center.
-  */
-  double startup_duration_;
-  /*!
-  The timestamp of the Autoware Control Center startup.
-  */
-  rclcpp::Time startup_timestamp_;
-  /*!
-  The flag of startup for deregistration of Autoware Nodes.
-  */
-  bool startup_;
 
   /*!
   Callback for the register node service.
@@ -139,10 +124,9 @@ private:
     const autoware_control_center_msgs::srv::AutowareNodeError::Response::SharedPtr response);
 
   /*!
-  Callback for the startup timer. Check if there is no registered node for the particular period of
-  time. After it will list all nodes in the system and call the deregister service of them.
+  Startup function of ACC. ACC emits a deregister signal to all ANs (as a startup event).
   */
-  void startup_callback();
+  void on_startup();
 
   /*!
   Create subscription with the proper QoS to the heartbeat topic of the node with node_name.
