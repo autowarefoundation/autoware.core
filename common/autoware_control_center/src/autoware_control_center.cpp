@@ -137,7 +137,9 @@ void AutowareControlCenter::on_startup()
 
     using ServiceResponseFuture = rclcpp::Client<
       autoware_control_center_msgs::srv::AutowareControlCenterDeregister>::SharedFuture;
-    // performance-unnecessary-value-param is not recognized by cpplint
+
+    // performance-unnecessary-value-param
+    // TODO(xmfcx): add the line above the line below once next cpplint is released (1.7.0 or 2.0.0)
     // NOLINTNEXTLINE
     auto response_received_callback = [this](const ServiceResponseFuture future) {
       const auto & response = future.get();

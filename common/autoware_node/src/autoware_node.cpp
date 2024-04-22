@@ -163,7 +163,8 @@ void AutowareNode::send_state(
   RCLCPP_DEBUG(get_logger(), "Send node state");
 }
 
-// performance-unnecessary-value-param is not recognized by cpplint
+// performance-unnecessary-value-param
+// TODO(xmfcx): add the line above the line below once next cpplint is released (1.7.0 or 2.0.0)
 // NOLINTNEXTLINE
 void AutowareNode::node_register_future_callback(AutowareNodeRegisterServiceResponseFuture future)
 {
@@ -182,7 +183,8 @@ void AutowareNode::node_register_future_callback(AutowareNodeRegisterServiceResp
   }
 }
 
-// performance-unnecessary-value-param is not recognized by cpplint
+// performance-unnecessary-value-param
+// TODO(xmfcx): add the line above the line below once next cpplint is released (1.7.0 or 2.0.0)
 // NOLINTNEXTLINE
 void AutowareNode::node_error_future_callback(AutowareNodeErrorServiceResponseFuture future)
 {
