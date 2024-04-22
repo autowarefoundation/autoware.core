@@ -162,7 +162,7 @@ void AutowareNode::send_state(
     req, std::bind(&AutowareNode::node_error_future_callback, this, std::placeholders::_1));
   RCLCPP_DEBUG(get_logger(), "Send node state");
 }
-// NOLINTNEXTLINE(performance-unnecessary-value-param)
+// NOLINTNEXTLINE(clang-analyzer-performance-unnecessary-value-param)
 void AutowareNode::node_register_future_callback(AutowareNodeRegisterServiceResponseFuture future)
 {
   const auto & response = future.get();
@@ -179,7 +179,7 @@ void AutowareNode::node_register_future_callback(AutowareNodeRegisterServiceResp
     RCLCPP_ERROR(get_logger(), "Failed to register node");
   }
 }
-// NOLINTNEXTLINE(performance-unnecessary-value-param)
+// NOLINTNEXTLINE(clang-analyzer-performance-unnecessary-value-param)
 void AutowareNode::node_error_future_callback(AutowareNodeErrorServiceResponseFuture future)
 {
   const auto & response = future.get();
