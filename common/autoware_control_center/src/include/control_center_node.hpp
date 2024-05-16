@@ -27,6 +27,7 @@
 #include <autoware_control_center_msgs/srv/report_state.hpp>
 
 #include <map>
+#include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
