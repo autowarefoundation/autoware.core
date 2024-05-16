@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef AUTOWARE_CONTROL_CENTER__AUTOWARE_CONTROL_CENTER_HPP_
-#define AUTOWARE_CONTROL_CENTER__AUTOWARE_CONTROL_CENTER_HPP_
+#ifndef CONTROL_CENTER_NODE_HPP_
+#define CONTROL_CENTER_NODE_HPP_
 
 #include "node_registry.hpp"
 
@@ -96,4 +96,4 @@ private:
 
 }  // namespace autoware::control_center
 
-#endif  // AUTOWARE_CONTROL_CENTER__AUTOWARE_CONTROL_CENTER_HPP_
+#endif  // CONTROL_CENTER_NODE_HPP_

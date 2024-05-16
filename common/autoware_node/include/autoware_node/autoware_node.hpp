@@ -181,10 +181,8 @@ private:
   The callback for the  Autoware Control Center deregister service of the Autoware Node.
   */
   void deregister(
-    const autoware_control_center_msgs::srv::ControlCenterDeregister::Request::SharedPtr
-      request,
-    const autoware_control_center_msgs::srv::ControlCenterDeregister::Response::SharedPtr
-      response);
+    const autoware_control_center_msgs::srv::ControlCenterDeregister::Request::SharedPtr request,
+    const autoware_control_center_msgs::srv::ControlCenterDeregister::Response::SharedPtr response);
   /*!
   The sequential number of the Heartbeat message.
   */

@@ -12,9 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <node_registry.hpp>
-
 #include <autoware_utils/ros/uuid_helper.hpp>
+#include <node_registry.hpp>
 
 #include <gtest/gtest.h>
 

@@ -34,7 +34,6 @@ Reports the state of an Autoware node to the ACC.
 - **Topic:** `/autoware/control_center/srv/report_state`
 - **Type:** `autoware_control_center_msgs::srv::ReportState`
 
-
 ### Topics
 
 - ACC subscribes to _heartbeat_ topic of _Autoware_Node_ after its registration. ACC controls liveliness' of
@@ -63,7 +62,7 @@ violated such _autoware_node_ will be considered as not alive.
 ## Parameters
 
 | Name                      | Type   | Default Value | Description                                                                                      |
-|---------------------------|--------|---------------|--------------------------------------------------------------------------------------------------|
+| ------------------------- | ------ | ------------- | ------------------------------------------------------------------------------------------------ |
 | `lease_duration`          | int    | `220`         | After a violation this heartbeat period (in ms) _autoware_node_ will be considered as not alive. |
 | `startup_duration`        | double | `10.0`        | A period (in s) of ACC startup procedure.                                                        |
 | `startup_callback_period` | int    | `500`         | A period (in ms) of ACC startup timer.                                                           |

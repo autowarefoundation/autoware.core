@@ -41,20 +41,16 @@ ControlCenter::ControlCenter(const rclcpp::NodeOptions & options)
   using std::placeholders::_1;
   using std::placeholders::_2;
   srv_register_ = create_service<Register>(
-    "~/srv/register",
-    std::bind(&ControlCenter::on_register_node, this, _1, _2), rmw_qos_profile_services_default,
-    callback_group_mut_ex_);
+    "~/srv/register", std::bind(&ControlCenter::on_register_node, this, _1, _2),
+    rmw_qos_profile_services_default, callback_group_mut_ex_);
   srv_deregister_ = create_service<Deregister>(
-    "~/srv/deregister",
-    std::bind(&ControlCenter::on_deregister_node, this, _1, _2), rmw_qos_profile_services_default,
-    callback_group_mut_ex_);
+    "~/srv/deregister", std::bind(&ControlCenter::on_deregister_node, this, _1, _2),
+    rmw_qos_profile_services_default, callback_group_mut_ex_);
   srv_report_state_ = create_service<ReportState>(
-    "~/srv/report_state",
-    std::bind(&ControlCenter::on_report_state, this, _1, _2), rmw_qos_profile_services_default,
-    callback_group_mut_ex_);
+    "~/srv/report_state", std::bind(&ControlCenter::on_report_state, this, _1, _2),
+    rmw_qos_profile_services_default, callback_group_mut_ex_);
 
-  pub_reports_ = create_publisher<autoware_control_center_msgs::msg::NodeReports>(
-    "~/reports", 1);
+  pub_reports_ = create_publisher<autoware_control_center_msgs::msg::NodeReports>("~/reports", 1);
 
   acc_uuid_ = autoware_utils::generate_uuid();
 }
