@@ -20,7 +20,7 @@ After startup each _autoware_node_ tries to register itself to ACC via a service
 
 ### De-registration
 
-If _autoware_node_ receives a request to it's _AutowareControlCenterDeregister_ service. It will disable the flag _registered_ and it will startup timer which control registration client.
+If _autoware_node_ receives a request to it's _ControlCenterDeregister_ service. It will disable the flag _registered_ and it will startup timer which control registration client.
 
 ### Error state
 

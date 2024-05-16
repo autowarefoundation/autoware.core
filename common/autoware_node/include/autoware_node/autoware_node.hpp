@@ -114,7 +114,7 @@ public:
   /*!
   The service of the Autoware Control Center de-register type.
   */
-  rclcpp::Service<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>::SharedPtr
+  rclcpp::Service<autoware_control_center_msgs::srv::ControlCenterDeregister>::SharedPtr
     srv_deregister_;
   /*!
   The client of the Autoware Node error service.
@@ -181,9 +181,9 @@ private:
   The callback for the  Autoware Control Center deregister service of the Autoware Node.
   */
   void deregister(
-    const autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request::SharedPtr
+    const autoware_control_center_msgs::srv::ControlCenterDeregister::Request::SharedPtr
       request,
-    const autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Response::SharedPtr
+    const autoware_control_center_msgs::srv::ControlCenterDeregister::Response::SharedPtr
       response);
   /*!
   The sequential number of the Heartbeat message.

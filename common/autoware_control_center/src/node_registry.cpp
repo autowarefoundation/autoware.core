@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "autoware_control_center/node_registry.hpp"
+#include "include/node_registry.hpp"
 
 #include <rclcpp/rclcpp.hpp>
 
-namespace autoware_control_center
+namespace autoware::control_center
 {
 std::optional<unique_identifier_msgs::msg::UUID> NodeRegistry::register_node(
   const std::string & name, const unique_identifier_msgs::msg::UUID & uuid)
@@ -70,4 +70,4 @@ bool NodeRegistry::is_empty()
 {
   return autoware_node_info_map_.empty();
 }
-}  // namespace autoware_control_center
+}  // namespace autoware::control_center

@@ -16,13 +16,15 @@
   <depend>autoware_control_center_msgs</depend>
   <depend>autoware_utils</depend>
   <depend>lifecycle_msgs</depend>
+  <depend>rclcpp</depend>
   <depend>rclcpp_components</depend>
   <depend>rclcpp_lifecycle</depend>
 
+  <test_depend>autoware_lint_common</test_depend>
+  <test_depend>autoware_utils</test_depend>
   <test_depend>ament_cmake_gtest</test_depend>
   <test_depend>ament_cmake_ros</test_depend>
-  <test_depend>autoware_lint_common</test_depend>
-  <test_depend>rclcpp</test_depend>
+  <test_depend>ament_lint_auto</test_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

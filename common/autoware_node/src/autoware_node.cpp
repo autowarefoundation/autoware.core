@@ -73,12 +73,12 @@ AutowareNode::AutowareNode(
   using std::placeholders::_1;
   using std::placeholders::_2;
   srv_deregister_ =
-    create_service<autoware_control_center_msgs::srv::AutowareControlCenterDeregister>(
+    create_service<autoware_control_center_msgs::srv::ControlCenterDeregister>(
       "~/srv/acc_deregister", std::bind(&AutowareNode::deregister, this, _1, _2),
       rmw_qos_profile_services_default, callback_group_mut_ex_);
 
   cli_node_error_ = create_client<autoware_control_center_msgs::srv::AutowareNodeError>(
-    "/autoware_control_center/srv/autoware_node_error", rmw_qos_profile_default,
+    "/autoware_control_center/srv/on_report_error", rmw_qos_profile_default,
     callback_group_mut_ex_);
 }
 
@@ -119,9 +119,9 @@ void AutowareNode::heartbeat_callback()
 }
 
 void AutowareNode::deregister(
-  const autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Request::SharedPtr
+  const autoware_control_center_msgs::srv::ControlCenterDeregister::Request::SharedPtr
     request,
-  const autoware_control_center_msgs::srv::AutowareControlCenterDeregister::Response::SharedPtr
+  const autoware_control_center_msgs::srv::ControlCenterDeregister::Response::SharedPtr
     response)
 {
   RCLCPP_DEBUG(get_logger(), "Deregister callback");
@@ -131,12 +131,12 @@ void AutowareNode::deregister(
 
   if (!registered) {
     RCLCPP_WARN(get_logger(), "Node wasn't registered");
-    response->status.status = autoware_control_center_msgs::srv::AutowareControlCenterDeregister::
+    response->status.status = autoware_control_center_msgs::srv::ControlCenterDeregister::
       Response::_status_type::FAILURE;
   } else {
     RCLCPP_WARN(get_logger(), "Node deregistered");
     registered = false;
-    response->status.status = autoware_control_center_msgs::srv::AutowareControlCenterDeregister::
+    response->status.status = autoware_control_center_msgs::srv::ControlCenterDeregister::
       Response::_status_type::SUCCESS;
     response->log_response = self_name + " was deregistered";
     response->name_node = self_name;

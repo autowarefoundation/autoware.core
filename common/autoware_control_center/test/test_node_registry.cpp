@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "autoware_control_center/node_registry.hpp"
+#include <node_registry.hpp>
 
 #include <autoware_utils/ros/uuid_helper.hpp>
 
@@ -22,7 +22,7 @@
 class NodeRegistryTest : public ::testing::Test
 {
 protected:
-  autoware_control_center::NodeRegistry registry;
+  autoware::control_center::NodeRegistry registry;
 };
 
 TEST_F(NodeRegistryTest, RegisterNodeTest)

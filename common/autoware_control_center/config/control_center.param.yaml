@@ -1,0 +1,4 @@
+/**:
+  ros__parameters:
+    lease_duration_ms: 220.0
+    report_publish_rate: 1.0

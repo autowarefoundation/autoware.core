@@ -9,15 +9,14 @@ set(msg_dependencies
   unique_identifier_msgs)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
-"msg/AutowareNodeReport.msg"
-"msg/AutowareNodeReports.msg"
-"msg/AutowareNodeState.msg"
   "msg/Heartbeat.msg"
-  "msg/Status.msg"
-  "srv/AutowareControlCenterDeregister.srv"
-  "srv/AutowareNodeDeregister.srv"
-  "srv/AutowareNodeError.srv"
-  "srv/AutowareNodeRegister.srv"
+  "msg/NodeReport.msg"
+  "msg/NodeReports.msg"
+  "msg/NodeState.msg"
+  "msg/NodeStatus.msg"
+  "srv/Deregister.srv"
+  "srv/Register.srv"
+  "srv/ReportState.srv"
   DEPENDENCIES ${msg_dependencies})
 
 if(BUILD_TESTING)

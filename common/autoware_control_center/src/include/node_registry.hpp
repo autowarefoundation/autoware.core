@@ -23,7 +23,7 @@
 #include <string>
 #include <unordered_map>
 
-namespace autoware_control_center
+namespace autoware::control_center
 {
 struct AutowareNodeInfo
 {
@@ -52,6 +52,6 @@ public:
 private:
   std::unordered_map<std::string, AutowareNodeInfo> autoware_node_info_map_;
 };
-}  // namespace autoware_control_center
+}  // namespace autoware::control_center
 
 #endif  // AUTOWARE_CONTROL_CENTER__NODE_REGISTRY_HPP_

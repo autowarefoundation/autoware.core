@@ -3,6 +3,6 @@
 unique_identifier_msgs/UUID uuid_node
 string name_node
 bool alive
-autoware_control_center_msgs/AutowareNodeState last_node_state
+autoware_control_center_msgs/NodeState last_node_state
 string node_report
 builtin_interfaces/Duration last_heartbeat
