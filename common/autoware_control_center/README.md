@@ -63,7 +63,7 @@ Publishes reports on the current status of registered Autoware nodes.
 ## Parameters
 
 | Name                  | Type     | Default Value | Description                                                                         |
-|-----------------------|----------|---------------|-------------------------------------------------------------------------------------|
+| --------------------- | -------- | ------------- | ----------------------------------------------------------------------------------- |
 | `lease_duration_ms`   | `double` | `220.0`       | If not received another heartbeat within this duration, AN will be considered dead. |
 | `report_publish_rate` | `double` | `1.0`         | Publish NodeReports rate (hz)                                                       |
 
