@@ -67,8 +67,8 @@ Node::Node(
     "/autoware_control_center/srv/autoware_node_register", rmw_qos_profile_default,
     callback_group_mut_ex_);
 
-  register_timer_ = this->create_wall_timer(
-    register_timer_period, std::bind(&Node::register_callback, this));
+  register_timer_ =
+    this->create_wall_timer(register_timer_period, std::bind(&Node::register_callback, this));
 
   cli_node_error_ = create_client<autoware_control_center_msgs::srv::ReportState>(
     "/autoware_control_center/srv/on_report_error", rmw_qos_profile_default,
@@ -110,7 +110,6 @@ void Node::heartbeat_callback()
   RCLCPP_DEBUG(this->get_logger(), "Publishing heartbeat, sent at [%i]", message.stamp.sec);
   heartbeat_pub_->publish(message);
 }
-
 
 void Node::send_state(
   const autoware_control_center_msgs::msg::NodeState & node_state, std::string message)

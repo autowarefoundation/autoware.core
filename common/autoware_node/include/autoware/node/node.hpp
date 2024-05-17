@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef AUTOWARE_NODE__AUTOWARE_NODE_HPP_
-#define AUTOWARE_NODE__AUTOWARE_NODE_HPP_
+#ifndef AUTOWARE__NODE__NODE_HPP_
+#define AUTOWARE__NODE__NODE_HPP_
 
 #include "autoware/node/visibility_control.hpp"
 
@@ -144,4 +144,4 @@ private:
 
 }  // namespace autoware::node
 
-#endif  // AUTOWARE_NODE__AUTOWARE_NODE_HPP_
+#endif  // AUTOWARE__NODE__NODE_HPP_
