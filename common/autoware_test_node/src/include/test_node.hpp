@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef TEST_NODE__TEST_NODE_HPP_
-#define TEST_NODE__TEST_NODE_HPP_
+#ifndef TEST_NODE_HPP_
+#define TEST_NODE_HPP_
 
 #include <autoware/node/node.hpp>
 #include <rclcpp_lifecycle/lifecycle_node.hpp>
@@ -35,4 +35,4 @@ private:
 
 }  // namespace autoware::test_node
 
-#endif  // TEST_NODE__TEST_NODE_HPP_
+#endif  // TEST_NODE_HPP_
