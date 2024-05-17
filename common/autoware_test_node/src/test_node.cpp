@@ -12,23 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "test_node/test_node.hpp"
+#include "include/test_node.hpp"
 
-#include "autoware_node/autoware_node.hpp"
+#include <autoware/node/node.hpp>
 
-namespace test_node
+namespace autoware::test_node
 {
-
-using std::placeholders::_1;
 
 TestNode::TestNode(const rclcpp::NodeOptions & options)
-: autoware_node::AutowareNode("test_node", "", options)
+: autoware::node::Node("test_node", "", options)
 {
   RCLCPP_INFO(
-    get_logger(), "TestNode constructor with name %s",
-    autoware_node::AutowareNode::self_name.c_str());
+    get_logger(), "TestNode constructor with name %s", autoware::node::Node::self_name.c_str());
+
+  using std::placeholders::_1;
   monitored_subscription_ =
-    autoware_node::AutowareNode::create_monitored_subscription<std_msgs::msg::String>(
+    autoware::node::Node::create_monitored_subscription<std_msgs::msg::String>(
       "topic", 10, 10, std::bind(&TestNode::topic_callback, this, _1));
 }
 
@@ -37,11 +36,7 @@ void TestNode::topic_callback(const std_msgs::msg::String::SharedPtr msg)
   RCLCPP_INFO(this->get_logger(), "I heard: '%s'", msg->data.c_str());
 }
 
-}  // namespace test_node
+}  // namespace autoware::test_node
 
 #include "rclcpp_components/register_node_macro.hpp"
-
-// Register the component with class_loader.
-// This acts as a sort of entry point, allowing the component to be discoverable when its library
-// is being loaded into a running process.
-RCLCPP_COMPONENTS_REGISTER_NODE(test_node::TestNode)
+RCLCPP_COMPONENTS_REGISTER_NODE(autoware::test_node::TestNode)

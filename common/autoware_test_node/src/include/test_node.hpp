@@ -12,4 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "test_autoware_node.hpp"
+#ifndef TEST_NODE__TEST_NODE_HPP_
+#define TEST_NODE__TEST_NODE_HPP_
+
+#include <autoware/node/node.hpp>
+#include <rclcpp_lifecycle/lifecycle_node.hpp>
+
+#include <std_msgs/msg/string.hpp>
+
+namespace autoware::test_node
+{
+
+class TestNode : public autoware::node::Node
+{
+public:
+  explicit TestNode(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
+
+private:
+  void topic_callback(const std_msgs::msg::String::SharedPtr msg);
+  rclcpp::Subscription<std_msgs::msg::String>::SharedPtr monitored_subscription_;
+};
+
+}  // namespace autoware::test_node
+
+#endif  // TEST_NODE__TEST_NODE_HPP_

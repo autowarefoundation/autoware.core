@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>test_node</name>
+  <name>autoware_test_node</name>
   <version>0.0.0</version>
   <description>Test package for Autoware Control Center and Autoware Node.</description>
   <maintainer email="mfc@leodrive.ai">M. Fatih Cırıt</maintainer>
@@ -15,6 +15,7 @@
   <depend>rclcpp</depend>
   <depend>rclcpp_components</depend>
   <depend>rclcpp_lifecycle</depend>
+  <depend>std_msgs</depend>
 
   <test_depend>ament_cmake_ros</test_depend>
   <test_depend>autoware_control_center</test_depend>

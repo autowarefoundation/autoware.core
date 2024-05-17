@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "rclcpp/rclcpp.hpp"
+#include <rclcpp/rclcpp.hpp>
 
-#include "std_msgs/msg/string.hpp"
+#include <std_msgs/msg/string.hpp>
 
 #include <chrono>
 #include <functional>
@@ -39,11 +39,11 @@ public:
       .deadline(lease_duration);
     publisher_ = this->create_publisher<std_msgs::msg::String>("topic", qos_profile);
     timer_ =
-      this->create_wall_timer(timer_period, std::bind(&MinimalPublisher::timer_callback, this));
+      this->create_wall_timer(timer_period, std::bind(&MinimalPublisher::on_tick_timer, this));
   }
 
 private:
-  void timer_callback()
+  void on_tick_timer()
   {
     auto message = std_msgs::msg::String();
     message.data = "Hello, world! " + std::to_string(count_++);

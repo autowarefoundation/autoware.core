@@ -1,9 +1,7 @@
 cmake_minimum_required(VERSION 3.8)
 project(autoware_node)
 
-find_package(ament_cmake_auto REQUIRED)
-ament_auto_find_build_dependencies()
-
+find_package(autoware_cmake REQUIRED)
 autoware_package()
 
 ament_auto_add_library(${PROJECT_NAME} src/node.cpp)

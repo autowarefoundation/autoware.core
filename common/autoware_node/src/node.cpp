@@ -17,8 +17,8 @@
 #include <autoware_utils/ros/uuid_helper.hpp>
 #include <rclcpp/rclcpp.hpp>
 
-#include "autoware_control_center_msgs/msg/status.hpp"
-#include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
+#include "autoware_control_center_msgs/msg/node_status.hpp"
+#include "autoware_control_center_msgs/srv/register.hpp"
 
 #include <chrono>
 
@@ -139,7 +139,7 @@ void Node::node_register_future_callback(RegisterServiceResponseFuture future)
   std::string str_uuid = autoware_utils::to_hex_string(response->uuid_node);
   RCLCPP_DEBUG(get_logger(), "response: %d, %s", response->status.status, str_uuid.c_str());
 
-  if (response->status.status == autoware_control_center_msgs::msg::Status::SUCCESS) {
+  if (response->status.status == autoware_control_center_msgs::msg::NodeStatus::SUCCESS) {
     registered = true;
     self_uuid = response->uuid_node;
     RCLCPP_DEBUG(get_logger(), "Node was registered");
@@ -161,7 +161,7 @@ void Node::node_error_future_callback(ReportStateServiceResponseFuture future)
     get_logger(), "response: %d, %s, %s", response->status.status, str_uuid.c_str(),
     response->log_response.c_str());
 
-  if (response->status.status == autoware_control_center_msgs::msg::Status::SUCCESS) {
+  if (response->status.status == autoware_control_center_msgs::msg::NodeStatus::SUCCESS) {
     RCLCPP_DEBUG(get_logger(), "Node state was received by ACC");
   } else {
     RCLCPP_ERROR(get_logger(), "Failed to send Node state to ACC");

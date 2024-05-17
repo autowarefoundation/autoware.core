@@ -12,15 +12,4 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef TEST_NODE__VISIBILITY_CONTROL_HPP_
-#define TEST_NODE__VISIBILITY_CONTROL_HPP_
-
-#include "rcutils/visibility_control_macros.h"
-#ifdef TEST_NODE_BUILDING_DLL
-#define TEST_NODE_PUBLIC RCUTILS_EXPORT
-#else
-#define TEST_NODE_PUBLIC RCUTILS_IMPORT
-#endif  // !TEST_NODE_BUILDING_DLL
-#define TEST_NODE_LOCAL RCUTILS_LOCAL
-
-#endif  // TEST_NODE__VISIBILITY_CONTROL_HPP_
+#include "test_test_node.hpp"
