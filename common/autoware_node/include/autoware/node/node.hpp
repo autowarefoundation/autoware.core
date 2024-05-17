@@ -15,32 +15,33 @@
 #ifndef AUTOWARE_NODE__AUTOWARE_NODE_HPP_
 #define AUTOWARE_NODE__AUTOWARE_NODE_HPP_
 
-#include "autoware_node/visibility_control.hpp"
-#include "rclcpp/message_memory_strategy.hpp"
-#include "rclcpp/subscription.hpp"
-#include "rclcpp/subscription_options.hpp"
-#include "rclcpp/subscription_traits.hpp"
-#include "rclcpp_lifecycle/lifecycle_node.hpp"
+#include "autoware/node/visibility_control.hpp"
 
-#include "autoware_control_center_msgs/msg/autoware_node_state.hpp"
-#include "autoware_control_center_msgs/msg/heartbeat.hpp"
-#include "autoware_control_center_msgs/srv/autoware_control_center_deregister.hpp"
-#include "autoware_control_center_msgs/srv/autoware_node_error.hpp"
-#include "autoware_control_center_msgs/srv/autoware_node_register.hpp"
+#include <rclcpp/message_memory_strategy.hpp>
+#include <rclcpp/subscription.hpp>
+#include <rclcpp/subscription_options.hpp>
+#include <rclcpp/subscription_traits.hpp>
+#include <rclcpp_lifecycle/lifecycle_node.hpp>
+
+#include <autoware_control_center_msgs/msg/heartbeat.hpp>
+#include <autoware_control_center_msgs/msg/node_state.hpp>
+#include <autoware_control_center_msgs/srv/register.hpp>
+#include <autoware_control_center_msgs/srv/report_state.hpp>
 
 #include <memory>
 #include <string>
 #include <utility>
 
-namespace autoware_node
+namespace autoware::node
 {
-class AutowareNode : public rclcpp_lifecycle::LifecycleNode
+class Node : public rclcpp_lifecycle::LifecycleNode
 {
 public:
   AUTOWARE_NODE_PUBLIC
-  explicit AutowareNode(
+  explicit Node(
     const std::string & node_name, const std::string & ns = "",
     const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
+
   /*!
   Create subscription to provided topic with topic_name and monitors period of received messages.
   If desired period is violated the Autoware Node informs the Autoware Control Center.
@@ -48,7 +49,6 @@ public:
   \param[hz] The desired message frequency of the topic.
   \param[qos] The desired QoS for the topic.
   */
-  // cspell:ignore strat
   template <
     typename MessageT, typename CallbackT, typename AllocatorT = std::allocator<void>,
     typename SubscriptionT = rclcpp::Subscription<MessageT, AllocatorT>,
@@ -77,8 +77,8 @@ public:
         event.total_count_change);
       // NodeError service call
       std::string msg = "Deadline for topic " + topic_name + " was missed.";
-      autoware_control_center_msgs::msg::AutowareNodeState node_state;
-      node_state.status = autoware_control_center_msgs::msg::AutowareNodeState::ERROR;
+      autoware_control_center_msgs::msg::NodeState node_state;
+      node_state.status = autoware_control_center_msgs::msg::NodeState::ERROR;
       send_state(node_state, msg);
     };
 
@@ -93,8 +93,8 @@ public:
         RCLCPP_ERROR(get_logger(), "%s topic publisher is not alive.", topic_name.c_str());
         // NodeError service call
         std::string msg = topic_name + " topic publisher is not alive.";
-        autoware_control_center_msgs::msg::AutowareNodeState node_state;
-        node_state.status = autoware_control_center_msgs::msg::AutowareNodeState::ERROR;
+        autoware_control_center_msgs::msg::NodeState node_state;
+        node_state.status = autoware_control_center_msgs::msg::NodeState::ERROR;
         send_state(node_state, msg);
       }
     };
@@ -103,92 +103,45 @@ public:
       topic_name, qos_profile, std::forward<CallbackT>(callback), sub_options, msg_mem_strat);
   }
 
-  /*!
-  The mutually exclusive callback group for Autoware Node services.
-  */
   rclcpp::CallbackGroup::SharedPtr callback_group_mut_ex_;
-  /*!
-  The client of the Autoware Node register service.
-  */
-  rclcpp::Client<autoware_control_center_msgs::srv::AutowareNodeRegister>::SharedPtr cli_register_;
-  /*!
-  The service of the Autoware Control Center de-register type.
-  */
-  rclcpp::Service<autoware_control_center_msgs::srv::ControlCenterDeregister>::SharedPtr
-    srv_deregister_;
-  /*!
-  The client of the Autoware Node error service.
-  */
-  rclcpp::Client<autoware_control_center_msgs::srv::AutowareNodeError>::SharedPtr cli_node_error_;
-  /*!
-  The publisher of the heartbeat topic.
-  */
+
+  rclcpp::Client<autoware_control_center_msgs::srv::Register>::SharedPtr cli_register_;
+
+  rclcpp::Client<autoware_control_center_msgs::srv::ReportState>::SharedPtr cli_node_error_;
+
   rclcpp::Publisher<autoware_control_center_msgs::msg::Heartbeat>::SharedPtr heartbeat_pub_;
-  /*!
-  Controls heartbeat publishing.
-  */
+
   rclcpp::TimerBase::SharedPtr heartbeat_timer_;
-  /*!
-  Controls the node register callback.
-  */
+
   rclcpp::TimerBase::SharedPtr register_timer_;
-  /*!
-  The flag if the node registered to Autoware Control Center or not.
-  */
+
   bool registered;
-  /*!
-  The UUID of the Autoware Node.
-  */
+
   unique_identifier_msgs::msg::UUID self_uuid;
-  /*!
-  The UUID of the Autoware Control Center.
-  */
+
   unique_identifier_msgs::msg::UUID acc_uuid;
-  /*!
-  The name of the Autoware Node.
-  */
+
   std::string self_name;
 
 private:
-  /*!
-  Manage Autoware Node registering procedure.
-  */
-  void register_callback();
-  /*!
-  Publish heartbeat topic of the Autoware Node.
-  */
-  void heartbeat_callback();
-  using AutowareNodeRegisterServiceResponseFuture =
-    rclcpp::Client<autoware_control_center_msgs::srv::AutowareNodeRegister>::SharedFuture;
-  /*!
-  Manage a response from the Autoware Node register service.
-  */
-  void node_register_future_callback(AutowareNodeRegisterServiceResponseFuture future);
-  using AutowareNodeErrorServiceResponseFuture =
-    rclcpp::Client<autoware_control_center_msgs::srv::AutowareNodeError>::SharedFuture;
-  /*!
-  Manage a response from the Autoware Node error service.
-  */
-  void node_error_future_callback(AutowareNodeErrorServiceResponseFuture future);
-  /*!
-  Send the Autoware Node state to the Autoware Control Center.
-  \param[node_state] The state of the Autoware Node to send to the Autoware Control Center.
-  \param[message] The log message to send to the Autoware Control Center.
-  */
-  void send_state(
-    const autoware_control_center_msgs::msg::AutowareNodeState & node_state, std::string message);
-  /*!
-  The callback for the  Autoware Control Center deregister service of the Autoware Node.
-  */
-  void deregister(
-    const autoware_control_center_msgs::srv::ControlCenterDeregister::Request::SharedPtr request,
-    const autoware_control_center_msgs::srv::ControlCenterDeregister::Response::SharedPtr response);
-  /*!
-  The sequential number of the Heartbeat message.
-  */
   uint16_t sequence_number_;
+
+  void register_callback();
+
+  void heartbeat_callback();
+  using RegisterServiceResponseFuture =
+    rclcpp::Client<autoware_control_center_msgs::srv::Register>::SharedFuture;
+
+  void node_register_future_callback(RegisterServiceResponseFuture future);
+  using ReportStateServiceResponseFuture =
+    rclcpp::Client<autoware_control_center_msgs::srv::ReportState>::SharedFuture;
+
+  void node_error_future_callback(ReportStateServiceResponseFuture future);
+
+  void send_state(
+    const autoware_control_center_msgs::msg::NodeState & node_state, std::string message);
 };
 
-}  // namespace autoware_node
+}  // namespace autoware::node
 
 #endif  // AUTOWARE_NODE__AUTOWARE_NODE_HPP_

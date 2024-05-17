@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "autoware_node/autoware_node.hpp"
+#include "autoware/node/node.hpp"
 
 #include <autoware_utils/ros/uuid_helper.hpp>
 #include <rclcpp/rclcpp.hpp>
@@ -25,14 +25,14 @@
 constexpr std::chrono::milliseconds lease_delta(
   20);  ///< Buffer added to heartbeat to define lease.
 
-namespace autoware_node
+namespace autoware::node
 {
 
-AutowareNode::AutowareNode(
+Node::Node(
   const std::string & node_name, const std::string & ns, const rclcpp::NodeOptions & options)
 : LifecycleNode(node_name, ns, options)
 {
-  RCLCPP_DEBUG(get_logger(), "AutowareNode::AutowareNode()");
+  RCLCPP_DEBUG(get_logger(), "Node::Node()");
   declare_parameter<int>(
     "heartbeat_period", 200);  // TODO(lexavtanke): remove default and add schema
   declare_parameter<int>("register_timer_period", 500);
@@ -59,29 +59,23 @@ AutowareNode::AutowareNode(
   heartbeat_pub_ = this->create_publisher<autoware_control_center_msgs::msg::Heartbeat>(
     "~/heartbeat", qos_profile);
   heartbeat_timer_ =
-    this->create_wall_timer(heartbeat_period, std::bind(&AutowareNode::heartbeat_callback, this));
+    this->create_wall_timer(heartbeat_period, std::bind(&Node::heartbeat_callback, this));
 
   callback_group_mut_ex_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
 
-  cli_register_ = create_client<autoware_control_center_msgs::srv::AutowareNodeRegister>(
+  cli_register_ = create_client<autoware_control_center_msgs::srv::Register>(
     "/autoware_control_center/srv/autoware_node_register", rmw_qos_profile_default,
     callback_group_mut_ex_);
 
   register_timer_ = this->create_wall_timer(
-    register_timer_period, std::bind(&AutowareNode::register_callback, this));
+    register_timer_period, std::bind(&Node::register_callback, this));
 
-  using std::placeholders::_1;
-  using std::placeholders::_2;
-  srv_deregister_ = create_service<autoware_control_center_msgs::srv::ControlCenterDeregister>(
-    "~/srv/acc_deregister", std::bind(&AutowareNode::deregister, this, _1, _2),
-    rmw_qos_profile_services_default, callback_group_mut_ex_);
-
-  cli_node_error_ = create_client<autoware_control_center_msgs::srv::AutowareNodeError>(
+  cli_node_error_ = create_client<autoware_control_center_msgs::srv::ReportState>(
     "/autoware_control_center/srv/on_report_error", rmw_qos_profile_default,
     callback_group_mut_ex_);
 }
 
-void AutowareNode::register_callback()
+void Node::register_callback()
 {
   RCLCPP_DEBUG(get_logger(), "Register callback");
   if (registered) {
@@ -93,22 +87,22 @@ void AutowareNode::register_callback()
     RCLCPP_WARN(get_logger(), "%s is unavailable", cli_register_->get_service_name());
     return;
   }
-  autoware_control_center_msgs::srv::AutowareNodeRegister::Request::SharedPtr req =
-    std::make_shared<autoware_control_center_msgs::srv::AutowareNodeRegister::Request>();
+  autoware_control_center_msgs::srv::Register::Request::SharedPtr req =
+    std::make_shared<autoware_control_center_msgs::srv::Register::Request>();
   req->name_node = self_name;
 
   cli_register_->async_send_request(
-    req, std::bind(&AutowareNode::node_register_future_callback, this, std::placeholders::_1));
+    req, std::bind(&Node::node_register_future_callback, this, std::placeholders::_1));
   RCLCPP_DEBUG(get_logger(), "Sent request");
 
   const std::string msg = self_name + " node started";
-  autoware_control_center_msgs::msg::AutowareNodeState node_state;
-  node_state.status = autoware_control_center_msgs::msg::AutowareNodeState::NORMAL;
+  autoware_control_center_msgs::msg::NodeState node_state;
+  node_state.status = autoware_control_center_msgs::msg::NodeState::NORMAL;
   send_state(node_state, msg);
   RCLCPP_DEBUG(get_logger(), "Sent node state");
 }
 
-void AutowareNode::heartbeat_callback()
+void Node::heartbeat_callback()
 {
   auto message = autoware_control_center_msgs::msg::Heartbeat();
   message.stamp = this->get_clock()->now();
@@ -117,53 +111,30 @@ void AutowareNode::heartbeat_callback()
   heartbeat_pub_->publish(message);
 }
 
-void AutowareNode::deregister(
-  const autoware_control_center_msgs::srv::ControlCenterDeregister::Request::SharedPtr request,
-  const autoware_control_center_msgs::srv::ControlCenterDeregister::Response::SharedPtr response)
-{
-  RCLCPP_DEBUG(get_logger(), "Deregister callback");
-  std::string str_uuid = autoware_utils::to_hex_string(request->uuid_acc);
-  RCLCPP_DEBUG(get_logger(), "Request from %s", str_uuid.c_str());
-  response->name_node = self_name;
 
-  if (!registered) {
-    RCLCPP_WARN(get_logger(), "Node wasn't registered");
-    response->status.status =
-      autoware_control_center_msgs::srv::ControlCenterDeregister::Response::_status_type::FAILURE;
-  } else {
-    RCLCPP_WARN(get_logger(), "Node deregistered");
-    registered = false;
-    response->status.status =
-      autoware_control_center_msgs::srv::ControlCenterDeregister::Response::_status_type::SUCCESS;
-    response->log_response = self_name + " was deregistered";
-    response->name_node = self_name;
-    this->register_timer_->reset();
-  }
-}
-
-void AutowareNode::send_state(
-  const autoware_control_center_msgs::msg::AutowareNodeState & node_state, std::string message)
+void Node::send_state(
+  const autoware_control_center_msgs::msg::NodeState & node_state, std::string message)
 {
   if (!cli_node_error_->service_is_ready()) {
     RCLCPP_WARN(get_logger(), "%s is unavailable", cli_node_error_->get_service_name());
     return;
   }
-  autoware_control_center_msgs::srv::AutowareNodeError::Request::SharedPtr req =
-    std::make_shared<autoware_control_center_msgs::srv::AutowareNodeError::Request>();
+  autoware_control_center_msgs::srv::ReportState::Request::SharedPtr req =
+    std::make_shared<autoware_control_center_msgs::srv::ReportState::Request>();
 
   req->name_node = self_name;
   req->state = node_state;
   req->message = std::move(message);
 
   cli_node_error_->async_send_request(
-    req, std::bind(&AutowareNode::node_error_future_callback, this, std::placeholders::_1));
+    req, std::bind(&Node::node_error_future_callback, this, std::placeholders::_1));
   RCLCPP_DEBUG(get_logger(), "Send node state");
 }
 
 // performance-unnecessary-value-param
 // TODO(xmfcx): add the line above the line below once next cpplint is released (1.7.0 or 2.0.0)
 // NOLINTNEXTLINE
-void AutowareNode::node_register_future_callback(AutowareNodeRegisterServiceResponseFuture future)
+void Node::node_register_future_callback(RegisterServiceResponseFuture future)
 {
   const auto & response = future.get();
   std::string str_uuid = autoware_utils::to_hex_string(response->uuid_node);
@@ -183,7 +154,7 @@ void AutowareNode::node_register_future_callback(AutowareNodeRegisterServiceResp
 // performance-unnecessary-value-param
 // TODO(xmfcx): add the line above the line below once next cpplint is released (1.7.0 or 2.0.0)
 // NOLINTNEXTLINE
-void AutowareNode::node_error_future_callback(AutowareNodeErrorServiceResponseFuture future)
+void Node::node_error_future_callback(ReportStateServiceResponseFuture future)
 {
   const auto & response = future.get();
   std::string str_uuid = autoware_utils::to_hex_string(response->uuid_node);
@@ -198,4 +169,4 @@ void AutowareNode::node_error_future_callback(AutowareNodeErrorServiceResponseFu
   }
 }
 
-}  // namespace autoware_node
+}  // namespace autoware::node

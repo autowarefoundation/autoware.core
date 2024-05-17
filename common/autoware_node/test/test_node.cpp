@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "test_autoware_node.hpp"
+#include "test_node.hpp"
 
-#include "autoware_node/autoware_node.hpp"
+#include "autoware/node/node.hpp"
 #include "gtest/gtest.h"
 // #include "rclcpp_components/rclcpp.hpp"
 
