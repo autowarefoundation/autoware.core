@@ -11,9 +11,13 @@ ament_auto_add_library(${PROJECT_NAME} SHARED
   src/include/node_registry.hpp
 )
 
-rclcpp_components_register_node(${PROJECT_NAME}
-  PLUGIN "autoware::control_center::ControlCenter"
-  EXECUTABLE ${PROJECT_NAME}_node
+#rclcpp_components_register_node(${PROJECT_NAME}
+#  PLUGIN "autoware::control_center::ControlCenter"
+#  EXECUTABLE ${PROJECT_NAME}_node
+#)
+
+ament_auto_add_executable(${PROJECT_NAME}_node
+  src/control_center_main.cpp
 )
 
 if(BUILD_TESTING)

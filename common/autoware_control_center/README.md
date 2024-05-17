@@ -7,67 +7,98 @@
 
 ## Overview
 
-The Autoware Control Center (ACC) is a core package within the Autoware system, designed to manage and monitor Autoware nodes (ANs).
-It provides services for the registration, de-registration, and error handling of ANs, as well as publishing reports on their status.
+The Autoware Control Center (ACC) is a core package within the Autoware system, designed to manage and monitor Autoware
+nodes (ANs).
+
+It provides services for the registration, de-registration, and error handling of ANs, as well as publishing reports on
+their status.
+
 ACC maintains an internal registry to keep track of registered ANs.
 
-## Services
+## Interfaces
 
-### Register
+### Services
+
+#### Register
 
 Registers an Autoware node to the ACC.
 
 - **Topic:** `/autoware/control_center/srv/register`
 - **Type:** `autoware_control_center_msgs::srv::Register`
 
-### Deregister
+#### Deregister
 
 De-registers an Autoware node from the ACC.
 
 - **Topic:** `/autoware/control_center/srv/deregister`
 - **Type:** `autoware_control_center_msgs::srv::Deregister`
 
-### ReportState
+#### ReportState
 
 Reports the state of an Autoware node to the ACC.
 
 - **Topic:** `/autoware/control_center/srv/report_state`
 - **Type:** `autoware_control_center_msgs::srv::ReportState`
 
-### Topics
+### Subscribers
 
-- ACC subscribes to _heartbeat_ topic of _Autoware_Node_ after its registration. ACC controls liveliness' of
-  _Autoware_Nodes_ by monitoring this topic.
-- ACC publishes reports on a current status of registered _Autoware_Nodes_ to the _autoware_node_reports_ topic.
+#### Heartbeat (**Source:** Autoware Node)
 
-## Usage
+Subscribes to the heartbeat topic of an Autoware node after its registration.
+ACC controls the liveness of Autoware nodes by monitoring this topic.
 
-There is no dedicated launch file for autoware_control_center. So you need to run it with command:
+- **Topic:** `/autoware_node_name/heartbeat`
+- **Type:** `autoware_control_center_msgs::msg::Heartbeat`
+- **Source:** An Autoware Node
 
-```bash
-ros2 run autoware_control_center autoware_control_center
-```
+### Publishers
 
-ACC has startup timer and waits for 10 sec for any node to be registered. If at least one node is registered ACC starts
-normal work. If not ACC will think that it was relaunched after crash and will start re-register procedure.
+#### NodeReports
 
-It will list all _autoware_nodes_ with _ControlCenterDeregister_ service and will send request to each node. So all
-nodes will have to register to the new instance of ACC. After this procedure ACC will start regular work. If the list
-will be empty ACC will keep going and will publish empty messages to the _autoware_node_reports_ topic.
+Publishes reports on the current status of registered Autoware nodes.
 
-Expected heartbeat frequency is 5 Hz. It can be configured by `lease_duration` parameter. Lease duration must be >=
-heartbeat's period in _autoware_node_ as there is some network overhead. If the granted `lease_duration` time will be
-violated such _autoware_node_ will be considered as not alive.
+- **Topic:** `/autoware/control_center/node_reports`
+- **Type:** `autoware_control_center_msgs::msg::NodeReport`
 
 ## Parameters
 
-| Name                      | Type   | Default Value | Description                                                                                      |
-| ------------------------- | ------ | ------------- | ------------------------------------------------------------------------------------------------ |
-| `lease_duration`          | int    | `220`         | After a violation this heartbeat period (in ms) _autoware_node_ will be considered as not alive. |
-| `startup_duration`        | double | `10.0`        | A period (in s) of ACC startup procedure.                                                        |
-| `startup_callback_period` | int    | `500`         | A period (in ms) of ACC startup timer.                                                           |
-| `node_report_period`      | int    | `1000`        | A period (in ms) of publishing to the autoware_node_reports topic.                               |
+| Name                  | Type     | Default Value | Description                                                                         |
+|-----------------------|----------|---------------|-------------------------------------------------------------------------------------|
+| `lease_duration_ms`   | `double` | `220.0`       | If not received another heartbeat within this duration, AN will be considered dead. |
+| `report_publish_rate` | `double` | `1.0`         | Publish NodeReports rate (hz)                                                       |
 
-## Design
+## Singleton Constraint
 
-Heartbeat functionality is based on ros2 [software_watchdogs](https://github.com/ros-safety/software_watchdogs) package.
+To ensure that only one instance of the ACC is running at any given time, two checks are performed in the main function:
+
+### 1. Lockfile Check
+
+This lockfile mechanism is fast and reliable for single-machine scenarios.
+It prevents multiple instances of ACC from running concurrently on the same machine.
+
+**Path:** `/tmp/autoware_control_center_node.lock`
+
+### 2. Network-Wide Node Name Check
+
+This involves gathering all node names and comparing them with the ACC node name (`/autoware/control_center`).
+While this method is slower and less reliable than the lockfile check,
+it is necessary for scenarios where the ACC is run across a network of machines.
+This ensures that no other instance of ACC is running on any other machine within the network.
+
+## Usage
+
+`ros2 launch autoware_control_center control_center.launch.xml`
+
+## Workflow
+
+When an Autoware Node starts, it registers itself with the ACC.
+
+The ACC then subscribes to the heartbeat topic of the Autoware node to monitor its liveness.
+
+If the ACC does not receive a heartbeat from the Autoware node within the specified lease duration,
+it considers the node to be dead.
+
+## Credits
+
+- Heartbeat functionality is based on ROS 2 [software_watchdogs](https://github.com/ros-safety/software_watchdogs)
+  package.
