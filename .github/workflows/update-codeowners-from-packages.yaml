@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Generate token
         id: generate-token
-        uses: tibdex/github-app-token@v1
+        uses: tibdex/github-app-token@v2
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.PRIVATE_KEY }}
@@ -27,8 +27,7 @@ jobs:
         uses: autowarefoundation/autoware-github-actions/update-codeowners-from-packages@v1
         with:
           token: ${{ steps.generate-token.outputs.token }}
-          global-codeowners: "@autowarefoundation/autoware-global-codeowners"
           pr-labels: |
-            bot
-            update-codeowners-from-packages
+            tag:bot
+            tag:update-codeowners-from-packages
           auto-merge-method: squash

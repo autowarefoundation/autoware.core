@@ -9,6 +9,16 @@
 
 Not applicable.
 
+## Effects on system behavior
+
+<!-- Describe how this PR affects the system behavior. -->
+
+Not applicable.
+
+## Interface changes
+
+<!-- Describe any changed interfaces, such as topics, services, or parameters, including debugging interfaces -->
+
 ## Pre-review checklist for the PR author
 
 The PR author **must** check the checkboxes below when creating the PR.
