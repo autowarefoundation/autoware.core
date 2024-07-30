@@ -26,8 +26,8 @@
 #include <autoware_control_center_msgs/msg/heartbeat.hpp>
 #include <autoware_control_center_msgs/msg/node_status_activity.hpp>
 #include <autoware_control_center_msgs/msg/node_status_operational.hpp>
-#include <autoware_control_center_msgs/srv/register.hpp>
 #include <autoware_control_center_msgs/srv/deregister.hpp>
+#include <autoware_control_center_msgs/srv/register.hpp>
 #include <unique_identifier_msgs/msg/uuid.hpp>
 
 #include <memory>

@@ -57,8 +57,9 @@ inline std::tuple<unique_identifier_msgs::msg::UUID, rclcpp::Node::SharedPtr> re
   }
 
   auto result = fut_result.get();
-  if (result->result_registration.result !=
-      autoware_control_center_msgs::msg::ResultRegistration::SUCCESS) {
+  if (
+    result->result_registration.result !=
+    autoware_control_center_msgs::msg::ResultRegistration::SUCCESS) {
     throw std::runtime_error("Node registration failed");
   }
   RCLCPP_INFO(rclcpp::get_logger("registering"), "Received the response");
@@ -88,7 +89,7 @@ inline bool deregister_node(const unique_identifier_msgs::msg::UUID & uuid)
 
   auto result = fut_result.get();
   return result->result_deregistration.result ==
-           autoware_control_center_msgs::msg::ResultDeregistration::SUCCESS;
+         autoware_control_center_msgs::msg::ResultDeregistration::SUCCESS;
 }
 
 inline bool wait_for_node_report(
