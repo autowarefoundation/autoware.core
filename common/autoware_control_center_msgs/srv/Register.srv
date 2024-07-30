@@ -1,0 +1,4 @@
+string node_name_with_namespace
+---
+autoware_control_center_msgs/ResultRegistration result_registration
+unique_identifier_msgs/UUID uuid_node

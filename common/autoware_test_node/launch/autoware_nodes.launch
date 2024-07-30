@@ -1,0 +1,7 @@
+<launch>
+    <node pkg="autoware_test_node" exec="autoware_test_node" name="test_node"/>
+    <node pkg="autoware_test_node" exec="autoware_test_node" name="test_node1"/>
+    <node pkg="autoware_test_node" exec="autoware_test_node" name="test_node2"/>
+    <node pkg="autoware_test_node" exec="autoware_test_node" name="test_node3" namespace="ns_test"/>
+    <!-- <node pkg="autoware_control_center" exec="autoware_control_center_node" name="autoware_control_center"/> -->
+</launch>
