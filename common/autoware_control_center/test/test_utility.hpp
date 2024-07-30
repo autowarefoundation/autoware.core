@@ -57,9 +57,7 @@ inline std::tuple<unique_identifier_msgs::msg::UUID, rclcpp::Node::SharedPtr> re
   }
 
   auto result = fut_result.get();
-  if (
-    result->result_service.result != autoware_control_center_msgs::msg::ResultService::SUCCESS ||
-    result->result_registration.result !=
+  if (result->result_registration.result !=
       autoware_control_center_msgs::msg::ResultRegistration::SUCCESS) {
     throw std::runtime_error("Node registration failed");
   }
@@ -89,14 +87,13 @@ inline bool deregister_node(const unique_identifier_msgs::msg::UUID & uuid)
   }
 
   auto result = fut_result.get();
-  return result->result_service.result ==
-           autoware_control_center_msgs::msg::ResultService::SUCCESS &&
-         result->result_deregistration.result ==
+  return result->result_deregistration.result ==
            autoware_control_center_msgs::msg::ResultDeregistration::SUCCESS;
 }
 
 inline bool wait_for_node_report(
-  const std::string & node_full_name, autoware_control_center_msgs::msg::NodeReport & report)
+  const std::string & node_full_name, autoware_control_center_msgs::msg::NodeReport & report,
+  const long timeout_ms = 5000)
 {
   std::promise<bool> report_received;
   auto future_report = report_received.get_future();
@@ -119,7 +116,8 @@ inline bool wait_for_node_report(
       });
 
   if (
-    rclcpp::spin_until_future_complete(node_temp, future_report, std::chrono::seconds(5)) !=
+    rclcpp::spin_until_future_complete(
+      node_temp, future_report, std::chrono::milliseconds(timeout_ms)) !=
     rclcpp::FutureReturnCode::SUCCESS) {
     return false;
   }

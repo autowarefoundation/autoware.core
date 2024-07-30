@@ -20,9 +20,9 @@ ament_auto_add_executable(${PROJECT_NAME}_node
 )
 
 if(BUILD_TESTING)
-#  add_smoke_test(${PROJECT_NAME} ${PROJECT_NAME}_node
-#    TEST_PARAM_FILENAMES "config/control_center.param.yaml"
-#  )
+  add_smoke_test(${PROJECT_NAME} ${PROJECT_NAME}_node
+    TEST_PARAM_FILENAMES "config/control_center.param.yaml"
+  )
 
   install(DIRECTORY
     test/config/
@@ -45,15 +45,6 @@ if(BUILD_TESTING)
       autoware_utils
       autoware_control_center_msgs)
   endforeach()
-
-#  ament_add_ros_isolated_gtest(test_autoware_control_center ${TEST_SOURCES})
-#  target_include_directories(test_autoware_control_center PRIVATE src/include)
-#  target_link_libraries(test_autoware_control_center ${PROJECT_NAME})
-#  ament_target_dependencies(test_autoware_control_center
-#    rclcpp
-#    rclcpp_lifecycle
-#    autoware_utils
-#    autoware_control_center_msgs)
 endif()
 
 ament_auto_package(INSTALL_TO_SHARE

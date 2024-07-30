@@ -16,7 +16,6 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/NodeStatusOperational.msg"
   "msg/ResultDeregistration.msg"
   "msg/ResultRegistration.msg"
-  "msg/ResultService.msg"
   "srv/Deregister.srv"
   "srv/Register.srv"
   DEPENDENCIES ${msg_dependencies})

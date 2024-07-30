@@ -4,5 +4,4 @@ uint8 FAILURE_OTHER=1          # Other unspecified reason
 uint8 FAILURE_NOT_REGISTERED=2 # Node is not registered
 uint8 FAILURE_INVALID_NODE=3   # Node information is invalid
 
-# Result of the deregistration
 uint8 result

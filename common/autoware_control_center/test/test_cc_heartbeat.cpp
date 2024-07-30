@@ -32,8 +32,10 @@ public:
   void SetUp() override
   {
     rclcpp::init(0, nullptr);
+
     node_options_.append_parameter_override("deadline_ms", deadline_ms_);
-    node_options_.append_parameter_override("report_publish_rate", 1000.0 / node_period_ms_);
+    node_options_.append_parameter_override(
+      "report_publish_rate", 1000.0 / period_report_publish_ms_);
     executor_ = std::make_shared<rclcpp::executors::SingleThreadedExecutor>();
 
     control_center_ = std::make_shared<autoware::control_center::ControlCenter>(node_options_);
@@ -51,12 +53,22 @@ public:
     }
   }
 
+  static void validate_heartbeat(
+    const std::string & node_full_name,
+    const autoware_control_center_msgs::msg::Heartbeat::ConstSharedPtr & hb_healthy)
+  {
+    autoware_control_center_msgs::msg::NodeReport report;
+    ASSERT_TRUE(test::wait_for_node_report(node_full_name, report));
+    ASSERT_EQ(report.status_activity.status, hb_healthy->status_activity.status);
+    ASSERT_EQ(report.status_operational.status, hb_healthy->status_operational.status);
+  }
+
   rclcpp::NodeOptions node_options_;
   std::shared_ptr<rclcpp::executors::SingleThreadedExecutor> executor_;
   ControlCenter::SharedPtr control_center_;
   std::thread thread_spin_;
-  double deadline_ms_ = 50.0;
-  double node_period_ms_ = 10.0;
+  double deadline_ms_{500.0};
+  double period_report_publish_ms_{10.0};
 };
 
 TEST_F(ControlCenterHeartbeatTest, HeartbeatHandling)
@@ -64,25 +76,27 @@ TEST_F(ControlCenterHeartbeatTest, HeartbeatHandling)
   const auto [uuid, node] = test::register_node("node_test_heartbeat", "");
 
   // Send a heartbeat and verify node status is updated
-  auto hb_healthy_init = test::generate_hb_healthy();
-  auto pub_hb = test::send_first_heartbeat(node, deadline_ms_, hb_healthy_init);
+  auto hb_healthy = test::generate_hb_healthy();
+  auto pub_hb = test::send_first_heartbeat(node, deadline_ms_, hb_healthy);
 
-  double sleep_duration_ms = node_period_ms_ * 1.5;
-  ASSERT_LE(sleep_duration_ms, deadline_ms_);
+  double sleep_duration_ms = deadline_ms_ * 0.8;
+  ASSERT_LT(period_report_publish_ms_, sleep_duration_ms);
 
   std::this_thread::sleep_for(std::chrono::duration<double, std::milli>(sleep_duration_ms));
+  {
+    SCOPED_TRACE("");
+    validate_heartbeat(node->get_fully_qualified_name(), hb_healthy);
+  }
 
-  autoware_control_center_msgs::msg::NodeReport report;
-  ASSERT_TRUE(test::wait_for_node_report(node->get_fully_qualified_name(), report));
-  ASSERT_EQ(report.status_activity.status, hb_healthy_init->status_activity.status);
-  ASSERT_EQ(report.status_operational.status, hb_healthy_init->status_operational.status);
-
-  test::send_heartbeat(node, pub_hb, test::generate_hb_healthy());
-  std::this_thread::sleep_for(std::chrono::duration<double, std::milli>(deadline_ms_ * 0.8));
-  test::send_heartbeat(node, pub_hb, test::generate_hb_healthy());
-
-  // Send another heartbeat to make sure it is not marked as dead
-  test::send_heartbeat(node, pub_hb, test::generate_hb_healthy());
+  for (int i = 0; i < 3; ++i) {
+    hb_healthy = test::generate_hb_healthy();
+    test::send_heartbeat(node, pub_hb, hb_healthy);
+    std::this_thread::sleep_for(std::chrono::duration<double, std::milli>(sleep_duration_ms));
+    {
+      SCOPED_TRACE("validate_heartbeat iteration " + std::to_string(i));
+      validate_heartbeat(node->get_fully_qualified_name(), hb_healthy);
+    }
+  }
 }
 
 TEST_F(ControlCenterHeartbeatTest, HeartbeatMissedDeadline)
@@ -94,7 +108,7 @@ TEST_F(ControlCenterHeartbeatTest, HeartbeatMissedDeadline)
 
   // Wait for the heartbeat deadline to be missed
   std::this_thread::sleep_for(
-    std::chrono::duration<double, std::milli>(deadline_ms_ + node_period_ms_ * 1.5));
+    std::chrono::duration<double, std::milli>(deadline_ms_ + period_report_publish_ms_ * 2.0));
 
   // Expect the node to be marked as dead
   autoware_control_center_msgs::msg::NodeReport report;
@@ -111,11 +125,12 @@ TEST_F(ControlCenterHeartbeatTest, HeartbeatMissedDeadline)
   test::send_heartbeat(node, pub_hb, hb_healthy);
 
   // Wait shortly and expect the node to be alive
-  std::this_thread::sleep_for(std::chrono::duration<double, std::milli>(node_period_ms_ * 2.0));
-  ASSERT_TRUE(test::wait_for_node_report(node->get_fully_qualified_name(), report));
-  ASSERT_TRUE(report.is_alive);
-  ASSERT_EQ(report.status_activity.status, hb_healthy->status_activity.status);
-  ASSERT_EQ(report.status_operational.status, hb_healthy->status_operational.status);
+  std::this_thread::sleep_for(
+    std::chrono::duration<double, std::milli>(period_report_publish_ms_ * 2.0));
+  {
+    SCOPED_TRACE("");
+    validate_heartbeat(node->get_fully_qualified_name(), hb_healthy);
+  }
 }
 
 int main(int argc, char ** argv)

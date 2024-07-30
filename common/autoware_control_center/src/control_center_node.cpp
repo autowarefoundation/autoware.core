@@ -51,7 +51,7 @@ ControlCenter::ControlCenter(const rclcpp::NodeOptions & options)
 std::tuple<ControlCenter::ResultRegistration, std::optional<unique_identifier_msgs::msg::UUID>>
 ControlCenter::register_node(const std::string & node_name)
 {
-  RCLCPP_INFO(this->get_logger(), "Registering node %s", node_name.c_str());
+  RCLCPP_DEBUG(this->get_logger(), "Registering node %s", node_name.c_str());
 
   auto node_info = std::make_shared<NodeInfo>();
 
@@ -119,7 +119,7 @@ ControlCenter::ResultDeregistration ControlCenter::deregister_node(
 
   auto node_info = uuid_to_info_.at(uuid.uuid);
   const auto & node_name = node_info->report.name;
-  RCLCPP_INFO(this->get_logger(), "Deregistering node %s", node_name.c_str());
+  RCLCPP_DEBUG(this->get_logger(), "Deregistering node %s", node_name.c_str());
 
   uuid_to_info_.erase(uuid.uuid);
 
@@ -202,7 +202,7 @@ void ControlCenter::on_liveliness_changed(
   // Only consider the alive -> not alive transition
   if (event.alive_count != 0) return;
 
-  RCLCPP_INFO(this->get_logger(), "Node %s is not alive", node_report.name.c_str());
+  RCLCPP_DEBUG(this->get_logger(), "Node %s is not alive", node_report.name.c_str());
   node_report.is_alive = false;
   node_report.status_activity.status = NodeStatusActivity::UNKNOWN;
   node_report.status_operational.status = NodeStatusOperational::UNKNOWN;
@@ -210,7 +210,6 @@ void ControlCenter::on_liveliness_changed(
 
 void ControlCenter::publish_node_reports()
 {
-  RCLCPP_INFO(this->get_logger(), "Publishing node reports");
   NodeReports node_reports_msg;
   node_reports_msg.stamp = rclcpp::Clock().now();
   node_reports_msg.reports.resize(uuid_to_info_.size());
@@ -228,16 +227,14 @@ void ControlCenter::on_register_node(
   const auto & node_name = request->node_name_with_namespace;
   auto [result_registration, node_uuid] = register_node(node_name);
 
-  response->result_registration.result = result_registration.result;
+  response->result_registration = result_registration;
 
   if (result_registration.result != ResultRegistration::SUCCESS) {
-    response->result_service.result = ResultService::FAILURE;
     RCLCPP_WARN(get_logger(), "Node registration failed for %s", node_name.c_str());
     return;
   }
 
   response->uuid_node = node_uuid.value();
-  response->result_service.result = ResultService::SUCCESS;
 }
 
 void ControlCenter::on_deregister_node(
@@ -246,10 +243,11 @@ void ControlCenter::on_deregister_node(
 {
   const auto & result_deregistration = deregister_node(request->uuid_node);
   response->result_deregistration.result = result_deregistration.result;
-  if (result_deregistration.result == ResultDeregistration::SUCCESS) {
-    response->result_service.result = ResultService::SUCCESS;
-  } else {
-    response->result_service.result = ResultService::FAILURE;
+
+  if (result_deregistration.result != ResultDeregistration::SUCCESS) {
+    RCLCPP_WARN(
+      get_logger(), "Node deregistration failed for %s",
+      autoware_utils::to_hex_string(request->uuid_node).c_str());
   }
 }
 

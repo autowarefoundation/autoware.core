@@ -59,7 +59,6 @@ private:
   using NodeStatusOperational = autoware_control_center_msgs::msg::NodeStatusOperational;
   using ResultDeregistration = autoware_control_center_msgs::msg::ResultDeregistration;
   using ResultRegistration = autoware_control_center_msgs::msg::ResultRegistration;
-  using ResultService = autoware_control_center_msgs::msg::ResultService;
   using Deregister = autoware_control_center_msgs::srv::Deregister;
   using Register = autoware_control_center_msgs::srv::Register;
 
