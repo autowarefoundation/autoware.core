@@ -1,22 +1,13 @@
-name: build-and-test
+name: build-and-test-daily
 
 on:
-  push:
-    branches:
-      - main
+  schedule:
+    - cron: 0 0 * * *
   workflow_dispatch:
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
-  cancel-in-progress: true
-
-env:
-  CC: /usr/lib/ccache/gcc
-  CXX: /usr/lib/ccache/g++
-
 jobs:
-  build-and-test:
-    runs-on: codebuild-autoware-us-east-1-${{ github.run_id }}-${{ github.run_attempt }}-ubuntu-7.0-large
+  build-and-test-daily:
+    runs-on: [self-hosted, linux, X64, gpu]
     container: ${{ matrix.container }}${{ matrix.container-suffix }}
     strategy:
       fail-fast: false
@@ -24,6 +15,7 @@ jobs:
         rosdistro:
           - humble
         container-suffix:
+          - ""
           - -cuda
         include:
           - rosdistro: humble
@@ -38,42 +30,12 @@ jobs:
       - name: Show disk space before the tasks
         run: df -h
 
-      - name: Show machine specs
-        run: lscpu && free -h
-
       - name: Remove exec_depend
         uses: autowarefoundation/autoware-github-actions/remove-exec-depend@v1
 
       - name: Get self packages
         id: get-self-packages
         uses: autowarefoundation/autoware-github-actions/get-self-packages@v1
-
-      - name: Create ccache directory
-        run: |
-          mkdir -p ${CCACHE_DIR}
-          du -sh ${CCACHE_DIR} && ccache -s
-        shell: bash
-
-      - name: Attempt to restore ccache
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            /root/.ccache
-          key: ccache-main-${{ runner.arch }}-${{ matrix.rosdistro }}-${{ github.sha }}
-          restore-keys: |
-            ccache-main-${{ runner.arch }}-${{ matrix.rosdistro }}-
-
-      - name: Limit ccache size
-        run: |
-          rm -f "${CCACHE_DIR}/ccache.conf"
-          echo -e "# Set maximum cache size\nmax_size = 600MB" >> "${CCACHE_DIR}/ccache.conf"
-        shell: bash
-
-      - name: Show ccache stats before build and reset stats
-        run: |
-          du -sh ${CCACHE_DIR} && ccache -s
-          ccache --zero-stats
-        shell: bash
 
       - name: Export CUDA state as a variable for adding to cache key
         run: |
@@ -93,20 +55,6 @@ jobs:
           target-packages: ${{ steps.get-self-packages.outputs.self-packages }}
           build-depends-repos: ${{ matrix.build-depends-repos }}
           cache-key-element: ${{ env.BUILD_TYPE_CUDA_STATE }}
-          build-pre-command: taskset --cpu-list 0-6
-
-      - name: Show ccache stats after build
-        run: du -sh ${CCACHE_DIR} && ccache -s
-        shell: bash
-
-      # Only keep save the -cuda version because cuda packages covers non-cuda packages too
-      - name: Push the ccache cache
-        if: matrix.container-suffix == '-cuda'
-        uses: actions/cache/save@v4
-        with:
-          path: |
-            /root/.ccache
-          key: ccache-main-${{ runner.arch }}-${{ matrix.rosdistro }}-${{ github.sha }}
 
       - name: Test
         if: ${{ steps.get-self-packages.outputs.self-packages != '' }}
