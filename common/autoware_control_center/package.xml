@@ -7,7 +7,7 @@
     Autoware Control Center (ACC) is an Autoware.Core package designed to manage
     and monitor Autoware nodes within a system.
   </description>
-  <maintainer email="mfcirit@gmail.com">M. Fatih Cırıt</maintainer>
+  <maintainer email="mfc@autoware.org">M. Fatih Cırıt</maintainer>
   <license>Apache-2.0</license>
 
   <buildtool_depend>ament_cmake_auto</buildtool_depend>

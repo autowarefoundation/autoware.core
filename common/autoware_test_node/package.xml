@@ -4,7 +4,7 @@
   <name>autoware_test_node</name>
   <version>0.0.0</version>
   <description>Test package for Autoware Node.</description>
-  <maintainer email="mfcirit@gmail.com">M. Fatih Cırıt</maintainer>
+  <maintainer email="mfc@autoware.org">M. Fatih Cırıt</maintainer>
   <license>Apache-2.0</license>
 
   <buildtool_depend>ament_cmake_auto</buildtool_depend>
