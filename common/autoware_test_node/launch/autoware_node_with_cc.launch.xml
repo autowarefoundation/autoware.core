@@ -1,0 +1,21 @@
+<launch>
+  <arg name="param_path_acc" default="$(find-pkg-share autoware_control_center)/config/control_center.param.yaml"/>
+  <arg name="param_path_an" default="$(find-pkg-share autoware_node)/config/node.param.yaml"/>
+
+  <node pkg="autoware_control_center" exec="autoware_control_center_node" name="control_center" output="screen">
+    <param from="$(var param_path_acc)"/>
+  </node>
+
+  <node pkg="autoware_test_node" exec="autoware_test_node_node" name="test_node1" namespace="test_ns1">
+    <param from="$(var param_path_an)"/>
+  </node>
+  <node pkg="autoware_test_node" exec="autoware_test_node_node" name="test_node2" namespace="test_ns2">
+    <param from="$(var param_path_an)"/>
+  </node>
+  <node pkg="autoware_test_node" exec="autoware_test_node_node" name="test_node3">
+    <param from="$(var param_path_an)"/>
+  </node>
+  <node pkg="autoware_test_node" exec="autoware_test_node_node" name="test_node4">
+    <param from="$(var param_path_an)"/>
+  </node>
+</launch>
