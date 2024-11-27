@@ -26,6 +26,7 @@
 #include <autoware_control_center_msgs/srv/deregister.hpp>
 #include <autoware_control_center_msgs/srv/register.hpp>
 
+#include <cstdint>
 #include <memory>
 #include <string>
 #include <tuple>
@@ -94,7 +95,7 @@ inline bool deregister_node(const unique_identifier_msgs::msg::UUID & uuid)
 
 inline bool wait_for_node_report(
   const std::string & node_full_name, autoware_control_center_msgs::msg::NodeReport & report,
-  const long timeout_ms = 5000)
+  const std::int64_t timeout_ms = 5000)
 {
   std::promise<bool> report_received;
   auto future_report = report_received.get_future();
