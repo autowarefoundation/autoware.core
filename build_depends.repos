@@ -7,3 +7,8 @@ repositories:
     type: git
     url: https://github.com/autowarefoundation/autoware_common.git
     version: main
+  # TODO(mfc): Remove once autoware_testing is separated
+  universe/autoware.universe:
+    type: git
+    url: https://github.com/autowarefoundation/autoware.universe.git
+    version: main
