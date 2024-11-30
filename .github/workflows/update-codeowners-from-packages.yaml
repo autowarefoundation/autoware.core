@@ -1,3 +1,7 @@
+# This file is automatically synced from:
+# https://github.com/autowarefoundation/sync-file-templates
+# To make changes, update the source repository and follow the guidelines in its README.
+
 name: update-codeowners-from-packages
 
 on:
@@ -14,11 +18,11 @@ jobs:
   update-codeowners-from-packages:
     needs: check-secret
     if: ${{ needs.check-secret.outputs.set == 'true' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Generate token
         id: generate-token
-        uses: tibdex/github-app-token@v1
+        uses: tibdex/github-app-token@v2
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.PRIVATE_KEY }}
@@ -27,8 +31,7 @@ jobs:
         uses: autowarefoundation/autoware-github-actions/update-codeowners-from-packages@v1
         with:
           token: ${{ steps.generate-token.outputs.token }}
-          global-codeowners: "@autowarefoundation/autoware-global-codeowners"
           pr-labels: |
-            bot
-            update-codeowners-from-packages
+            tag:bot
+            tag:update-codeowners-from-packages
           auto-merge-method: squash

@@ -1,3 +1,7 @@
+# This file is automatically synced from:
+# https://github.com/autowarefoundation/sync-file-templates
+# To make changes, update the source repository and follow the guidelines in its README.
+
 Checks: "
   -*,
   boost-use-to-string,
@@ -41,6 +45,7 @@ Checks: "
   bugprone-terminating-continue,
   bugprone-throw-keyword-missing,
   bugprone-too-small-loop-variable,
+  bugprone-unchecked-optional-access,
   bugprone-undefined-memory-manipulation,
   bugprone-undelegated-constructor,
   bugprone-unhandled-self-assignment,
@@ -201,7 +206,8 @@ WarningsAsErrors: "
 
 HeaderFilterRegex: ^(?!\/usr)(?!\/opt)
 
-AnalyzeTemporaryDtors: false
+ExtraArgs:
+  - -std=c++17
 
 FormatStyle: none
 
