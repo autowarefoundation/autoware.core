@@ -20,7 +20,11 @@
     - source: .github/workflows/pre-commit-autoupdate.yaml
     - source: .github/workflows/semantic-pull-request.yaml
     - source: .github/workflows/spell-check-differential.yaml
+      pre-commands: |
+        sd "        with:\n" "        with:\n          local-cspell-json: .cspell.json\n" {source}
     - source: .github/workflows/spell-check-daily.yaml
+      pre-commands: |
+        sd "        with:\n" "        with:\n          local-cspell-json: .cspell.json\n" {source}
     - source: .github/workflows/sync-files.yaml
     - source: .github/workflows/update-codeowners-from-packages.yaml
     - source: .clang-format
