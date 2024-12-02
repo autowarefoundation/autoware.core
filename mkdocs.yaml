@@ -1,9 +1,13 @@
+# This file is automatically synced from:
+# https://github.com/autowarefoundation/sync-file-templates
+# To make changes, update the source repository and follow the guidelines in its README.
+
 site_name: Autoware Core Documentation
 site_url: https://autowarefoundation.github.io/autoware.core
 repo_url: https://github.com/autowarefoundation/autoware.core
-edit_uri: edit/main/
+edit_uri: https://github.com/autowarefoundation/autoware.core/edit/main/
 docs_dir: .
-copyright: Copyright &copy; 2022 The Autoware Foundation
+copyright: Copyright &copy; 2023 The Autoware Foundation
 
 theme:
   name: material
@@ -15,6 +19,7 @@ theme:
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.top
+    - navigation.footer
   favicon: docs/assets/images/autoware-foundation.png
   icon:
     logo: fontawesome/solid/car
@@ -44,34 +49,47 @@ extra_css:
   - https://use.fontawesome.com/releases/v5.15.4/css/all.css
 
 extra_javascript:
-  - https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+  - docs/assets/js/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 plugins:
   - awesome-pages
   - exclude:
       regex:
-        - ^(?!(.*/)?assets/).*\.(?!(.*\.)?md|(.*\.)?svg|(.*\.)?png|(.*\.)?jpg).*$
+        - ^(?!(.*/)?assets/).*\.(?!(.*\.)?md|(.*\.)?svg|(.*\.)?png|(.*\.)?gif|(.*\.)?jpg).*$
         - ^(.*/)?[^.]*$
-  - macros
+  - macros:
+      module_name: mkdocs_macros
+  - mkdocs-video
   - same-dir
   - search
 
 markdown_extensions:
+  - abbr
   - admonition
   - attr_list
   - codehilite:
       guess_lang: false
   - fontawesome_markdown
   - footnotes
+  - md_in_html
   - mdx_math
   - mdx_truly_sane_lists:
       nested_indent: 2
-  - mdx_unimoji
   - plantuml_markdown:
       server: http://www.plantuml.com/plantuml
       format: svg
-  - pymdownx.arithmatex
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
   - pymdownx.highlight
+  - pymdownx.snippets:
+      auto_append:
+        - includes/abbreviations.md
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
@@ -79,3 +97,4 @@ markdown_extensions:
           format: !!python/name:pymdownx.superfences.fence_code_format
   - toc:
       permalink: "#"
+      toc_depth: 3

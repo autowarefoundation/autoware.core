@@ -2,7 +2,7 @@
 # https://github.com/autowarefoundation/sync-file-templates
 # To make changes, update the source repository and follow the guidelines in its README.
 
-name: sync-files
+name: pre-commit-autoupdate
 
 on:
   schedule:
@@ -15,7 +15,7 @@ jobs:
     secrets:
       secret: ${{ secrets.APP_ID }}
 
-  sync-files:
+  pre-commit-autoupdate:
     needs: check-secret
     if: ${{ needs.check-secret.outputs.set == 'true' }}
     runs-on: ubuntu-22.04
@@ -27,11 +27,15 @@ jobs:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.PRIVATE_KEY }}
 
-      - name: Run sync-files
-        uses: autowarefoundation/autoware-github-actions/sync-files@v1
+      - name: Run pre-commit-autoupdate
+        uses: autowarefoundation/autoware-github-actions/pre-commit-autoupdate@v1
         with:
           token: ${{ steps.generate-token.outputs.token }}
+          pre-commit-config: .pre-commit-config.yaml
           pr-labels: |
             tag:bot
-            tag:sync-files
+            tag:pre-commit-autoupdate
+          pr-branch: pre-commit-autoupdate
+          pr-title: "ci(pre-commit): autoupdate"
+          pr-commit-message: "ci(pre-commit): autoupdate"
           auto-merge-method: squash
