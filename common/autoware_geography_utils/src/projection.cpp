@@ -22,22 +22,19 @@ namespace autoware::geography_utils
 
 Eigen::Vector3d to_basic_point_3d_pt(const LocalPoint src)
 {
-  Eigen::Vector3d dst;
-  dst.x() = src.x;
-  dst.y() = src.y;
-  dst.z() = src.z;
-  return dst;
+  return {src.x, src.y, src.z};
 }
 
 LocalPoint project_forward(const GeoPoint & geo_point, const MapProjectorInfo & projector_info)
 {
   std::unique_ptr<lanelet::Projector> projector = get_lanelet2_projector(projector_info);
-  lanelet::GPSPoint position{geo_point.latitude, geo_point.longitude, geo_point.altitude};
+  const lanelet::GPSPoint position{geo_point.latitude, geo_point.longitude, geo_point.altitude};
 
   lanelet::BasicPoint3d projected_local_point;
   if (projector_info.projector_type == MapProjectorInfo::MGRS) {
-    const int mgrs_precision = 9;  // set precision as 100 micro meter
-    const auto mgrs_projector = dynamic_cast<lanelet::projection::MGRSProjector *>(projector.get());
+    constexpr int mgrs_precision = 9;  // set precision as 100 micro meter
+    const auto * mgrs_projector =
+      dynamic_cast<lanelet::projection::MGRSProjector *>(projector.get());
 
     // project x and y using projector
     // note that the altitude is ignored in MGRS projection conventionally
@@ -54,12 +51,9 @@ LocalPoint project_forward(const GeoPoint & geo_point, const MapProjectorInfo & 
     projected_local_point.z() = geo_point.altitude - projector_info.map_origin.altitude;
   }
 
-  LocalPoint local_point;
-  local_point.x = projected_local_point.x();
-  local_point.y = projected_local_point.y();
-  local_point.z = projected_local_point.z();
-
-  return local_point;
+  return LocalPoint{
+    static_cast<double>(projected_local_point.x()), static_cast<double>(projected_local_point.y()),
+    static_cast<double>(projected_local_point.z())};
 }
 
 GeoPoint project_reverse(const LocalPoint & local_point, const MapProjectorInfo & projector_info)
@@ -68,7 +62,8 @@ GeoPoint project_reverse(const LocalPoint & local_point, const MapProjectorInfo 
 
   lanelet::GPSPoint projected_gps_point;
   if (projector_info.projector_type == MapProjectorInfo::MGRS) {
-    const auto mgrs_projector = dynamic_cast<lanelet::projection::MGRSProjector *>(projector.get());
+    const auto * mgrs_projector =
+      dynamic_cast<lanelet::projection::MGRSProjector *>(projector.get());
     // project latitude and longitude using projector
     // note that the z is ignored in MGRS projection conventionally
     projected_gps_point =
@@ -85,11 +80,10 @@ GeoPoint project_reverse(const LocalPoint & local_point, const MapProjectorInfo 
     projected_gps_point.ele = local_point.z + projector_info.map_origin.altitude;
   }
 
-  GeoPoint geo_point;
-  geo_point.latitude = projected_gps_point.lat;
-  geo_point.longitude = projected_gps_point.lon;
-  geo_point.altitude = projected_gps_point.ele;
-  return geo_point;
+  return GeoPoint{
+    .latitude = projected_gps_point.lat,
+    .longitude = projected_gps_point.lon,
+    .altitude = projected_gps_point.ele};
 }
 
 }  // namespace autoware::geography_utils
