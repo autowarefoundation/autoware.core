@@ -1,4 +1,5 @@
 ### Automatically generated from package.xml ###
+common/autoware_geography_utils/** anh.nguyen.2@tier4.jp masahiro.sakamoto@tier4.jp ryu.yamamoto@tier4.jp shintaro.sakoda@tier4.jp taiki.yamada@tier4.jp yamato.ando@tier4.jp
 
 ### Copied from .github/CODEOWNERS-manual ###
 * mfc@autoware.org ryohsuke.mitsudome@tier4.jp yutaka.kondo@tier4.jp
