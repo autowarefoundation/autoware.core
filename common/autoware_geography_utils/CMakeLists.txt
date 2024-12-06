@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 project(autoware_geography_utils)
 
-# TODO(youtalk): Update autoware_cmake to use C++20
-set(CMAKE_CXX_STANDARD 20)
-
 find_package(autoware_cmake REQUIRED)
 autoware_package()
 
