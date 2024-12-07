@@ -23,6 +23,15 @@ Node::Node(
 : LifecycleNode(node_name, ns, options)
 {
   RCLCPP_DEBUG(
-    get_logger(), "Node %s constructor was called.", get_node_base_interface()->get_fully_qualified_name());
+    get_logger(), "Node %s constructor was called.",
+    get_node_base_interface()->get_fully_qualified_name());
+}
+
+CallbackReturn Node::on_shutdown(const rclcpp_lifecycle::State & state)
+{
+  RCLCPP_DEBUG(
+    get_logger(), "Node %s shutdown was called with state %s.",
+    get_node_base_interface()->get_fully_qualified_name(), state.label().c_str());
+  return CallbackReturn::SUCCESS;
 }
 }  // namespace autoware::node
