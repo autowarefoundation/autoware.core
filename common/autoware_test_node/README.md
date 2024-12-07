@@ -10,6 +10,8 @@ ros2 launch autoware_test_node autoware_test_node.launch.xml
 
 ### Lifecycle control
 
+Information on Lifecycle nodes can be found [here](https://design.ros2.org/articles/node_lifecycle.html).
+
 Output a list of nodes with lifecycle:
 
 ```console
@@ -42,3 +44,10 @@ Shutdown the node:
 $ ros2 lifecycle set /test_ns1/test_node1 shutdown
 Transitioning successful
 ```
+
+```console
+$ ros2 lifecycle get /test_ns1/test_node1
+finalized [4]
+```
+
+The node will remain alive in the `finalized` state until it is killed by the user.
