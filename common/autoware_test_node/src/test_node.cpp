@@ -22,7 +22,8 @@ TestNode::TestNode(const rclcpp::NodeOptions & options)
 : autoware::node::Node("test_node", "", options)
 {
   RCLCPP_DEBUG(
-    get_logger(), "TestNode %s constructor was called.", get_node_base_interface()->get_fully_qualified_name());
+    get_logger(), "TestNode %s constructor was called.",
+    get_node_base_interface()->get_fully_qualified_name());
 }
 }  // namespace autoware::test_node
 

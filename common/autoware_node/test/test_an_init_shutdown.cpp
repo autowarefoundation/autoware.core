@@ -22,10 +22,7 @@
 class AutowareNodeInitShutdown : public ::testing::Test
 {
 public:
-  void SetUp() override
-  {
-    rclcpp::init(0, nullptr);
-  }
+  void SetUp() override { rclcpp::init(0, nullptr); }
 
   void TearDown() override { rclcpp::shutdown(); }
 
