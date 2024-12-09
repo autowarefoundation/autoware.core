@@ -35,4 +35,4 @@ jobs:
             tag:bot
             tag:update-codeowners-from-packages
           auto-merge-method: squash
-          global-codeowners: '@autowarefoundation/autoware-core-global-codeowners'
+          global-codeowners: "@autowarefoundation/autoware-core-global-codeowners"
