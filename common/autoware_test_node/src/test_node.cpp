@@ -27,5 +27,5 @@ TestNode::TestNode(const rclcpp::NodeOptions & options)
 }
 }  // namespace autoware::test_node
 
-#include "rclcpp_components/register_node_macro.hpp"
+#include <rclcpp_components/register_node_macro.hpp>
 RCLCPP_COMPONENTS_REGISTER_NODE(autoware::test_node::TestNode)
