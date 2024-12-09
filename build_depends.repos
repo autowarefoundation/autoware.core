@@ -3,3 +3,8 @@ repositories:
     type: git
     url: https://github.com/autowarefoundation/autoware_msgs.git
     version: main
+  # TODO(youtalk): Remove this after https://github.com/autowarefoundation/autoware_cmake/pull/12 is merged
+  autoware_cmake:
+    type: git
+    url: https://github.com/autowarefoundation/autoware_cmake.git
+    version: use-c++20
