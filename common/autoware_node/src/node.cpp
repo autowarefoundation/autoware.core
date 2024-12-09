@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #include <autoware/node/node.hpp>
-
 #include <rclcpp/rclcpp.hpp>
 
 namespace autoware::node
