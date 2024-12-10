@@ -21,7 +21,7 @@
 namespace autoware::test_node
 {
 
-class TestNode : public autoware::Node
+class TestNode : public autoware::node::Node
 {
 public:
   explicit TestNode(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());

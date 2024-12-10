@@ -18,7 +18,8 @@
 
 namespace autoware::test_node
 {
-TestNode::TestNode(const rclcpp::NodeOptions & options) : autoware::Node("test_node", "", options)
+TestNode::TestNode(const rclcpp::NodeOptions & options)
+: autoware::node::Node("test_node", "", options)
 {
   RCLCPP_DEBUG(
     get_logger(), "TestNode %s constructor was called.",

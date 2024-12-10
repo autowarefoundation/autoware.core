@@ -17,7 +17,7 @@
 
 #include <string>
 
-namespace autoware
+namespace autoware::node
 {
 Node::Node(
   const std::string & node_name, const std::string & ns, const rclcpp::NodeOptions & options)
@@ -35,4 +35,4 @@ CallbackReturn Node::on_shutdown(const rclcpp_lifecycle::State & state)
     get_node_base_interface()->get_fully_qualified_name(), state.label().c_str());
   return CallbackReturn::SUCCESS;
 }
-}  // namespace autoware
+}  // namespace autoware::node
