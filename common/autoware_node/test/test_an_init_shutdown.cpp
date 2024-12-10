@@ -33,12 +33,10 @@ public:
 
 TEST_F(AutowareNodeInitShutdown, NodeInitShutdown)
 {
-  std::shared_ptr<rclcpp::executors::SingleThreadedExecutor> executor;
-  executor = std::make_shared<rclcpp::executors::SingleThreadedExecutor>();
-
   autoware::node::Node::SharedPtr autoware_node =
     std::make_shared<autoware::node::Node>("test_node", "test_ns", node_options_an_);
 
+  auto executor = std::make_shared<rclcpp::executors::SingleThreadedExecutor>();
   executor->add_node(autoware_node->get_node_base_interface());
 
   std::thread thread_spin = std::thread([&executor]() { executor->spin(); });
@@ -60,5 +58,3 @@ TEST_F(AutowareNodeInitShutdown, NodeInitShutdown)
     thread_spin.join();
   }
 }
-
-// TEST_F(AutowareNodeTest, Sen)
