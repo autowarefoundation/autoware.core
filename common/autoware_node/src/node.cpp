@@ -15,6 +15,8 @@
 #include <autoware/node/node.hpp>
 #include <rclcpp/rclcpp.hpp>
 
+#include <string>
+
 namespace autoware::node
 {
 Node::Node(

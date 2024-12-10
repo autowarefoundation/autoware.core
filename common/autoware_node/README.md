@@ -13,7 +13,7 @@ class [LifecycleNode](https://docs.ros2.org/latest/api/rclcpp_lifecycle/classrcl
 
 ## Usage
 
-Check the [autoware_test_node](../autoware_test_node/README.md) package for an example of how to use `autoware::Node`.
+Check the [autoware_test_node](../../demos/autoware_test_node/README.md) package for an example of how to use `autoware::Node`.
 
 ## Design
 

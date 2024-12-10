@@ -19,6 +19,8 @@
 
 #include <gtest/gtest.h>
 
+#include <memory>
+
 class AutowareNodeInitShutdown : public ::testing::Test
 {
 public:
