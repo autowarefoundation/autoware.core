@@ -28,7 +28,7 @@
     - source: .github/workflows/sync-files.yaml
     - source: .github/workflows/update-codeowners-from-packages.yaml
       pre-commands: |
-        sd "          auto-merge-method: squash\n" "          auto-merge-method: squash\n          global-codeowners: \"@autowarefoundation/autoware-core-global-codeowners\"" {source}
+        sd "          auto-merge-method: squash\n" "          auto-merge-method: squash\n          global-codeowners: \"@autowarefoundation/autoware-core-global-codeowners\"\n" {source}
     - source: .clang-format
     - source: .clang-tidy
     - source: .markdown-link-check.json
