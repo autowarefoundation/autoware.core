@@ -21,7 +21,7 @@
 
 #include <string>
 
-namespace autoware::node
+namespace autoware
 {
 using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
 
@@ -36,6 +36,6 @@ public:
 protected:
   CallbackReturn on_shutdown(const rclcpp_lifecycle::State & state) override;
 };
-}  // namespace autoware::node
+}  // namespace autoware
 
 #endif  // AUTOWARE__NODE__NODE_HPP_

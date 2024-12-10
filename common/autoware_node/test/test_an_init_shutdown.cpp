@@ -36,8 +36,8 @@ TEST_F(AutowareNodeInitShutdown, NodeInitShutdown)
   std::shared_ptr<rclcpp::executors::SingleThreadedExecutor> executor;
   executor = std::make_shared<rclcpp::executors::SingleThreadedExecutor>();
 
-  autoware::node::Node::SharedPtr autoware_node =
-    std::make_shared<autoware::node::Node>("test_node", "test_ns", node_options_an_);
+  autoware::Node::SharedPtr autoware_node =
+    std::make_shared<autoware::Node>("test_node", "test_ns", node_options_an_);
 
   executor->add_node(autoware_node->get_node_base_interface());
 
