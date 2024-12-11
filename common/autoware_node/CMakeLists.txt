@@ -4,7 +4,7 @@ project(autoware_node)
 find_package(autoware_cmake REQUIRED)
 autoware_package()
 
-ament_auto_add_library(${PROJECT_NAME} src/node.cpp)
+ament_auto_add_library(${PROJECT_NAME} SHARED src/node.cpp)
 
 if(BUILD_TESTING)
   file(GLOB_RECURSE TEST_FILES test/*.cpp)
