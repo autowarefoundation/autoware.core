@@ -19,10 +19,10 @@
   <depend>autoware_planning_msgs</depend>
   <depend>autoware_vehicle_msgs</depend>
   <depend>nav_msgs</depend>
-  <depend>sensor_msgs</depend>
   <depend>rcl</depend>
   <depend>rclcpp</depend>
   <depend>rosidl_runtime_cpp</depend>
+  <depend>sensor_msgs</depend>
 
   <test_depend>ament_cmake_gtest</test_depend>
   <test_depend>ament_lint_auto</test_depend>
