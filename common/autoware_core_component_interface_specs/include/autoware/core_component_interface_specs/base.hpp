@@ -1,4 +1,4 @@
-// Copyright 2022 TIER IV, Inc.
+// Copyright 2023 TIER IV, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,26 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__PERCEPTION_HPP_
-#define AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__PERCEPTION_HPP_
+#ifndef AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__BASE_HPP_
+#define AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__BASE_HPP_
 
 #include <rclcpp/qos.hpp>
 
-#include <autoware/core_component_interface_specs/base.hpp>
-#include <autoware_perception_msgs/msg/predicted_objects.hpp>
+#include <autoware_map_msgs/msg/lanelet_map_bin.hpp>
+#include <autoware_map_msgs/msg/map_projector_info.hpp>
+#include <sensor_msgs/msg/point_cloud2.hpp>
 
-namespace autoware::core_component_interface_specs::perception
+namespace autoware::core_component_interface_specs
 {
 
-struct ObjectRecognition : InterfaceBase
+struct InterfaceBase
 {
-  using Message = autoware_perception_msgs::msg::PredictedObjects;
-  static constexpr char name[] = "/perception/object_recognition/objects";
+  static constexpr char name[] = "";
   static constexpr size_t depth = 1;
   static constexpr auto reliability = RMW_QOS_POLICY_RELIABILITY_RELIABLE;
   static constexpr auto durability = RMW_QOS_POLICY_DURABILITY_VOLATILE;
+
+  auto get_qos() const
+  {
+    return rclcpp::QoS{depth}.reliability(reliability).durability(durability);
+  }
 };
 
-}  // namespace autoware::core_component_interface_specs::perception
 
-#endif  // AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__PERCEPTION_HPP_
+}  // namespace autoware::core_component_interface_specs::map
+
+#endif  // AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__BASE_HPP_

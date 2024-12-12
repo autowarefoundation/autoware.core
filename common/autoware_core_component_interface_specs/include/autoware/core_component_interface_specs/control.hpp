@@ -18,11 +18,12 @@
 #include <rclcpp/qos.hpp>
 
 #include <autoware_control_msgs/msg/control.hpp>
+#include <autoware/core_component_interface_specs/base.hpp>
 
 namespace autoware::core_component_interface_specs::control
 {
 
-struct ControlCommand
+struct ControlCommand : InterfaceBase
 {
   using Message = autoware_control_msgs::msg::Control;
   static constexpr char name[] = "/control/command/control_cmd";

@@ -20,10 +20,12 @@
 #include <autoware_planning_msgs/msg/lanelet_route.hpp>
 #include <autoware_planning_msgs/msg/trajectory.hpp>
 
+#include <autoware/core_component_interface_specs/base.hpp>
+
 namespace autoware::core_component_interface_specs::planning
 {
 
-struct LaneletRoute
+struct LaneletRoute : InterfaceBase
 {
   using Message = autoware_planning_msgs::msg::LaneletRoute;
   static constexpr char name[] = "/planning/mission_planning/route_selector/main/route";
@@ -32,7 +34,7 @@ struct LaneletRoute
   static constexpr auto durability = RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL;
 };
 
-struct Trajectory
+struct Trajectory : InterfaceBase
 {
   using Message = autoware_planning_msgs::msg::Trajectory;
   static constexpr char name[] = "/planning/scenario_planning/trajectory";
