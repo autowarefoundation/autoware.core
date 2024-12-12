@@ -17,7 +17,7 @@
 
 #include <rclcpp/qos.hpp>
 
-#include <autoware_control_msgs/msg/Control.hpp>
+#include <autoware_control_msgs/msg/control.hpp>
 
 namespace autoware::core_component_interface_specs::control
 {
