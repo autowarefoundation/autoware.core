@@ -17,13 +17,14 @@
 
 #include <rclcpp/qos.hpp>
 
+#include <autoware/core_component_interface_specs/base.hpp>
 #include <geometry_msgs/msg/accel_with_covariance_stamped.hpp>
 #include <nav_msgs/msg/odometry.hpp>
 
 namespace autoware::core_component_interface_specs::localization
 {
 
-struct KinematicState
+struct KinematicState : InterfaceBase
 {
   using Message = nav_msgs::msg::Odometry;
   static constexpr char name[] = "/localization/kinematic_state";
@@ -32,7 +33,7 @@ struct KinematicState
   static constexpr auto durability = RMW_QOS_POLICY_DURABILITY_VOLATILE;
 };
 
-struct Acceleration
+struct Acceleration : InterfaceBase
 {
   using Message = geometry_msgs::msg::AccelWithCovarianceStamped;
   static constexpr char name[] = "/localization/acceleration";
