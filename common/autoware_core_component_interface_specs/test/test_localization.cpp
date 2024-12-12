@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "autoware/component_interface_specs/localization.hpp"
+#include "autoware/core_component_interface_specs/localization.hpp"
 #include "gtest/gtest.h"
 
 TEST(localization, interface)
