@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "autoware/component_interface_specs/planning.hpp"
+#include "autoware/core_component_interface_specs/planning.hpp"
 #include "gtest/gtest.h"
 
 TEST(planning, interface)
