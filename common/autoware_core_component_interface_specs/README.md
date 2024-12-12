@@ -5,6 +5,7 @@ This package defines the standardized component interface specifications for Aut
 ## Purpose
 
 The purpose of this package is to:
+
 - Provide a single source of truth for component interface definitions
 - Ensure consistency across different implementations
 - Facilitate modular development and component interchangeability
@@ -13,6 +14,7 @@ The purpose of this package is to:
 ## Structure
 
 The package contains interface specifications for various components, including:
+
 - Message definitions
 - Service interfaces
 - Action interfaces
