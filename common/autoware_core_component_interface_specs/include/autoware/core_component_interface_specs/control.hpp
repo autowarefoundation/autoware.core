@@ -15,10 +15,10 @@
 #ifndef AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__CONTROL_HPP_
 #define AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__CONTROL_HPP_
 
+#include <autoware/core_component_interface_specs/base.hpp>
 #include <rclcpp/qos.hpp>
 
 #include <autoware_control_msgs/msg/control.hpp>
-#include <autoware/core_component_interface_specs/base.hpp>
 
 namespace autoware::core_component_interface_specs::control
 {

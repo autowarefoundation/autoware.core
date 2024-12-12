@@ -15,9 +15,9 @@
 #ifndef AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__PERCEPTION_HPP_
 #define AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__PERCEPTION_HPP_
 
+#include <autoware/core_component_interface_specs/base.hpp>
 #include <rclcpp/qos.hpp>
 
-#include <autoware/core_component_interface_specs/base.hpp>
 #include <autoware_perception_msgs/msg/predicted_objects.hpp>
 
 namespace autoware::core_component_interface_specs::perception

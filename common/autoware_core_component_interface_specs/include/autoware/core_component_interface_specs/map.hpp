@@ -15,9 +15,9 @@
 #ifndef AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__MAP_HPP_
 #define AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__MAP_HPP_
 
+#include <autoware/core_component_interface_specs/base.hpp>
 #include <rclcpp/qos.hpp>
 
-#include <autoware/core_component_interface_specs/base.hpp>
 #include <autoware_map_msgs/msg/lanelet_map_bin.hpp>
 #include <autoware_map_msgs/msg/map_projector_info.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>

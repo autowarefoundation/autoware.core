@@ -37,7 +37,6 @@ struct InterfaceBase
   }
 };
 
-
-}  // namespace autoware::core_component_interface_specs::map
+}  // namespace autoware::core_component_interface_specs
 
 #endif  // AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__BASE_HPP_
