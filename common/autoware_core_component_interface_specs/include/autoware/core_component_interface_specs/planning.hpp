@@ -15,12 +15,11 @@
 #ifndef AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__PLANNING_HPP_
 #define AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__PLANNING_HPP_
 
+#include <autoware/core_component_interface_specs/base.hpp>
 #include <rclcpp/qos.hpp>
 
 #include <autoware_planning_msgs/msg/lanelet_route.hpp>
 #include <autoware_planning_msgs/msg/trajectory.hpp>
-
-#include <autoware/core_component_interface_specs/base.hpp>
 
 namespace autoware::core_component_interface_specs::planning
 {

@@ -15,9 +15,9 @@
 #ifndef AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__LOCALIZATION_HPP_
 #define AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__LOCALIZATION_HPP_
 
+#include <autoware/core_component_interface_specs/base.hpp>
 #include <rclcpp/qos.hpp>
 
-#include <autoware/core_component_interface_specs/base.hpp>
 #include <geometry_msgs/msg/accel_with_covariance_stamped.hpp>
 #include <nav_msgs/msg/odometry.hpp>
 
