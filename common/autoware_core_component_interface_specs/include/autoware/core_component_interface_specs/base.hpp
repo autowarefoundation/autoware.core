@@ -31,7 +31,7 @@ struct InterfaceBase
   static constexpr auto reliability = RMW_QOS_POLICY_RELIABILITY_RELIABLE;
   static constexpr auto durability = RMW_QOS_POLICY_DURABILITY_VOLATILE;
 
-  auto get_qos() const
+  static rclcpp::QoS get_qos()
   {
     return rclcpp::QoS{depth}.reliability(reliability).durability(durability);
   }
