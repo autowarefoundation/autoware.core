@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-test-daily:
-    runs-on: [self-hosted, linux, X64, gpu]
+    runs-on: ubuntu-24.04
     container: ${{ matrix.container }}${{ matrix.container-suffix }}
     strategy:
       fail-fast: false
