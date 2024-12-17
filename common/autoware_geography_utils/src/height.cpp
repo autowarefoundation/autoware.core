@@ -18,6 +18,7 @@
 #include <map>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <utility>
 
 namespace autoware::geography_utils
@@ -44,20 +45,19 @@ double convert_height(
   if (source_vertical_datum == target_vertical_datum) {
     return height;
   }
-  std::map<std::pair<std::string, std::string>, HeightConversionFunction> conversion_map;
-  conversion_map[{"WGS84", "EGM2008"}] = convert_wgs84_to_egm2008;
-  conversion_map[{"EGM2008", "WGS84"}] = convert_egm2008_to_wgs84;
+  static const std::map<std::pair<std::string_view, std::string_view>, HeightConversionFunction>
+    conversion_map{
+      {{"WGS84", "EGM2008"}, convert_wgs84_to_egm2008},
+      {{"EGM2008", "WGS84"}, convert_egm2008_to_wgs84},
+    };
 
-  auto key = std::make_pair(source_vertical_datum, target_vertical_datum);
-  if (conversion_map.find(key) != conversion_map.end()) {
-    return conversion_map[key](height, latitude, longitude);
-  } else {
-    std::string error_message =
-      "Invalid conversion types: " + std::string(source_vertical_datum.c_str()) + " to " +
-      std::string(target_vertical_datum.c_str());
-
-    throw std::invalid_argument(error_message);
+  const auto key = std::make_pair(source_vertical_datum, target_vertical_datum);
+  if (const auto it = conversion_map.find(key); it != conversion_map.end()) {
+    return it->second(height, latitude, longitude);
   }
+
+  throw std::invalid_argument(
+    "Invalid conversion types: " + source_vertical_datum + " to " + target_vertical_datum);
 }
 
 }  // namespace autoware::geography_utils

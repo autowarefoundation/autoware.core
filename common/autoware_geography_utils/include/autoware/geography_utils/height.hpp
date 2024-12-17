@@ -20,7 +20,8 @@
 namespace autoware::geography_utils
 {
 
-using HeightConversionFunction = double (*)(const double height, const double latitude, const double longitude);
+using HeightConversionFunction =
+  double (*)(const double height, const double latitude, const double longitude);
 
 double convert_wgs84_to_egm2008(const double height, const double latitude, const double longitude);
 double convert_egm2008_to_wgs84(const double height, const double latitude, const double longitude);
