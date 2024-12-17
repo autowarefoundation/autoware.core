@@ -17,8 +17,8 @@
 #include <autoware_lanelet2_extension/projection/transverse_mercator_projector.hpp>
 
 #include <gtest/gtest.h>
-
 #include <lanelet2_projection/UTM.h>
+
 #include <memory>
 #include <stdexcept>
 
@@ -29,11 +29,11 @@ TEST(GeographyUtilsLanelet2Projector, GetMGRSProjector)
   projector_info.mgrs_grid = "54SUE";
   projector_info.vertical_datum = autoware_map_msgs::msg::MapProjectorInfo::WGS84;
 
-  std::unique_ptr<lanelet::Projector> projector = 
+  std::unique_ptr<lanelet::Projector> projector =
     autoware::geography_utils::get_lanelet2_projector(projector_info);
 
   // Check if the returned projector is of type MGRSProjector
-  EXPECT_NE(dynamic_cast<lanelet::projection::MGRSProjector*>(projector.get()), nullptr);
+  EXPECT_NE(dynamic_cast<lanelet::projection::MGRSProjector *>(projector.get()), nullptr);
 }
 
 TEST(GeographyUtilsLanelet2Projector, GetLocalCartesianUTMProjector)
@@ -45,11 +45,11 @@ TEST(GeographyUtilsLanelet2Projector, GetLocalCartesianUTMProjector)
   projector_info.map_origin.longitude = 139.74252;
   projector_info.map_origin.altitude = 0.0;
 
-  std::unique_ptr<lanelet::Projector> projector = 
+  std::unique_ptr<lanelet::Projector> projector =
     autoware::geography_utils::get_lanelet2_projector(projector_info);
 
   // Check if the returned projector is of type UtmProjector
-  EXPECT_NE(dynamic_cast<lanelet::projection::UtmProjector*>(projector.get()), nullptr);
+  EXPECT_NE(dynamic_cast<lanelet::projection::UtmProjector *>(projector.get()), nullptr);
 }
 
 TEST(GeographyUtilsLanelet2Projector, GetTransverseMercatorProjector)
@@ -61,11 +61,12 @@ TEST(GeographyUtilsLanelet2Projector, GetTransverseMercatorProjector)
   projector_info.map_origin.longitude = 139.74252;
   projector_info.map_origin.altitude = 0.0;
 
-  std::unique_ptr<lanelet::Projector> projector = 
+  std::unique_ptr<lanelet::Projector> projector =
     autoware::geography_utils::get_lanelet2_projector(projector_info);
 
   // Check if the returned projector is of type TransverseMercatorProjector
-  EXPECT_NE(dynamic_cast<lanelet::projection::TransverseMercatorProjector*>(projector.get()), nullptr);
+  EXPECT_NE(
+    dynamic_cast<lanelet::projection::TransverseMercatorProjector *>(projector.get()), nullptr);
 }
 
 TEST(GeographyUtilsLanelet2Projector, InvalidProjectorType)
@@ -76,6 +77,5 @@ TEST(GeographyUtilsLanelet2Projector, InvalidProjectorType)
 
   // Check if the function throws an invalid_argument exception for invalid projector type
   EXPECT_THROW(
-    autoware::geography_utils::get_lanelet2_projector(projector_info),
-    std::invalid_argument);
+    autoware::geography_utils::get_lanelet2_projector(projector_info), std::invalid_argument);
 }
