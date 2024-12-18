@@ -22,13 +22,8 @@ jobs:
     with:
       label: tag:run-build-and-test-differential
 
-  make-sure-require-cuda-label-is-present:
-    uses: autowarefoundation/autoware-github-actions/.github/workflows/make-sure-label-is-present.yaml@v1
-    with:
-      label: tag:require-cuda-build-and-test
-
   build-and-test-differential:
-    needs: [make-sure-label-is-present, make-sure-require-cuda-label-is-present]
+    needs: make-sure-label-is-present
     if: ${{ needs.make-sure-label-is-present.outputs.result == 'true' }}
     runs-on: ubuntu-24.04
     container: ghcr.io/autowarefoundation/autoware:core-devel
@@ -89,7 +84,7 @@ jobs:
           target-files: ${{ steps.get-changed-files.outputs.changed-files }}
           clang-tidy-config-url: https://raw.githubusercontent.com/autowarefoundation/autoware/main/.clang-tidy-ci
           build-depends-repos: build_depends.repos
-          cache-key-element: cuda
+          cache-key-element: nocuda
 
       - name: Show disk space after the tasks
         run: df -h
