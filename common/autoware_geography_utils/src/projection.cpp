@@ -24,7 +24,7 @@ namespace autoware::geography_utils
 
 [[nodiscard]] Eigen::Vector3d to_basic_point_3d_pt(const LocalPoint src)
 {
-  return {src.x, src.y, src.z};
+  return Eigen::Vector3d{src.x, src.y, src.z};
 }
 
 LocalPoint project_forward(const GeoPoint & geo_point, const MapProjectorInfo & projector_info)
