@@ -22,34 +22,11 @@ jobs:
     with:
       label: tag:run-build-and-test-differential
 
-  make-sure-require-cuda-label-is-present:
-    uses: autowarefoundation/autoware-github-actions/.github/workflows/make-sure-label-is-present.yaml@v1
-    with:
-      label: tag:require-cuda-build-and-test
-
   build-and-test-differential:
-    needs: [make-sure-label-is-present, make-sure-require-cuda-label-is-present]
+    needs: make-sure-label-is-present
     if: ${{ needs.make-sure-label-is-present.outputs.result == 'true' }}
-    runs-on: ${{ matrix.runner }}
-    container: ${{ matrix.container }}${{ matrix.container-suffix }}
-    strategy:
-      fail-fast: false
-      matrix:
-        rosdistro:
-          - humble
-        container-suffix:
-          - ""
-          - -cuda
-        include:
-          - rosdistro: humble
-            container: ghcr.io/autowarefoundation/autoware:universe-devel
-            build-depends-repos: build_depends.repos
-          - container-suffix: -cuda
-            runner: codebuild-autoware-us-east-1-${{ github.run_id }}-${{ github.run_attempt }}-ubuntu-7.0-large
-            build-pre-command: taskset --cpu-list 0-6
-          - container-suffix: ""
-            runner: ubuntu-latest
-            build-pre-command: ""
+    runs-on: ubuntu-24.04
+    container: ghcr.io/autowarefoundation/autoware:core-devel
     steps:
       - name: Set PR fetch depth
         run: echo "PR_FETCH_DEPTH=$(( ${{ github.event.pull_request.commits }} + 1 ))" >> "${GITHUB_ENV}"
@@ -62,21 +39,16 @@ jobs:
           fetch-depth: ${{ env.PR_FETCH_DEPTH }}
 
       - name: Run build-and-test-differential action
-        if: ${{ !(matrix.container-suffix == '-cuda') || needs.make-sure-require-cuda-label-is-present.outputs.result == 'true' }}
         uses: ./.github/actions/build-and-test-differential
         with:
-          rosdistro: ${{ matrix.rosdistro }}
-          container: ${{ matrix.container }}
-          container-suffix: ${{ matrix.container-suffix }}
-          runner: ${{ matrix.runner }}
-          build-depends-repos: ${{ matrix.build-depends-repos }}
-          build-pre-command: ${{ matrix.build-pre-command }}
+          rosdistro: humble
+          build-depends-repos: build_depends.repos
           codecov-token: ${{ secrets.CODECOV_TOKEN }}
 
   clang-tidy-differential:
     needs: build-and-test-differential
-    runs-on: ubuntu-22.04
-    container: ghcr.io/autowarefoundation/autoware:universe-devel-cuda
+    runs-on: ubuntu-24.04
+    container: ghcr.io/autowarefoundation/autoware:core-devel
     steps:
       - name: Set PR fetch depth
         run: echo "PR_FETCH_DEPTH=$(( ${{ github.event.pull_request.commits }} + 1 ))" >> "${GITHUB_ENV}"
@@ -112,7 +84,6 @@ jobs:
           target-files: ${{ steps.get-changed-files.outputs.changed-files }}
           clang-tidy-config-url: https://raw.githubusercontent.com/autowarefoundation/autoware/main/.clang-tidy-ci
           build-depends-repos: build_depends.repos
-          cache-key-element: cuda
 
       - name: Show disk space after the tasks
         run: df -h
