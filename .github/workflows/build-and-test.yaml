@@ -71,7 +71,6 @@ jobs:
           rosdistro: humble
           target-packages: ${{ steps.get-self-packages.outputs.self-packages }}
           build-depends-repos: build_depends.repos
-          cache-key-element: nocuda
           build-pre-command: taskset --cpu-list 0-6
 
       - name: Show ccache stats after build
