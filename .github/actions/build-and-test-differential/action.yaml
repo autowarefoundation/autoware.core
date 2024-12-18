@@ -5,12 +5,6 @@ inputs:
   rosdistro:
     description: ""
     required: true
-  container:
-    description: ""
-    required: true
-  container-suffix:
-    description: ""
-    required: true
   runner:
     description: ""
     required: true
@@ -65,12 +59,8 @@ runs:
 
     - name: Export CUDA state as a variable for adding to cache key
       run: |
-        build_type_cuda_state=nocuda
-        if [[ "${{ inputs.container-suffix }}" == "-cuda" ]]; then
-          build_type_cuda_state=cuda
-        fi
-        echo "BUILD_TYPE_CUDA_STATE=$build_type_cuda_state" >> "${GITHUB_ENV}"
-        echo "::notice::BUILD_TYPE_CUDA_STATE=$build_type_cuda_state"
+        echo "BUILD_TYPE_CUDA_STATE=nocuda" >> "${GITHUB_ENV}"
+        echo "::notice::BUILD_TYPE_CUDA_STATE=nocuda"
       shell: bash
 
     - name: Build

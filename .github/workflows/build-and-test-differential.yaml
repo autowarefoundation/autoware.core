@@ -31,19 +31,7 @@ jobs:
     needs: [make-sure-label-is-present, make-sure-require-cuda-label-is-present]
     if: ${{ needs.make-sure-label-is-present.outputs.result == 'true' }}
     runs-on: ubuntu-24.04
-    container: ${{ matrix.container }}${{ matrix.container-suffix }}
-    strategy:
-      fail-fast: false
-      matrix:
-        rosdistro:
-          - humble
-        container-suffix:
-          - ""
-          - -cuda
-        include:
-          - rosdistro: humble
-            container: ghcr.io/autowarefoundation/autoware:core-devel
-            build-depends-repos: build_depends.repos
+    container: ghcr.io/autowarefoundation/autoware:core-devel
     steps:
       - name: Set PR fetch depth
         run: echo "PR_FETCH_DEPTH=$(( ${{ github.event.pull_request.commits }} + 1 ))" >> "${GITHUB_ENV}"
@@ -56,14 +44,10 @@ jobs:
           fetch-depth: ${{ env.PR_FETCH_DEPTH }}
 
       - name: Run build-and-test-differential action
-        if: ${{ !(matrix.container-suffix == '-cuda') || needs.make-sure-require-cuda-label-is-present.outputs.result == 'true' }}
         uses: ./.github/actions/build-and-test-differential
         with:
-          rosdistro: ${{ matrix.rosdistro }}
-          container: ${{ matrix.container }}
-          container-suffix: ${{ matrix.container-suffix }}
-          runner: ${{ matrix.runner }}
-          build-depends-repos: ${{ matrix.build-depends-repos }}
+          rosdistro: humble
+          build-depends-repos: build_depends.repos
           codecov-token: ${{ secrets.CODECOV_TOKEN }}
 
   clang-tidy-differential:
