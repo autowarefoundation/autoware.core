@@ -18,7 +18,6 @@
 #include <map>
 #include <stdexcept>
 #include <string>
-#include <string_view>
 #include <utility>
 
 namespace autoware::geography_utils
@@ -45,7 +44,7 @@ double convert_height(
   if (source_vertical_datum == target_vertical_datum) {
     return height;
   }
-  static const std::map<std::pair<std::string_view, std::string_view>, HeightConversionFunction>
+  static const std::map<std::pair<std::string, std::string>, HeightConversionFunction>
     conversion_map{
       {{"WGS84", "EGM2008"}, convert_wgs84_to_egm2008},
       {{"EGM2008", "WGS84"}, convert_egm2008_to_wgs84},
