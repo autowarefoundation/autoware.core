@@ -20,9 +20,11 @@ The package contains interface specifications for various components, including:
 - Action interfaces
 
 ## Usage
+
 To use these interface specifications in your component:
 
 1. Add this package as a dependency in your package.xml:
+
 ```xml
 <depend>autoware_core_component_interface_specs</depend>
 ```
