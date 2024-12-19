@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__PLANNING_HPP_
-#define AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__PLANNING_HPP_
+#ifndef AUTOWARE__COMPONENT_INTERFACE_SPECS__PLANNING_HPP_
+#define AUTOWARE__COMPONENT_INTERFACE_SPECS__PLANNING_HPP_
 
-#include <autoware/core_component_interface_specs/base.hpp>
+#include <autoware/component_interface_specs/base.hpp>
 #include <rclcpp/qos.hpp>
 
 #include <autoware_planning_msgs/msg/lanelet_route.hpp>
 #include <autoware_planning_msgs/msg/trajectory.hpp>
 
-namespace autoware::core_component_interface_specs::planning
+namespace autoware::component_interface_specs::planning
 {
 
 struct LaneletRoute : InterfaceBase
@@ -42,6 +42,6 @@ struct Trajectory : InterfaceBase
   static constexpr auto durability = RMW_QOS_POLICY_DURABILITY_VOLATILE;
 };
 
-}  // namespace autoware::core_component_interface_specs::planning
+}  // namespace autoware::component_interface_specs::planning
 
-#endif  // AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__PLANNING_HPP_
+#endif  // AUTOWARE__COMPONENT_INTERFACE_SPECS__PLANNING_HPP_

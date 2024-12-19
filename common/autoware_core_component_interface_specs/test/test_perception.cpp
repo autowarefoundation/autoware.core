@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "autoware/core_component_interface_specs/perception.hpp"
+#include "autoware/component_interface_specs/perception.hpp"
 #include "gtest/gtest.h"
 
 TEST(perception, interface)
 {
   {
-    using autoware::core_component_interface_specs::perception::ObjectRecognition;
+    using autoware::component_interface_specs::perception::ObjectRecognition;
     ObjectRecognition object_recognition;
     size_t depth = 1;
     EXPECT_EQ(object_recognition.depth, depth);

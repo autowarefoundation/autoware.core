@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "autoware/core_component_interface_specs/map.hpp"
+#include "autoware/component_interface_specs/map.hpp"
 #include "gtest/gtest.h"
 
 TEST(map, interface)
 {
   {
-    using autoware::core_component_interface_specs::map::MapProjectorInfo;
+    using autoware::component_interface_specs::map::MapProjectorInfo;
     MapProjectorInfo map_projector;
     size_t depth = 1;
     EXPECT_EQ(map_projector.depth, depth);
@@ -27,7 +27,7 @@ TEST(map, interface)
   }
 
   {
-    using autoware::core_component_interface_specs::map::PointCloudMap;
+    using autoware::component_interface_specs::map::PointCloudMap;
     PointCloudMap point_cloud_map;
     size_t depth = 1;
     EXPECT_EQ(point_cloud_map.depth, depth);
@@ -36,7 +36,7 @@ TEST(map, interface)
   }
 
   {
-    using autoware::core_component_interface_specs::map::VectorMap;
+    using autoware::component_interface_specs::map::VectorMap;
     VectorMap vector_map;
     size_t depth = 1;
     EXPECT_EQ(vector_map.depth, depth);
