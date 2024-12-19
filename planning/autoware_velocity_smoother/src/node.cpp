@@ -61,7 +61,6 @@ VelocitySmootherNode::VelocitySmootherNode(const rclcpp::NodeOptions & node_opti
   pub_velocity_limit_ = create_publisher<VelocityLimit>(
     "~/output/current_velocity_limit_mps", rclcpp::QoS{1}.transient_local());
   pub_dist_to_stopline_ = create_publisher<Float32Stamped>("~/distance_to_stopline", 1);
-  pub_over_stop_velocity_ = create_publisher<StopSpeedExceeded>("~/stop_speed_exceeded", 1);
   sub_current_trajectory_ = create_subscription<Trajectory>(
     "~/input/trajectory", 1, std::bind(&VelocitySmootherNode::onCurrentTrajectory, this, _1));
 
@@ -833,13 +832,9 @@ void VelocitySmootherNode::overwriteStopPoint(
     node_param_.ego_nearest_yaw_threshold);
 
   // check over velocity
-  bool is_stop_velocity_exceeded{false};
   double input_stop_vel{};
   double output_stop_vel{};
   if (nearest_output_point_idx) {
-    double optimized_stop_point_vel =
-      output.at(*nearest_output_point_idx).longitudinal_velocity_mps;
-    is_stop_velocity_exceeded = (optimized_stop_point_vel > over_stop_velocity_warn_thr_);
     input_stop_vel = input.at(*stop_idx).longitudinal_velocity_mps;
     output_stop_vel = output.at(*nearest_output_point_idx).longitudinal_velocity_mps;
     trajectory_utils::applyMaximumVelocityLimit(
@@ -855,13 +850,6 @@ void VelocitySmootherNode::overwriteStopPoint(
       get_logger(),
       "replan : input_stop_idx = -1, stop velocity : input = %f, output = %f, thr = %f",
       input_stop_vel, output_stop_vel, over_stop_velocity_warn_thr_);
-  }
-
-  {
-    StopSpeedExceeded msg{};
-    msg.stamp = this->now();
-    msg.stop_speed_exceeded = is_stop_velocity_exceeded;
-    pub_over_stop_velocity_->publish(msg);
   }
 }
 

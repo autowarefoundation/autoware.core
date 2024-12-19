@@ -40,10 +40,9 @@
 #include "autoware_planning_msgs/msg/trajectory_point.hpp"
 #include "geometry_msgs/msg/accel_with_covariance_stamped.hpp"
 #include "nav_msgs/msg/odometry.hpp"
-#include "tier4_debug_msgs/msg/float32_stamped.hpp"         // temporary
-#include "tier4_debug_msgs/msg/float64_stamped.hpp"         // temporary
-#include "tier4_planning_msgs/msg/stop_speed_exceeded.hpp"  // temporary
-#include "tier4_planning_msgs/msg/velocity_limit.hpp"       // temporary
+#include "tier4_debug_msgs/msg/float32_stamped.hpp"    // temporary
+#include "tier4_debug_msgs/msg/float64_stamped.hpp"    // temporary
+#include "tier4_planning_msgs/msg/velocity_limit.hpp"  // temporary
 #include "visualization_msgs/msg/marker_array.hpp"
 
 #include <iostream>
@@ -63,10 +62,9 @@ using geometry_msgs::msg::AccelWithCovarianceStamped;
 using geometry_msgs::msg::Pose;
 using geometry_msgs::msg::PoseStamped;
 using nav_msgs::msg::Odometry;
-using tier4_debug_msgs::msg::Float32Stamped;        // temporary
-using tier4_debug_msgs::msg::Float64Stamped;        // temporary
-using tier4_planning_msgs::msg::StopSpeedExceeded;  // temporary
-using tier4_planning_msgs::msg::VelocityLimit;      // temporary
+using tier4_debug_msgs::msg::Float32Stamped;    // temporary
+using tier4_debug_msgs::msg::Float64Stamped;    // temporary
+using tier4_planning_msgs::msg::VelocityLimit;  // temporary
 using visualization_msgs::msg::MarkerArray;
 
 struct Motion
@@ -86,7 +84,6 @@ public:
 private:
   rclcpp::Publisher<Trajectory>::SharedPtr pub_trajectory_;
   rclcpp::Publisher<MarkerArray>::SharedPtr pub_virtual_wall_;
-  rclcpp::Publisher<StopSpeedExceeded>::SharedPtr pub_over_stop_velocity_;
   rclcpp::Subscription<Trajectory>::SharedPtr sub_current_trajectory_;
   autoware::universe_utils::InterProcessPollingSubscriber<Odometry> sub_current_odometry_{
     this, "/localization/kinematic_state"};
