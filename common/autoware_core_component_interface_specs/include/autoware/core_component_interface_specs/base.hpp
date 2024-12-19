@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__BASE_HPP_
-#define AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__BASE_HPP_
+#ifndef AUTOWARE__COMPONENT_INTERFACE_SPECS__BASE_HPP_
+#define AUTOWARE__COMPONENT_INTERFACE_SPECS__BASE_HPP_
 
 #include <rclcpp/qos.hpp>
 
@@ -21,7 +21,7 @@
 #include <autoware_map_msgs/msg/map_projector_info.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
 
-namespace autoware::core_component_interface_specs
+namespace autoware::component_interface_specs
 {
 
 struct InterfaceBase
@@ -37,6 +37,6 @@ struct InterfaceBase
   }
 };
 
-}  // namespace autoware::core_component_interface_specs
+}  // namespace autoware::component_interface_specs
 
-#endif  // AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__BASE_HPP_
+#endif  // AUTOWARE__COMPONENT_INTERFACE_SPECS__BASE_HPP_
