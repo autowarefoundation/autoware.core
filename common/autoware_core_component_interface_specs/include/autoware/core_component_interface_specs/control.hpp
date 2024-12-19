@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef AUTOWARE__COMPONENT_INTERFACE_SPECS__CONTROL_HPP_
-#define AUTOWARE__COMPONENT_INTERFACE_SPECS__CONTROL_HPP_
+#ifndef AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__CONTROL_HPP_
+#define AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__CONTROL_HPP_
 
 #include <autoware/component_interface_specs/base.hpp>
 #include <rclcpp/qos.hpp>
@@ -34,4 +34,4 @@ struct ControlCommand : InterfaceBase
 
 }  // namespace autoware::component_interface_specs::control
 
-#endif  // AUTOWARE__COMPONENT_INTERFACE_SPECS__CONTROL_HPP_
+#endif  // AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__CONTROL_HPP_

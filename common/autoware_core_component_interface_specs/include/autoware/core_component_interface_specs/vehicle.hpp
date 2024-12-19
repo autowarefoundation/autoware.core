@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef AUTOWARE__COMPONENT_INTERFACE_SPECS__VEHICLE_HPP_
-#define AUTOWARE__COMPONENT_INTERFACE_SPECS__VEHICLE_HPP_
+#ifndef AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__VEHICLE_HPP_
+#define AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__VEHICLE_HPP_
 
 #include "base.hpp"
 
@@ -66,4 +66,4 @@ struct HazardLightStatus : InterfaceBase
 
 }  // namespace autoware::component_interface_specs::vehicle
 
-#endif  // AUTOWARE__COMPONENT_INTERFACE_SPECS__VEHICLE_HPP_
+#endif  // AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__VEHICLE_HPP_
