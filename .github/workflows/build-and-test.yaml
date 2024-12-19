@@ -4,11 +4,14 @@ on:
   push:
     branches:
       - main
+  schedule:
+    - cron: 0 0 * * *
+  workflow_dispatch:
 
 concurrency:
-  # Ensures sequential execution of this workflow
-  group: ${{ github.workflow }}
-  cancel-in-progress: false
+  # Skip scheduled builds if a build is already running
+  group: ${{ github.workflow }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'schedule' }}
 
 env:
   CC: /usr/lib/ccache/gcc
