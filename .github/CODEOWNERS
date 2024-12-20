@@ -4,3 +4,4 @@ common/autoware_node/** mfc@autoware.org @autowarefoundation/autoware-core-globa
 demos/autoware_test_node/** mfc@autoware.org @autowarefoundation/autoware-core-global-codeowners
 
 ### Copied from .github/CODEOWNERS-manual ###
+.github/** @autowarefoundation/autoware-core-global-codeowners
