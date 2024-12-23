@@ -19,6 +19,9 @@
 
 #include <lanelet2_core/geometry/Lanelet.h>
 
+#include <utility>
+#include <vector>
+
 namespace autoware::path_generator
 {
 namespace utils
