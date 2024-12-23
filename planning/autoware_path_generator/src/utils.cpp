@@ -14,9 +14,13 @@
 
 #include "autoware/path_generator/utils.hpp"
 
+#include <autoware/motion_utils/constants.hpp>
+#include <autoware/motion_utils/resample/resample.hpp>
+#include <autoware/motion_utils/trajectory/trajectory.hpp>
+#include <autoware_utils/geometry/geometry.hpp>
+#include <autoware_utils/math/unit_conversion.hpp>
 #include <autoware_lanelet2_extension/utility/message_conversion.hpp>
 #include <autoware_lanelet2_extension/utility/utilities.hpp>
-#include <autoware_utils/geometry/geometry.hpp>
 
 #include <lanelet2_core/geometry/Lanelet.h>
 
@@ -293,6 +297,119 @@ std::vector<geometry_msgs::msg::Point> get_path_bound(
   }
 
   return path_bound;
+}
+
+TurnIndicatorsCommand get_turn_signal(
+  const PathWithLaneId & path, const PlannerData & planner_data,
+  const geometry_msgs::msg::Pose & current_pose, const double current_vel,
+  const double search_distance, const double search_time, const double resampling_interval,
+  const double angle_threshold_deg, const double base_link_to_front)
+{
+  TurnIndicatorsCommand turn_signal;
+  turn_signal.command = TurnIndicatorsCommand::NO_COMMAND;
+
+  const lanelet::BasicPoint2d current_point{current_pose.position.x, current_pose.position.y};
+  const auto base_search_distance = search_distance + current_vel * search_time;
+
+  std::vector<lanelet::Id> searched_lanelet_ids = {};
+  std::optional<double> arc_length_from_vehicle_front_to_lanelet_start = std::nullopt;
+
+  for (const auto & point : path.points) {
+    for (const auto & lane_id : point.lane_ids) {
+      if (exists(searched_lanelet_ids, lane_id)) {
+        continue;
+      }
+      searched_lanelet_ids.push_back(lane_id);
+
+      const auto lanelet = planner_data.lanelet_map_ptr->laneletLayer.get(lane_id);
+      if (!get_next_lanelet_within_route(lanelet, planner_data)) {
+        continue;
+      }
+
+      if (
+        !arc_length_from_vehicle_front_to_lanelet_start &&
+        !lanelet::geometry::inside(lanelet, current_point)) {
+        continue;
+      }
+
+      if (lanelet.hasAttribute("turn_direction")) {
+        turn_signal.command =
+          turn_signal_command_map.at(lanelet.attribute("turn_direction").value());
+
+        if (arc_length_from_vehicle_front_to_lanelet_start) {  // ego is in front of lanelet
+          if (
+            *arc_length_from_vehicle_front_to_lanelet_start >
+            lanelet.attributeOr("turn_signal_distance", base_search_distance)) {
+            turn_signal.command = TurnIndicatorsCommand::NO_COMMAND;
+          }
+          return turn_signal;
+        }
+
+        // ego is inside lanelet
+        const auto required_end_point =
+          get_turn_signal_required_end_point(lanelet, resampling_interval, angle_threshold_deg);
+        if (
+          lanelet::geometry::toArcCoordinates(lanelet.centerline2d(), current_point).length <=
+          lanelet::geometry::toArcCoordinates(lanelet.centerline2d(), required_end_point).length) {
+          return turn_signal;
+        }
+      }
+
+      const auto lanelet_length = lanelet::utils::getLaneletLength2d(lanelet);
+      if (arc_length_from_vehicle_front_to_lanelet_start) {
+        *arc_length_from_vehicle_front_to_lanelet_start += lanelet_length;
+      } else {
+        arc_length_from_vehicle_front_to_lanelet_start =
+          lanelet_length -
+          lanelet::geometry::toArcCoordinates(lanelet.centerline2d(), current_point).length -
+          base_link_to_front;
+      }
+      break;
+    }
+  }
+
+  return turn_signal;
+}
+
+lanelet::ConstPoint2d get_turn_signal_required_end_point(
+  const lanelet::ConstLanelet & lanelet, const double resampling_interval,
+  const double angle_threshold_deg)
+{
+  std::vector<geometry_msgs::msg::Pose> centerline(lanelet.centerline().size());
+  for (size_t i = 0; i < lanelet.centerline().size(); ++i) {
+    centerline.at(i).position = lanelet::utils::conversion::toGeomMsgPt(lanelet.centerline()[i]);
+  }
+  autoware::motion_utils::insertOrientation(centerline, true);
+
+  // Create resampling intervals
+  const auto lanelet_length = autoware::motion_utils::calcArcLength(centerline);
+  std::vector<double> resampled_arclength;
+  for (double s = 0.0; s < lanelet_length; s += resampling_interval) {
+    resampled_arclength.push_back(s);
+  }
+
+  // Insert terminal point
+  if (lanelet_length - resampled_arclength.back() < autoware::motion_utils::overlap_threshold) {
+    resampled_arclength.back() = lanelet_length;
+  } else {
+    resampled_arclength.push_back(lanelet_length);
+  }
+
+  const auto resampled_centerline =
+    autoware::motion_utils::resamplePoseVector(centerline, resampled_arclength);
+  const double terminal_yaw = tf2::getYaw(resampled_centerline.back().orientation);
+
+  auto required_end_point = resampled_centerline.back().position;
+  for (size_t i = 0; i < resampled_centerline.size(); ++i) {
+    const auto yaw = tf2::getYaw(resampled_centerline.at(i).orientation);
+    const auto yaw_diff = autoware_utils::normalize_radian(yaw - terminal_yaw);
+    if (std::fabs(yaw_diff) < autoware_utils::deg2rad(angle_threshold_deg)) {
+      required_end_point = resampled_centerline.at(i).position;
+      break;
+    }
+  }
+
+  return lanelet::utils::conversion::toLaneletPoint(required_end_point);
 }
 }  // namespace utils
 }  // namespace autoware::path_generator

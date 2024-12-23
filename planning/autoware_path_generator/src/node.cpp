@@ -51,6 +51,9 @@ PathGenerator::PathGenerator(const rclcpp::NodeOptions & node_options)
 
   path_publisher_ = create_publisher<PathWithLaneId>("~/output/path", 1);
 
+  turn_signal_publisher_ =
+    create_publisher<TurnIndicatorsCommand>("~/output/turn_indicators_cmd", 1);
+
   vehicle_info_ = autoware::vehicle_info_utils::VehicleInfoUtils(*this).getVehicleInfo();
 
   const auto params = param_listener_->get_params();
@@ -67,11 +70,20 @@ void PathGenerator::run()
     return;
   }
 
-  const auto path = plan_path(input_data);
+  const auto param = param_listener_->get_params();
+  const auto path = plan_path(input_data, param);
   if (!path) {
     RCLCPP_ERROR_THROTTLE(get_logger(), *get_clock(), 5000, "output path is invalid");
     return;
   }
+
+  auto turn_signal = utils::get_turn_signal(
+    *path, planner_data_, input_data.odometry_ptr->pose.pose,
+    input_data.odometry_ptr->twist.twist.linear.x, param.turn_signal.search_distance,
+    param.turn_signal.search_time, param.turn_signal.resampling_interval,
+    param.turn_signal.angle_threshold_deg, vehicle_info_.max_longitudinal_offset_m);
+  turn_signal.stamp = now();
+  turn_signal_publisher_->publish(turn_signal);
 
   path_publisher_->publish(*path);
 }
@@ -182,10 +194,10 @@ bool PathGenerator::is_data_ready(const InputData & input_data)
   return true;
 }
 
-std::optional<PathWithLaneId> PathGenerator::plan_path(const InputData & input_data)
+std::optional<PathWithLaneId> PathGenerator::plan_path(
+  const InputData & input_data, const Params & params)
 {
-  const auto path =
-    generate_path(input_data.odometry_ptr->pose.pose, param_listener_->get_params());
+  const auto path = generate_path(input_data.odometry_ptr->pose.pose, params);
 
   if (!path) {
     RCLCPP_ERROR_THROTTLE(get_logger(), *get_clock(), 5000, "output path is invalid");
