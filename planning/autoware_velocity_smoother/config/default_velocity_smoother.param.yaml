@@ -4,9 +4,6 @@
     max_velocity: 20.0      # max velocity limit [m/s]
     stop_decel: 0.0         # deceleration at a stop point[m/ss]
 
-    # external velocity limit parameter
-    margin_to_insert_external_velocity_limit: 0.3   #  margin distance to insert external velocity limit [m]
-
     # ---- curve parameters  ----
     # - common parameters -
     curvature_calculation_distance: 5.0         # distance of points while curvature is calculating for the steer rate and lateral acceleration limit [m]

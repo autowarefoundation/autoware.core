@@ -40,9 +40,8 @@
 #include "autoware_planning_msgs/msg/trajectory_point.hpp"
 #include "geometry_msgs/msg/accel_with_covariance_stamped.hpp"
 #include "nav_msgs/msg/odometry.hpp"
-#include "tier4_debug_msgs/msg/float32_stamped.hpp"    // temporary
-#include "tier4_debug_msgs/msg/float64_stamped.hpp"    // temporary
-#include "tier4_planning_msgs/msg/velocity_limit.hpp"  // temporary
+#include "tier4_debug_msgs/msg/float32_stamped.hpp"  // temporary
+#include "tier4_debug_msgs/msg/float64_stamped.hpp"  // temporary
 #include "visualization_msgs/msg/marker_array.hpp"
 
 #include <iostream>
@@ -62,9 +61,8 @@ using geometry_msgs::msg::AccelWithCovarianceStamped;
 using geometry_msgs::msg::Pose;
 using geometry_msgs::msg::PoseStamped;
 using nav_msgs::msg::Odometry;
-using tier4_debug_msgs::msg::Float32Stamped;    // temporary
-using tier4_debug_msgs::msg::Float64Stamped;    // temporary
-using tier4_planning_msgs::msg::VelocityLimit;  // temporary
+using tier4_debug_msgs::msg::Float32Stamped;  // temporary
+using tier4_debug_msgs::msg::Float64Stamped;  // temporary
 using visualization_msgs::msg::MarkerArray;
 
 struct Motion
@@ -89,21 +87,15 @@ private:
     this, "/localization/kinematic_state"};
   autoware::universe_utils::InterProcessPollingSubscriber<AccelWithCovarianceStamped>
     sub_current_acceleration_{this, "~/input/acceleration"};
-  autoware::universe_utils::InterProcessPollingSubscriber<
-    VelocityLimit, universe_utils::polling_policy::Newest>
-    sub_external_velocity_limit_{this, "~/input/external_velocity_limit_mps"};
   autoware::universe_utils::InterProcessPollingSubscriber<OperationModeState> sub_operation_mode_{
     this, "~/input/operation_mode_state"};
 
   Odometry::ConstSharedPtr current_odometry_ptr_;  // current odometry
   AccelWithCovarianceStamped::ConstSharedPtr current_acceleration_ptr_;
-  VelocityLimit::ConstSharedPtr external_velocity_limit_ptr_{
-    nullptr};                                     // external velocity limit message
   Trajectory::ConstSharedPtr base_traj_raw_ptr_;  // current base_waypoints
-  double max_velocity_with_deceleration_;         // maximum velocity with deceleration
-                                                  // for external velocity limit
-  double wheelbase_;                              // wheelbase
-  double base_link2front_;                        // base_link to front
+
+  double wheelbase_;        // wheelbase
+  double base_link2front_;  // base_link to front
 
   TrajectoryPoints prev_output_;  // previously published trajectory
 
@@ -133,11 +125,10 @@ private:
     bool enable_lateral_acc_limit;
     bool enable_steering_rate_limit;
 
-    double max_velocity;                              // max velocity [m/s]
-    double margin_to_insert_external_velocity_limit;  // for external velocity limit [m]
-    double replan_vel_deviation;                      // if speed error exceeds this [m/s],
-                                                      // replan from current velocity
-    double engage_velocity;                           // use this speed when start moving [m/s]
+    double max_velocity;                  // max velocity [m/s]
+    double replan_vel_deviation;          // if speed error exceeds this [m/s],
+                                          // replan from current velocity
+    double engage_velocity;               // use this speed when start moving [m/s]
     double engage_acceleration;           // use this acceleration when start moving [m/ss]
     double engage_exit_ratio;             // exit engage sequence
                                           // when the speed exceeds ratio x engage_vel.
@@ -161,15 +152,6 @@ private:
     double max_acceleration{0.0};
     double max_jerk{0.0};
   };
-  struct ExternalVelocityLimit
-  {
-    double velocity{0.0};  // current external_velocity_limit
-    double dist{0.0};      // distance to set external velocity limit
-    AccelerationRequest acceleration_request;
-    std::string sender{""};
-  };
-  ExternalVelocityLimit
-    external_velocity_limit_;  // velocity and distance constraint  of external velocity limit
 
   std::shared_ptr<SmootherBase> smoother_;
 
@@ -189,8 +171,6 @@ private:
   // topic callback
   void onCurrentTrajectory(const Trajectory::ConstSharedPtr msg);
 
-  void calcExternalVelocityLimit();
-
   // publish methods
   void publishTrajectory(const TrajectoryPoints & traj) const;
 
@@ -204,8 +184,6 @@ private:
   // const methods
   bool checkData() const;
 
-  void updateDataForExternalVelocityLimit();
-
   AlgorithmType getAlgorithmType(const std::string & algorithm_name) const;
 
   TrajectoryPoints calcTrajectoryVelocity(const TrajectoryPoints & traj_input) const;
@@ -216,8 +194,6 @@ private:
 
   std::pair<Motion, InitializeType> calcInitialMotion(
     const TrajectoryPoints & input_traj, const size_t input_closest) const;
-
-  void applyExternalVelocityLimit(TrajectoryPoints & traj) const;
 
   void insertBehindVelocity(
     const size_t output_closest, const InitializeType type, TrajectoryPoints & output) const;
@@ -252,8 +228,6 @@ private:
   double prev_acc_;
   rclcpp::Publisher<Float32Stamped>::SharedPtr pub_dist_to_stopline_;
   rclcpp::Publisher<Trajectory>::SharedPtr pub_trajectory_raw_;
-  rclcpp::Publisher<VelocityLimit>::SharedPtr pub_velocity_limit_;
-  rclcpp::Publisher<Trajectory>::SharedPtr pub_trajectory_vel_lim_;
   rclcpp::Publisher<Trajectory>::SharedPtr pub_trajectory_latacc_filtered_;
   rclcpp::Publisher<Trajectory>::SharedPtr pub_trajectory_steering_rate_limited_;
   rclcpp::Publisher<Trajectory>::SharedPtr pub_trajectory_resampled_;

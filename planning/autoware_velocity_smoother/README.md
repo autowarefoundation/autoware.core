@@ -16,12 +16,6 @@ We call this module `autoware_velocity_smoother` because the limitations of the 
 
 For the point on the reference trajectory closest to the center of the rear wheel axle of the vehicle, it extracts the reference path between `extract_behind_dist` behind and `extract_ahead_dist` ahead.
 
-#### Apply external velocity limit
-
-It applies the velocity limit input from the external of `autoware_velocity_smoother`.
-Remark that the external velocity limit is different from the velocity limit already set on the map and the reference trajectory.
-The external velocity is applied at the position that it is able to reach the velocity limit with the deceleration and the jerk constraints set as the parameter.
-
 #### Apply stop approaching velocity
 
 It applies the velocity limit near the stopping point.
@@ -84,30 +78,27 @@ After the optimization, a resampling called `post resampling` is performed befor
 
 ### Input
 
-| Name                                       | Type                                | Description                   |
-| ------------------------------------------ | ----------------------------------- | ----------------------------- |
-| `~/input/trajectory`                       | `autoware_planning_msgs/Trajectory` | Reference trajectory          |
-| `/planning/scenario_planning/max_velocity` | `std_msgs/Float32`                  | External velocity limit [m/s] |
-| `/localization/kinematic_state`            | `nav_msgs/Odometry`                 | Current odometry              |
-| `/tf`                                      | `tf2_msgs/TFMessage`                | TF                            |
-| `/tf_static`                               | `tf2_msgs/TFMessage`                | TF static                     |
+| Name                            | Type                                | Description          |
+| ------------------------------- | ----------------------------------- | -------------------- |
+| `~/input/trajectory`            | `autoware_planning_msgs/Trajectory` | Reference trajectory |
+| `/localization/kinematic_state` | `nav_msgs/Odometry`                 | Current odometry     |
+| `/tf`                           | `tf2_msgs/TFMessage`                | TF                   |
+| `/tf_static`                    | `tf2_msgs/TFMessage`                | TF static            |
 
 ### Output
 
-| Name                                               | Type                                | Description                                                                                               |
-| -------------------------------------------------- | ----------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| `~/output/trajectory`                              | `autoware_planning_msgs/Trajectory` | Modified trajectory                                                                                       |
-| `/planning/scenario_planning/current_max_velocity` | `std_msgs/Float32`                  | Current external velocity limit [m/s]                                                                     |
-| `~/closest_velocity`                               | `std_msgs/Float32`                  | Planned velocity closest to ego base_link (for debug)                                                     |
-| `~/closest_acceleration`                           | `std_msgs/Float32`                  | Planned acceleration closest to ego base_link (for debug)                                                 |
-| `~/closest_jerk`                                   | `std_msgs/Float32`                  | Planned jerk closest to ego base_link (for debug)                                                         |
-| `~/debug/trajectory_raw`                           | `autoware_planning_msgs/Trajectory` | Extracted trajectory (for debug)                                                                          |
-| `~/debug/trajectory_external_velocity_limited`     | `autoware_planning_msgs/Trajectory` | External velocity limited trajectory (for debug)                                                          |
-| `~/debug/trajectory_lateral_acc_filtered`          | `autoware_planning_msgs/Trajectory` | Lateral acceleration limit filtered trajectory (for debug)                                                |
-| `~/debug/trajectory_steering_rate_limited`         | `autoware_planning_msgs/Trajectory` | Steering angle rate limit filtered trajectory (for debug)                                                 |
-| `~/debug/trajectory_time_resampled`                | `autoware_planning_msgs/Trajectory` | Time resampled trajectory (for debug)                                                                     |
-| `~/distance_to_stopline`                           | `std_msgs/Float32`                  | Distance to stop line from current ego pose (max 50 m) (for debug)                                        |
-| `~/stop_speed_exceeded`                            | `std_msgs/Bool`                     | It publishes `true` if planned velocity on the point which the maximum velocity is zero is over threshold |
+| Name                                       | Type                                | Description                                                                                               |
+| ------------------------------------------ | ----------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `~/output/trajectory`                      | `autoware_planning_msgs/Trajectory` | Modified trajectory                                                                                       |
+| `~/closest_velocity`                       | `std_msgs/Float32`                  | Planned velocity closest to ego base_link (for debug)                                                     |
+| `~/closest_acceleration`                   | `std_msgs/Float32`                  | Planned acceleration closest to ego base_link (for debug)                                                 |
+| `~/closest_jerk`                           | `std_msgs/Float32`                  | Planned jerk closest to ego base_link (for debug)                                                         |
+| `~/debug/trajectory_raw`                   | `autoware_planning_msgs/Trajectory` | Extracted trajectory (for debug)                                                                          |
+| `~/debug/trajectory_lateral_acc_filtered`  | `autoware_planning_msgs/Trajectory` | Lateral acceleration limit filtered trajectory (for debug)                                                |
+| `~/debug/trajectory_steering_rate_limited` | `autoware_planning_msgs/Trajectory` | Steering angle rate limit filtered trajectory (for debug)                                                 |
+| `~/debug/trajectory_time_resampled`        | `autoware_planning_msgs/Trajectory` | Time resampled trajectory (for debug)                                                                     |
+| `~/distance_to_stopline`                   | `std_msgs/Float32`                  | Distance to stop line from current ego pose (max 50 m) (for debug)                                        |
+| `~/stop_speed_exceeded`                    | `std_msgs/Bool`                     | It publishes `true` if planned velocity on the point which the maximum velocity is zero is over threshold |
 
 ## Parameters
 
@@ -121,12 +112,6 @@ After the optimization, a resampling called `post resampling` is performed befor
 | `stop_decel`   | `double` | Stop deceleration value at a stop point [m/ss] | 0.0           |
 | `max_jerk`     | `double` | Max jerk limit [m/sss]                         | 1.0           |
 | `min_jerk`     | `double` | Min jerk limit [m/sss]                         | -0.5          |
-
-### External velocity limit parameter
-
-| Name                                       | Type     | Description                                           | Default value |
-| :----------------------------------------- | :------- | :---------------------------------------------------- | :------------ |
-| `margin_to_insert_external_velocity_limit` | `double` | margin distance to insert external velocity limit [m] | 0.3           |
 
 ### Curve parameters
 
