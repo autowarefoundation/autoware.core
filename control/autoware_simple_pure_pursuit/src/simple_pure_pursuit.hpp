@@ -38,9 +38,9 @@ public:
 private:
   // subscribers
   autoware::universe_utils::InterProcessPollingSubscriber<Odometry> odom_sub_{
-    this, "~/input/odometry"};
+    this, "input/odometry"};
   autoware::universe_utils::InterProcessPollingSubscriber<Trajectory> traj_sub_{
-    this, "~/input/odometry"};
+    this, "input/odometry"};
 
   // publishers
   rclcpp::Publisher<autoware_control_msgs::msg::Control>::SharedPtr pub_control_command_;

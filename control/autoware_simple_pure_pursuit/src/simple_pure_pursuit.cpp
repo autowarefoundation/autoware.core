@@ -37,7 +37,7 @@ SimplePurePursuitNode::SimplePurePursuitNode(const rclcpp::NodeOptions & node_op
   external_target_vel_(declare_parameter<float>("external_target_vel"))
 {
   pub_control_command_ =
-    create_publisher<autoware_control_msgs::msg::Control>("output/control_command", 1);
+    create_publisher<autoware_control_msgs::msg::Control>("~/output/control_command", 1);
 
   using namespace std::literals::chrono_literals;
   timer_ = rclcpp::create_timer(
