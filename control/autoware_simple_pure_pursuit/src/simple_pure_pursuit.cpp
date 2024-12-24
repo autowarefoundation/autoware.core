@@ -29,7 +29,7 @@ using autoware::universe_utils::calcYawDeviation;
 
 SimplePurePursuitNode::SimplePurePursuitNode(const rclcpp::NodeOptions & node_options)
 : Node("simple_pure_pursuit", node_options),
-  wheel_base_(declare_parameter<float>("wheel_base")),
+  vehicle_info_(autoware::vehicle_info_utils::VehicleInfoUtils(*this).getVehicleInfo()),
   lookahead_gain_(declare_parameter<float>("lookahead_gain")),
   lookahead_min_distance_(declare_parameter<float>("lookahead_min_distance")),
   speed_proportional_gain_(declare_parameter<float>("speed_proportional_gain")),
@@ -115,10 +115,10 @@ autoware_control_msgs::msg::Lateral SimplePurePursuitNode::calc_steering_angle(
     lookahead_gain_ * target_longitudinal_vel + lookahead_min_distance_;
 
   // calculate center coordinate of rear wheel
-  const double rear_x =
-    odom.pose.pose.position.x - wheel_base_ / 2.0 * std::cos(odom.pose.pose.orientation.z);
-  const double rear_y =
-    odom.pose.pose.position.y - wheel_base_ / 2.0 * std::sin(odom.pose.pose.orientation.z);
+  const double rear_x = odom.pose.pose.position.x -
+                        vehicle_info_.wheel_base_m / 2.0 * std::cos(odom.pose.pose.orientation.z);
+  const double rear_y = odom.pose.pose.position.y -
+                        vehicle_info_.wheel_base_m / 2.0 * std::sin(odom.pose.pose.orientation.z);
 
   // search lookahead point
   auto lookahead_point_itr = std::find_if(
@@ -138,7 +138,7 @@ autoware_control_msgs::msg::Lateral SimplePurePursuitNode::calc_steering_angle(
   const double alpha = std::atan2(lookahead_point_y - rear_y, lookahead_point_x - rear_x) -
                        tf2::getYaw(odom.pose.pose.orientation);
   lateral_control_command.steering_tire_angle =
-    std::atan2(2.0 * wheel_base_ * std::sin(alpha), lookahead_distance);
+    std::atan2(2.0 * vehicle_info_.wheel_base_m * std::sin(alpha), lookahead_distance);
 
   return lateral_control_command;
 }

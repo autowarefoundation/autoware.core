@@ -16,6 +16,7 @@
 #define SIMPLE_PURE_PURSUIT_HPP_
 
 #include <autoware/universe_utils/ros/polling_subscriber.hpp>
+#include <autoware_vehicle_info_utils/vehicle_info_utils.hpp>
 #include <rclcpp/rclcpp.hpp>
 
 #include <autoware_control_msgs/msg/control.hpp>
@@ -47,9 +48,10 @@ private:
   // timer
   rclcpp::TimerBase::SharedPtr timer_;
 
+  // vehicle info
+  const autoware::vehicle_info_utils::VehicleInfo vehicle_info_;
+
   // pure pursuit parameters
-  // TODO(murooka) use vehicle info
-  const double wheel_base_;
   const double lookahead_gain_;
   const double lookahead_min_distance_;
   const double speed_proportional_gain_;
