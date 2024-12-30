@@ -11,6 +11,7 @@ The Kalman filter is a recursive algorithm used to estimate the state of a dynam
 ### Standard Kalman Filter
 
 #### System Model
+
 Assume that the system can be represented by the following linear discrete model:
 
 $$
@@ -19,13 +20,13 @@ y_{k} = C x_{k-1}
 $$
 
 where,
+
 - $x_k$ is the state vector at time $k$.
 - $u_k$ is the control input vector at time $k$.
 - $y_k$ is the measurement vector at time $k$.
 - $A$ is the state transition matrix.
 - $B$ is the control input matrix.
 - $C$ is the measurement matrix.
-
 
 #### Prediction Step
 
@@ -37,6 +38,7 @@ P_{k|k-1} = A P_{k-1|k-1} A^{T} + Q
 $$
 
 where,
+
 - $x_{k|k-1}$ is the priori state estimate.
 - $P_{k|k-1}$ is the priori covariance matrix.
 
@@ -51,6 +53,7 @@ P_{k|k} = (I - K_k C) P_{k|k-1}
 $$
 
 where,
+
 - $K_k$ is the Kalman gain.
 - $x_{k|k}$ is the posterior state estimate.
 - $P_{k|k}$ is the posterior covariance matrix.
@@ -89,63 +92,66 @@ $$
 
 #### Prediction Step
 
-The prediction step consists of updating the extended state and covariance matrices. 
+The prediction step consists of updating the extended state and covariance matrices.
 
-Update extension status: 
+Update extension status:
 
 $$
-(x_{k|k-1})_e = \begin{bmatrix} 
-A & 0 & 0 & \cdots & 0 \\ 
-I & 0 & 0 & \cdots & 0 \\ 
+(x_{k|k-1})_e = \begin{bmatrix}
+A & 0 & 0 & \cdots & 0 \\
+I & 0 & 0 & \cdots & 0 \\
 0 & I & 0 & \cdots & 0 \\
-\vdots & \vdots & \vdots & \ddots & \vdots \\ 
-0 & 0 & 0 & \cdots & 0 
-\end{bmatrix} 
-\begin{bmatrix} 
-x_{k-1|k-1} \\ 
-x_{k-2|k-1} \\ 
-\vdots \\ 
-x_{k-d|k-1} 
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+0 & 0 & 0 & \cdots & 0
+\end{bmatrix}
+\begin{bmatrix}
+x_{k-1|k-1} \\
+x_{k-2|k-1} \\
+\vdots \\
+x_{k-d|k-1}
 \end{bmatrix}
 $$
 
 Update extended covariance matrix:
 
 $$
-(P_{k|k-1})_e = \begin{bmatrix} 
-A & 0 & 0 & \cdots & 0 \\ 
-I & 0 & 0 & \cdots & 0 \\ 
-0 & I & 0 & \cdots & 0 \\ 
-\vdots & \vdots & \vdots & \ddots & \vdots \\ 
-0 & 0 & 0 & \cdots & 0 
-\end{bmatrix} 
-\begin{bmatrix} 
-P_{k-1|k-1}^{(1)} & P_{k-1|k-1}^{(1,2)} & \cdots & P_{k-1|k-1}^{(1,d)} \\ 
-P_{k-1|k-1}^{(2,1)} & P_{k-1|k-1}^{(2)} & \cdots & P_{k-1|k-1}^{(2,d)} \\ 
-\vdots & \vdots & \ddots & \vdots \\ 
-P_{k-1|k-1}^{(d,1)} & P_{k-1|k-1}^{(d,2)} & \cdots & P_{k-1|k-1}^{(d)} 
-\end{bmatrix} 
+(P_{k|k-1})_e = \begin{bmatrix}
+A & 0 & 0 & \cdots & 0 \\
+I & 0 & 0 & \cdots & 0 \\
+0 & I & 0 & \cdots & 0 \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+0 & 0 & 0 & \cdots & 0
+\end{bmatrix}
 \begin{bmatrix}
- A^T & I & 0 & \cdots & 0 \\ 
- 0 & 0 & I & \cdots & 0 \\ 
- 0 & 0 & 0 & \cdots & 0 \\ 
- \vdots & \vdots & \vdots & \ddots & \vdots \\ 
- 0 & 0 & 0 & \cdots & 0 
- \end{bmatrix} + 
- \begin{bmatrix} 
- Q & 0 & 0 & \cdots & 0 \\ 
- 0 & 0 & 0 & \cdots & 0 \\ 
- 0 & 0 & 0 & \cdots & 0 \\ 
- \vdots & \vdots & \vdots & \ddots & \vdots \\ 
- 0 & 0 & 0 & \cdots & 0 
+P_{k-1|k-1}^{(1)} & P_{k-1|k-1}^{(1,2)} & \cdots & P_{k-1|k-1}^{(1,d)} \\
+P_{k-1|k-1}^{(2,1)} & P_{k-1|k-1}^{(2)} & \cdots & P_{k-1|k-1}^{(2,d)} \\
+\vdots & \vdots & \ddots & \vdots \\
+P_{k-1|k-1}^{(d,1)} & P_{k-1|k-1}^{(d,2)} & \cdots & P_{k-1|k-1}^{(d)}
+\end{bmatrix}
+\begin{bmatrix}
+ A^T & I & 0 & \cdots & 0 \\
+ 0 & 0 & I & \cdots & 0 \\
+ 0 & 0 & 0 & \cdots & 0 \\
+ \vdots & \vdots & \vdots & \ddots & \vdots \\
+ 0 & 0 & 0 & \cdots & 0
+ \end{bmatrix} +
+ \begin{bmatrix}
+ Q & 0 & 0 & \cdots & 0 \\
+ 0 & 0 & 0 & \cdots & 0 \\
+ 0 & 0 & 0 & \cdots & 0 \\
+ \vdots & \vdots & \vdots & \ddots & \vdots \\
+ 0 & 0 & 0 & \cdots & 0
  \end{bmatrix}
 $$
+
 $\Longrightarrow$
+
 $$
-(P_{k|k-1})_e = \begin{bmatrix} A P_{k-1|k-1}^{(1)} A^T + Q & A P_{k-1|k-1}^{(1,2)} & \cdots & A P_{k-1|k-1}^{(1,d)} \\ P_{k-1|k-1}^{(2,1)} A^T & P_{k-1|k-1}^{(2)} & \cdots & P_{k-1|k-1}^{(2,d)} \\ \vdots & \vdots & \ddots & \vdots \\ P_{k-1|k-1}^{(d,1)} A^T & P_{k-1|k-1}^{(d,2)} & \cdots & P_{k-1|k-1}^{(d)} \end{bmatrix} 
+(P_{k|k-1})_e = \begin{bmatrix} A P_{k-1|k-1}^{(1)} A^T + Q & A P_{k-1|k-1}^{(1,2)} & \cdots & A P_{k-1|k-1}^{(1,d)} \\ P_{k-1|k-1}^{(2,1)} A^T & P_{k-1|k-1}^{(2)} & \cdots & P_{k-1|k-1}^{(2,d)} \\ \vdots & \vdots & \ddots & \vdots \\ P_{k-1|k-1}^{(d,1)} A^T & P_{k-1|k-1}^{(d,2)} & \cdots & P_{k-1|k-1}^{(d)} \end{bmatrix}
 $$
 
 where,
+
 - $(x_{k|k-1})_e$ is the priori extended state estimate.
 - $(P_{k|k-1})_e$ is the priori extended covariance matrix.
 
@@ -153,35 +159,35 @@ where,
 
 When receiving the measurement value ( $y_{k}$ ) with a delay of ( $ds$ ), the update steps are as follows:
 
-Update kalman gain: 
+Update kalman gain:
 
 $$
-K_k = \begin{bmatrix} 
-P_{k|k-1}^{(1)} C^T \\ 
-P_{k|k-1}^{(2)} C^T \\ 
-\vdots \\ 
+K_k = \begin{bmatrix}
+P_{k|k-1}^{(1)} C^T \\
+P_{k|k-1}^{(2)} C^T \\
+\vdots \\
 P_{k|k-1}^{(ds)} C^T \\
 \vdots \\
 P_{k|k-1}^{(d)} C^T
-\end{bmatrix} 
+\end{bmatrix}
 (C P_{k|k-1}^{(ds)} C^T + R)^{-1}
 $$
 
-Update extension status: 
+Update extension status:
 
 $$
-(x_{k|k})_e = \begin{bmatrix} 
-x_{k|k-1} \\ 
-x_{k-1|k-1} \\ 
-\vdots \\ 
-x_{k-d+1|k-1} 
-\end{bmatrix} + 
-\begin{bmatrix} 
-K_k^{(1)} \\ 
-K_k^{(2)} \\ 
-\vdots \\ 
+(x_{k|k})_e = \begin{bmatrix}
+x_{k|k-1} \\
+x_{k-1|k-1} \\
+\vdots \\
+x_{k-d+1|k-1}
+\end{bmatrix} +
+\begin{bmatrix}
+K_k^{(1)} \\
+K_k^{(2)} \\
+\vdots \\
 K_k^{(ds)} \\
-\vdots \\ 
+\vdots \\
 K_k^{(d)}
 \end{bmatrix} (y_k - C x_{k-ds|k-1})
 $$
@@ -189,24 +195,25 @@ $$
 Update extended covariance matrix:
 
 $$
- (P_{k|k})_e = \left(I - 
- \begin{bmatrix} 
- K_k^{(1)} C \\ 
- K_k^{(2)} C \\ 
- \vdots \\ 
+ (P_{k|k})_e = \left(I -
+ \begin{bmatrix}
+ K_k^{(1)} C \\
+ K_k^{(2)} C \\
+ \vdots \\
  K_k^{(ds)} C \\
  \vdots \\
  K_k^{(d)} C
- \end{bmatrix}\right) 
- \begin{bmatrix} 
- P_{k|k-1}^{(1)} & P_{k|k-1}^{(1,2)} & \cdots & P_{k|k-1}^{(1,d)} \\ 
- P_{k|k-1}^{(2,1)} & P_{k|k-1}^{(2)} & \cdots & P_{k|k-1}^{(2,d)} \\ 
- \vdots & \vdots & \ddots & \vdots \\ 
- P_{k|k-1}^{(d,1)} & P_{k|k-1}^{(d,2)} & \cdots & P_{k|k-1}^{(d)} 
+ \end{bmatrix}\right)
+ \begin{bmatrix}
+ P_{k|k-1}^{(1)} & P_{k|k-1}^{(1,2)} & \cdots & P_{k|k-1}^{(1,d)} \\
+ P_{k|k-1}^{(2,1)} & P_{k|k-1}^{(2)} & \cdots & P_{k|k-1}^{(2,d)} \\
+ \vdots & \vdots & \ddots & \vdots \\
+ P_{k|k-1}^{(d,1)} & P_{k|k-1}^{(d,2)} & \cdots & P_{k|k-1}^{(d)}
  \end{bmatrix}
 $$
 
 where,
+
 - $K_k$ is the Kalman gain.
 - $(x_{k|k})_e$ is the posterior extended state estimate.
 - $(P_{k|k})_e$ is the posterior extended covariance matrix.
@@ -268,6 +275,7 @@ kf.predict(x_next, A, Q);
 Eigen::MatrixXd y = Eigen::MatrixXd::Zero(dim_y, 1);
 kf.update(y, C, R);
 ```
+
 - Get the current estimated state and covariance matrix
 
 ```cpp
