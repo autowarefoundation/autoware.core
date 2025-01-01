@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       # cppcheck from apt does not yet support --check-level args, and thus install from snap
       - name: Install Cppcheck from snap
