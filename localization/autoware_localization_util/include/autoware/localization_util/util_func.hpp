@@ -29,13 +29,12 @@
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 #endif
 
+#include <algorithm>
 #include <cmath>
 #include <deque>
 #include <random>
-#include <vector>
-
-#include <algorithm>
 #include <string>
+#include <vector>
 
 namespace autoware::localization_util
 {
