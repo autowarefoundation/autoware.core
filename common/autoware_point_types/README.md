@@ -29,7 +29,7 @@ Register custom point cloud structures into the PCL library through the macro `P
 
 ## Usage
 
-1. Create a point cloud object of PointXYZIRC type
+- Create a point cloud object of PointXYZIRC type
 
 ```cpp
 #include "autoware/point_types/types.hpp"
@@ -55,7 +55,7 @@ int main(){
 }
 ```
 
-2. Convert ROS message to point cloud of PointXYZIRC type
+- Convert ROS message to point cloud of PointXYZIRC type
 
 ```cpp
 ExampleNode::points_callback(const PointCloud2::ConstSharedPtr & points_msg_ptr)
