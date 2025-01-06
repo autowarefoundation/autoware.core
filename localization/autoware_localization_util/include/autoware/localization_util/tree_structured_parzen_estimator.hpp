@@ -28,6 +28,9 @@ https://github.com/optuna/optuna
 #include <random>
 #include <vector>
 
+#include <utility>
+#include <limits>
+
 namespace autoware::localization_util
 {
 class TreeStructuredParzenEstimator
