@@ -34,6 +34,9 @@
 #include <random>
 #include <vector>
 
+#include <algorithm>
+#include <string>
+
 namespace autoware::localization_util
 {
 // ref by http://takacity.blog.fc2.com/blog-entry-69.html

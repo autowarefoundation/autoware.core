@@ -20,6 +20,8 @@
 #include <geometry_msgs/msg/pose_with_covariance.hpp>
 #include <visualization_msgs/msg/marker_array.hpp>
 
+#include <vector>
+
 namespace autoware::localization_util
 {
 
