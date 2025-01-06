@@ -17,11 +17,10 @@
 #include <algorithm>
 #include <cassert>
 #include <iostream>
-#include <numeric>
-
-#include <vector>
-#include <utility>
 #include <limits>
+#include <numeric>
+#include <utility>
+#include <vector>
 
 namespace autoware::localization_util
 {

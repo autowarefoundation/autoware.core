@@ -16,8 +16,8 @@
 
 #include "autoware/localization_util/matrix_type.hpp"
 
-#include <string>
 #include <algorithm>
+#include <string>
 
 namespace autoware::localization_util
 {

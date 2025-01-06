@@ -16,11 +16,11 @@
 
 #include <gtest/gtest.h>
 
-#include <string>
-#include <vector>
-#include <limits>
 #include <algorithm>
 #include <iostream>
+#include <limits>
+#include <string>
+#include <vector>
 
 using TreeStructuredParzenEstimator = autoware::localization_util::TreeStructuredParzenEstimator;
 

@@ -27,7 +27,6 @@ https://github.com/optuna/optuna
 #include <cstdint>
 #include <random>
 
-
 namespace autoware::localization_util
 {
 class TreeStructuredParzenEstimator
