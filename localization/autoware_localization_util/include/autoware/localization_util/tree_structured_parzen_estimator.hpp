@@ -26,7 +26,6 @@ https://github.com/optuna/optuna
 
 #include <cstdint>
 #include <random>
-
 #include <vector>
 
 namespace autoware::localization_util
