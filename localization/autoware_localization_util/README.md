@@ -1,6 +1,7 @@
 # autoware_localization_util
 
 ## Overview
+
 `autoware_localization_util` is a collection of localization utility packages. It contains 5 individual libiary that used by autoware localization nodes.
 
 - `covariance_ellipse` 2d covariance visualization wrapper.
@@ -9,13 +10,16 @@
 - `util_func` A tool library which contains several function for localization nodes.
 
 ## Design
+
 - `covariance_ellipse` Translate `geometry_msgs::msg::PoseWithCovariance` message into ellipse visual marker to demonstrate covariance distribution.
 - `smart_pose_buffer` A buffer library which implements pose message buffering, pose interpolate and pose validation.
 - `tree_structured_parzen_estimator` A Probability Estimator (AKA TSPE) library that includes estimator and log likelihood ratio calculation.
 - `util_func` Tool function collection.
 
 ## Usage
-### covariance_ellipse 
+
+### covariance_ellipse
+
 Include header file to use:
 
 ```cpp
@@ -23,6 +27,7 @@ Include header file to use:
 ```
 
 calculate ellipse and visualize
+
 ```cpp
 autoware::localization_util::Ellipse ellipse_ = autoware::localization_util::calculate_xy_ellipse(input_msg->pose, scale_);
 
@@ -33,6 +38,7 @@ autoware::localization_util::Ellipse ellipse_ = autoware::localization_util::cal
 ### smart_pose_buffer
 
 buffer init
+
 ```cpp
 #include "autoware/localization_util/smart_pose_buffer.hpp"
 
@@ -45,6 +51,7 @@ initial_pose_buffer_ = std::make_unique<SmartPoseBuffer>(
 ```
 
 interpolate and pop out old pose message
+
 ```cpp
 std::optional<SmartPoseBuffer::InterpolateResult> interpolation_result_opt =
 initial_pose_buffer_->interpolate(sensor_ros_time);
@@ -57,6 +64,7 @@ interpolation_result_opt.value();
 ```
 
 clear buffer
+
 ```cpp
 initial_pose_buffer_->clear();
 ```
@@ -77,11 +85,13 @@ param_.initial_pose_estimation.n_startup_trials, sample_mean, sample_stddev);
 ```
 
 get estimation result
+
 ```cpp
 const TreeStructuredParzenEstimator::Input input = tpe.get_next_input();
 ```
 
 add new data to the estimator
+
 ```cpp
 TreeStructuredParzenEstimator::Input result(6);
     result[0] = pose.position.x;
@@ -96,6 +106,7 @@ tpe.add_trial(TreeStructuredParzenEstimator::Trial{result, ndt_result.transform_
 ### util_func
 
 include header file to use
+
 ```cpp
 #include "autoware/localization_util/util_func.hpp"
 
@@ -106,6 +117,7 @@ using autoware::localization_util::pose_to_matrix4f;
 ```
 
 list of usefull function
+
 ```cpp
 std_msgs::msg::ColorRGBA exchange_color_crc(double x);
 double calc_diff_for_radian(const double lhs_rad, const double rhs_rad);
