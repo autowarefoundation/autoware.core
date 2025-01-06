@@ -14,6 +14,8 @@
 
 #include "autoware/localization_util/covariance_ellipse.hpp"
 
+#include <algorithm>
+
 #include <tf2/utils.h>
 #ifdef ROS_DISTRO_GALACTIC
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>

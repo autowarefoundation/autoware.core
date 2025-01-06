@@ -19,6 +19,10 @@
 #include <iostream>
 #include <numeric>
 
+#include <vector>
+#include <utility>
+#include <limits>
+
 namespace autoware::localization_util
 {
 // random number generator

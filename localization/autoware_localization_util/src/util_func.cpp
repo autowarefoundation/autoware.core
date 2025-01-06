@@ -16,6 +16,9 @@
 
 #include "autoware/localization_util/matrix_type.hpp"
 
+#include <string>
+#include <algorithm>
+
 namespace autoware::localization_util
 {
 // ref by http://takacity.blog.fc2.com/blog-entry-69.html
