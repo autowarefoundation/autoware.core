@@ -4,14 +4,12 @@
 `autoware_localization_util` is a collection of localization utility packages. It contains 5 individual libiary that used by autoware localization nodes.
 
 - `covariance_ellipse` 2d covariance visualization wrapper.
-- `diagnostics_module` a diagnostics library designed for localization nodes's diagnostics message management and publish.
 - `smart_pose_buffer` pose buffer management library which contains interpolate and data validation.
 - `tree_structured_parzen_estimator` A Tree Structured Parzen Estimator (AKA TSPE) library.
 - `util_func` A tool library which contains several function for localization nodes.
 
 ## Design
 - `covariance_ellipse` Translate `geometry_msgs::msg::PoseWithCovariance` message into ellipse visual marker to demonstrate covariance distribution.
-- `diagnostics_module` Manage diagnostics message's content, level and publish timing of localization nodes.
 - `smart_pose_buffer` A buffer library which implements pose message buffering, pose interpolate and pose validation.
 - `tree_structured_parzen_estimator` A Probability Estimator (AKA TSPE) library that includes estimator and log likelihood ratio calculation.
 - `util_func` Tool function collection.
@@ -30,38 +28,6 @@ autoware::localization_util::Ellipse ellipse_ = autoware::localization_util::cal
 
   const auto ellipse_marker = autoware::localization_util::create_ellipse_marker(
     ellipse_, input_msg->header, input_msg->pose);
-```
-
-### diagnostics_module
-
-Include header file to use:
-```cpp
-#include "autoware/localization_util/diagnostics_module.hpp"
-```
-
-init diagnostics manager
-```cpp
-std::unique_ptr<autoware::localization_util::DiagnosticsModule> diagnostics_ =
-    std::make_unique<autoware::localization_util::DiagnosticsModule>(this, "gyro_odometer_status");
-```
-
-clean message buffer, add message, set diagnostics message logging level and publish diagnostics message
-```cpp
-diagnostics_->clear();
-diagnostics_->add_key_value(
-"topic_time_stamp",
-static_cast<rclcpp::Time>(vehicle_twist_msg_ptr->header.stamp).nanoseconds());
-
-...
-
-message << "Please publish TF " << output_frame_ << " to "
-            << gyro_queue_.front().header.frame_id;
-    RCLCPP_ERROR_STREAM_THROTTLE(this->get_logger(), *this->get_clock(), 1000, message.str());
-diagnostics_->update_level_and_message(
-      diagnostic_msgs::msg::DiagnosticStatus::WARN, message.str());
-...
-
-diagnostics_->publish(vehicle_twist_msg_ptr->header.stamp);
 ```
 
 ### smart_pose_buffer
