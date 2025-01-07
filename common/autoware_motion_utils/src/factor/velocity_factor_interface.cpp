@@ -16,8 +16,8 @@
 #include <autoware/motion_utils/trajectory/trajectory.hpp>
 
 #include <autoware_planning_msgs/msg/path_point.hpp>
-#include <autoware_planning_msgs/msg/trajectory_point.hpp>
 #include <autoware_planning_msgs/msg/path_point_with_lane_id.hpp>
+#include <autoware_planning_msgs/msg/trajectory_point.hpp>
 
 #include <string>
 #include <vector>
