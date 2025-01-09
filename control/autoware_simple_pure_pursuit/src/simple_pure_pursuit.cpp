@@ -88,7 +88,7 @@ autoware_control_msgs::msg::Control SimplePurePursuitNode::create_control_comman
   autoware_control_msgs::msg::Control control_command;
   control_command.longitudinal = calc_longitudinal_control(odom, target_longitudinal_vel);
   control_command.lateral =
-    calc_steering_angle(odom, traj, target_longitudinal_vel, closest_traj_point_idx);
+    calc_lateral_control(odom, traj, target_longitudinal_vel, closest_traj_point_idx);
 
   return control_command;
 }
@@ -106,7 +106,7 @@ autoware_control_msgs::msg::Longitudinal SimplePurePursuitNode::calc_longitudina
   return longitudinal_control_command;
 }
 
-autoware_control_msgs::msg::Lateral SimplePurePursuitNode::calc_steering_angle(
+autoware_control_msgs::msg::Lateral SimplePurePursuitNode::calc_lateral_control(
   const Odometry & odom, const Trajectory & traj, const double target_longitudinal_vel,
   const size_t closest_traj_point_idx) const
 {

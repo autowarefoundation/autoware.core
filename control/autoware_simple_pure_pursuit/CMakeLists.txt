@@ -13,6 +13,15 @@ rclcpp_components_register_node(${PROJECT_NAME}_lib
   EXECUTABLE ${PROJECT_NAME}_exe
 )
 
+if(BUILD_TESTING)
+  ament_add_ros_isolated_gtest(${PROJECT_NAME}_test
+    test/test_simple_pure_pursuit.cpp
+  )
+  target_link_libraries(${PROJECT_NAME}_test
+    ${PROJECT_NAME}_lib
+  )
+endif()
+
 ament_auto_package(
   INSTALL_TO_SHARE
     launch
