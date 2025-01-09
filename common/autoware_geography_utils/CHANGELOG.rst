@@ -2,8 +2,8 @@
 Changelog for package autoware_geography_utils
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.0 (2025-01-09)
+------------------
 * refactor(autoware_geography_utils): apply modern C++17 style (`#109 <https://github.com/autowarefoundation/autoware.core/issues/109>`_)
   * use using
   * refactor height
