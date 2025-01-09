@@ -1,0 +1,3 @@
+<launch>
+  <node pkg="autoware_test_node" exec="autoware_test_node_node" name="test_node1" namespace="test_ns1"/>
+</launch>
