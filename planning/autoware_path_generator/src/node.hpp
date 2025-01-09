@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef NODE_HPP_
-#define NODE_HPP_
+#ifndef AUTOWARE__PATH_GENERATOR__NODE_HPP_
+#define AUTOWARE__PATH_GENERATOR__NODE_HPP_
 
 #include "autoware/path_generator/common_structs.hpp"
 
@@ -94,4 +94,4 @@ private:
 };
 }  // namespace autoware::path_generator
 
-#endif  // NODE_HPP_
+#endif  // AUTOWARE__PATH_GENERATOR__NODE_HPP_
