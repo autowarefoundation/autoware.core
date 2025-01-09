@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef AUTOWARE__LOCALIZATION_UTIL__UTIL_FUNC_HPP_
-#define AUTOWARE__LOCALIZATION_UTIL__UTIL_FUNC_HPP_
+#ifndef AUTOWARE__LOCALIZATION_UTILS__UTIL_FUNC_HPP_
+#define AUTOWARE__LOCALIZATION_UTILS__UTIL_FUNC_HPP_
 
 #include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
 #include <geometry_msgs/msg/twist_stamped.hpp>
@@ -85,4 +85,4 @@ void output_pose_with_cov_to_log(
 
 }  // namespace autoware::localization_util
 
-#endif  // AUTOWARE__LOCALIZATION_UTIL__UTIL_FUNC_HPP_
+#endif  // AUTOWARE__LOCALIZATION_UTILS__UTIL_FUNC_HPP_

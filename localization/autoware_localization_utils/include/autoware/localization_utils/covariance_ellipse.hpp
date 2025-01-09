@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef AUTOWARE__LOCALIZATION_UTIL__COVARIANCE_ELLIPSE_HPP_
-#define AUTOWARE__LOCALIZATION_UTIL__COVARIANCE_ELLIPSE_HPP_
+#ifndef AUTOWARE__LOCALIZATION_UTILS__COVARIANCE_ELLIPSE_HPP_
+#define AUTOWARE__LOCALIZATION_UTILS__COVARIANCE_ELLIPSE_HPP_
 
 #include <Eigen/Dense>
 
@@ -43,4 +43,4 @@ visualization_msgs::msg::Marker create_ellipse_marker(
 
 }  // namespace autoware::localization_util
 
-#endif  // AUTOWARE__LOCALIZATION_UTIL__COVARIANCE_ELLIPSE_HPP_
+#endif  // AUTOWARE__LOCALIZATION_UTILS__COVARIANCE_ELLIPSE_HPP_

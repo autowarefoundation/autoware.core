@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef AUTOWARE__LOCALIZATION_UTIL__SMART_POSE_BUFFER_HPP_
-#define AUTOWARE__LOCALIZATION_UTIL__SMART_POSE_BUFFER_HPP_
+#ifndef AUTOWARE__LOCALIZATION_UTILS__SMART_POSE_BUFFER_HPP_
+#define AUTOWARE__LOCALIZATION_UTILS__SMART_POSE_BUFFER_HPP_
 
 #include "autoware/localization_util/util_func.hpp"
 
@@ -68,4 +68,4 @@ private:
 };
 }  // namespace autoware::localization_util
 
-#endif  // AUTOWARE__LOCALIZATION_UTIL__SMART_POSE_BUFFER_HPP_
+#endif  // AUTOWARE__LOCALIZATION_UTILS__SMART_POSE_BUFFER_HPP_
