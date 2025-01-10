@@ -26,13 +26,13 @@ To use these interface specifications in your component:
 1. Add this package as a dependency in your package.xml:
 
 ```xml
-<depend>autoware_core_component_interface_specs</depend>
+<depend>autoware_component_interface_specs</depend>
 ```
 
 2. Use the provided interfaces in your component code.
 
 ```cpp
-#include <autoware/core_component_interface_specs/localization.hpp>
+#include <autoware/component_interface_specs/localization.hpp>
 
 // Example: Creating a publisher using the interface specs
 rclcpp::Publisher<KinematicState::Message>::SharedPtr publisher_ =

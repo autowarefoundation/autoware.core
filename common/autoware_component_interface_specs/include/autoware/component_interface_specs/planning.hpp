@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__PLANNING_HPP_
-#define AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__PLANNING_HPP_
+#ifndef AUTOWARE__COMPONENT_INTERFACE_SPECS__PLANNING_HPP_
+#define AUTOWARE__COMPONENT_INTERFACE_SPECS__PLANNING_HPP_
 
 #include <autoware/component_interface_specs/base.hpp>
 #include <rclcpp/qos.hpp>
@@ -44,4 +44,4 @@ struct Trajectory : InterfaceBase
 
 }  // namespace autoware::component_interface_specs::planning
 
-#endif  // AUTOWARE__CORE_COMPONENT_INTERFACE_SPECS__PLANNING_HPP_
+#endif  // AUTOWARE__COMPONENT_INTERFACE_SPECS__PLANNING_HPP_
