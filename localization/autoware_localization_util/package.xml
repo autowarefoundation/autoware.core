@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>autoware_localization_utils</name>
+  <name>autoware_localization_util</name>
   <version>0.0.0</version>
-  <description>The autoware_localization_utils package</description>
+  <description>The autoware_localization_util package</description>
   <maintainer email="lxg19892021@gmail.com">Xingang Liu</maintainer>
   <maintainer email="yamato.ando@tier4.jp">Yamato Ando</maintainer>
   <maintainer email="masahiro.sakamoto@tier4.jp">Masahiro Sakamoto</maintainer>
