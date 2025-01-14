@@ -15,7 +15,6 @@
 #define AUTOWARE__GNSS_POSER__GNSS_POSER_NODE_HPP_
 
 #include <autoware/component_interface_specs/map.hpp>
-#include <autoware/component_interface_utils/rclcpp.hpp>
 #include <rclcpp/rclcpp.hpp>
 
 #include <autoware_sensing_msgs/msg/gnss_ins_orientation_stamped.hpp>
@@ -79,8 +78,7 @@ private:
   tf2_ros::TransformListener tf2_listener_;
   tf2_ros::TransformBroadcaster tf2_broadcaster_;
 
-  autoware::component_interface_utils::Subscription<MapProjectorInfo>::SharedPtr
-    sub_map_projector_info_;
+  rclcpp::Subscription<MapProjectorInfo::Message>::SharedPtr sub_map_projector_info_;
   rclcpp::Subscription<sensor_msgs::msg::NavSatFix>::SharedPtr nav_sat_fix_sub_;
   rclcpp::Subscription<autoware_sensing_msgs::msg::GnssInsOrientationStamped>::SharedPtr
     autoware_orientation_sub_;

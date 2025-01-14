@@ -39,11 +39,9 @@ GNSSPoser::GNSSPoser(const rclcpp::NodeOptions & node_options)
   gnss_pose_pub_method_(static_cast<int>(declare_parameter<int>("gnss_pose_pub_method")))
 {
   // Subscribe to map_projector_info topic
-  const auto adaptor = autoware::component_interface_utils::NodeAdaptor(this);
-  adaptor.init_sub(
-    sub_map_projector_info_, [this](const MapProjectorInfo::Message::ConstSharedPtr msg) {
-      callback_map_projector_info(msg);
-    });
+  sub_map_projector_info_ = create_subscription<MapProjectorInfo::Message>(
+    MapProjectorInfo::name, rclcpp::QoS{1},
+    std::bind(&GNSSPoser::callback_map_projector_info, this, std::placeholders::_1));
 
   // Set up position buffer
   int buff_epoch = static_cast<int>(declare_parameter<int>("buff_epoch"));
