@@ -24,6 +24,12 @@ TEST(localization, interface)
     EXPECT_EQ(kinematic_state.depth, depth);
     EXPECT_EQ(kinematic_state.reliability, RMW_QOS_POLICY_RELIABILITY_RELIABLE);
     EXPECT_EQ(kinematic_state.durability, RMW_QOS_POLICY_DURABILITY_VOLATILE);
+
+
+    const auto qos = autoware::component_interface_specs::get_qos(kinematic_state);
+    EXPECT_EQ(qos.depth(), depth);
+    EXPECT_EQ(qos.reliability(), rclcpp::ReliabilityPolicy::Reliable);
+    EXPECT_EQ(qos.durability(), rclcpp::DurabilityPolicy::Volatile);
   }
 
   {
@@ -33,5 +39,10 @@ TEST(localization, interface)
     EXPECT_EQ(acceleration.depth, depth);
     EXPECT_EQ(acceleration.reliability, RMW_QOS_POLICY_RELIABILITY_RELIABLE);
     EXPECT_EQ(acceleration.durability, RMW_QOS_POLICY_DURABILITY_VOLATILE);
+
+    const auto qos = autoware::component_interface_specs::get_qos(acceleration);
+    EXPECT_EQ(qos.depth(), depth);
+    EXPECT_EQ(qos.reliability(), rclcpp::ReliabilityPolicy::Reliable);
+    EXPECT_EQ(qos.durability(), rclcpp::DurabilityPolicy::Volatile);
   }
 }

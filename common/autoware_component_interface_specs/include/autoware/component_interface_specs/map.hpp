@@ -15,7 +15,7 @@
 #ifndef AUTOWARE__COMPONENT_INTERFACE_SPECS__MAP_HPP_
 #define AUTOWARE__COMPONENT_INTERFACE_SPECS__MAP_HPP_
 
-#include <autoware/component_interface_specs/base.hpp>
+#include <autoware/component_interface_specs/utils.hpp>
 #include <rclcpp/qos.hpp>
 
 #include <autoware_map_msgs/msg/lanelet_map_bin.hpp>
@@ -25,7 +25,7 @@
 namespace autoware::component_interface_specs::map
 {
 
-struct MapProjectorInfo : InterfaceBase
+struct MapProjectorInfo
 {
   using Message = autoware_map_msgs::msg::MapProjectorInfo;
   static constexpr char name[] = "/map/map_projector_info";
@@ -34,7 +34,7 @@ struct MapProjectorInfo : InterfaceBase
   static constexpr auto durability = RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL;
 };
 
-struct PointCloudMap : InterfaceBase
+struct PointCloudMap
 {
   using Message = sensor_msgs::msg::PointCloud2;
   static constexpr char name[] = "/map/point_cloud_map";
@@ -43,7 +43,7 @@ struct PointCloudMap : InterfaceBase
   static constexpr auto durability = RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL;
 };
 
-struct VectorMap : InterfaceBase
+struct VectorMap
 {
   using Message = autoware_map_msgs::msg::LaneletMapBin;
   static constexpr char name[] = "/map/vector_map";

@@ -15,7 +15,7 @@
 #ifndef AUTOWARE__COMPONENT_INTERFACE_SPECS__PLANNING_HPP_
 #define AUTOWARE__COMPONENT_INTERFACE_SPECS__PLANNING_HPP_
 
-#include <autoware/component_interface_specs/base.hpp>
+#include <autoware/component_interface_specs/utils.hpp>
 #include <rclcpp/qos.hpp>
 
 #include <autoware_planning_msgs/msg/lanelet_route.hpp>
@@ -24,7 +24,7 @@
 namespace autoware::component_interface_specs::planning
 {
 
-struct LaneletRoute : InterfaceBase
+struct LaneletRoute
 {
   using Message = autoware_planning_msgs::msg::LaneletRoute;
   static constexpr char name[] = "/planning/mission_planning/route_selector/main/route";
@@ -33,7 +33,7 @@ struct LaneletRoute : InterfaceBase
   static constexpr auto durability = RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL;
 };
 
-struct Trajectory : InterfaceBase
+struct Trajectory
 {
   using Message = autoware_planning_msgs::msg::Trajectory;
   static constexpr char name[] = "/planning/scenario_planning/trajectory";

@@ -24,5 +24,10 @@ TEST(perception, interface)
     EXPECT_EQ(object_recognition.depth, depth);
     EXPECT_EQ(object_recognition.reliability, RMW_QOS_POLICY_RELIABILITY_RELIABLE);
     EXPECT_EQ(object_recognition.durability, RMW_QOS_POLICY_DURABILITY_VOLATILE);
+
+    const auto qos = autoware::component_interface_specs::get_qos(object_recognition);
+    EXPECT_EQ(qos.depth(), depth);
+    EXPECT_EQ(qos.reliability(), rclcpp::ReliabilityPolicy::Reliable);
+    EXPECT_EQ(qos.durability(), rclcpp::DurabilityPolicy::Volatile);
   }
 }

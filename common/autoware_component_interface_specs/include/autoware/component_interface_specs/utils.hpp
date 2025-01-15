@@ -24,18 +24,11 @@
 namespace autoware::component_interface_specs
 {
 
-struct InterfaceBase
+template <typename T>
+rclcpp::QoS get_qos(T interface)
 {
-  static constexpr char name[] = "";
-  static constexpr size_t depth = 1;
-  static constexpr auto reliability = RMW_QOS_POLICY_RELIABILITY_RELIABLE;
-  static constexpr auto durability = RMW_QOS_POLICY_DURABILITY_VOLATILE;
-
-  static rclcpp::QoS get_qos()
-  {
-    return rclcpp::QoS{depth}.reliability(reliability).durability(durability);
-  }
-};
+  return rclcpp::QoS{interface.depth}.reliability(interface.reliability).durability(interface.durability);
+}
 
 }  // namespace autoware::component_interface_specs
 

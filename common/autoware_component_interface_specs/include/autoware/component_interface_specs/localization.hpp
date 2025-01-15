@@ -15,7 +15,7 @@
 #ifndef AUTOWARE__COMPONENT_INTERFACE_SPECS__LOCALIZATION_HPP_
 #define AUTOWARE__COMPONENT_INTERFACE_SPECS__LOCALIZATION_HPP_
 
-#include <autoware/component_interface_specs/base.hpp>
+#include <autoware/component_interface_specs/utils.hpp>
 #include <rclcpp/qos.hpp>
 
 #include <geometry_msgs/msg/accel_with_covariance_stamped.hpp>
@@ -24,7 +24,7 @@
 namespace autoware::component_interface_specs::localization
 {
 
-struct KinematicState : InterfaceBase
+struct KinematicState
 {
   using Message = nav_msgs::msg::Odometry;
   static constexpr char name[] = "/localization/kinematic_state";
@@ -33,7 +33,7 @@ struct KinematicState : InterfaceBase
   static constexpr auto durability = RMW_QOS_POLICY_DURABILITY_VOLATILE;
 };
 
-struct Acceleration : InterfaceBase
+struct Acceleration
 {
   using Message = geometry_msgs::msg::AccelWithCovarianceStamped;
   static constexpr char name[] = "/localization/acceleration";

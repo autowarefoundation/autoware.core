@@ -15,7 +15,7 @@
 #ifndef AUTOWARE__COMPONENT_INTERFACE_SPECS__PERCEPTION_HPP_
 #define AUTOWARE__COMPONENT_INTERFACE_SPECS__PERCEPTION_HPP_
 
-#include <autoware/component_interface_specs/base.hpp>
+#include <autoware/component_interface_specs/utils.hpp>
 #include <rclcpp/qos.hpp>
 
 #include <autoware_perception_msgs/msg/predicted_objects.hpp>
@@ -23,7 +23,7 @@
 namespace autoware::component_interface_specs::perception
 {
 
-struct ObjectRecognition : InterfaceBase
+struct ObjectRecognition
 {
   using Message = autoware_perception_msgs::msg::PredictedObjects;
   static constexpr char name[] = "/perception/object_recognition/objects";
