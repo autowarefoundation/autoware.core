@@ -8,7 +8,7 @@
 
 This package implement a library to manage and visualize the object information by construct and publish it as marker array to rviz.
 
-For a object to be visualizaed, it has three import characteristics.
+For a object to be visualized, it has three import characteristics.
 - pose the position of the object
 - shape the shape of the Bounding box of the object
 - color the color of the Bounding box of the object
@@ -34,8 +34,8 @@ objects_of_interest_marker_interface_.insertObjectData(
     stopped_obstacle.pose, stopped_obstacle.shape, ColorName::RED);
 ```
 
-### pubish
-pubish object information to the rviz to visualize
+### publish
+publish object information to the rviz to visualize
 ```cpp
 objects_of_interest_marker_interface_.publishMarkerArray();
 ```
