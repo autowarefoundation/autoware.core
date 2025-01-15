@@ -24,6 +24,11 @@ TEST(map, interface)
     EXPECT_EQ(map_projector.depth, depth);
     EXPECT_EQ(map_projector.reliability, RMW_QOS_POLICY_RELIABILITY_RELIABLE);
     EXPECT_EQ(map_projector.durability, RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL);
+
+    const auto qos = autoware::component_interface_specs::get_qos(map_projector);
+    EXPECT_EQ(qos.depth(), depth);
+    EXPECT_EQ(qos.reliability(), rclcpp::ReliabilityPolicy::Reliable);
+    EXPECT_EQ(qos.durability(), rclcpp::DurabilityPolicy::TransientLocal);
   }
 
   {
@@ -33,6 +38,11 @@ TEST(map, interface)
     EXPECT_EQ(point_cloud_map.depth, depth);
     EXPECT_EQ(point_cloud_map.reliability, RMW_QOS_POLICY_RELIABILITY_RELIABLE);
     EXPECT_EQ(point_cloud_map.durability, RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL);
+
+    const auto qos = autoware::component_interface_specs::get_qos(point_cloud_map);
+    EXPECT_EQ(qos.depth(), depth);
+    EXPECT_EQ(qos.reliability(), rclcpp::ReliabilityPolicy::Reliable);
+    EXPECT_EQ(qos.durability(), rclcpp::DurabilityPolicy::TransientLocal);
   }
 
   {
@@ -42,5 +52,10 @@ TEST(map, interface)
     EXPECT_EQ(vector_map.depth, depth);
     EXPECT_EQ(vector_map.reliability, RMW_QOS_POLICY_RELIABILITY_RELIABLE);
     EXPECT_EQ(vector_map.durability, RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL);
+
+    const auto qos = autoware::component_interface_specs::get_qos(vector_map);
+    EXPECT_EQ(qos.depth(), depth);
+    EXPECT_EQ(qos.reliability(), rclcpp::ReliabilityPolicy::Reliable);
+    EXPECT_EQ(qos.durability(), rclcpp::DurabilityPolicy::TransientLocal);
   }
 }

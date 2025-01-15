@@ -15,7 +15,7 @@
 #ifndef AUTOWARE__COMPONENT_INTERFACE_SPECS__CONTROL_HPP_
 #define AUTOWARE__COMPONENT_INTERFACE_SPECS__CONTROL_HPP_
 
-#include <autoware/component_interface_specs/base.hpp>
+#include <autoware/component_interface_specs/utils.hpp>
 #include <rclcpp/qos.hpp>
 
 #include <autoware_control_msgs/msg/control.hpp>
@@ -23,7 +23,7 @@
 namespace autoware::component_interface_specs::control
 {
 
-struct ControlCommand : InterfaceBase
+struct ControlCommand
 {
   using Message = autoware_control_msgs::msg::Control;
   static constexpr char name[] = "/control/command/control_cmd";

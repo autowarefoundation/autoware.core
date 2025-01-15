@@ -24,6 +24,11 @@ TEST(vehicle, interface)
     EXPECT_EQ(status.depth, depth);
     EXPECT_EQ(status.reliability, RMW_QOS_POLICY_RELIABILITY_RELIABLE);
     EXPECT_EQ(status.durability, RMW_QOS_POLICY_DURABILITY_VOLATILE);
+
+    const auto qos = autoware::component_interface_specs::get_qos(status);
+    EXPECT_EQ(qos.depth(), depth);
+    EXPECT_EQ(qos.reliability(), rclcpp::ReliabilityPolicy::Reliable);
+    EXPECT_EQ(qos.durability(), rclcpp::DurabilityPolicy::Volatile);
   }
 
   {
@@ -33,6 +38,11 @@ TEST(vehicle, interface)
     EXPECT_EQ(status.depth, depth);
     EXPECT_EQ(status.reliability, RMW_QOS_POLICY_RELIABILITY_RELIABLE);
     EXPECT_EQ(status.durability, RMW_QOS_POLICY_DURABILITY_VOLATILE);
+
+    const auto qos = autoware::component_interface_specs::get_qos(status);
+    EXPECT_EQ(qos.depth(), depth);
+    EXPECT_EQ(qos.reliability(), rclcpp::ReliabilityPolicy::Reliable);
+    EXPECT_EQ(qos.durability(), rclcpp::DurabilityPolicy::Volatile);
   }
 
   {
@@ -42,6 +52,11 @@ TEST(vehicle, interface)
     EXPECT_EQ(status.depth, depth);
     EXPECT_EQ(status.reliability, RMW_QOS_POLICY_RELIABILITY_RELIABLE);
     EXPECT_EQ(status.durability, RMW_QOS_POLICY_DURABILITY_VOLATILE);
+
+    const auto qos = autoware::component_interface_specs::get_qos(status);
+    EXPECT_EQ(qos.depth(), depth);
+    EXPECT_EQ(qos.reliability(), rclcpp::ReliabilityPolicy::Reliable);
+    EXPECT_EQ(qos.durability(), rclcpp::DurabilityPolicy::Volatile);
   }
 
   {
@@ -51,5 +66,10 @@ TEST(vehicle, interface)
     EXPECT_EQ(status.depth, depth);
     EXPECT_EQ(status.reliability, RMW_QOS_POLICY_RELIABILITY_RELIABLE);
     EXPECT_EQ(status.durability, RMW_QOS_POLICY_DURABILITY_VOLATILE);
+
+    const auto qos = autoware::component_interface_specs::get_qos(status);
+    EXPECT_EQ(qos.depth(), depth);
+    EXPECT_EQ(qos.reliability(), rclcpp::ReliabilityPolicy::Reliable);
+    EXPECT_EQ(qos.durability(), rclcpp::DurabilityPolicy::Volatile);
   }
 }

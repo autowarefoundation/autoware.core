@@ -15,9 +15,9 @@
 #ifndef AUTOWARE__COMPONENT_INTERFACE_SPECS__VEHICLE_HPP_
 #define AUTOWARE__COMPONENT_INTERFACE_SPECS__VEHICLE_HPP_
 
-#include "base.hpp"
+#include "utils.hpp"
 
-#include <autoware/component_interface_specs/base.hpp>
+#include <autoware/component_interface_specs/utils.hpp>
 #include <rclcpp/qos.hpp>
 
 #include <autoware_vehicle_msgs/msg/gear_report.hpp>
@@ -28,7 +28,7 @@
 namespace autoware::component_interface_specs::vehicle
 {
 
-struct SteeringStatus : InterfaceBase
+struct SteeringStatus
 {
   using Message = autoware_vehicle_msgs::msg::SteeringReport;
   static constexpr char name[] = "/vehicle/status/steering_status";
@@ -37,7 +37,7 @@ struct SteeringStatus : InterfaceBase
   static constexpr auto durability = RMW_QOS_POLICY_DURABILITY_VOLATILE;
 };
 
-struct GearStatus : InterfaceBase
+struct GearStatus
 {
   using Message = autoware_vehicle_msgs::msg::GearReport;
   static constexpr char name[] = "/vehicle/status/gear_status";
@@ -46,7 +46,7 @@ struct GearStatus : InterfaceBase
   static constexpr auto durability = RMW_QOS_POLICY_DURABILITY_VOLATILE;
 };
 
-struct TurnIndicatorStatus : InterfaceBase
+struct TurnIndicatorStatus
 {
   using Message = autoware_vehicle_msgs::msg::TurnIndicatorsReport;
   static constexpr char name[] = "/vehicle/status/turn_indicators_status";
@@ -55,7 +55,7 @@ struct TurnIndicatorStatus : InterfaceBase
   static constexpr auto durability = RMW_QOS_POLICY_DURABILITY_VOLATILE;
 };
 
-struct HazardLightStatus : InterfaceBase
+struct HazardLightStatus
 {
   using Message = autoware_vehicle_msgs::msg::HazardLightsReport;
   static constexpr char name[] = "/vehicle/status/hazard_lights_status";
