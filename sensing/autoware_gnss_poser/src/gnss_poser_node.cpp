@@ -39,8 +39,8 @@ GNSSPoser::GNSSPoser(const rclcpp::NodeOptions & node_options)
   gnss_pose_pub_method_(static_cast<int>(declare_parameter<int>("gnss_pose_pub_method")))
 {
   // Subscribe to map_projector_info topic
-  sub_map_projector_info_ = create_subscription<MapProjectorInfo::Message>(
-    MapProjectorInfo::name, rclcpp::QoS{1},
+  sub_map_projector_info_ = create_subscription<autoware_map_msgs::msg::MapProjectorInfo>(
+    "/map/map_projector_info", rclcpp::QoS{1},
     std::bind(&GNSSPoser::callback_map_projector_info, this, std::placeholders::_1));
 
   // Set up position buffer
@@ -68,7 +68,7 @@ GNSSPoser::GNSSPoser(const rclcpp::NodeOptions & node_options)
   msg_gnss_ins_orientation_stamped_->orientation.rmse_rotation_z = 1.0;
 }
 
-void GNSSPoser::callback_map_projector_info(const MapProjectorInfo::Message::ConstSharedPtr msg)
+void GNSSPoser::callback_map_projector_info(const autoware_map_msgs::msg::MapProjectorInfo::ConstSharedPtr msg)
 {
   projector_info_ = *msg;
   received_map_projector_info_ = true;
@@ -86,7 +86,7 @@ void GNSSPoser::callback_nav_sat_fix(
     return;
   }
 
-  if (projector_info_.projector_type == MapProjectorInfo::Message::LOCAL) {
+  if (projector_info_.projector_type == autoware_map_msgs::msg::MapProjectorInfo::LOCAL) {
     RCLCPP_ERROR_THROTTLE(
       this->get_logger(), *this->get_clock(), std::chrono::milliseconds(5000).count(),
       "map_projector_info is local projector type. Unable to convert GNSS pose.");
@@ -117,7 +117,7 @@ void GNSSPoser::callback_nav_sat_fix(
   geometry_msgs::msg::Point position =
     autoware::geography_utils::project_forward(gps_point, projector_info_);
   position.z = autoware::geography_utils::convert_height(
-    position.z, gps_point.latitude, gps_point.longitude, MapProjectorInfo::Message::WGS84,
+    position.z, gps_point.latitude, gps_point.longitude, autoware_map_msgs::msg::MapProjectorInfo::WGS84,
     projector_info_.vertical_datum);
 
   geometry_msgs::msg::Pose gnss_antenna_pose{};
