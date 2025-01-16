@@ -22,8 +22,8 @@ using geometry_msgs::msg::Point;
 
 using std_msgs::msg::ColorRGBA;
 
-using autoware_utils::createDefaultMarker;
-using autoware_utils::createMarkerScale;
+using autoware_utils::create_default_marker;
+using autoware_utils::create_marker_scale;
 
 using visualization_msgs::msg::Marker;
 using visualization_msgs::msg::MarkerArray;
@@ -36,9 +36,9 @@ Marker createArrowMarker(
   const double head_width = 0.5 * arrow_length;
   const double head_height = 0.5 * arrow_length;
 
-  Marker marker = createDefaultMarker(
+  Marker marker = create_default_marker(
     "map", rclcpp::Clock{RCL_ROS_TIME}.now(), name + "_arrow", id, Marker::ARROW,
-    createMarkerScale(line_width, head_width, head_height), data.color);
+    create_marker_scale(line_width, head_width, head_height), data.color);
 
   const double height = 0.5 * data.shape.dimensions.z;
 
@@ -58,9 +58,9 @@ Marker createCircleMarker(
   const size_t id, const ObjectMarkerData & data, const std::string & name, const double radius,
   const double height_offset, const double line_width)
 {
-  Marker marker = createDefaultMarker(
+  Marker marker = create_default_marker(
     "map", rclcpp::Clock{RCL_ROS_TIME}.now(), name, id, Marker::LINE_STRIP,
-    createMarkerScale(line_width, 0.0, 0.0), data.color);
+    create_marker_scale(line_width, 0.0, 0.0), data.color);
 
   const double height = 0.5 * data.shape.dimensions.z;
 
@@ -83,9 +83,9 @@ visualization_msgs::msg::Marker createNameTextMarker(
   const size_t id, const ObjectMarkerData & data, const std::string & name,
   const double height_offset, const double text_size)
 {
-  Marker marker = createDefaultMarker(
+  Marker marker = create_default_marker(
     "map", rclcpp::Clock{RCL_ROS_TIME}.now(), name + "_name_text", id, Marker::TEXT_VIEW_FACING,
-    createMarkerScale(0.0, 0.0, text_size), coloring::getGray(data.color.a));
+    create_marker_scale(0.0, 0.0, text_size), coloring::getGray(data.color.a));
 
   marker.text = name;
 
