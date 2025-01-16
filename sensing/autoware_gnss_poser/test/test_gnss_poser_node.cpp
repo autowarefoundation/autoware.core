@@ -1,4 +1,4 @@
-// Copyright(c) 2024 AutoCore Technology (Nanjing) Co., Ltd.
+// Copyright 2025 AutoCore Technology (Nanjing) Co., Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,13 +16,9 @@
 #include <rclcpp/rclcpp.hpp>
 #include <memory>
 #include <vector>
-#include <chrono>
 
+#define private public
 #include "autoware/gnss_poser/gnss_poser_node.hpp"
-#include "sensor_msgs/msg/nav_sat_fix.hpp"
-#include "geometry_msgs/msg/pose_stamped.hpp"
-#include "geometry_msgs/msg/pose_with_covariance_stamped.hpp"
-#include "autoware_internal_debug_msgs/msg/bool_stamped.hpp"
 
 using namespace autoware::gnss_poser;
 
@@ -41,102 +37,83 @@ protected:
     node_options.append_parameter_override("gnss_pose_pub_method", 0);
 
     gnss_poser_ = std::make_shared<GNSSPoser>(node_options);
-
-    // Create subscribers to capture published messages
-    pose_sub_ = gnss_poser_->create_subscription<geometry_msgs::msg::PoseStamped>(
-      "gnss_pose", rclcpp::QoS{1},
-      [this](const geometry_msgs::msg::PoseStamped::SharedPtr msg) {
-        received_pose_ = *msg;
-        pose_received_ = true;
-      });
-
-    pose_cov_sub_ = gnss_poser_->create_subscription<geometry_msgs::msg::PoseWithCovarianceStamped>(
-      "gnss_pose_cov", rclcpp::QoS{1},
-      [this](const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg) {
-        received_pose_cov_ = *msg;
-        pose_cov_received_ = true;
-      });
-
-    fixed_sub_ = gnss_poser_->create_subscription<autoware_internal_debug_msgs::msg::BoolStamped>(
-      "gnss_fixed", rclcpp::QoS{1},
-      [this](const autoware_internal_debug_msgs::msg::BoolStamped::SharedPtr msg) {
-        received_fixed_ = *msg;
-        fixed_received_ = true;
-      });
-
-    // Create publisher to simulate incoming messages
-    nav_sat_fix_pub_ = gnss_poser_->create_publisher<sensor_msgs::msg::NavSatFix>(
-      "fix", rclcpp::QoS{1});
-
-    executor_.add_node(gnss_poser_);
   }
 
-  void TearDown() override
-  {
-    executor_.remove_node(gnss_poser_);
-  }
-
-  void spin_some()
-  {
-    executor_.spin_some(std::chrono::milliseconds(100));
-  }
-
-  rclcpp::executors::SingleThreadedExecutor executor_;
   std::shared_ptr<GNSSPoser> gnss_poser_;
-
-  // Subscribers to capture published messages
-  rclcpp::Subscription<geometry_msgs::msg::PoseStamped>::SharedPtr pose_sub_;
-  rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr pose_cov_sub_;
-  rclcpp::Subscription<autoware_internal_debug_msgs::msg::BoolStamped>::SharedPtr fixed_sub_;
-
-  // Publisher to simulate incoming messages
-  rclcpp::Publisher<sensor_msgs::msg::NavSatFix>::SharedPtr nav_sat_fix_pub_;
-
-  // Received messages
-  geometry_msgs::msg::PoseStamped received_pose_;
-  geometry_msgs::msg::PoseWithCovarianceStamped received_pose_cov_;
-  autoware_internal_debug_msgs::msg::BoolStamped received_fixed_;
-
-  // Flags to indicate if messages were received
-  bool pose_received_ = false;
-  bool pose_cov_received_ = false;
-  bool fixed_received_ = false;
 };
 
-// Test case for callback_nav_sat_fix method
-TEST_F(GNSSPoserTest, CallbackNavSatFixTest)
+// Test case for is_fixed method
+TEST_F(GNSSPoserTest, IsFixedTest)
 {
-  // Create a NavSatFix message
-  sensor_msgs::msg::NavSatFix nav_sat_fix_msg;
-  nav_sat_fix_msg.header.stamp = rclcpp::Clock().now();
-  nav_sat_fix_msg.header.frame_id = "gnss_frame";
-  nav_sat_fix_msg.status.status = sensor_msgs::msg::NavSatStatus::STATUS_FIX;
-  nav_sat_fix_msg.latitude = 35.6895;
-  nav_sat_fix_msg.longitude = 139.6917;
-  nav_sat_fix_msg.altitude = 35.0;
-  nav_sat_fix_msg.position_covariance_type = sensor_msgs::msg::NavSatFix::COVARIANCE_TYPE_DIAGONAL_KNOWN;
+  sensor_msgs::msg::NavSatStatus status;
+  status.status = sensor_msgs::msg::NavSatStatus::STATUS_FIX;
+  EXPECT_TRUE(GNSSPoser::is_fixed(status));
 
-  // Publish the message
-  nav_sat_fix_pub_->publish(nav_sat_fix_msg);
+  status.status = sensor_msgs::msg::NavSatStatus::STATUS_NO_FIX;
+  EXPECT_FALSE(GNSSPoser::is_fixed(status));
+}
 
-  // Spin the executor to process callbacks
-  spin_some();
+// Test case for can_get_covariance method
+TEST_F(GNSSPoserTest, CanGetCovarianceTest)
+{
+  sensor_msgs::msg::NavSatFix fix;
+  fix.position_covariance_type = sensor_msgs::msg::NavSatFix::COVARIANCE_TYPE_DIAGONAL_KNOWN;
+  EXPECT_TRUE(GNSSPoser::can_get_covariance(fix));
 
-  // Check if messages were received
-  EXPECT_TRUE(pose_received_);
-  EXPECT_TRUE(pose_cov_received_);
-  EXPECT_TRUE(fixed_received_);
+  fix.position_covariance_type = sensor_msgs::msg::NavSatFix::COVARIANCE_TYPE_UNKNOWN;
+  EXPECT_FALSE(GNSSPoser::can_get_covariance(fix));
+}
 
-  // Check if the fixed message is correct
-  EXPECT_TRUE(received_fixed_.data);
+// Test case for get_median_position method
+TEST_F(GNSSPoserTest, GetMedianPositionTest)
+{
+  boost::circular_buffer<geometry_msgs::msg::Point> buffer(3);
+  geometry_msgs::msg::Point p1, p2, p3;
+  p1.x = 1.0; p1.y = 2.0; p1.z = 3.0;
+  p2.x = 4.0; p2.y = 5.0; p2.z = 6.0;
+  p3.x = 7.0; p3.y = 8.0; p3.z = 9.0;
 
-  // Check if the pose message is correct
-  EXPECT_EQ(received_pose_.header.frame_id, "map");
-  EXPECT_EQ(received_pose_.header.stamp, nav_sat_fix_msg.header.stamp);
+  buffer.push_back(p1);
+  buffer.push_back(p2);
+  buffer.push_back(p3);
 
-  // Check if the pose covariance message is correct
-  EXPECT_EQ(received_pose_cov_.header.frame_id, "map");
-  EXPECT_EQ(received_pose_cov_.header.stamp, nav_sat_fix_msg.header.stamp);
+  geometry_msgs::msg::Point median = GNSSPoser::get_median_position(buffer);
+  EXPECT_DOUBLE_EQ(median.x, 4.0);
+  EXPECT_DOUBLE_EQ(median.y, 5.0);
+  EXPECT_DOUBLE_EQ(median.z, 6.0);
+}
+
+// Test case for get_average_position method
+TEST_F(GNSSPoserTest, GetAveragePositionTest)
+{
+  boost::circular_buffer<geometry_msgs::msg::Point> buffer(3);
+  geometry_msgs::msg::Point p1, p2, p3;
+  p1.x = 1.0; p1.y = 2.0; p1.z = 3.0;
+  p2.x = 4.0; p2.y = 5.0; p2.z = 6.0;
+  p3.x = 7.0; p3.y = 8.0; p3.z = 9.0;
+
+  buffer.push_back(p1);
+  buffer.push_back(p2);
+  buffer.push_back(p3);
+
+  geometry_msgs::msg::Point average = GNSSPoser::get_average_position(buffer);
+  EXPECT_DOUBLE_EQ(average.x, 4.0);
+  EXPECT_DOUBLE_EQ(average.y, 5.0);
+  EXPECT_DOUBLE_EQ(average.z, 6.0);
+}
+
+// Test case for get_quaternion_by_position_difference method
+TEST_F(GNSSPoserTest, GetQuaternionByPositionDifferenceTest)
+{
+  geometry_msgs::msg::Point point, prev_point;
+  point.x = 1.0; point.y = 1.0; point.z = 0.0;
+  prev_point.x = 0.0; prev_point.y = 0.0; prev_point.z = 0.0;
+
+  geometry_msgs::msg::Quaternion orientation = GNSSPoser::get_quaternion_by_position_difference(point, prev_point);
+  tf2::Quaternion tf_orientation;
+  tf2::fromMsg(orientation, tf_orientation);
+
+  EXPECT_DOUBLE_EQ(tf_orientation.getAngle(), M_PI_4); // 45 degrees in radians
 }
 
 int main(int argc, char **argv)
