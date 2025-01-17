@@ -20,8 +20,6 @@
 #define private public
 #include "autoware/gnss_poser/gnss_poser_node.hpp"
 
-using namespace autoware::gnss_poser;
-
 // Test fixture for GNSSPoser
 class GNSSPoserTest : public ::testing::Test
 {
@@ -36,10 +34,10 @@ protected:
     node_options.append_parameter_override("buff_epoch", 10);
     node_options.append_parameter_override("gnss_pose_pub_method", 0);
 
-    gnss_poser_ = std::make_shared<GNSSPoser>(node_options);
+    gnss_poser_ = std::make_shared<autoware::gnss_poser::GNSSPoser>(node_options);
   }
 
-  std::shared_ptr<GNSSPoser> gnss_poser_;
+  std::shared_ptr<autoware::gnss_poser::GNSSPoser> gnss_poser_;
 };
 
 // Test case for is_fixed method
@@ -47,10 +45,10 @@ TEST_F(GNSSPoserTest, IsFixedTest)
 {
   sensor_msgs::msg::NavSatStatus status;
   status.status = sensor_msgs::msg::NavSatStatus::STATUS_FIX;
-  EXPECT_TRUE(GNSSPoser::is_fixed(status));
+  EXPECT_TRUE(autoware::gnss_poser::GNSSPoser::is_fixed(status));
 
   status.status = sensor_msgs::msg::NavSatStatus::STATUS_NO_FIX;
-  EXPECT_FALSE(GNSSPoser::is_fixed(status));
+  EXPECT_FALSE(autoware::gnss_poser::GNSSPoser::is_fixed(status));
 }
 
 // Test case for can_get_covariance method
@@ -58,10 +56,10 @@ TEST_F(GNSSPoserTest, CanGetCovarianceTest)
 {
   sensor_msgs::msg::NavSatFix fix;
   fix.position_covariance_type = sensor_msgs::msg::NavSatFix::COVARIANCE_TYPE_DIAGONAL_KNOWN;
-  EXPECT_TRUE(GNSSPoser::can_get_covariance(fix));
+  EXPECT_TRUE(autoware::gnss_poser::GNSSPoser::can_get_covariance(fix));
 
   fix.position_covariance_type = sensor_msgs::msg::NavSatFix::COVARIANCE_TYPE_UNKNOWN;
-  EXPECT_FALSE(GNSSPoser::can_get_covariance(fix));
+  EXPECT_FALSE(autoware::gnss_poser::GNSSPoser::can_get_covariance(fix));
 }
 
 // Test case for get_median_position method
@@ -77,7 +75,7 @@ TEST_F(GNSSPoserTest, GetMedianPositionTest)
   buffer.push_back(p2);
   buffer.push_back(p3);
 
-  geometry_msgs::msg::Point median = GNSSPoser::get_median_position(buffer);
+  geometry_msgs::msg::Point median = autoware::gnss_poser::GNSSPoser::get_median_position(buffer);
   EXPECT_DOUBLE_EQ(median.x, 4.0);
   EXPECT_DOUBLE_EQ(median.y, 5.0);
   EXPECT_DOUBLE_EQ(median.z, 6.0);
@@ -96,7 +94,7 @@ TEST_F(GNSSPoserTest, GetAveragePositionTest)
   buffer.push_back(p2);
   buffer.push_back(p3);
 
-  geometry_msgs::msg::Point average = GNSSPoser::get_average_position(buffer);
+  geometry_msgs::msg::Point average = autoware::gnss_poser::GNSSPoser::get_average_position(buffer);
   EXPECT_DOUBLE_EQ(average.x, 4.0);
   EXPECT_DOUBLE_EQ(average.y, 5.0);
   EXPECT_DOUBLE_EQ(average.z, 6.0);
@@ -109,7 +107,7 @@ TEST_F(GNSSPoserTest, GetQuaternionByPositionDifferenceTest)
   point.x = 1.0; point.y = 1.0; point.z = 0.0;
   prev_point.x = 0.0; prev_point.y = 0.0; prev_point.z = 0.0;
 
-  geometry_msgs::msg::Quaternion orientation = GNSSPoser::get_quaternion_by_position_difference(point, prev_point);
+  geometry_msgs::msg::Quaternion orientation = autoware::gnss_poser::GNSSPoser::get_quaternion_by_position_difference(point, prev_point);
   tf2::Quaternion tf_orientation;
   tf2::fromMsg(orientation, tf_orientation);
 
