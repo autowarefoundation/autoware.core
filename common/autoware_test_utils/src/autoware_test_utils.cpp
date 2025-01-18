@@ -13,13 +13,13 @@
 // limitations under the License.
 
 #include <ament_index_cpp/get_package_share_directory.hpp>
-#include <autoware_utils/geometry/geometry.hpp>
 #include <autoware_lanelet2_extension/io/autoware_osm_parser.hpp>
 #include <autoware_lanelet2_extension/projection/mgrs_projector.hpp>
 #include <autoware_lanelet2_extension/utility/message_conversion.hpp>
 #include <autoware_lanelet2_extension/utility/utilities.hpp>
 #include <autoware_test_utils/autoware_test_utils.hpp>
 #include <autoware_test_utils/mock_data_parser.hpp>
+#include <autoware_utils/geometry/geometry.hpp>
 #include <rclcpp/node.hpp>
 
 #include <lanelet2_core/geometry/LineString.h>
