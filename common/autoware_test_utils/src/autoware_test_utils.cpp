@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include <ament_index_cpp/get_package_share_directory.hpp>
-#include <autoware/universe_utils/geometry/geometry.hpp>
+#include <autoware_utils/geometry/geometry.hpp>
 #include <autoware_lanelet2_extension/io/autoware_osm_parser.hpp>
 #include <autoware_lanelet2_extension/projection/mgrs_projector.hpp>
 #include <autoware_lanelet2_extension/utility/message_conversion.hpp>
@@ -33,16 +33,16 @@
 namespace autoware::test_utils
 {
 
-using autoware::universe_utils::createPoint;
-using autoware::universe_utils::createQuaternionFromRPY;
+using autoware_utils::create_point;
+using autoware_utils::create_quaternion_from_rpy;
 using geometry_msgs::msg::TransformStamped;
 
 geometry_msgs::msg::Pose createPose(
   double x, double y, double z, double roll, double pitch, double yaw)
 {
   geometry_msgs::msg::Pose p;
-  p.position = createPoint(x, y, z);
-  p.orientation = createQuaternionFromRPY(roll, pitch, yaw);
+  p.position = create_point(x, y, z);
+  p.orientation = create_quaternion_from_rpy(roll, pitch, yaw);
   return p;
 }
 
