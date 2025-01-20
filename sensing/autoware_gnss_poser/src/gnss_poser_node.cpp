@@ -59,7 +59,8 @@ GNSSPoser::GNSSPoser(const rclcpp::NodeOptions & node_options)
   pose_pub_ = create_publisher<geometry_msgs::msg::PoseStamped>("gnss_pose", rclcpp::QoS{1});
   pose_cov_pub_ = create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>(
     "gnss_pose_cov", rclcpp::QoS{1});
-  fixed_pub_ = create_publisher<autoware_internal_debug_msgs::msg::BoolStamped>("gnss_fixed", rclcpp::QoS{1});
+  fixed_pub_ =
+    create_publisher<autoware_internal_debug_msgs::msg::BoolStamped>("gnss_fixed", rclcpp::QoS{1});
 
   // Set msg_gnss_ins_orientation_stamped_ with temporary values (not to publish zero value
   // covariances)
@@ -68,7 +69,8 @@ GNSSPoser::GNSSPoser(const rclcpp::NodeOptions & node_options)
   msg_gnss_ins_orientation_stamped_->orientation.rmse_rotation_z = 1.0;
 }
 
-void GNSSPoser::callback_map_projector_info(const autoware_map_msgs::msg::MapProjectorInfo::ConstSharedPtr msg)
+void GNSSPoser::callback_map_projector_info(
+  const autoware_map_msgs::msg::MapProjectorInfo::ConstSharedPtr msg)
 {
   projector_info_ = *msg;
   received_map_projector_info_ = true;
@@ -117,8 +119,8 @@ void GNSSPoser::callback_nav_sat_fix(
   geometry_msgs::msg::Point position =
     autoware::geography_utils::project_forward(gps_point, projector_info_);
   position.z = autoware::geography_utils::convert_height(
-    position.z, gps_point.latitude, gps_point.longitude, autoware_map_msgs::msg::MapProjectorInfo::WGS84,
-    projector_info_.vertical_datum);
+    position.z, gps_point.latitude, gps_point.longitude,
+    autoware_map_msgs::msg::MapProjectorInfo::WGS84, projector_info_.vertical_datum);
 
   geometry_msgs::msg::Pose gnss_antenna_pose{};
 

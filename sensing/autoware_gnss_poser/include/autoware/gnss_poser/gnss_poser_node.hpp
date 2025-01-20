@@ -14,14 +14,14 @@
 #ifndef AUTOWARE__GNSS_POSER__GNSS_POSER_NODE_HPP_
 #define AUTOWARE__GNSS_POSER__GNSS_POSER_NODE_HPP_
 
-#include <autoware_map_msgs/msg/map_projector_info.hpp>
 #include <rclcpp/rclcpp.hpp>
 
+#include <autoware_internal_debug_msgs/msg/bool_stamped.hpp>
+#include <autoware_map_msgs/msg/map_projector_info.hpp>
 #include <autoware_sensing_msgs/msg/gnss_ins_orientation_stamped.hpp>
 #include <geometry_msgs/msg/pose_stamped.hpp>
 #include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
 #include <sensor_msgs/msg/nav_sat_fix.hpp>
-#include <autoware_internal_debug_msgs/msg/bool_stamped.hpp>
 
 #include <boost/circular_buffer.hpp>
 
@@ -46,7 +46,8 @@ public:
   explicit GNSSPoser(const rclcpp::NodeOptions & node_options);
 
 private:
-  void callback_map_projector_info(const autoware_map_msgs::msg::MapProjectorInfo::ConstSharedPtr msg);
+  void callback_map_projector_info(
+    const autoware_map_msgs::msg::MapProjectorInfo::ConstSharedPtr msg);
   void callback_nav_sat_fix(const sensor_msgs::msg::NavSatFix::ConstSharedPtr nav_sat_fix_msg_ptr);
   void callback_gnss_ins_orientation_stamped(
     const autoware_sensing_msgs::msg::GnssInsOrientationStamped::ConstSharedPtr msg);
