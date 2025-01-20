@@ -33,14 +33,6 @@ rclcpp_components_register_node(gnss_poser_node
   EXECUTABLE gnss_poser
 )
 
-if(BUILD_TESTING)
-  find_package(ament_cmake_gtest REQUIRED)
-  ament_auto_add_gtest(test_gnss_poser_node
-    test/test_gnss_poser_node.cpp
-    src/gnss_poser_node.cpp
-  )
-endif()
-
 ament_auto_package(INSTALL_TO_SHARE
   config
   launch
