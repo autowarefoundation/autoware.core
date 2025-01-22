@@ -28,30 +28,32 @@ namespace autoware::geography_utils
 std::unique_ptr<lanelet::Projector> get_lanelet2_projector(const MapProjectorInfo & projector_info)
 {
   if (projector_info.projector_type == MapProjectorInfo::LOCAL_CARTESIAN_UTM) {
-    lanelet::GPSPoint position{
+    const lanelet::GPSPoint position{
       projector_info.map_origin.latitude, projector_info.map_origin.longitude,
       projector_info.map_origin.altitude};
-    lanelet::Origin origin{position};
-    lanelet::projection::UtmProjector projector{origin};
+    const lanelet::Origin origin{position};
+    const lanelet::projection::UtmProjector projector{origin};
     return std::make_unique<lanelet::projection::UtmProjector>(projector);
+  }
 
-  } else if (projector_info.projector_type == MapProjectorInfo::MGRS) {
+  if (projector_info.projector_type == MapProjectorInfo::MGRS) {
     lanelet::projection::MGRSProjector projector{};
     projector.setMGRSCode(projector_info.mgrs_grid);
     return std::make_unique<lanelet::projection::MGRSProjector>(projector);
+  }
 
-  } else if (projector_info.projector_type == MapProjectorInfo::TRANSVERSE_MERCATOR) {
-    lanelet::GPSPoint position{
+  if (projector_info.projector_type == MapProjectorInfo::TRANSVERSE_MERCATOR) {
+    const lanelet::GPSPoint position{
       projector_info.map_origin.latitude, projector_info.map_origin.longitude,
       projector_info.map_origin.altitude};
-    lanelet::Origin origin{position};
-    lanelet::projection::TransverseMercatorProjector projector{origin};
+    const lanelet::Origin origin{position};
+    const lanelet::projection::TransverseMercatorProjector projector{origin};
     return std::make_unique<lanelet::projection::TransverseMercatorProjector>(projector);
   }
-  const std::string error_msg =
+
+  throw std::invalid_argument(
     "Invalid map projector type: " + projector_info.projector_type +
-    ". Currently supported types: MGRS, LocalCartesianUTM, and TransverseMercator";
-  throw std::invalid_argument(error_msg);
+    ". Currently supported types: MGRS, LocalCartesianUTM, and TransverseMercator");
 }
 
 }  // namespace autoware::geography_utils

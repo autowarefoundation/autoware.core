@@ -25,8 +25,10 @@ using MapProjectorInfo = autoware_map_msgs::msg::MapProjectorInfo;
 using GeoPoint = geographic_msgs::msg::GeoPoint;
 using LocalPoint = geometry_msgs::msg::Point;
 
-LocalPoint project_forward(const GeoPoint & geo_point, const MapProjectorInfo & projector_info);
-GeoPoint project_reverse(const LocalPoint & local_point, const MapProjectorInfo & projector_info);
+[[nodiscard]] LocalPoint project_forward(
+  const GeoPoint & geo_point, const MapProjectorInfo & projector_info);
+[[nodiscard]] GeoPoint project_reverse(
+  const LocalPoint & local_point, const MapProjectorInfo & projector_info);
 
 }  // namespace autoware::geography_utils
 
