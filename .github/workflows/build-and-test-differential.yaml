@@ -17,14 +17,14 @@ env:
   CXX: /usr/lib/ccache/g++
 
 jobs:
-  make-sure-label-is-present:
-    uses: autowarefoundation/autoware-github-actions/.github/workflows/make-sure-label-is-present.yaml@v1
+  require-label:
+    uses: autowarefoundation/autoware-github-actions/.github/workflows/require-label.yaml@v1
     with:
-      label: tag:run-build-and-test-differential
+      label: run:build-and-test-differential
 
   build-and-test-differential:
-    needs: make-sure-label-is-present
-    if: ${{ needs.make-sure-label-is-present.outputs.result == 'true' }}
+    needs: require-label
+    if: ${{ needs.require-label.outputs.result == 'true' }}
     runs-on: ubuntu-24.04
     container: ghcr.io/autowarefoundation/autoware:core-devel
     steps:
