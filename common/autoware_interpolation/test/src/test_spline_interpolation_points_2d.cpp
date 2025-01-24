@@ -14,7 +14,7 @@
 
 #include "autoware/interpolation/spline_interpolation.hpp"
 #include "autoware/interpolation/spline_interpolation_points_2d.hpp"
-#include "autoware_utils/geometry/geometry.hpp"
+#include <autoware_utils/geometry/geometry.hpp>
 
 #include <gtest/gtest.h>
 
