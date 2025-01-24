@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef AUTOWARE_VEHICLE_INFO_UTILS__VEHICLE_INFO_HPP_
-#define AUTOWARE_VEHICLE_INFO_UTILS__VEHICLE_INFO_HPP_
+#ifndef AUTOWARE__VEHICLE_INFO_UTILS__VEHICLE_INFO_HPP_
+#define AUTOWARE__VEHICLE_INFO_UTILS__VEHICLE_INFO_HPP_
 
 #include "autoware_utils/geometry/boost_geometry.hpp"
 
@@ -83,4 +83,4 @@ VehicleInfo createVehicleInfo(
 
 }  // namespace autoware::vehicle_info_utils
 
-#endif  // AUTOWARE_VEHICLE_INFO_UTILS__VEHICLE_INFO_HPP_
+#endif  // AUTOWARE__VEHICLE_INFO_UTILS__VEHICLE_INFO_HPP_

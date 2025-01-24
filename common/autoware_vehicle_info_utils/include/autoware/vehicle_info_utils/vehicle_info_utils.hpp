@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef AUTOWARE_VEHICLE_INFO_UTILS__VEHICLE_INFO_UTILS_HPP_
-#define AUTOWARE_VEHICLE_INFO_UTILS__VEHICLE_INFO_UTILS_HPP_
+#ifndef AUTOWARE__VEHICLE_INFO_UTILS__VEHICLE_INFO_UTILS_HPP_
+#define AUTOWARE__VEHICLE_INFO_UTILS__VEHICLE_INFO_UTILS_HPP_
 
 #include "autoware/vehicle_info_utils/vehicle_info.hpp"
 
@@ -41,4 +41,4 @@ private:
 
 }  // namespace autoware::vehicle_info_utils
 
-#endif  // AUTOWARE_VEHICLE_INFO_UTILS__VEHICLE_INFO_UTILS_HPP_
+#endif  // AUTOWARE__VEHICLE_INFO_UTILS__VEHICLE_INFO_UTILS_HPP_
