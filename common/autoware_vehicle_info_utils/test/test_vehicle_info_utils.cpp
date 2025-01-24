@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include <ament_index_cpp/get_package_share_directory.hpp>
-#include <autoware_vehicle_info_utils/vehicle_info_utils.hpp>
+#include <autoware/vehicle_info_utils/vehicle_info_utils.hpp>
 
 #include <gtest/gtest.h>
 

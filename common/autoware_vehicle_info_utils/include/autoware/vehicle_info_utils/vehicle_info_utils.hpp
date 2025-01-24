@@ -15,7 +15,7 @@
 #ifndef AUTOWARE_VEHICLE_INFO_UTILS__VEHICLE_INFO_UTILS_HPP_
 #define AUTOWARE_VEHICLE_INFO_UTILS__VEHICLE_INFO_UTILS_HPP_
 
-#include "autoware_vehicle_info_utils/vehicle_info.hpp"
+#include "autoware/vehicle_info_utils/vehicle_info.hpp"
 
 #include <rclcpp/node.hpp>
 
