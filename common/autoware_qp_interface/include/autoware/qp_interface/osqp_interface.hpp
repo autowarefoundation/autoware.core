@@ -27,13 +27,14 @@
 namespace autoware::qp_interface
 {
 constexpr c_float OSQP_INF = 1e30;
+constexpr int OSQP_MAX_ITERATION = 20000;
 
 class OSQPInterface : public QPInterface
 {
 public:
   /// \brief Constructor without problem formulation
   OSQPInterface(
-    const bool enable_warm_start = false, const int max_iteration = 20000,
+    const bool enable_warm_start = false, const int max_iteration = OSQP_MAX_ITERATION,
     const c_float eps_abs = std::numeric_limits<c_float>::epsilon(),
     const c_float eps_rel = std::numeric_limits<c_float>::epsilon(), const bool polish = true,
     const bool verbose = false);
