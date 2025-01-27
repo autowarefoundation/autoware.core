@@ -72,7 +72,7 @@ stop
 
 | Name            | Type                                       | Description    | QoS Durability |
 | :-------------- | :----------------------------------------- | :------------- | :------------- |
-| `~/output/path` | `tier4_planning_msgs::msg::PathWithLaneId` | generated path | `volatile`     |
+| `~/output/path` | `autoware_internal_planning_msgs::msg::PathWithLaneId` | generated path | `volatile`     |
 
 ## Parameters
 
