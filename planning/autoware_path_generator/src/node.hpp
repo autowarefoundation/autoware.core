@@ -21,20 +21,20 @@
 #include <autoware/universe_utils/ros/polling_subscriber.hpp>
 #include <path_generator_parameters.hpp>
 
+#include <autoware_internal_planning_msgs/msg/path_with_lane_id.hpp>
 #include <autoware_map_msgs/msg/lanelet_map_bin.hpp>
 #include <autoware_planning_msgs/msg/lanelet_route.hpp>
 #include <nav_msgs/msg/odometry.hpp>
-#include <tier4_planning_msgs/msg/path_with_lane_id.hpp>
 
 #include <memory>
 namespace autoware::path_generator
 {
+using autoware_internal_planning_msgs::msg::PathPointWithLaneId;
+using autoware_internal_planning_msgs::msg::PathWithLaneId;
 using autoware_map_msgs::msg::LaneletMapBin;
 using autoware_planning_msgs::msg::LaneletRoute;
 using nav_msgs::msg::Odometry;
 using ::path_generator::Params;
-using tier4_planning_msgs::msg::PathPointWithLaneId;
-using tier4_planning_msgs::msg::PathWithLaneId;
 using Trajectory = autoware::trajectory::Trajectory<PathPointWithLaneId>;
 
 class PathGenerator : public rclcpp::Node
