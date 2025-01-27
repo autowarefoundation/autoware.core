@@ -70,8 +70,8 @@ stop
 
 ## Output topics
 
-| Name            | Type                                       | Description    | QoS Durability |
-| :-------------- | :----------------------------------------- | :------------- | :------------- |
+| Name            | Type                                                   | Description    | QoS Durability |
+| :-------------- | :----------------------------------------------------- | :------------- | :------------- |
 | `~/output/path` | `autoware_internal_planning_msgs::msg::PathWithLaneId` | generated path | `volatile`     |
 
 ## Parameters
