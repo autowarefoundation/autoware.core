@@ -17,7 +17,7 @@
 
 #include "autoware/path_generator/common_structs.hpp"
 
-#include <tier4_planning_msgs/msg/path_with_lane_id.hpp>
+#include <autoware_internal_planning_msgs/msg/path_with_lane_id.hpp>
 
 #include <optional>
 #include <utility>
@@ -25,8 +25,8 @@
 
 namespace autoware::path_generator
 {
-using tier4_planning_msgs::msg::PathPointWithLaneId;
-using tier4_planning_msgs::msg::PathWithLaneId;
+using autoware_internal_planning_msgs::msg::PathPointWithLaneId;
+using autoware_internal_planning_msgs::msg::PathWithLaneId;
 
 namespace utils
 {
