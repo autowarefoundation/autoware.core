@@ -3,3 +3,27 @@ repositories:
     type: git
     url: https://github.com/autowarefoundation/autoware_msgs.git
     version: main
+  autoware_utils:
+    type: git
+    url: https://github.com/autowarefoundation/autoware_utils
+    version: main
+  autoware_internal_msgs:
+    type: git
+    url: https://github.com/autowarefoundation/autoware_internal_msgs
+    version: main
+  autoware_adapi_msgs:
+    type: git
+    url: https://github.com/autowarefoundation/autoware_adapi_msgs
+    version: main
+  autoware_lanelet2_extension:
+    type: git
+    url: https://github.com/autowarefoundation/autoware_lanelet2_extension
+    version: main
+  autoware_lanelet2_extension:
+    type: git
+    url: https://github.com/autowarefoundation/autoware_lanelet2_extension
+    version: main
+  autoware_msgs:
+    type: git
+    url: https://github.com/autowarefoundation/autoware_msgs
+    version: main
