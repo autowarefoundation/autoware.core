@@ -169,11 +169,10 @@ std::optional<lanelet::ConstLanelet> get_next_lanelet_within_route(
 }
 
 std::vector<std::pair<lanelet::ConstPoints3d, std::pair<double, double>>> get_waypoint_groups(
-  const lanelet::ConstLanelets & lanelets, const lanelet::LaneletMap & lanelet_map,
+  const lanelet::LaneletSequence & lanelet_sequence, const lanelet::LaneletMap & lanelet_map,
   const double group_separation_threshold, const double interval_margin_ratio)
 {
   std::vector<std::pair<lanelet::ConstPoints3d, std::pair<double, double>>> waypoint_groups{};
-  const lanelet::LaneletSequence lanelet_sequence(lanelets);
 
   const auto get_interval_bound =
     [&](const lanelet::ConstPoint3d & point, const double lateral_distance_factor) {
@@ -182,7 +181,7 @@ std::vector<std::pair<lanelet::ConstPoints3d, std::pair<double, double>>> get_wa
       return arc_coordinates.length + lateral_distance_factor * std::abs(arc_coordinates.distance);
     };
 
-  for (const auto & lanelet : lanelets) {
+  for (const auto & lanelet : lanelet_sequence) {
     if (!lanelet.hasAttribute("waypoints")) {
       continue;
     }

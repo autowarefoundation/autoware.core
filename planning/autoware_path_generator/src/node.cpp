@@ -216,12 +216,14 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
 }
 
 std::optional<PathWithLaneId> PathGenerator::generate_path(
-  const lanelet::ConstLanelets & lanelets, const geometry_msgs::msg::Pose & current_pose,
+  const lanelet::LaneletSequence & lanelet_sequence, const geometry_msgs::msg::Pose & current_pose,
   const Params & params) const
 {
-  if (lanelets.empty()) {
+  if (lanelet_sequence.empty()) {
     return std::nullopt;
   }
+
+  const auto & lanelets = lanelet_sequence.lanelets();
 
   const auto arc_coordinates = lanelet::utils::getArcCoordinates(lanelets, current_pose);
   const auto s = arc_coordinates.length;  // s denotes longitudinal position in Frenet coordinates
@@ -244,11 +246,11 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
     return s_end;
   }();
 
-  return generate_path(lanelets, s_start, s_end, params);
+  return generate_path(lanelet_sequence, s_start, s_end, params);
 }
 
 std::optional<PathWithLaneId> PathGenerator::generate_path(
-  const lanelet::ConstLanelets & lanelets, const double s_start, const double s_end,
+  const lanelet::LaneletSequence & lanelet_sequence, const double s_start, const double s_end,
   const Params & params) const
 {
   std::vector<PathPointWithLaneId> path_points_with_lane_id{};
@@ -264,10 +266,10 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
   };
 
   const auto waypoint_groups = utils::get_waypoint_groups(
-    lanelets, *planner_data_.lanelet_map_ptr, params.waypoint_group_separation_threshold,
+    lanelet_sequence, *planner_data_.lanelet_map_ptr, params.waypoint_group_separation_threshold,
     params.waypoint_group_interval_margin_ratio);
 
-  auto extended_lanelets = lanelets;
+  auto extended_lanelets = lanelet_sequence.lanelets();
   auto s_offset = 0.;
 
   for (const auto & [waypoints, interval] : waypoint_groups) {
@@ -275,7 +277,7 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
       continue;
     }
     const auto prev_lanelet =
-      utils::get_previous_lanelet_within_route(lanelets.front(), planner_data_);
+      utils::get_previous_lanelet_within_route(extended_lanelets.front(), planner_data_);
     if (!prev_lanelet) {
       break;
     }
