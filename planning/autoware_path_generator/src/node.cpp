@@ -348,6 +348,7 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
     return std::nullopt;
   }
 
+  trajectory->align_orientation_with_trajectory_direction();
   trajectory->crop(s_offset + s_start, s_end - s_start);
 
   PathWithLaneId path{};
