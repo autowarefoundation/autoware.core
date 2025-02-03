@@ -19,9 +19,9 @@
 #include "autoware/ekf_localizer/warning_message.hpp"
 #include "autoware/localization_util/covariance_ellipse.hpp"
 
-#include <autoware/universe_utils/geometry/geometry.hpp>
-#include <autoware/universe_utils/math/unit_conversion.hpp>
-#include <autoware/universe_utils/ros/msg_covariance.hpp>
+#include <autoware_utils/geometry/geometry.hpp>
+#include <autoware_utils/math/unit_conversion.hpp>
+#include <autoware_utils/ros/msg_covariance.hpp>
 #include <rclcpp/duration.hpp>
 #include <rclcpp/logging.hpp>
 
@@ -96,7 +96,7 @@ EKFLocalizer::EKFLocalizer(const rclcpp::NodeOptions & node_options)
     std::shared_ptr<rclcpp::Node>(this, [](auto) {}));
 
   ekf_module_ = std::make_unique<EKFModule>(warning_, params_);
-  logger_configure_ = std::make_unique<autoware::universe_utils::LoggerLevelConfigure>(this);
+  logger_configure_ = std::make_unique<autoware_utils::LoggerLevelConfigure>(this);
 }
 
 /*
@@ -361,7 +361,7 @@ void EKFLocalizer::publish_estimate_result(
 
   /* publish tf */
   const geometry_msgs::msg::TransformStamped transform_stamped =
-    autoware::universe_utils::pose2transform(current_ekf_pose, "base_link");
+    autoware_utils::pose2transform(current_ekf_pose, "base_link");
   tf_br_->sendTransform(transform_stamped);
 }
 
