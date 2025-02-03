@@ -48,7 +48,7 @@ std::optional<lanelet::ConstLanelet> get_next_lanelet_within_route(
   const lanelet::ConstLanelet & lanelet, const PlannerData & planner_data);
 
 std::vector<std::pair<lanelet::ConstPoints3d, std::pair<double, double>>> get_waypoint_groups(
-  const lanelet::ConstLanelets & lanelets, const lanelet::LaneletMap & lanelet_map,
+  const lanelet::LaneletSequence & lanelet_sequence, const lanelet::LaneletMap & lanelet_map,
   const double group_separation_threshold, const double interval_margin_ratio);
 }  // namespace utils
 }  // namespace autoware::path_generator

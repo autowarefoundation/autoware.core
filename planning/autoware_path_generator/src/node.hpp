@@ -27,6 +27,7 @@
 #include <nav_msgs/msg/odometry.hpp>
 
 #include <memory>
+
 namespace autoware::path_generator
 {
 using autoware_internal_planning_msgs::msg::PathPointWithLaneId;
@@ -85,11 +86,11 @@ private:
     const geometry_msgs::msg::Pose & current_pose, const Params & params) const;
 
   std::optional<PathWithLaneId> generate_path(
-    const lanelet::ConstLanelets & lanelets, const geometry_msgs::msg::Pose & current_pose,
-    const Params & params) const;
+    const lanelet::LaneletSequence & lanelet_sequence,
+    const geometry_msgs::msg::Pose & current_pose, const Params & params) const;
 
   std::optional<PathWithLaneId> generate_path(
-    const lanelet::ConstLanelets & lanelets, const double s_start, const double s_end,
+    const lanelet::LaneletSequence & lanelet_sequence, const double s_start, const double s_end,
     const Params & params) const;
 };
 }  // namespace autoware::path_generator
