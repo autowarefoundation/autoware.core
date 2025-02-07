@@ -50,6 +50,10 @@ std::optional<lanelet::ConstLanelet> get_next_lanelet_within_route(
 std::vector<std::pair<lanelet::ConstPoints3d, std::pair<double, double>>> get_waypoint_groups(
   const lanelet::LaneletSequence & lanelet_sequence, const lanelet::LaneletMap & lanelet_map,
   const double group_separation_threshold, const double interval_margin_ratio);
+
+std::optional<std::vector<geometry_msgs::msg::Point>> get_path_bound(
+  const lanelet::CompoundLineString2d & lanelet_bound, const double s_end,
+  const lanelet::ConstPoint2d & path_start_point, const lanelet::ConstPoint2d & path_end_point);
 }  // namespace utils
 }  // namespace autoware::path_generator
 
