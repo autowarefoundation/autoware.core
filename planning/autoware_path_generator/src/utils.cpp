@@ -15,6 +15,7 @@
 #include "autoware/path_generator/utils.hpp"
 
 #include <autoware/universe_utils/geometry/geometry.hpp>
+#include <autoware_lanelet2_extension/utility/message_conversion.hpp>
 #include <autoware_lanelet2_extension/utility/utilities.hpp>
 
 #include <lanelet2_core/geometry/Lanelet.h>
@@ -204,6 +205,60 @@ std::vector<std::pair<lanelet::ConstPoints3d, std::pair<double, double>>> get_wa
   }
 
   return waypoint_groups;
+}
+
+std::optional<std::vector<geometry_msgs::msg::Point>> get_path_bound(
+  const lanelet::CompoundLineString2d & lanelet_bound, const double s_end,
+  const lanelet::ConstPoint2d & path_start_point, const lanelet::ConstPoint2d & path_end_point)
+{
+  auto s_bound_start = lanelet::geometry::toArcCoordinates(lanelet_bound, path_start_point).length;
+  auto s_bound_end = lanelet::geometry::toArcCoordinates(lanelet_bound, path_end_point).length;
+  if (s_bound_start > s_bound_end) {
+    lanelet::LineString2d roughly_cut_bound{};
+    auto s = 0.;
+    for (auto it = lanelet_bound.begin(); it != std::prev(lanelet_bound.end()); ++it) {
+      roughly_cut_bound.push_back(lanelet::Point2d(*it));
+      s += lanelet::geometry::distance2d(*it, *std::next(it));
+      if (s > s_end) {
+        break;
+      }
+    }
+    while (s_bound_start > s_bound_end) {
+      if (roughly_cut_bound.size() < 2) {
+        return std::nullopt;
+      }
+      s_bound_start =
+        lanelet::geometry::toArcCoordinates(roughly_cut_bound, path_start_point).length;
+      roughly_cut_bound.pop_back();
+    }
+  }
+
+  std::vector<geometry_msgs::msg::Point> path_bound{};
+  auto s = 0.;
+
+  for (auto it = lanelet_bound.begin(); it != std::prev(lanelet_bound.end()); ++it) {
+    s += lanelet::geometry::distance2d(*it, *std::next(it));
+    if (s < s_bound_start) {
+      continue;
+    }
+    if (path_bound.empty()) {
+      const auto interpolated_point =
+        lanelet::geometry::interpolatedPointAtDistance(lanelet_bound, s_bound_start);
+      path_bound.push_back(
+        lanelet::utils::conversion::toGeomMsgPt(lanelet::utils::to3D(interpolated_point)));
+      continue;
+    }
+    path_bound.push_back(lanelet::utils::conversion::toGeomMsgPt(*it));
+    if (s >= s_bound_end) {
+      const auto interpolated_point =
+        lanelet::geometry::interpolatedPointAtDistance(lanelet_bound, s_bound_end);
+      path_bound.push_back(
+        lanelet::utils::conversion::toGeomMsgPt(lanelet::utils::to3D(interpolated_point)));
+      break;
+    }
+  }
+
+  return path_bound;
 }
 }  // namespace utils
 }  // namespace autoware::path_generator

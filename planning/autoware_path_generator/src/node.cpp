@@ -33,8 +33,8 @@
 
 namespace
 {
-template <typename T, typename U>
-double get_arc_length_along_centerline(const T & lanelet, const U & point)
+template <typename LaneletT, typename PointT>
+double get_arc_length_along_centerline(const LaneletT & lanelet, const PointT & point)
 {
   return lanelet::geometry::toArcCoordinates(lanelet.centerline2d(), lanelet::utils::to2D(point))
     .length;
@@ -339,28 +339,40 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
     }
   }
 
-  s_offset -= get_arc_length_along_centerline(
-    extended_lanelet_sequence, lanelet::utils::conversion::toLaneletPoint(
-                                 path_points_with_lane_id.front().point.pose.position));
-
   auto trajectory = Trajectory::Builder().build(path_points_with_lane_id);
   if (!trajectory) {
     return std::nullopt;
   }
 
   trajectory->align_orientation_with_trajectory_direction();
-  trajectory->crop(s_offset + s_start, s_end - s_start);
+  trajectory->crop(
+    s_offset + s_start -
+      get_arc_length_along_centerline(
+        extended_lanelet_sequence, lanelet::utils::conversion::toLaneletPoint(
+                                     path_points_with_lane_id.front().point.pose.position)),
+    s_end - s_start);
 
   PathWithLaneId path{};
   path.header.frame_id = planner_data_.route_frame_id;
   path.header.stamp = now();
   path.points = trajectory->restore();
 
-  for (const auto & left_bound_point : extended_lanelet_sequence.leftBound()) {
-    path.left_bound.push_back(lanelet::utils::conversion::toGeomMsgPt(left_bound_point));
+  const auto path_start_point = lanelet::utils::to2D(
+    lanelet::utils::conversion::toLaneletPoint(path.points.front().point.pose.position));
+  const auto path_end_point = lanelet::utils::to2D(
+    lanelet::utils::conversion::toLaneletPoint(path.points.back().point.pose.position));
+
+  if (
+    const auto left_bound = utils::get_path_bound(
+      extended_lanelet_sequence.leftBound2d(), s_offset + s_end, path_start_point,
+      path_end_point)) {
+    path.left_bound = std::move(*left_bound);
   }
-  for (const auto & right_bound_point : extended_lanelet_sequence.rightBound()) {
-    path.right_bound.push_back(lanelet::utils::conversion::toGeomMsgPt(right_bound_point));
+  if (
+    const auto right_bound = utils::get_path_bound(
+      extended_lanelet_sequence.rightBound2d(), s_offset + s_end, path_start_point,
+      path_end_point)) {
+    path.right_bound = std::move(*right_bound);
   }
 
   return path;
