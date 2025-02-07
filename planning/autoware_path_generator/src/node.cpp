@@ -51,6 +51,8 @@ PathGenerator::PathGenerator(const rclcpp::NodeOptions & node_options)
 
   path_publisher_ = create_publisher<PathWithLaneId>("~/output/path", 1);
 
+  vehicle_info_ = autoware::vehicle_info_utils::VehicleInfoUtils(*this).getVehicleInfo();
+
   const auto params = param_listener_->get_params();
   timer_ = rclcpp::create_timer(
     this, get_clock(), rclcpp::Rate(params.planning_hz).period(),
@@ -357,23 +359,19 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
   path.header.stamp = now();
   path.points = trajectory->restore();
 
-  const auto path_start_point = lanelet::utils::to2D(
-    lanelet::utils::conversion::toLaneletPoint(path.points.front().point.pose.position));
-  const auto path_end_point = lanelet::utils::to2D(
-    lanelet::utils::conversion::toLaneletPoint(path.points.back().point.pose.position));
-
-  if (
-    const auto left_bound = utils::get_path_bound(
-      extended_lanelet_sequence.leftBound2d(), s_offset + s_end, path_start_point,
-      path_end_point)) {
-    path.left_bound = std::move(*left_bound);
-  }
-  if (
-    const auto right_bound = utils::get_path_bound(
-      extended_lanelet_sequence.rightBound2d(), s_offset + s_end, path_start_point,
-      path_end_point)) {
-    path.right_bound = std::move(*right_bound);
-  }
+  const auto set_path_bound = [&](
+                                const lanelet::CompoundLineString2d & lanelet_bound,
+                                std::vector<geometry_msgs::msg::Point> & path_bound) {
+    if (
+      const auto bound = utils::get_path_bound(
+        lanelet_bound, extended_lanelet_sequence.centerline2d(),
+        std::max(0., s_offset + s_start - vehicle_info_.max_longitudinal_offset_m),
+        std::max(0., s_offset + s_end + vehicle_info_.max_longitudinal_offset_m))) {
+      path_bound = std::move(*bound);
+    }
+  };
+  set_path_bound(extended_lanelet_sequence.leftBound2d(), path.left_bound);
+  set_path_bound(extended_lanelet_sequence.rightBound2d(), path.right_bound);
 
   return path;
 }
