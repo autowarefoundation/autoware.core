@@ -19,6 +19,7 @@
 
 #include <autoware/trajectory/path_point_with_lane_id.hpp>
 #include <autoware/universe_utils/ros/polling_subscriber.hpp>
+#include <autoware_vehicle_info_utils/vehicle_info_utils.hpp>
 #include <path_generator_parameters.hpp>
 
 #include <autoware_internal_planning_msgs/msg/path_with_lane_id.hpp>
@@ -68,6 +69,7 @@ private:
 
   std::shared_ptr<::path_generator::ParamListener> param_listener_;
 
+  autoware::vehicle_info_utils::VehicleInfo vehicle_info_;
   PlannerData planner_data_;
 
   void run();
