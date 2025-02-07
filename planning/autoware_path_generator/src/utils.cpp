@@ -208,30 +208,20 @@ std::vector<std::pair<lanelet::ConstPoints3d, std::pair<double, double>>> get_wa
 }
 
 std::optional<std::vector<geometry_msgs::msg::Point>> get_path_bound(
-  const lanelet::CompoundLineString2d & lanelet_bound, const double s_end,
-  const lanelet::ConstPoint2d & path_start_point, const lanelet::ConstPoint2d & path_end_point)
+  const lanelet::CompoundLineString2d & lanelet_bound,
+  const lanelet::CompoundLineString2d & lanelet_centerline, const double s_start,
+  const double s_end)
 {
-  auto s_bound_start = lanelet::geometry::toArcCoordinates(lanelet_bound, path_start_point).length;
+  const auto path_start_point =
+    lanelet::geometry::interpolatedPointAtDistance(lanelet_centerline, s_start);
+  const auto path_end_point =
+    lanelet::geometry::interpolatedPointAtDistance(lanelet_centerline, s_end);
+
+  auto s_bound_start =
+    lanelet::geometry::toArcCoordinates(
+      lanelet::utils::to2D(lanelet_bound.lineStrings().front()), path_start_point)
+      .length;
   auto s_bound_end = lanelet::geometry::toArcCoordinates(lanelet_bound, path_end_point).length;
-  if (s_bound_start > s_bound_end) {
-    lanelet::LineString2d roughly_cut_bound{};
-    auto s = 0.;
-    for (auto it = lanelet_bound.begin(); it != std::prev(lanelet_bound.end()); ++it) {
-      roughly_cut_bound.push_back(lanelet::Point2d(*it));
-      s += lanelet::geometry::distance2d(*it, *std::next(it));
-      if (s > s_end) {
-        break;
-      }
-    }
-    while (s_bound_start > s_bound_end) {
-      if (roughly_cut_bound.size() < 2) {
-        return std::nullopt;
-      }
-      s_bound_start =
-        lanelet::geometry::toArcCoordinates(roughly_cut_bound, path_start_point).length;
-      roughly_cut_bound.pop_back();
-    }
-  }
 
   std::vector<geometry_msgs::msg::Point> path_bound{};
   auto s = 0.;
