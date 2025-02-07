@@ -2,8 +2,8 @@
 Changelog for package autoware_localization_util
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.0 (2025-02-07)
+------------------
 * unify version to 0.1.0
 * update changelog
 * feat: migrate autoware_localization_util from universe to core (`#150 <https://github.com/autowarefoundation/autoware.core/issues/150>`_)

@@ -31,8 +31,8 @@ Changelog for package autoware_geography_utils
   Co-authored-by: Yutaka Kondo <yutaka.kondo@youtalk.jp>
 * Contributors: Ryohsuke Mitsudome, Yutaka Kondo, awf-autoware-bot[bot]
 
-Forthcoming
------------
+0.2.0 (2025-02-07)
+------------------
 * chore: humble to main sync (`#162 <https://github.com/autowarefoundation/autoware.core/issues/162>`_)
   * update changelog
   * 0.1.0

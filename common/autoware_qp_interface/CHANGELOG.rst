@@ -2,8 +2,8 @@
 Changelog for package autoware_qp_interface
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.0 (2025-02-07)
+------------------
 * unify version to 0.1.0
 * update changelog
 * fix(autoware_qp_interface): incorrect parameter passing in delegating constructor (`#147 <https://github.com/autowarefoundation/autoware.core/issues/147>`_)
