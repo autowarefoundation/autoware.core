@@ -52,7 +52,7 @@ OSQPInterface::OSQPInterface(
   const Eigen::MatrixXd & P, const Eigen::MatrixXd & A, const std::vector<double> & q,
   const std::vector<double> & l, const std::vector<double> & u, const bool enable_warm_start,
   const c_float eps_abs)
-: OSQPInterface(enable_warm_start, eps_abs)
+: OSQPInterface(enable_warm_start, OSQP_MAX_ITERATION, eps_abs)
 {
   initializeProblem(P, A, q, l, u);
 }
@@ -61,7 +61,7 @@ OSQPInterface::OSQPInterface(
   const CSC_Matrix & P, const CSC_Matrix & A, const std::vector<double> & q,
   const std::vector<double> & l, const std::vector<double> & u, const bool enable_warm_start,
   const c_float eps_abs)
-: OSQPInterface(enable_warm_start, eps_abs)
+: OSQPInterface(enable_warm_start, OSQP_MAX_ITERATION, eps_abs)
 {
   initializeCSCProblemImpl(P, A, q, l, u);
 }
