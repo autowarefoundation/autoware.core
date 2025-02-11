@@ -19,8 +19,8 @@
 
 #include <autoware/trajectory/path_point_with_lane_id.hpp>
 #include <autoware/universe_utils/ros/polling_subscriber.hpp>
+#include <autoware_path_generator/path_generator_parameters.hpp>
 #include <autoware_vehicle_info_utils/vehicle_info_utils.hpp>
-#include <path_generator_parameters.hpp>
 
 #include <autoware_internal_planning_msgs/msg/path_with_lane_id.hpp>
 #include <autoware_map_msgs/msg/lanelet_map_bin.hpp>
