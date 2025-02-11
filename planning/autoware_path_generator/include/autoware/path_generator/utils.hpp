@@ -51,7 +51,7 @@ std::vector<std::pair<lanelet::ConstPoints3d, std::pair<double, double>>> get_wa
   const lanelet::LaneletSequence & lanelet_sequence, const lanelet::LaneletMap & lanelet_map,
   const double group_separation_threshold, const double interval_margin_ratio);
 
-std::optional<std::vector<geometry_msgs::msg::Point>> get_path_bound(
+std::vector<geometry_msgs::msg::Point> get_path_bound(
   const lanelet::CompoundLineString2d & lanelet_bound,
   const lanelet::CompoundLineString2d & lanelet_centerline, const double s_start,
   const double s_end);

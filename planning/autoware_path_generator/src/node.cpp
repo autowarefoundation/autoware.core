@@ -359,19 +359,16 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
   path.header.stamp = now();
   path.points = trajectory->restore();
 
-  const auto set_path_bound = [&](
-                                const lanelet::CompoundLineString2d & lanelet_bound,
-                                std::vector<geometry_msgs::msg::Point> & path_bound) {
-    if (
-      const auto bound = utils::get_path_bound(
-        lanelet_bound, extended_lanelet_sequence.centerline2d(),
-        std::max(0., s_offset + s_start - vehicle_info_.max_longitudinal_offset_m),
-        std::max(0., s_offset + s_end + vehicle_info_.max_longitudinal_offset_m))) {
-      path_bound = std::move(*bound);
-    }
+  const auto get_path_bound = [&](const lanelet::CompoundLineString2d & lanelet_bound) {
+    const auto s_bound_start =
+      std::max(0., s_offset + s_start - vehicle_info_.max_longitudinal_offset_m);
+    const auto s_bound_end =
+      std::max(0., s_offset + s_end + vehicle_info_.max_longitudinal_offset_m);
+    return utils::get_path_bound(
+      lanelet_bound, extended_lanelet_sequence.centerline2d(), s_bound_start, s_bound_end);
   };
-  set_path_bound(extended_lanelet_sequence.leftBound2d(), path.left_bound);
-  set_path_bound(extended_lanelet_sequence.rightBound2d(), path.right_bound);
+  path.left_bound = get_path_bound(extended_lanelet_sequence.leftBound2d());
+  path.right_bound = get_path_bound(extended_lanelet_sequence.rightBound2d());
 
   return path;
 }
