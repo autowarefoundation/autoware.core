@@ -207,7 +207,7 @@ std::vector<std::pair<lanelet::ConstPoints3d, std::pair<double, double>>> get_wa
   return waypoint_groups;
 }
 
-std::optional<std::vector<geometry_msgs::msg::Point>> get_path_bound(
+std::vector<geometry_msgs::msg::Point> get_path_bound(
   const lanelet::CompoundLineString2d & lanelet_bound,
   const lanelet::CompoundLineString2d & lanelet_centerline, const double s_start,
   const double s_end)
