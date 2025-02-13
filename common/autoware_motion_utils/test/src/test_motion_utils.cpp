@@ -1,4 +1,4 @@
-// Copyright 2024 The Autoware Contributors
+// Copyright 2022 TierIV
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,20 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef TEST_NODE_HPP_
-#define TEST_NODE_HPP_
+#include <rclcpp/rclcpp.hpp>
 
-#include <autoware/node/node.hpp>
+#include <gtest/gtest.h>
 
-namespace autoware::test_node
+int main(int argc, char * argv[])
 {
-
-class TestNode : public autoware::node::Node
-{
-public:
-  explicit TestNode(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
-};
-
-}  // namespace autoware::test_node
-
-#endif  // TEST_NODE_HPP_
+  testing::InitGoogleTest(&argc, argv);
+  rclcpp::init(argc, argv);
+  bool result = RUN_ALL_TESTS();
+  rclcpp::shutdown();
+  return result;
+}

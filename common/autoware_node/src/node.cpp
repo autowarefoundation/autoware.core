@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include <autoware/node/node.hpp>
-#include <rclcpp/rclcpp.hpp>
+#include <rclcpp/node.hpp>
 
 #include <string>
 
@@ -21,18 +21,10 @@ namespace autoware::node
 {
 Node::Node(
   const std::string & node_name, const std::string & ns, const rclcpp::NodeOptions & options)
-: LifecycleNode(node_name, ns, options)
+: rclcpp::Node(node_name, ns, options)
 {
   RCLCPP_DEBUG(
     get_logger(), "Node %s constructor was called.",
     get_node_base_interface()->get_fully_qualified_name());
-}
-
-CallbackReturn Node::on_shutdown(const rclcpp_lifecycle::State & state)
-{
-  RCLCPP_DEBUG(
-    get_logger(), "Node %s shutdown was called with state %s.",
-    get_node_base_interface()->get_fully_qualified_name(), state.label().c_str());
-  return CallbackReturn::SUCCESS;
 }
 }  // namespace autoware::node

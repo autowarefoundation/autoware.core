@@ -1,4 +1,4 @@
-// Copyright 2024 The Autoware Contributors
+// Copyright 2022 TIER IV, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,20 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef TEST_NODE_HPP_
-#define TEST_NODE_HPP_
+#ifndef AUTOWARE__MOTION_UTILS__CONSTANTS_HPP_
+#define AUTOWARE__MOTION_UTILS__CONSTANTS_HPP_
 
-#include <autoware/node/node.hpp>
-
-namespace autoware::test_node
+namespace autoware::motion_utils
 {
+constexpr double overlap_threshold = 0.1;
+}  // namespace autoware::motion_utils
 
-class TestNode : public autoware::node::Node
-{
-public:
-  explicit TestNode(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
-};
-
-}  // namespace autoware::test_node
-
-#endif  // TEST_NODE_HPP_
+#endif  // AUTOWARE__MOTION_UTILS__CONSTANTS_HPP_
