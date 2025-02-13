@@ -126,18 +126,17 @@ std::optional<lanelet::ConstLanelet> get_previous_lanelet_within_route(
   }
 
   const auto prev_lanelets = planner_data.routing_graph_ptr->previous(lanelet);
-  if (prev_lanelets.size() > 1) {
-    RCLCPP_WARN(
-      rclcpp::get_logger("path_generator").get_child("utils"),
-      "The multiple previous lanelets in a route are found not as expected. Internal calculation "
-      "might have failed.");
-  }
-
-  if (prev_lanelets.empty() || !exists(planner_data.route_lanelets, prev_lanelets.front())) {
+  if (prev_lanelets.empty()) {
     return std::nullopt;
   }
 
-  return prev_lanelets.front();
+  const auto prev_lanelet_itr = std::find_if(
+    prev_lanelets.cbegin(), prev_lanelets.cend(),
+    [&](const lanelet::ConstLanelet & l) { return exists(planner_data.route_lanelets, l); });
+  if (prev_lanelet_itr == prev_lanelets.cend()) {
+    return std::nullopt;
+  }
+  return *prev_lanelet_itr;
 }
 
 std::optional<lanelet::ConstLanelet> get_next_lanelet_within_route(
@@ -152,21 +151,19 @@ std::optional<lanelet::ConstLanelet> get_next_lanelet_within_route(
   }
 
   const auto next_lanelets = planner_data.routing_graph_ptr->following(lanelet);
-  if (next_lanelets.size() > 1) {
-    RCLCPP_WARN(
-      rclcpp::get_logger("path_generator").get_child("utils"),
-      "The multiple next lanelets in a route are found not as expected. Internal calculation might "
-      "have failed.");
-  }
-
   if (
     next_lanelets.empty() ||
-    next_lanelets.front().id() == planner_data.preferred_lanelets.front().id() ||
-    !exists(planner_data.route_lanelets, next_lanelets.front())) {
+    next_lanelets.front().id() == planner_data.preferred_lanelets.front().id()) {
     return std::nullopt;
   }
 
-  return next_lanelets.front();
+  const auto next_lanelet_itr = std::find_if(
+    next_lanelets.cbegin(), next_lanelets.cend(),
+    [&](const lanelet::ConstLanelet & l) { return exists(planner_data.route_lanelets, l); });
+  if (next_lanelet_itr == next_lanelets.cend()) {
+    return std::nullopt;
+  }
+  return *next_lanelet_itr;
 }
 
 std::vector<std::pair<lanelet::ConstPoints3d, std::pair<double, double>>> get_waypoint_groups(
