@@ -19,6 +19,11 @@
 
 #include <rclcpp/node.hpp>
 
+#include <autoware_control_center_msgs/msg/node_status_activity.hpp>
+#include <autoware_control_center_msgs/msg/node_status_operational.hpp>
+#include <autoware_control_center_msgs/srv/deregister.hpp>
+#include <autoware_control_center_msgs/srv/register.hpp>
+
 #include <string>
 
 namespace autoware::node
@@ -30,6 +35,33 @@ public:
   explicit Node(
     const std::string & node_name, const std::string & ns = "",
     const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
+
+private:
+  using NodeStatusActivity = autoware_control_center_msgs::msg::NodeStatusActivity;
+  using NodeStatusOperational = autoware_control_center_msgs::msg::NodeStatusOperational;
+  using ResultDeregistration = autoware_control_center_msgs::msg::ResultDeregistration;
+  using ResultRegistration = autoware_control_center_msgs::msg::ResultRegistration;
+  using Deregister = autoware_control_center_msgs::srv::Deregister;
+  using Register = autoware_control_center_msgs::srv::Register;
+
+  using FutureRegister = rclcpp::Client<autoware_control_center_msgs::srv::Register>::SharedFuture;
+
+  rclcpp::CallbackGroup::SharedPtr callback_group_mut_ex_;
+
+  rclcpp::Client<autoware_control_center_msgs::srv::Register>::SharedPtr cli_register_;
+
+  bool is_registered_;
+  double period_timer_register_ms_;
+
+  rclcpp::TimerBase::SharedPtr timer_registration_;
+
+  unique_identifier_msgs::msg::UUID uuid_node_;
+
+  void on_tick_registration();
+  void on_register(FutureRegister future);
+
+protected:
+  void destroy_node();
 };
 }  // namespace autoware::node
 
