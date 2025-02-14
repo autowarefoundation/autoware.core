@@ -66,6 +66,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://autowarefoundation.github.io/autoware.core/main/common/autoware_trajectory/</loc>
+         <lastmod>2025-02-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://autowarefoundation.github.io/autoware.core/main/demos/autoware_test_node/</loc>
          <lastmod>2025-02-14</lastmod>
          <changefreq>daily</changefreq>
