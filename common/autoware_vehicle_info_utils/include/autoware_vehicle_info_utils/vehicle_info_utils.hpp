@@ -15,9 +15,9 @@
 // this file is for backward compatibility
 // TODO: remove this file after the transition to the new vehicle info utils
 
-#ifndef AUTOWARE_VEHICLE_INFO_UTILS__AUTOWARE_VEHICLE_INFO_UTILS_HPP_
-#define AUTOWARE_VEHICLE_INFO_UTILS__AUTOWARE_VEHICLE_INFO_UTILS_HPP_
+#ifndef AUTOWARE_VEHICLE_INFO_UTILS__VEHICLE_INFO_UTILS_HPP_
+#define AUTOWARE_VEHICLE_INFO_UTILS__VEHICLE_INFO_UTILS_HPP_
 
 #include <autoware/vehicle_info_utils/vehicle_info_utils.hpp>
 
-#endif  // AUTOWARE_VEHICLE_INFO_UTILS__AUTOWARE_VEHICLE_INFO_UTILS_HPP_
+#endif  // AUTOWARE_VEHICLE_INFO_UTILS__VEHICLE_INFO_UTILS_HPP_
