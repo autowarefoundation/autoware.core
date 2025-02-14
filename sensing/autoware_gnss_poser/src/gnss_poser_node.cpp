@@ -40,7 +40,7 @@ GNSSPoser::GNSSPoser(const rclcpp::NodeOptions & node_options)
 {
   // Subscribe to map_projector_info topic
   sub_map_projector_info_ = create_subscription<autoware_map_msgs::msg::MapProjectorInfo>(
-    "/map/map_projector_info", rclcpp::QoS{1},
+    "/map/map_projector_info", rclcpp::QoS{1}.transient_local(),
     std::bind(&GNSSPoser::callback_map_projector_info, this, std::placeholders::_1));
 
   // Set up position buffer
