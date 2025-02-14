@@ -1,4 +1,4 @@
-// Copyright 2024 The Autoware Contributors
+// Copyright 2022 Autoware Foundation
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,20 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef TEST_NODE_HPP_
-#define TEST_NODE_HPP_
+#include "autoware/ekf_localizer/mahalanobis.hpp"
 
-#include <autoware/node/node.hpp>
-
-namespace autoware::test_node
+namespace autoware::ekf_localizer
 {
 
-class TestNode : public autoware::node::Node
+double squared_mahalanobis(
+  const Eigen::VectorXd & x, const Eigen::VectorXd & y, const Eigen::MatrixXd & C)
 {
-public:
-  explicit TestNode(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
-};
+  const Eigen::VectorXd d = x - y;
+  return d.dot(C.inverse() * d);
+}
 
-}  // namespace autoware::test_node
+double mahalanobis(const Eigen::VectorXd & x, const Eigen::VectorXd & y, const Eigen::MatrixXd & C)
+{
+  return std::sqrt(squared_mahalanobis(x, y, C));
+}
 
-#endif  // TEST_NODE_HPP_
+}  // namespace autoware::ekf_localizer

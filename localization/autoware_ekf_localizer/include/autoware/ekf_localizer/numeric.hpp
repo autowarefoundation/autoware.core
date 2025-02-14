@@ -1,4 +1,4 @@
-// Copyright 2024 The Autoware Contributors
+// Copyright 2022 Autoware Foundation
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,20 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef TEST_NODE_HPP_
-#define TEST_NODE_HPP_
+#ifndef AUTOWARE__EKF_LOCALIZER__NUMERIC_HPP_
+#define AUTOWARE__EKF_LOCALIZER__NUMERIC_HPP_
 
-#include <autoware/node/node.hpp>
+#include <Eigen/Core>
 
-namespace autoware::test_node
+#include <cmath>
+
+namespace autoware::ekf_localizer
 {
 
-class TestNode : public autoware::node::Node
+inline bool has_inf(const Eigen::MatrixXd & v)
 {
-public:
-  explicit TestNode(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
-};
+  return v.array().isInf().any();
+}
 
-}  // namespace autoware::test_node
+inline bool has_nan(const Eigen::MatrixXd & v)
+{
+  return v.array().isNaN().any();
+}
 
-#endif  // TEST_NODE_HPP_
+}  // namespace autoware::ekf_localizer
+
+#endif  // AUTOWARE__EKF_LOCALIZER__NUMERIC_HPP_

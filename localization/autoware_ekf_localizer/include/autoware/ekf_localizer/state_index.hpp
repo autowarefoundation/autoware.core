@@ -1,4 +1,4 @@
-// Copyright 2024 The Autoware Contributors
+// Copyright 2022 Autoware Foundation
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,20 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef TEST_NODE_HPP_
-#define TEST_NODE_HPP_
+#ifndef AUTOWARE__EKF_LOCALIZER__STATE_INDEX_HPP_
+#define AUTOWARE__EKF_LOCALIZER__STATE_INDEX_HPP_
 
-#include <autoware/node/node.hpp>
-
-namespace autoware::test_node
+namespace autoware::ekf_localizer
 {
 
-class TestNode : public autoware::node::Node
-{
-public:
-  explicit TestNode(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
+enum IDX {
+  X = 0,
+  Y = 1,
+  YAW = 2,
+  YAWB = 3,
+  VX = 4,
+  WZ = 5,
 };
 
-}  // namespace autoware::test_node
+}  // namespace autoware::ekf_localizer
 
-#endif  // TEST_NODE_HPP_
+#endif  // AUTOWARE__EKF_LOCALIZER__STATE_INDEX_HPP_

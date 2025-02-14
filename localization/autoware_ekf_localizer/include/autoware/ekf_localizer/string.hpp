@@ -1,4 +1,4 @@
-// Copyright 2024 The Autoware Contributors
+// Copyright 2023 Autoware Foundation
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,20 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef TEST_NODE_HPP_
-#define TEST_NODE_HPP_
+#ifndef AUTOWARE__EKF_LOCALIZER__STRING_HPP_
+#define AUTOWARE__EKF_LOCALIZER__STRING_HPP_
 
-#include <autoware/node/node.hpp>
+#include <string>
 
-namespace autoware::test_node
+namespace autoware::ekf_localizer
 {
 
-class TestNode : public autoware::node::Node
+inline std::string erase_leading_slash(const std::string & s)
 {
-public:
-  explicit TestNode(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
-};
+  std::string a = s;
+  if (a.front() == '/') {
+    a.erase(0, 1);
+  }
+  return a;
+}
 
-}  // namespace autoware::test_node
+}  // namespace autoware::ekf_localizer
 
-#endif  // TEST_NODE_HPP_
+#endif  // AUTOWARE__EKF_LOCALIZER__STRING_HPP_
