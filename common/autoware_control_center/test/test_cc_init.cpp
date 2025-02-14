@@ -17,6 +17,9 @@
 
 #include <gtest/gtest.h>
 
+#include <memory>
+#include <string>
+
 class ControlCenterInitShutdownTest : public ::testing::Test
 {
 public:

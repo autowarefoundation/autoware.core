@@ -21,6 +21,9 @@
 
 #include <gtest/gtest.h>
 
+#include <iostream>
+#include <memory>
+
 namespace autoware::node
 {
 class AutowareNodeRegistering : public ::testing::Test

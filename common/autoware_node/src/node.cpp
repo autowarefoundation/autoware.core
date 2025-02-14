@@ -20,6 +20,7 @@
 #include <autoware_control_center_msgs/srv/register.hpp>
 
 #include <chrono>
+#include <memory>
 #include <string>
 
 namespace autoware::node

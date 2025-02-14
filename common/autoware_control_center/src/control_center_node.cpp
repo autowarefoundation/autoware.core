@@ -20,6 +20,9 @@
 #include <unique_identifier_msgs/msg/uuid.hpp>
 
 #include <chrono>
+#include <memory>
+#include <string>
+#include <tuple>
 
 namespace autoware::control_center
 {
