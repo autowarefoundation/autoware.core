@@ -33,9 +33,6 @@ int main()
   pybind11::scoped_interpreter guard{};
   auto plt = matplotlibcpp17::pyplot::import();
 
-  geometry_msgs::msg::Point p;
-  (void)(p);
-
   std::vector<geometry_msgs::msg::Point> points = {
     point(0.49, 0.59), point(0.61, 1.22), point(0.86, 1.93), point(1.20, 2.56), point(1.51, 3.17),
     point(1.85, 3.76), point(2.14, 4.26), point(2.60, 4.56), point(3.07, 4.55), point(3.61, 4.30),
