@@ -1,4 +1,4 @@
-// Copyright 2024 The Autoware Contributors
+// Copyright 2022 Autoware Foundation
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,20 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef TEST_NODE_HPP_
-#define TEST_NODE_HPP_
+#ifndef AUTOWARE__EKF_LOCALIZER__COVARIANCE_HPP_
+#define AUTOWARE__EKF_LOCALIZER__COVARIANCE_HPP_
 
-#include <autoware/node/node.hpp>
+#include "autoware/ekf_localizer/matrix_types.hpp"
 
-namespace autoware::test_node
+namespace autoware::ekf_localizer
 {
 
-class TestNode : public autoware::node::Node
-{
-public:
-  explicit TestNode(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
-};
+std::array<double, 36> ekf_covariance_to_pose_message_covariance(const Matrix6d & P);
+std::array<double, 36> ekf_covariance_to_twist_message_covariance(const Matrix6d & P);
 
-}  // namespace autoware::test_node
+}  // namespace autoware::ekf_localizer
 
-#endif  // TEST_NODE_HPP_
+#endif  // AUTOWARE__EKF_LOCALIZER__COVARIANCE_HPP_

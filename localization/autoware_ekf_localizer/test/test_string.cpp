@@ -1,4 +1,4 @@
-// Copyright 2024 The Autoware Contributors
+// Copyright 2023 Autoware Foundation
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,20 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef TEST_NODE_HPP_
-#define TEST_NODE_HPP_
+#include "autoware/ekf_localizer/string.hpp"
 
-#include <autoware/node/node.hpp>
+#include <gtest/gtest.h>
 
-namespace autoware::test_node
+namespace autoware::ekf_localizer
 {
 
-class TestNode : public autoware::node::Node
+TEST(erase_leading_slash, SmokeTest)
 {
-public:
-  explicit TestNode(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
-};
+  EXPECT_EQ(erase_leading_slash("/topic"), "topic");
+  EXPECT_EQ(erase_leading_slash("topic"), "topic");  // do nothing
 
-}  // namespace autoware::test_node
+  EXPECT_EQ(erase_leading_slash(""), "");
+  EXPECT_EQ(erase_leading_slash("/"), "");
+}
 
-#endif  // TEST_NODE_HPP_
+}  // namespace autoware::ekf_localizer
