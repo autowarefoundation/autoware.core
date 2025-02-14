@@ -44,9 +44,9 @@ Publishes reports on the current status of registered Autoware nodes.
 
 ## Parameters
 
-| Name                  | Type     | Default Value | Description                                                              |
-| --------------------- | -------- | ------------- | ------------------------------------------------------------------------ |
-| `report_publish_rate` | `double` | `1.0`         | Frequency (in Hz) at which NodeReports are published.                    |
+| Name                  | Type     | Default Value | Description                                           |
+| --------------------- | -------- | ------------- | ----------------------------------------------------- |
+| `report_publish_rate` | `double` | `1.0`         | Frequency (in Hz) at which NodeReports are published. |
 
 ## Singleton Constraint
 

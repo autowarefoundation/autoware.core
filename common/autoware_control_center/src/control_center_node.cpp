@@ -15,11 +15,11 @@
 #include "autoware/control_center/control_center_node.hpp"
 
 #include <autoware_utils/ros/uuid_helper.hpp>
+#include <rclcpp/node.hpp>
 
 #include <unique_identifier_msgs/msg/uuid.hpp>
 
 #include <chrono>
-#include <rclcpp/node.hpp>
 
 namespace autoware::control_center
 {

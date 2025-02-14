@@ -15,6 +15,8 @@
 #ifndef AUTOWARE__CONTROL_CENTER__CONTROL_CENTER_NODE_HPP_
 #define AUTOWARE__CONTROL_CENTER__CONTROL_CENTER_NODE_HPP_
 
+#include <rclcpp/node.hpp>
+
 #include <autoware_control_center_msgs/msg/node_report.hpp>
 #include <autoware_control_center_msgs/msg/node_reports.hpp>
 #include <autoware_control_center_msgs/msg/node_status_activity.hpp>
@@ -22,7 +24,6 @@
 #include <autoware_control_center_msgs/srv/deregister.hpp>
 #include <autoware_control_center_msgs/srv/register.hpp>
 #include <unique_identifier_msgs/msg/uuid.hpp>
-#include <rclcpp/node.hpp>
 
 #include <map>
 #include <memory>
