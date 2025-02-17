@@ -1,0 +1,3 @@
+/**:
+  ros__parameters:
+    period_timer_register_ms: 100.0

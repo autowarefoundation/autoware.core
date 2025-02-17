@@ -1,0 +1,3 @@
+unique_identifier_msgs/UUID uuid_node
+---
+autoware_control_center_msgs/ResultDeregistration result_deregistration
