@@ -18,8 +18,7 @@ if(BUILD_TESTING)
     target_include_directories(${TEST_NAME} PRIVATE src/include)
     target_link_libraries(${TEST_NAME} ${PROJECT_NAME})
     ament_target_dependencies(${TEST_NAME}
-      rclcpp
-      rclcpp_lifecycle)
+      rclcpp)
   endforeach()
 endif()
 
