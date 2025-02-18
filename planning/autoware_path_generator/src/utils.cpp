@@ -228,14 +228,16 @@ std::vector<geometry_msgs::msg::Point> get_path_bound(
     if (s < s_bound_start) {
       continue;
     }
+
     if (path_bound.empty()) {
       const auto interpolated_point =
         lanelet::geometry::interpolatedPointAtDistance(lanelet_bound, s_bound_start);
       path_bound.push_back(
         lanelet::utils::conversion::toGeomMsgPt(lanelet::utils::to3D(interpolated_point)));
-      continue;
+    } else {
+      path_bound.push_back(lanelet::utils::conversion::toGeomMsgPt(*it));
     }
-    path_bound.push_back(lanelet::utils::conversion::toGeomMsgPt(*it));
+
     if (s >= s_bound_end) {
       const auto interpolated_point =
         lanelet::geometry::interpolatedPointAtDistance(lanelet_bound, s_bound_end);
