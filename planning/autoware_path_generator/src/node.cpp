@@ -208,8 +208,8 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
   }
 
   const auto lanelets = utils::get_lanelets_within_route(
-    current_lane, planner_data_, current_pose, params.backward_path_length,
-    params.forward_path_length);
+    current_lane, planner_data_, current_pose, params.path_length.backward,
+    params.path_length.forward);
   if (!lanelets) {
     return std::nullopt;
   }
@@ -229,9 +229,9 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
 
   const auto arc_coordinates = lanelet::utils::getArcCoordinates(lanelets, current_pose);
   const auto s = arc_coordinates.length;  // s denotes longitudinal position in Frenet coordinates
-  const auto s_start = std::max(0., s - params.backward_path_length);
+  const auto s_start = std::max(0., s - params.path_length.backward);
   const auto s_end = [&]() {
-    auto s_end = s + params.forward_path_length;
+    auto s_end = s + params.path_length.forward;
 
     if (!utils::get_next_lanelet_within_route(lanelets.back(), planner_data_)) {
       s_end = std::min(s_end, lanelet::utils::getLaneletLength2d(lanelets));
@@ -268,8 +268,8 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
   };
 
   const auto waypoint_groups = utils::get_waypoint_groups(
-    lanelet_sequence, *planner_data_.lanelet_map_ptr, params.waypoint_group_separation_threshold,
-    params.waypoint_group_interval_margin_ratio);
+    lanelet_sequence, *planner_data_.lanelet_map_ptr, params.waypoint_group.separation_threshold,
+    params.waypoint_group.interval_margin_ratio);
 
   auto extended_lanelets = lanelet_sequence.lanelets();
   auto s_offset = 0.;
