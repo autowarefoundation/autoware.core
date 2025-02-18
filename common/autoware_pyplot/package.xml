@@ -15,6 +15,7 @@
 
   <depend>pybind11-dev</depend>
   <depend>python3-dev</depend>
+  <depend>python3-matplotlib</depend>
 
   <test_depend>ament_cmake_ros</test_depend>
   <test_depend>ament_lint_auto</test_depend>
