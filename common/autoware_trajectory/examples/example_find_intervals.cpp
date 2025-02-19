@@ -22,10 +22,10 @@
 using Trajectory =
   autoware::trajectory::Trajectory<autoware_internal_planning_msgs::msg::PathPointWithLaneId>;
 
-autoware_internal::msg::PathPointWithLaneId path_point_with_lane_id(
+autoware_internal_planning_msgs::msg::PathPointWithLaneId path_point_with_lane_id(
   double x, double y, uint8_t lane_id)
 {
-  autoware_internal::msg::PathPointWithLaneId point;
+  autoware_internal_planning_msgs::msg::PathPointWithLaneId point;
   point.point.pose.position.x = x;
   point.point.pose.position.y = y;
   point.lane_ids.emplace_back(lane_id);
@@ -37,7 +37,7 @@ int main()
   pybind11::scoped_interpreter guard{};
   auto plt = matplotlibcpp17::pyplot::import();
 
-  std::vector<autoware_internal::msg::PathPointWithLaneId> points{
+  std::vector<autoware_internal_planning_msgs::msg::PathPointWithLaneId> points{
     path_point_with_lane_id(0.41, 0.69, 0), path_point_with_lane_id(0.66, 1.09, 0),
     path_point_with_lane_id(0.93, 1.41, 0), path_point_with_lane_id(1.26, 1.71, 0),
     path_point_with_lane_id(1.62, 1.90, 0), path_point_with_lane_id(1.96, 1.98, 0),
@@ -56,7 +56,7 @@ int main()
   }
 
   const auto intervals = autoware::trajectory::find_intervals(
-    *trajectory, [](const autoware_internal::msg::PathPointWithLaneId & point) {
+    *trajectory, [](const autoware_internal_planning_msgs::msg::PathPointWithLaneId & point) {
       return point.lane_ids[0] == 1;
     });
 
