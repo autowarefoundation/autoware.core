@@ -16,6 +16,7 @@
 #include "autoware/trajectory/point.hpp"
 #include "autoware/trajectory/utils/closest.hpp"
 #include "autoware/trajectory/utils/crossed.hpp"
+#include "autoware/trajectory/utils/curvature_utils.hpp"
 #include "lanelet2_core/primitives/LineString.h"
 
 #include <geometry_msgs/msg/point.hpp>
@@ -132,6 +133,10 @@ int main()
       y.push_back(p.y);
     }
     plt.scatter(Args(x, y), Kwargs("label"_a = "Restored", "color"_a = "orange", "marker"_a = "x"));
+  }
+  {
+    auto max_curvature = autoware::trajectory::max_curvature(*trajectory);
+    std::cout << "Max curvature: " << max_curvature << std::endl;
   }
 
   plt.axis(Args("equal"));
