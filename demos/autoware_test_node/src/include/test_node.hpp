@@ -16,7 +16,6 @@
 #define TEST_NODE_HPP_
 
 #include <autoware/node/node.hpp>
-#include <rclcpp_lifecycle/lifecycle_node.hpp>
 
 namespace autoware::test_node
 {

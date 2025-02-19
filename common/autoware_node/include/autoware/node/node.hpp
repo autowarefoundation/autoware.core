@@ -17,24 +17,19 @@
 
 #include "autoware/node/visibility_control.hpp"
 
-#include <rclcpp_lifecycle/lifecycle_node.hpp>
+#include <rclcpp/node.hpp>
 
 #include <string>
 
 namespace autoware::node
 {
-using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
-
-class Node : public rclcpp_lifecycle::LifecycleNode
+class Node : public rclcpp::Node
 {
 public:
   AUTOWARE_NODE_PUBLIC
   explicit Node(
     const std::string & node_name, const std::string & ns = "",
     const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
-
-protected:
-  CallbackReturn on_shutdown(const rclcpp_lifecycle::State & state) override;
 };
 }  // namespace autoware::node
 
