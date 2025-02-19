@@ -50,7 +50,9 @@ std::unique_ptr<lanelet::Projector> get_lanelet2_projector(const MapProjectorInf
     const lanelet::Origin origin{position};
     const lanelet::projection::TransverseMercatorProjector projector{origin};
     return std::make_unique<lanelet::projection::TransverseMercatorProjector>(projector);
-  } else if (projector_info.projector_type == MapProjectorInfo::LOCAL_CARTESIAN) {
+  } 
+
+  if (projector_info.projector_type == MapProjectorInfo::LOCAL_CARTESIAN) {
     lanelet::GPSPoint position{
       projector_info.map_origin.latitude, projector_info.map_origin.longitude,
       projector_info.map_origin.altitude};
