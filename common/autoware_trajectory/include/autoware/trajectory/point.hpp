@@ -36,6 +36,9 @@ namespace autoware::trajectory
 template <>
 class Trajectory<geometry_msgs::msg::Point>
 {
+  template <class PointType>
+  friend class Trajectory;
+
   using PointType = geometry_msgs::msg::Point;
 
 protected:

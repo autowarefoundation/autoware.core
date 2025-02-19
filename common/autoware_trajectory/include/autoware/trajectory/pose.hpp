@@ -49,6 +49,9 @@ public:
   Trajectory & operator=(const Trajectory & rhs);
   Trajectory & operator=(Trajectory && rhs) = default;
 
+  // enable making trajectory from point trajectory
+  explicit Trajectory(const Trajectory<geometry_msgs::msg::Point> & point_trajectory);
+
   bool build(const std::vector<PointType> & points);
 
   /**
