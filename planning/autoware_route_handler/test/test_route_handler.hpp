@@ -15,20 +15,19 @@
 #ifndef TEST_ROUTE_HANDLER_HPP_
 #define TEST_ROUTE_HANDLER_HPP_
 
-#include <autoware_test_utils/autoware_test_utils.hpp>
-#include <autoware_test_utils/mock_data_parser.hpp>
-#include <gtest/gtest.h>
-
 #include <autoware/route_handler/route_handler.hpp>
 #include <autoware_lanelet2_extension/io/autoware_osm_parser.hpp>
 #include <autoware_lanelet2_extension/projection/mgrs_projector.hpp>
 #include <autoware_lanelet2_extension/utility/message_conversion.hpp>
 #include <autoware_lanelet2_extension/utility/utilities.hpp>
+#include <autoware_test_utils/autoware_test_utils.hpp>
+#include <autoware_test_utils/mock_data_parser.hpp>
 #include <rclcpp/clock.hpp>
 #include <rclcpp/logging.hpp>
 
 #include <autoware_map_msgs/msg/lanelet_map_bin.hpp>
 
+#include <gtest/gtest.h>
 #include <lanelet2_io/Io.h>
 
 #include <iostream>
