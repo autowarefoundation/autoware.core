@@ -29,6 +29,7 @@
 
 #include <algorithm>
 #include <limits>
+#include <numeric>
 #include <optional>
 #include <stdexcept>
 #include <string>
@@ -725,11 +726,19 @@ double calcSignedArcLength(const T & points, const size_t src_idx, const size_t 
     return -calcSignedArcLength(points, dst_idx, src_idx);
   }
 
-  double dist_sum = 0.0;
-  for (size_t i = src_idx; i < dst_idx; ++i) {
-    dist_sum += autoware_utils::calc_distance2d(points.at(i), points.at(i + 1));
+  if ((src_idx > points.size() - 1) || (dst_idx > points.size())) {
+    throw std::out_of_range(
+      "Out of bounds index received. point.size() = " + std::to_string(points.size()) +
+      ", src_idx = " + std::to_string(src_idx) + ", dst_idx = " + std::to_string(dst_idx));
   }
-  return dist_sum;
+  if (src_idx == points.size() - 1) {
+    return 0.0;
+  }
+  return std::accumulate(
+    std::next(points.begin(), src_idx), std::next(points.begin(), dst_idx), 0.0,
+    [](double sum, const auto & point) {
+      return sum + autoware_utils::calc_distance2d(point, *std::next(&point));
+    });
 }
 
 extern template double calcSignedArcLength<std::vector<autoware_planning_msgs::msg::PathPoint>>(
