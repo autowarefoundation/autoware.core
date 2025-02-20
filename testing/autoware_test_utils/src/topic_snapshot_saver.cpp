@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <autoware_test_utils/autoware_test_utils.hpp>
-#include <autoware_test_utils/mock_data_parser.hpp>
+#include "autoware_test_utils/autoware_test_utils.hpp"
+#include "autoware_test_utils/mock_data_parser.hpp"
 #include <rclcpp/logger.hpp>
 #include <rclcpp/rclcpp.hpp>
 
