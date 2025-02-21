@@ -9,7 +9,6 @@ set(msg_dependencies
   unique_identifier_msgs)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
-  "msg/Heartbeat.msg"
   "msg/NodeReport.msg"
   "msg/NodeReports.msg"
   "msg/NodeStatusActivity.msg"
