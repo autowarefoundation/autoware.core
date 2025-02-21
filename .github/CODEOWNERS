@@ -1,4 +1,5 @@
 ### Automatically generated from package.xml ###
+common/autoware_component_interface_specs/** isamu.takagi@tier4.jp ryohsuke.mitsudome@tier4.jp yukihiro.saito@tier4.jp @autowarefoundation/autoware-core-global-codeowners
 common/autoware_geography_utils/** anh.nguyen.2@tier4.jp masahiro.sakamoto@tier4.jp ryu.yamamoto@tier4.jp shintaro.sakoda@tier4.jp taiki.yamada@tier4.jp yamato.ando@tier4.jp @autowarefoundation/autoware-core-global-codeowners
 common/autoware_interpolation/** fumiya.watanabe@tier4.jp takayuki.murooka@tier4.jp @autowarefoundation/autoware-core-global-codeowners
 common/autoware_kalman_filter/** koji.minoda@tier4.jp takeshi.ishita@tier4.jp yukihiro.saito@tier4.jp @autowarefoundation/autoware-core-global-codeowners
@@ -11,6 +12,8 @@ common/autoware_trajectory/** mamoru.sobue@tier4.jp takayuki.murooka@tier4.jp yu
 demos/autoware_test_node/** mfc@autoware.org @autowarefoundation/autoware-core-global-codeowners
 localization/autoware_ekf_localizer/** anh.nguyen.2@tier4.jp kento.yabuuchi.2@tier4.jp masahiro.sakamoto@tier4.jp ryu.yamamoto@tier4.jp shintaro.sakoda@tier4.jp taiki.yamada@tier4.jp takamasa.horibe@tier4.jp takeshi.ishita@tier4.jp yamato.ando@tier4.jp @autowarefoundation/autoware-core-global-codeowners
 localization/autoware_localization_util/** anh.nguyen.2@tier4.jp kento.yabuuchi.2@tier4.jp lxg19892021@gmail.com masahiro.sakamoto@tier4.jp ryu.yamamoto@tier4.jp shintaro.sakoda@tier4.jp taiki.yamada@tier4.jp yamato.ando@tier4.jp @autowarefoundation/autoware-core-global-codeowners
+sensing/autoware_gnss_poser/** anh.nguyen.2@tier4.jp kento.yabuuchi.2@tier4.jp lxg19892021@gmail.com masahiro.sakamoto@tier4.jp ryu.yamamoto@tier4.jp shintaro.sakoda@tier4.jp taiki.yamada@tier4.jp yamato.ando@tier4.jp @autowarefoundation/autoware-core-global-codeowners
+testing/autoware_pyplot/** mamoru.sobue@tier4.jp yukinari.hisaki.2@tier4.jp @autowarefoundation/autoware-core-global-codeowners
 testing/autoware_testing/** adam.dabrowski@robotec.ai satoshi.ota@tier4.jp shumpei.wakabayashi@tier4.jp tomoya.kimura@tier4.jp @autowarefoundation/autoware-core-global-codeowners
 
 ### Copied from .github/CODEOWNERS-manual ###
