@@ -53,17 +53,17 @@ std::unique_ptr<lanelet::Projector> get_lanelet2_projector(const MapProjectorInf
   }
 
   if (projector_info.projector_type == MapProjectorInfo::LOCAL_CARTESIAN) {
-    lanelet::GPSPoint position{
+    const lanelet::GPSPoint position{
       projector_info.map_origin.latitude, projector_info.map_origin.longitude,
       projector_info.map_origin.altitude};
-    lanelet::Origin origin{position};
-    lanelet::projection::LocalCartesianProjector projector{origin};
+    const lanelet::Origin origin{position};
+    const lanelet::projection::LocalCartesianProjector projector{origin};
     return std::make_unique<lanelet::projection::LocalCartesianProjector>(projector);
   }
 
   throw std::invalid_argument(
     "Invalid map projector type: " + projector_info.projector_type +
-    ". Currently supported types: MGRS, LocalCartesianUTM, and TransverseMercator");
+    ". Currently supported types: MGRS, LocalCartesianUTM, LocalCartesian and TransverseMercator");
 }
 
 }  // namespace autoware::geography_utils
