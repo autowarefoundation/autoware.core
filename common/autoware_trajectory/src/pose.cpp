@@ -15,6 +15,7 @@
 #include "autoware/trajectory/pose.hpp"
 
 #include "autoware/trajectory/detail/helpers.hpp"
+#include "autoware/trajectory/forward.hpp"
 #include "autoware/trajectory/interpolator/spherical_linear.hpp"
 
 #include <tf2/LinearMath/Quaternion.h>
@@ -43,6 +44,32 @@ Trajectory<PointType> & Trajectory<PointType>::operator=(const Trajectory & rhs)
     orientation_interpolator_ = rhs.orientation_interpolator_->clone();
   }
   return *this;
+}
+
+Trajectory<PointType>::Trajectory(const Trajectory<geometry_msgs::msg::Point> & point_trajectory)
+: Trajectory()
+{
+  x_interpolator_ = point_trajectory.x_interpolator_->clone();
+  y_interpolator_ = point_trajectory.y_interpolator_->clone();
+  z_interpolator_ = point_trajectory.z_interpolator_->clone();
+  bases_ = point_trajectory.get_internal_bases();
+  start_ = point_trajectory.start_;
+  end_ = point_trajectory.end_;
+
+  // build mock orientations
+  std::vector<geometry_msgs::msg::Quaternion> orientations(bases_.size());
+  for (size_t i = 0; i < bases_.size(); ++i) {
+    orientations[i].w = 1.0;
+  }
+  bool success = orientation_interpolator_->build(bases_, orientations);
+
+  if (!success) {
+    throw std::runtime_error(
+      "Failed to build orientation interpolator.");  // This Exception should not be thrown.
+  }
+
+  // align orientation with trajectory direction
+  align_orientation_with_trajectory_direction();
 }
 
 bool Trajectory<PointType>::build(const std::vector<PointType> & points)

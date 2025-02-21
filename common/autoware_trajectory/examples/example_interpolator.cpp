@@ -35,6 +35,7 @@ int main()
   std::random_device seed_gen;
   std::mt19937 engine(seed_gen());
   std::uniform_real_distribution<> dist(-1.0, 1.0);
+  values.reserve(bases.size());
   for (size_t i = 0; i < bases.size(); ++i) {
     values.push_back(dist(engine));
   }

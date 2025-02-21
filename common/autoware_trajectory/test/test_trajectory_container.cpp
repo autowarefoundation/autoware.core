@@ -14,6 +14,7 @@
 #include "autoware/trajectory/path_point_with_lane_id.hpp"
 #include "autoware/trajectory/utils/closest.hpp"
 #include "autoware/trajectory/utils/crossed.hpp"
+#include "autoware/trajectory/utils/curvature_utils.hpp"
 #include "autoware/trajectory/utils/find_intervals.hpp"
 #include "lanelet2_core/primitives/LineString.h"
 
@@ -186,4 +187,10 @@ TEST_F(TrajectoryTest, find_interval)
   EXPECT_LT(0, intervals[0].start);
   EXPECT_LT(intervals[0].start, intervals[0].end);
   EXPECT_NEAR(intervals[0].end, trajectory->length(), 0.1);
+}
+
+TEST_F(TrajectoryTest, max_curvature)
+{
+  double max_curvature = autoware::trajectory::max_curvature(*trajectory);
+  EXPECT_LT(0, max_curvature);
 }
