@@ -1,0 +1,17 @@
+path_generator:
+  planning_hz:
+    type: double
+
+  path_length:
+    backward:
+      type: double
+
+    forward:
+      type: double
+
+  waypoint_group:
+    separation_threshold:
+      type: double
+
+    interval_margin_ratio:
+      type: double
