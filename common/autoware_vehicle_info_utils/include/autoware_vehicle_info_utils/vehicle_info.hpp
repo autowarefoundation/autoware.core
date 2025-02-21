@@ -13,7 +13,7 @@
 // limitations under the License.
 
 // this file is for backward compatibility
-// TODO: remove this file after the transition to the new vehicle info utils
+// TODO(NorahXiong): remove this file after the transition to the new vehicle info utils
 
 #ifndef AUTOWARE_VEHICLE_INFO_UTILS__VEHICLE_INFO_HPP_
 #define AUTOWARE_VEHICLE_INFO_UTILS__VEHICLE_INFO_HPP_
