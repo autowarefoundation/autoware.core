@@ -17,6 +17,7 @@
 #include <autoware_lanelet2_extension/projection/mgrs_projector.hpp>
 #include <autoware_lanelet2_extension/projection/transverse_mercator_projector.hpp>
 
+#include <lanelet2_projection/LocalCartesian.h>
 #include <lanelet2_projection/UTM.h>
 
 #include <memory>
@@ -51,9 +52,18 @@ std::unique_ptr<lanelet::Projector> get_lanelet2_projector(const MapProjectorInf
     return std::make_unique<lanelet::projection::TransverseMercatorProjector>(projector);
   }
 
+  if (projector_info.projector_type == MapProjectorInfo::LOCAL_CARTESIAN) {
+    const lanelet::GPSPoint position{
+      projector_info.map_origin.latitude, projector_info.map_origin.longitude,
+      projector_info.map_origin.altitude};
+    const lanelet::Origin origin{position};
+    const lanelet::projection::LocalCartesianProjector projector{origin};
+    return std::make_unique<lanelet::projection::LocalCartesianProjector>(projector);
+  }
+
   throw std::invalid_argument(
     "Invalid map projector type: " + projector_info.projector_type +
-    ". Currently supported types: MGRS, LocalCartesianUTM, and TransverseMercator");
+    ". Currently supported types: MGRS, LocalCartesianUTM, LocalCartesian and TransverseMercator");
 }
 
 }  // namespace autoware::geography_utils
