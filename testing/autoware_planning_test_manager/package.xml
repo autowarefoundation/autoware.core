@@ -15,7 +15,6 @@
   <buildtool_depend>autoware_cmake</buildtool_depend>
 
   <depend>autoware_component_interface_specs</depend>
-  <!-- <depend>autoware_component_interface_utils</depend> -->
   <depend>autoware_motion_utils</depend>
   <depend>autoware_planning_msgs</depend>
   <depend>autoware_test_utils</depend>
@@ -25,6 +24,7 @@
   <depend>tf2_ros</depend>
   <depend>unique_identifier_msgs</depend>
   <depend>yaml_cpp_vendor</depend>
+  <!-- <depend>autoware_component_interface_utils</depend> -->
 
   <test_depend>ament_cmake_ros</test_depend>
   <test_depend>ament_lint_auto</test_depend>
