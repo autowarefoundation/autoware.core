@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#ifndef UTILS_TEST_HPP_
+#define UTILS_TEST_HPP_
+
 #include "autoware/path_generator/utils.hpp"
 #include "autoware_test_utils/autoware_test_utils.hpp"
 #include "autoware_test_utils/mock_data_parser.hpp"
@@ -20,6 +23,8 @@
 #include <autoware_lanelet2_extension/utility/query.hpp>
 
 #include <gtest/gtest.h>
+
+#include <memory>
 
 namespace autoware::path_generator
 {
@@ -111,3 +116,5 @@ protected:
   autoware_internal_planning_msgs::msg::PathWithLaneId path_;
 };
 }  // namespace autoware::path_generator
+
+#endif  // UTILS_TEST_HPP_
