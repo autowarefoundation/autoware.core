@@ -18,10 +18,10 @@
 
 #include <autoware/motion_utils/resample/resample.hpp>
 #include <autoware/motion_utils/trajectory/trajectory.hpp>
-#include <autoware/universe_utils/geometry/geometry.hpp>
 #include <autoware_lanelet2_extension/utility/message_conversion.hpp>
 #include <autoware_lanelet2_extension/utility/query.hpp>
 #include <autoware_lanelet2_extension/utility/utilities.hpp>
+#include <autoware_utils/geometry/geometry.hpp>
 
 #include <lanelet2_core/geometry/Lanelet.h>
 
@@ -81,7 +81,7 @@ PathGenerator::InputData PathGenerator::take_data()
   InputData input_data;
 
   // route
-  if (const auto msg = route_subscriber_.takeData()) {
+  if (const auto msg = route_subscriber_.take_data()) {
     if (msg->segments.empty()) {
       RCLCPP_ERROR(get_logger(), "input route is empty, ignoring...");
     } else {
@@ -90,12 +90,12 @@ PathGenerator::InputData PathGenerator::take_data()
   }
 
   // map
-  if (const auto msg = vector_map_subscriber_.takeData()) {
+  if (const auto msg = vector_map_subscriber_.take_data()) {
     input_data.lanelet_map_bin_ptr = msg;
   }
 
   // velocity
-  if (const auto msg = odometry_subscriber_.takeData()) {
+  if (const auto msg = odometry_subscriber_.take_data()) {
     input_data.odometry_ptr = msg;
   }
 

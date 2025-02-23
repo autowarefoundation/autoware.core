@@ -18,8 +18,8 @@
 #include "autoware/path_generator/common_structs.hpp"
 
 #include <autoware/trajectory/path_point_with_lane_id.hpp>
-#include <autoware/universe_utils/ros/polling_subscriber.hpp>
 #include <autoware_path_generator/path_generator_parameters.hpp>
+#include <autoware_utils/ros/polling_subscriber.hpp>
 #include <autoware_vehicle_info_utils/vehicle_info_utils.hpp>
 
 #include <autoware_internal_planning_msgs/msg/path_with_lane_id.hpp>
@@ -53,13 +53,13 @@ private:
   };
 
   // subscriber
-  autoware::universe_utils::InterProcessPollingSubscriber<
-    LaneletRoute, universe_utils::polling_policy::Newest>
+  autoware_utils::InterProcessPollingSubscriber<
+    LaneletRoute, autoware_utils::polling_policy::Newest>
     route_subscriber_{this, "~/input/route", rclcpp::QoS{1}.transient_local()};
-  autoware::universe_utils::InterProcessPollingSubscriber<
-    LaneletMapBin, universe_utils::polling_policy::Newest>
+  autoware_utils::InterProcessPollingSubscriber<
+    LaneletMapBin, autoware_utils::polling_policy::Newest>
     vector_map_subscriber_{this, "~/input/vector_map", rclcpp::QoS{1}.transient_local()};
-  autoware::universe_utils::InterProcessPollingSubscriber<Odometry> odometry_subscriber_{
+  autoware_utils::InterProcessPollingSubscriber<Odometry> odometry_subscriber_{
     this, "~/input/odometry"};
 
   // publisher
