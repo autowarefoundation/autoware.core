@@ -17,6 +17,7 @@
 #include <autoware_lanelet2_extension/projection/transverse_mercator_projector.hpp>
 
 #include <gtest/gtest.h>
+#include <lanelet2_projection/LocalCartesian.h>
 #include <lanelet2_projection/UTM.h>
 
 #include <memory>
@@ -65,7 +66,7 @@ TEST(GeographyUtilsLanelet2Projector, GetLocalCartesianProjector)
     autoware::geography_utils::get_lanelet2_projector(projector_info);
 
   // Check if the returned projector is of type UtmProjector
-  EXPECT_NE(dynamic_cast<lanelet::projection::UtmProjector *>(projector.get()), nullptr);
+  EXPECT_NE(dynamic_cast<lanelet::projection::LocalCartesianProjector *>(projector.get()), nullptr);
 }
 
 TEST(GeographyUtilsLanelet2Projector, GetTransverseMercatorProjector)
