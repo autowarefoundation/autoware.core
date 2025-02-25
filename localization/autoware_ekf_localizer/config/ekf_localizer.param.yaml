@@ -28,7 +28,7 @@
 
     simple_1d_filter_parameters:
       #Simple1DFilter parameters
-      z_filter_proc_dev: 1.0
+      z_filter_proc_dev: 5.0
       roll_filter_proc_dev: 0.1
       pitch_filter_proc_dev: 0.1
 
