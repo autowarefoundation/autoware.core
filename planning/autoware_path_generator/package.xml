@@ -7,11 +7,13 @@
   <maintainer email="satoshi.ota@tier4.jp">Satoshi Ota</maintainer>
   <maintainer email="takayuki.murooka@tier4.jp">Takayuki Murooka</maintainer>
   <maintainer email="mitsuhiro.sakamoto@tier4.jp">Mitsuhiro Sakamoto</maintainer>
+  <maintainer email="kosuke.takeuchi@tier4.jp">Kosuke Takeuchi</maintainer>
   <license>Apache License 2.0</license>
 
   <author email="satoshi.ota@tier4.jp">Satoshi Ota</author>
   <author email="takayuki.murooka@tier4.jp">Takayuki Murooka</author>
   <author email="mitsuhiro.sakamoto@tier4.jp">Mitsuhiro Sakamoto</author>
+  <author email="kosuke.takeuchi@tier4.jp">Kosuke Takeuchi</author>
 
   <buildtool_depend>ament_cmake_auto</buildtool_depend>
   <buildtool_depend>autoware_cmake</buildtool_depend>

@@ -102,6 +102,30 @@ std::vector<std::pair<lanelet::ConstPoints3d, std::pair<double, double>>> get_wa
   const double group_separation_threshold, const double interval_margin_ratio);
 
 /**
+ * @brief get position of first self-intersection (point where return
+ * path intersects outward path) of lanelet sequence in arc length
+ * @param lanelet_sequence target lanelet sequence (both left and right bound are
+ * considered)
+ * @param s_start longitudinal distance of point to start searching for self-intersections
+ * @param s_end longitudinal distance of point to end search
+ * @return longitudinal distance of self-intersecting point (std::nullopt if no
+ * self-intersection)
+ */
+std::optional<double> get_first_self_intersection_arc_length(
+  const lanelet::LaneletSequence & lanelet_sequence, const double s_start, const double s_end);
+
+/**
+ * @brief get position of first self-intersection of line string in arc length
+ * @param line_string target line string
+ * @param s_start longitudinal distance of point to start searching for self-intersections
+ * @param s_end longitudinal distance of point to end search
+ * @return longitudinal distance of self-intersecting point (std::nullopt if no
+ * self-intersection)
+ */
+std::optional<double> get_first_self_intersection_arc_length(
+  const lanelet::BasicLineString2d & line_string, const double s_start, const double s_end);
+
+/**
  * @brief get bound of path cropped within specified range
  * @param lanelet_bound original bound of lanelet
  * @param lanelet_centerline centerline of lanelet

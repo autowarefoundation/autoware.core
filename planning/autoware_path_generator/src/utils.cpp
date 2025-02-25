@@ -20,6 +20,7 @@
 
 #include <lanelet2_core/geometry/Lanelet.h>
 
+#include <algorithm>
 #include <utility>
 #include <vector>
 
@@ -164,6 +165,50 @@ std::optional<lanelet::ConstLanelet> get_next_lanelet_within_route(
     return std::nullopt;
   }
   return *next_lanelet_itr;
+}
+
+std::optional<double> get_first_self_intersection_arc_length(
+  const lanelet::LaneletSequence & lanelet_sequence, const double s_start, const double s_end)
+{
+  const auto s_left = get_first_self_intersection_arc_length(
+    lanelet_sequence.leftBound2d().basicLineString(), s_start, s_end);
+  const auto s_right = get_first_self_intersection_arc_length(
+    lanelet_sequence.rightBound2d().basicLineString(), s_start, s_end);
+
+  if (s_left && s_right) {
+    return std::min(*s_left, *s_right);
+  }
+  return s_left ? s_left : s_right;
+}
+
+std::optional<double> get_first_self_intersection_arc_length(
+  const lanelet::BasicLineString2d & line_string, const double s_start, const double s_end)
+{
+  const auto tree = lanelet::geometry::internal::makeIndexedSegmenTree(line_string);
+  std::optional<std::pair<size_t, double>> last_intersection = std::nullopt;
+  auto s = 0.;
+
+  for (size_t i = 1; i < line_string.size() - 1; ++i) {
+    if (last_intersection && i == last_intersection->first) {
+      return s + last_intersection->second;
+    }
+    s += lanelet::geometry::distance2d(line_string.at(i - 1), line_string.at(i));
+    if (s < s_start) {
+      continue;
+    }
+    if (s > s_end) {
+      break;
+    }
+    const auto self_intersections = lanelet::geometry::internal::getSelfIntersectionsAt(
+      tree, 0, lanelet::BasicSegment2d{line_string.at(i - 1), line_string.at(i)});
+    if (self_intersections.empty()) {
+      continue;
+    }
+    last_intersection = {
+      self_intersections.front().lastSegment.idx, self_intersections.front().lastSegment.s};
+  }
+
+  return std::nullopt;
 }
 
 std::vector<std::pair<lanelet::ConstPoints3d, std::pair<double, double>>> get_waypoint_groups(
