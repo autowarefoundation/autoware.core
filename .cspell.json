@@ -2,6 +2,5 @@
   "_comment": "configuration file for spell-check workflow",
   "ignorePaths": [],
   "ignoreRegExpList": [],
-  // makeIndexedSegmenTree: temporary workaround until https://github.com/fzi-forschungszentrum-informatik/Lanelet2/pull/388 is merged
   "words": ["makeIndexedSegmenTree"]
 }
