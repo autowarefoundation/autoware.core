@@ -23,7 +23,11 @@
 class AutowareNodeInitShutdown : public ::testing::Test
 {
 public:
-  void SetUp() override { rclcpp::init(0, nullptr); }
+  void SetUp() override
+  {
+    rclcpp::init(0, nullptr);
+    node_options_an_.append_parameter_override("period_timer_register_ms", 100.0);
+  }
 
   void TearDown() override { rclcpp::shutdown(); }
 
