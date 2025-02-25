@@ -21,6 +21,8 @@
 #include <autoware_vehicle_msgs/msg/turn_indicators_command.hpp>
 
 #include <optional>
+#include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
