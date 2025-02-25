@@ -8,10 +8,10 @@ The `simple_pure_pursuit` node receives a reference trajectory from `motion_velo
 
 ## Input topics
 
-| Name                 | Type                                        | Description                      |
-| :------------------- | :------------------------------------------ | :------------------------------- |
-| `~/input/odometry`   | `nav_msgs::msg::Odometry`                   | ego odometry                     |
-| `~/input/trajectory` | `autoware_planning_msgs::msg::Trajectory`   | reference trajectory             |
+| Name                 | Type                                      | Description          |
+| :------------------- | :---------------------------------------- | :------------------- |
+| `~/input/odometry`   | `nav_msgs::msg::Odometry`                 | ego odometry         |
+| `~/input/trajectory` | `autoware_planning_msgs::msg::Trajectory` | reference trajectory |
 
 ## Output topics
 
