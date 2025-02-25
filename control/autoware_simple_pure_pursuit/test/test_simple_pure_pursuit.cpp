@@ -19,6 +19,8 @@
 
 #include <gtest/gtest.h>
 
+#include <memory>
+
 namespace autoware::control::simple_pure_pursuit
 {
 Odometry makeOdometry(const double x, const double y, const double yaw)

@@ -15,7 +15,7 @@
 #include "simple_pure_pursuit.hpp"
 
 #include <autoware/motion_utils/trajectory/trajectory.hpp>
-#include <autoware/universe_utils/geometry/pose_deviation.hpp>
+#include <autoware_utils/geometry/pose_deviation.hpp>
 
 #include <tf2/utils.h>
 
@@ -24,8 +24,8 @@
 namespace autoware::control::simple_pure_pursuit
 {
 using autoware::motion_utils::findNearestIndex;
-using autoware::universe_utils::calcLateralDeviation;
-using autoware::universe_utils::calcYawDeviation;
+using autoware_utils::calcLateralDeviation;
+using autoware_utils::calcYawDeviation;
 
 SimplePurePursuitNode::SimplePurePursuitNode(const rclcpp::NodeOptions & node_options)
 : Node("simple_pure_pursuit", node_options),
