@@ -29,6 +29,8 @@ using autoware::universe_utils::calcYawDeviation;
 
 SimplePurePursuitNode::SimplePurePursuitNode(const rclcpp::NodeOptions & node_options)
 : Node("simple_pure_pursuit", node_options),
+  pub_control_command_(
+    create_publisher<autoware_control_msgs::msg::Control>("~/output/control_command", 1)),
   vehicle_info_(autoware::vehicle_info_utils::VehicleInfoUtils(*this).getVehicleInfo()),
   lookahead_gain_(declare_parameter<float>("lookahead_gain")),
   lookahead_min_distance_(declare_parameter<float>("lookahead_min_distance")),
@@ -36,9 +38,6 @@ SimplePurePursuitNode::SimplePurePursuitNode(const rclcpp::NodeOptions & node_op
   use_external_target_vel_(declare_parameter<bool>("use_external_target_vel")),
   external_target_vel_(declare_parameter<float>("external_target_vel"))
 {
-  pub_control_command_ =
-    create_publisher<autoware_control_msgs::msg::Control>("~/output/control_command", 1);
-
   using namespace std::literals::chrono_literals;
   timer_ = rclcpp::create_timer(
     this, get_clock(), 30ms, std::bind(&SimplePurePursuitNode::on_timer, this));
