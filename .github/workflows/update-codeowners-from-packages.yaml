@@ -34,6 +34,6 @@ jobs:
           pr-labels: |
             tag:bot
             tag:update-codeowners-from-packages
-            tag:run:build-and-test-differential
+            run:build-and-test-differential
           auto-merge-method: squash
           global-codeowners: "@autowarefoundation/autoware-core-global-codeowners"
