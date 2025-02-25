@@ -52,6 +52,22 @@ TEST(GeographyUtilsLanelet2Projector, GetLocalCartesianUTMProjector)
   EXPECT_NE(dynamic_cast<lanelet::projection::UtmProjector *>(projector.get()), nullptr);
 }
 
+TEST(GeographyUtilsLanelet2Projector, GetLocalCartesianProjector)
+{
+  autoware_map_msgs::msg::MapProjectorInfo projector_info;
+  projector_info.projector_type = autoware_map_msgs::msg::MapProjectorInfo::LOCAL_CARTESIAN;
+  projector_info.vertical_datum = autoware_map_msgs::msg::MapProjectorInfo::WGS84;
+  projector_info.map_origin.latitude = 35.62426;
+  projector_info.map_origin.longitude = 139.74252;
+  projector_info.map_origin.altitude = 0.0;
+
+  std::unique_ptr<lanelet::Projector> projector =
+    autoware::geography_utils::get_lanelet2_projector(projector_info);
+
+  // Check if the returned projector is of type UtmProjector
+  EXPECT_NE(dynamic_cast<lanelet::projection::UtmProjector *>(projector.get()), nullptr);
+}
+
 TEST(GeographyUtilsLanelet2Projector, GetTransverseMercatorProjector)
 {
   autoware_map_msgs::msg::MapProjectorInfo projector_info;
