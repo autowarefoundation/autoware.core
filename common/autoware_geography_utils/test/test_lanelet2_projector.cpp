@@ -65,7 +65,7 @@ TEST(GeographyUtilsLanelet2Projector, GetLocalCartesianProjector)
   std::unique_ptr<lanelet::Projector> projector =
     autoware::geography_utils::get_lanelet2_projector(projector_info);
 
-  // Check if the returned projector is of type UtmProjector
+  // Check if the returned projector is of type LocalCartesianProjector
   EXPECT_NE(dynamic_cast<lanelet::projection::LocalCartesianProjector *>(projector.get()), nullptr);
 }
 
