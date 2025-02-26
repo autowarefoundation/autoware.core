@@ -17,6 +17,7 @@ planning/autoware_objects_of_interest_marker_interface/** fumiya.watanabe@tier4.
 planning/autoware_path_generator/** mitsuhiro.sakamoto@tier4.jp satoshi.ota@tier4.jp takayuki.murooka@tier4.jp @autowarefoundation/autoware-core-global-codeowners
 sensing/autoware_gnss_poser/** anh.nguyen.2@tier4.jp kento.yabuuchi.2@tier4.jp lxg19892021@gmail.com masahiro.sakamoto@tier4.jp ryu.yamamoto@tier4.jp shintaro.sakoda@tier4.jp taiki.yamada@tier4.jp yamato.ando@tier4.jp @autowarefoundation/autoware-core-global-codeowners
 testing/autoware_pyplot/** mamoru.sobue@tier4.jp yukinari.hisaki.2@tier4.jp @autowarefoundation/autoware-core-global-codeowners
+testing/autoware_test_utils/** egon.kang@autocore.ai kyoichi.sugahara@tier4.jp mamoru.sobue@tier4.jp takamasa.horibe@tier4.jp yukinari.hisaki.2@tier4.jp zulfaqar.azmi@tier4.jp @autowarefoundation/autoware-core-global-codeowners
 testing/autoware_testing/** adam.dabrowski@robotec.ai satoshi.ota@tier4.jp shumpei.wakabayashi@tier4.jp tomoya.kimura@tier4.jp @autowarefoundation/autoware-core-global-codeowners
 
 ### Copied from .github/CODEOWNERS-manual ###
