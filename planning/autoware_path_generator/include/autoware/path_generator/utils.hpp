@@ -163,7 +163,8 @@ bool set_goal(
  * @param [in] goal original goal pose
  * @param [in] goal_lanelet lanelet containing the goal pose
  */
-const geometry_msgs::msg::Pose refine_goal(const geometry_msgs::msg::Pose & goal, const lanelet::ConstLanelet & goal_lanelet);
+const geometry_msgs::msg::Pose refine_goal(
+  const geometry_msgs::msg::Pose & goal, const lanelet::ConstLanelet & goal_lanelet);
 
 /**
  * @brief Recreate the path with a given goal pose.
@@ -219,8 +220,7 @@ bool is_path_valid(
  * @return Modified path
  */
 PathWithLaneId modify_path_for_smooth_goal_connection(
-  const PathWithLaneId & path, const std::shared_ptr<const PlannerData> & planner_data
-);
+  const PathWithLaneId & path, const std::shared_ptr<const PlannerData> & planner_data);
 
 }  // namespace utils
 }  // namespace autoware::path_generator

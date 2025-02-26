@@ -99,8 +99,7 @@ std::optional<size_t> find_index_out_of_goal_search_range(
     for (size_t i = 0; i < points.size(); ++i) {
       const auto & lane_ids = points.at(i).lane_ids;
 
-      const double dist_to_goal =
-        autoware_utils::calc_distance2d(points.at(i).point.pose, goal);
+      const double dist_to_goal = autoware_utils::calc_distance2d(points.at(i).point.pose, goal);
       const bool is_goal_lane_id_in_point =
         std::find(lane_ids.begin(), lane_ids.end(), goal_lane_id) != lane_ids.end();
       if (dist_to_goal < max_dist && dist_to_goal < min_dist && is_goal_lane_id_in_point) {
@@ -416,8 +415,8 @@ bool set_goal(
       autoware_utils::calc_offset_pose(goal, goal_to_pre_goal_distance, 0.0, 0.0);
     const size_t closest_seg_idx_for_pre_goal =
       find_nearest_segment_index(input.points, pre_refined_goal.point.pose, 3.0, M_PI_4);
-    pre_refined_goal.point.pose.position.z =
-      calc_interpolated_z(input, pre_refined_goal.point.pose.position, closest_seg_idx_for_pre_goal);
+    pre_refined_goal.point.pose.position.z = calc_interpolated_z(
+      input, pre_refined_goal.point.pose.position, closest_seg_idx_for_pre_goal);
     pre_refined_goal.point.longitudinal_velocity_mps =
       calc_interpolated_velocity(input, closest_seg_idx_for_pre_goal);
 
@@ -466,7 +465,8 @@ bool set_goal(
   }
 }
 
-const geometry_msgs::msg::Pose refine_goal(const geometry_msgs::msg::Pose & goal, const lanelet::ConstLanelet & goal_lanelet)
+const geometry_msgs::msg::Pose refine_goal(
+  const geometry_msgs::msg::Pose & goal, const lanelet::ConstLanelet & goal_lanelet)
 {
   const auto lanelet_point = lanelet::utils::conversion::toLaneletPoint(goal.position);
   const double distance = boost::geometry::distance(
@@ -526,8 +526,7 @@ PathWithLaneId refine_path_for_goal(
 }
 
 lanelet::ConstLanelets extract_lanelets_from_path(
-  const PathWithLaneId & refined_path,
-  const std::shared_ptr<const PlannerData> & planner_data)
+  const PathWithLaneId & refined_path, const std::shared_ptr<const PlannerData> & planner_data)
 {
   lanelet::ConstLanelets refined_path_lanelets;
   for (size_t i = 0; i < refined_path.points.size(); ++i) {
@@ -567,8 +566,7 @@ bool is_in_lanelets(const geometry_msgs::msg::Pose & pose, const lanelet::ConstL
 }
 
 bool is_path_valid(
-  const PathWithLaneId & refined_path,
-  const std::shared_ptr<const PlannerData> & planner_data)
+  const PathWithLaneId & refined_path, const std::shared_ptr<const PlannerData> & planner_data)
 {
   const auto lanelets = extract_lanelets_from_path(refined_path, planner_data);
   // std::any_of detects whether any point lies outside lanelets
@@ -581,8 +579,7 @@ bool is_path_valid(
 }
 
 PathWithLaneId modify_path_for_smooth_goal_connection(
-  const PathWithLaneId & path, const std::shared_ptr<const PlannerData> & planner_data
-)
+  const PathWithLaneId & path, const std::shared_ptr<const PlannerData> & planner_data)
 {
   const auto goal = planner_data->goal_pose;
   const auto goal_lane_id = planner_data->goal_lane_id;
@@ -598,7 +595,8 @@ PathWithLaneId modify_path_for_smooth_goal_connection(
       refined_goal = goal;
     }
   }
-  double goal_search_radius{planner_data->path_generator_parameters.refine_goal_search_radius_range};
+  double goal_search_radius{
+    planner_data->path_generator_parameters.refine_goal_search_radius_range};
 
   // TODO(shen): define in the parameter
   constexpr double range_reduce_by{1.0};  // set a reasonable value, 10% - 20% of the
