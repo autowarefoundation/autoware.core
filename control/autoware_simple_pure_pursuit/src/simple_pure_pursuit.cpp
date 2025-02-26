@@ -24,8 +24,6 @@
 namespace autoware::control::simple_pure_pursuit
 {
 using autoware::motion_utils::findNearestIndex;
-using autoware_utils::calcLateralDeviation;
-using autoware_utils::calcYawDeviation;
 
 SimplePurePursuitNode::SimplePurePursuitNode(const rclcpp::NodeOptions & node_options)
 : Node("simple_pure_pursuit", node_options),
@@ -46,8 +44,8 @@ SimplePurePursuitNode::SimplePurePursuitNode(const rclcpp::NodeOptions & node_op
 void SimplePurePursuitNode::on_timer()
 {
   // 1. subscribe data
-  const auto odom_ptr = odom_sub_.takeData();
-  const auto traj_ptr = traj_sub_.takeData();
+  const auto odom_ptr = odom_sub_.take_data();
+  const auto traj_ptr = traj_sub_.take_data();
   if (!odom_ptr || !traj_ptr) {
     return;
   }
