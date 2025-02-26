@@ -155,7 +155,6 @@ std::vector<geometry_msgs::msg::Point> get_path_bound(
  * @param current_vel current longitudinal velocity of ego vehicle
  * @param search_distance base search distance
  * @param search_time time to extend search distance
- * @param resampling_interval resampling interval for required end point determination
  * @param angle_threshold_deg angle threshold for required end point determination
  * @param base_link_to_front distance from base link to front of ego vehicle
  * @return turn signal
@@ -163,19 +162,18 @@ std::vector<geometry_msgs::msg::Point> get_path_bound(
 TurnIndicatorsCommand get_turn_signal(
   const PathWithLaneId & path, const PlannerData & planner_data,
   const geometry_msgs::msg::Pose & current_pose, const double current_vel,
-  const double search_distance, const double search_time, const double resampling_interval,
-  const double angle_threshold_deg, const double base_link_to_front);
+  const double search_distance, const double search_time, const double angle_threshold_deg,
+  const double base_link_to_front);
 
 /**
  * @brief get required end point for turn signal activation
  * @param lanelet target lanelet
- * @param resampling_interval centerline resampling interval
  * @param angle_threshold_deg  yaw angle difference threshold
  * @return required end point
  */
-lanelet::ConstPoint2d get_turn_signal_required_end_point(
-  const lanelet::ConstLanelet & lanelet, const double resampling_interval,
-  const double angle_threshold_deg);
+
+std::optional<lanelet::ConstPoint2d> get_turn_signal_required_end_point(
+  const lanelet::ConstLanelet & lanelet, const double angle_threshold_deg);
 }  // namespace utils
 }  // namespace autoware::path_generator
 
