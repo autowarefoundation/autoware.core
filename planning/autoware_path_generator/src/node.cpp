@@ -46,6 +46,10 @@ namespace autoware::path_generator
 PathGenerator::PathGenerator(const rclcpp::NodeOptions & node_options)
 : Node("path_generator", node_options)
 {
+  // Initialize path_generator_parameters
+  planner_data_.path_generator_parameters.refine_goal_search_radius_range =
+    declare_parameter<double>("refine_goal_search_radius_range");
+
   param_listener_ =
     std::make_shared<::path_generator::ParamListener>(this->get_node_parameters_interface());
 
@@ -143,6 +147,8 @@ void PathGenerator::set_route(const LaneletRoute::ConstSharedPtr & route_ptr)
     }
   }
 
+  planner_data_.goal_lane_id = route_ptr->segments.back().preferred_primitive.id;
+
   const auto set_lanelets_from_segment =
     [&](
       const autoware_planning_msgs::msg::LaneletSegment & segment,
@@ -195,7 +201,11 @@ std::optional<PathWithLaneId> PathGenerator::plan_path(const InputData & input_d
     return std::nullopt;
   }
 
-  return path;
+  // Make the path smooth
+  auto planner_data_ptr = std::make_shared<const PlannerData>(planner_data_);
+  const auto smooth_path = utils::modify_path_for_smooth_goal_connection(*path, planner_data_ptr);
+
+  return smooth_path;
 }
 
 std::optional<PathWithLaneId> PathGenerator::generate_path(

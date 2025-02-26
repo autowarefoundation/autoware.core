@@ -137,6 +137,91 @@ std::vector<geometry_msgs::msg::Point> get_path_bound(
   const lanelet::CompoundLineString2d & lanelet_bound,
   const lanelet::CompoundLineString2d & lanelet_centerline, const double s_start,
   const double s_end);
+
+/**
+ * @brief Modify the path points near the goal to smoothly connect the input path and the goal
+ * point
+ * @details Remove the path points that are forward from the goal by the distance of
+ * search_radius_range. Then insert the goal into the path. The previous goal point generated
+ * from the goal posture information is also inserted for the smooth connection of the goal pose.
+ * @param [in] search_radius_range distance on path to be modified for goal insertion
+ * @param [in] search_rad_range [unused]
+ * @param [in] input original path
+ * @param [in] goal original goal pose
+ * @param [in] goal_lane_id [unused]
+ * @param [in] output_ptr output path with modified points for the goal
+ */
+bool set_goal(
+  const double search_radius_range, const double search_rad_range, const PathWithLaneId & input,
+  const geometry_msgs::msg::Pose & goal, const int64_t goal_lane_id, PathWithLaneId * output_ptr);
+
+/**
+ * @brief Recreate the goal pose to prevent the goal point being too far from the lanelet, which
+ *  causes the path to twist near the goal.
+ * @details Return the goal point projected on the straight line of the segment of lanelet
+ *  closest to the original goal.
+ * @param [in] goal original goal pose
+ * @param [in] goal_lanelet lanelet containing the goal pose
+ */
+const geometry_msgs::msg::Pose refine_goal(const geometry_msgs::msg::Pose & goal, const lanelet::ConstLanelet & goal_lanelet);
+
+/**
+ * @brief Recreate the path with a given goal pose.
+ * @param search_radius_range Searching radius.
+ * @param search_rad_range Searching angle.
+ * @param input Input path.
+ * @param goal Goal pose.
+ * @param goal_lane_id Lane ID of goal lanelet.
+ * @return Recreated path
+ */
+PathWithLaneId refine_path_for_goal(
+  const double search_radius_range, const double search_rad_range, const PathWithLaneId & input,
+  const geometry_msgs::msg::Pose & goal, const int64_t goal_lane_id);
+
+/**
+ * @brief Extract lanelets from the path.
+ * @param path Input path.
+ * @param planner_data Planner data.
+ * @return Extracted lanelets
+ */
+lanelet::ConstLanelets extract_lanelets_from_path(
+  const PathWithLaneId & refined_path, const std::shared_ptr<const PlannerData> & planner_data);
+
+/**
+ * @brief Get the goal lanelet.
+ * @param planner_data Planner data.
+ * @param goal_lanelet Goal lanelet.
+ * @return True if the goal lanelet is found, false otherwise
+ */
+bool get_goal_lanelet(const PlannerData & planner_data, lanelet::ConstLanelet * goal_lanelet);
+
+/**
+ * @brief Check if the pose is in the lanelets.
+ * @param pose Pose.
+ * @param lanes Lanelets.
+ * @return True if the pose is in the lanelets, false otherwise
+ */
+bool is_in_lanelets(const geometry_msgs::msg::Pose & pose, const lanelet::ConstLanelets & lanes);
+
+/**
+ * @brief Check if the path is valid.
+ * @param refined_path Input path.
+ * @param planner_data Planner data.
+ * @return True if the path is valid, false otherwise
+ */
+bool is_path_valid(
+  const PathWithLaneId & refined_path, const std::shared_ptr<const PlannerData> & planner_data);
+
+/**
+ * @brief Modify the path to connect smoothly to the goal.
+ * @param path Input path.
+ * @param planner_data Planner data.
+ * @return Modified path
+ */
+PathWithLaneId modify_path_for_smooth_goal_connection(
+  const PathWithLaneId & path, const std::shared_ptr<const PlannerData> & planner_data
+);
+
 }  // namespace utils
 }  // namespace autoware::path_generator
 

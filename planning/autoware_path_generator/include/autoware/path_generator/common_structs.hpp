@@ -24,6 +24,12 @@
 
 namespace autoware::path_generator
 {
+
+struct PathGeneratorParameters
+{
+  double refine_goal_search_radius_range;
+};
+
 struct PlannerData
 {
   lanelet::LaneletMapPtr lanelet_map_ptr{nullptr};
@@ -37,6 +43,10 @@ struct PlannerData
   lanelet::ConstLanelets preferred_lanelets{};
   lanelet::ConstLanelets start_lanelets{};
   lanelet::ConstLanelets goal_lanelets{};
+
+  PathGeneratorParameters path_generator_parameters{};
+
+  lanelet::Id goal_lane_id{};
 };
 }  // namespace autoware::path_generator
 
