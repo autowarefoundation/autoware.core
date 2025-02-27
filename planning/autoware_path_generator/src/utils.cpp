@@ -411,9 +411,7 @@ std::optional<lanelet::ConstPoint2d> get_turn_signal_required_end_point(
 
   auto centerline =
     autoware::trajectory::Trajectory<geometry_msgs::msg::Pose>::Builder{}.build(centerline_poses);
-  if (!centerline) {
-    return std::nullopt;
-  }
+  if (!centerline) return std::nullopt;
   centerline->align_orientation_with_trajectory_direction();
 
   const auto terminal_yaw = tf2::getYaw(centerline->compute(centerline->length()).orientation);
