@@ -71,7 +71,7 @@ ros2 launch autoware_test_utils psim_intersection.launch.xml vehicle_model:=<> s
 
 ### Autoware Planning Test Manager
 
-The goal of the [Autoware Planning Test Manager](https://autowarefoundation.github.io/autoware.universe/main/planning/autoware_planning_test_manager/) is to test planning module nodes. The `PlanningInterfaceTestManager` class ([source code](https://github.com/autowarefoundation/autoware.universe/blob/main/planning/autoware_planning_test_manager/src/autoware_planning_test_manager.cpp)) creates wrapper functions based on the `test_utils` functions.
+The goal of the [Autoware Planning Test Manager](https://autowarefoundation.github.io/autoware.core/main/testing/autoware_planning_test_manager/) is to test planning module nodes. The `PlanningInterfaceTestManager` class ([source code](https://github.com/autowarefoundation/autoware.core/blob/main/testing/autoware_planning_test_manager/src/autoware_planning_test_manager.cpp)) creates wrapper functions based on the `test_utils` functions.
 
 ### Generate test data for unit testing
 
