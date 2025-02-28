@@ -392,7 +392,6 @@ std::vector<geometry_msgs::msg::Point> get_path_bound(
   return path_bound;
 }
 
-<<<<<<< HEAD
 // goal does not have z
 bool set_goal(
   const double search_radius_range, [[maybe_unused]] const double search_rad_range,
@@ -621,7 +620,8 @@ PathWithLaneId modify_path_for_smooth_goal_connection(
     goal_search_radius -= range_reduce_by;
   }
   return refined_path;
-=======
+}
+
 TurnIndicatorsCommand get_turn_signal(
   const PathWithLaneId & path, const PlannerData & planner_data,
   const geometry_msgs::msg::Pose & current_pose, const double current_vel,
@@ -746,7 +746,6 @@ std::optional<lanelet::ConstPoint2d> get_turn_signal_required_end_point(
 
   return lanelet::utils::conversion::toLaneletPoint(
     centerline->compute(intervals.front().start).position);
->>>>>>> main
 }
 }  // namespace utils
 }  // namespace autoware::path_generator
