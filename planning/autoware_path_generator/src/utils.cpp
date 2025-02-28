@@ -576,7 +576,7 @@ bool is_path_valid(
 {
   const auto lanelets = extract_lanelets_from_path(refined_path, planner_data);
   // std::any_of detects whether any point lies outside lanelets
-  bool has_points_outside_lanelet = std::any_of(
+  const bool has_points_outside_lanelet = std::any_of(
     refined_path.points.begin(), refined_path.points.end(),
     [&lanelets](const auto & refined_path_point) {
       return !is_in_lanelets(refined_path_point.point.pose, lanelets);
