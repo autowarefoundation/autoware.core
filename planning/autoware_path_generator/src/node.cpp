@@ -53,9 +53,11 @@ PathGenerator::PathGenerator(const rclcpp::NodeOptions & node_options)
     declare_parameter<double>("search_radius_decrement");
 
   // Ensure that the refine_goal_search_radius_range and search_radius_decrement must be positive
-  if (planner_data_.path_generator_parameters.refine_goal_search_radius_range <= 0 ||
-      planner_data_.path_generator_parameters.search_radius_decrement <= 0) {
-    throw std::runtime_error("refine_goal_search_radius_range and search_radius_decrement must be positive");
+  if (
+    planner_data_.path_generator_parameters.refine_goal_search_radius_range <= 0 ||
+    planner_data_.path_generator_parameters.search_radius_decrement <= 0) {
+    throw std::runtime_error(
+      "refine_goal_search_radius_range and search_radius_decrement must be positive");
   }
 
   param_listener_ =

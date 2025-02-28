@@ -63,8 +63,8 @@ std::optional<double> calc_interpolated_z(
     const double next_z = input.points.at(seg_idx + 1).point.pose.position.z;
 
     return std::abs(seg_dist) < 1e-6
-      ? next_z
-      : closest_z + (next_z - closest_z) * closest_to_target_dist / seg_dist;
+             ? next_z
+             : closest_z + (next_z - closest_z) * closest_to_target_dist / seg_dist;
 
   } catch (const std::exception & e) {
     return std::nullopt;
@@ -344,7 +344,8 @@ std::vector<geometry_msgs::msg::Point> get_path_bound(
 }
 
 std::optional<PathWithLaneId> set_goal(
-  const double search_radius_range, const PathWithLaneId & input, const geometry_msgs::msg::Pose & goal)
+  const double search_radius_range, const PathWithLaneId & input,
+  const geometry_msgs::msg::Pose & goal)
 {
   try {
     if (input.points.empty()) {
@@ -381,7 +382,9 @@ std::optional<PathWithLaneId> set_goal(
       autoware::motion_utils::findFirstNearestIndexWithSoftConstraints(
         input.points, pre_refined_goal.point.pose, 3.0, M_PI_4);
 
-    if (auto z = calc_interpolated_z(input, pre_refined_goal.point.pose.position, closest_seg_idx_for_pre_goal)) {
+    if (
+      auto z = calc_interpolated_z(
+        input, pre_refined_goal.point.pose.position, closest_seg_idx_for_pre_goal)) {
       pre_refined_goal.point.pose.position.z = *z;
     } else {
       return std::nullopt;
@@ -425,8 +428,7 @@ std::optional<PathWithLaneId> set_goal(
 
   } catch (std::out_of_range & ex) {
     RCLCPP_ERROR_STREAM(
-      rclcpp::get_logger("path_generator").get_child("utils"),
-      "failed to set goal: " << ex.what());
+      rclcpp::get_logger("path_generator").get_child("utils"), "failed to set goal: " << ex.what());
     return std::nullopt;
   }
 }
@@ -476,7 +478,8 @@ const geometry_msgs::msg::Pose refine_goal(
 }
 
 PathWithLaneId refine_path_for_goal(
-  const double search_radius_range, const PathWithLaneId & input, const geometry_msgs::msg::Pose & goal)
+  const double search_radius_range, const PathWithLaneId & input,
+  const geometry_msgs::msg::Pose & goal)
 {
   PathWithLaneId filtered_path = input;
   filtered_path.points = autoware::motion_utils::removeOverlapPoints(filtered_path.points);
