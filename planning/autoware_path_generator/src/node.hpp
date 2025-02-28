@@ -25,6 +25,7 @@
 #include <autoware_internal_planning_msgs/msg/path_with_lane_id.hpp>
 #include <autoware_map_msgs/msg/lanelet_map_bin.hpp>
 #include <autoware_planning_msgs/msg/lanelet_route.hpp>
+#include <autoware_vehicle_msgs/msg/turn_indicators_command.hpp>
 #include <nav_msgs/msg/odometry.hpp>
 
 #include <memory>
@@ -35,6 +36,7 @@ using autoware_internal_planning_msgs::msg::PathPointWithLaneId;
 using autoware_internal_planning_msgs::msg::PathWithLaneId;
 using autoware_map_msgs::msg::LaneletMapBin;
 using autoware_planning_msgs::msg::LaneletRoute;
+using autoware_vehicle_msgs::msg::TurnIndicatorsCommand;
 using nav_msgs::msg::Odometry;
 using ::path_generator::Params;
 using Trajectory = autoware::trajectory::Trajectory<PathPointWithLaneId>;
@@ -64,6 +66,7 @@ private:
 
   // publisher
   rclcpp::Publisher<PathWithLaneId>::SharedPtr path_publisher_;
+  rclcpp::Publisher<TurnIndicatorsCommand>::SharedPtr turn_signal_publisher_;
 
   rclcpp::TimerBase::SharedPtr timer_;
 
@@ -82,7 +85,7 @@ private:
 
   bool is_data_ready(const InputData & input_data);
 
-  std::optional<PathWithLaneId> plan_path(const InputData & input_data);
+  std::optional<PathWithLaneId> plan_path(const InputData & input_data, const Params & params);
 
   std::optional<PathWithLaneId> generate_path(
     const geometry_msgs::msg::Pose & current_pose, const Params & params) const;
