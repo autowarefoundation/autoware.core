@@ -14,7 +14,7 @@
 
 #include "utils_test.hpp"
 
-#include <autoware/universe_utils/geometry/geometry.hpp>
+#include <autoware_utils/geometry/geometry.hpp>
 
 #include <gtest/gtest.h>
 
