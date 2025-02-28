@@ -43,23 +43,32 @@ bool exists(const std::vector<T> & vec, const T & item)
   return std::find(vec.begin(), vec.end(), item) != vec.end();
 }
 
-double calc_interpolated_z(
+std::optional<double> calc_interpolated_z(
   const autoware_internal_planning_msgs::msg::PathWithLaneId & input,
   const geometry_msgs::msg::Point target_pos, const size_t seg_idx)
 {
-  const double closest_to_target_dist = autoware::motion_utils::calcSignedArcLength(
-    input.points, input.points.at(seg_idx).point.pose.position,
-    target_pos);  // TODO(murooka) implement calcSignedArcLength(points, idx, point)
-  const double seg_dist =
-    autoware::motion_utils::calcSignedArcLength(input.points, seg_idx, seg_idx + 1);
+  // Check if input is empty or seg_idx is invalid
+  if (input.points.empty() || seg_idx >= input.points.size() - 1) {
+    return std::nullopt;
+  }
 
-  const double closest_z = input.points.at(seg_idx).point.pose.position.z;
-  const double next_z = input.points.at(seg_idx + 1).point.pose.position.z;
-  const double interpolated_z =
-    std::abs(seg_dist) < 1e-6
+  try {
+    const double closest_to_target_dist = autoware::motion_utils::calcSignedArcLength(
+      input.points, input.points.at(seg_idx).point.pose.position, target_pos);
+
+    const double seg_dist =
+      autoware::motion_utils::calcSignedArcLength(input.points, seg_idx, seg_idx + 1);
+
+    const double closest_z = input.points.at(seg_idx).point.pose.position.z;
+    const double next_z = input.points.at(seg_idx + 1).point.pose.position.z;
+
+    return std::abs(seg_dist) < 1e-6
       ? next_z
       : closest_z + (next_z - closest_z) * closest_to_target_dist / seg_dist;
-  return interpolated_z;
+
+  } catch (const std::exception & e) {
+    return std::nullopt;
+  }
 }
 
 double calc_interpolated_velocity(
@@ -72,64 +81,6 @@ double calc_interpolated_velocity(
   const double next_vel = input.points.at(seg_idx + 1).point.longitudinal_velocity_mps;
   const double interpolated_vel = std::abs(seg_dist) < 1e-06 ? next_vel : closest_vel;
   return interpolated_vel;
-}
-
-template <class T>
-size_t find_nearest_segment_index(
-  const std::vector<T> & points, const geometry_msgs::msg::Pose & pose, const double dist_threshold,
-  const double yaw_threshold)
-{
-  const auto nearest_idx =
-    autoware::motion_utils::findNearestSegmentIndex(points, pose, dist_threshold, yaw_threshold);
-  if (nearest_idx) {
-    return nearest_idx.value();
-  }
-
-  return autoware::motion_utils::findNearestSegmentIndex(points, pose.position);
-}
-
-std::optional<size_t> find_index_out_of_goal_search_range(
-  const std::vector<autoware_internal_planning_msgs::msg::PathPointWithLaneId> & points,
-  const geometry_msgs::msg::Pose & goal, const int64_t goal_lane_id,
-  const double max_dist = std::numeric_limits<double>::max())
-{
-  if (points.empty()) {
-    return std::nullopt;
-  }
-
-  // find goal index
-  size_t min_dist_index;
-  {
-    bool found = false;
-    double min_dist = std::numeric_limits<double>::max();
-    for (size_t i = 0; i < points.size(); ++i) {
-      const auto & lane_ids = points.at(i).lane_ids;
-
-      const double dist_to_goal = autoware_utils::calc_distance2d(points.at(i).point.pose, goal);
-      const bool is_goal_lane_id_in_point =
-        std::find(lane_ids.begin(), lane_ids.end(), goal_lane_id) != lane_ids.end();
-      if (dist_to_goal < max_dist && dist_to_goal < min_dist && is_goal_lane_id_in_point) {
-        min_dist_index = i;
-        min_dist = dist_to_goal;
-        found = true;
-      }
-    }
-    if (!found) {
-      return std::nullopt;
-    }
-  }
-
-  // find index out of goal search range
-  size_t min_dist_out_of_range_index = min_dist_index;
-  for (int i = min_dist_index; 0 <= i; --i) {
-    const double dist = autoware_utils::calc_distance2d(points.at(i).point, goal);
-    min_dist_out_of_range_index = i;
-    if (max_dist < dist) {
-      break;
-    }
-  }
-
-  return min_dist_out_of_range_index;
 }
 
 }  // namespace
@@ -392,82 +343,91 @@ std::vector<geometry_msgs::msg::Point> get_path_bound(
   return path_bound;
 }
 
-// goal does not have z
-bool set_goal(
-  const double search_radius_range, [[maybe_unused]] const double search_rad_range,
-  const PathWithLaneId & input, const geometry_msgs::msg::Pose & goal, const int64_t goal_lane_id,
-  PathWithLaneId * output_ptr)
+std::optional<PathWithLaneId> set_goal(
+  const double search_radius_range, const PathWithLaneId & input, const geometry_msgs::msg::Pose & goal)
 {
   try {
     if (input.points.empty()) {
-      return false;
+      return std::nullopt;
     }
 
-    // calculate refined_goal with interpolation
-    // NOTE: goal does not have valid z, that will be calculated by interpolation here
+    PathWithLaneId output;
+
+    // Calculate refined_goal with interpolation
+    // Note: `goal` does not have valid z, that will be calculated by interpolation here
     PathPointWithLaneId refined_goal{};
     const size_t closest_seg_idx_for_goal =
-      find_nearest_segment_index(input.points, goal, 3.0, M_PI_4);
+      autoware::motion_utils::findFirstNearestIndexWithSoftConstraints(
+        input.points, goal, 3.0, M_PI_4);
+
+    // Set goal
     refined_goal.point.pose = goal;
-    refined_goal.point.pose.position.z =
-      calc_interpolated_z(input, goal.position, closest_seg_idx_for_goal);
+
+    // In set_goal function:
+    if (auto z = calc_interpolated_z(input, goal.position, closest_seg_idx_for_goal)) {
+      refined_goal.point.pose.position.z = *z;
+    } else {
+      return std::nullopt;
+    }
     refined_goal.point.longitudinal_velocity_mps = 0.0;
 
-    // calculate pre_refined_goal with interpolation
-    // NOTE: z and velocity are filled
+    // Calculate pre_refined_goal with interpolation
+    // Note: z and velocity are filled
     PathPointWithLaneId pre_refined_goal{};
     constexpr double goal_to_pre_goal_distance = -1.0;
     pre_refined_goal.point.pose =
       autoware_utils::calc_offset_pose(goal, goal_to_pre_goal_distance, 0.0, 0.0);
     const size_t closest_seg_idx_for_pre_goal =
-      find_nearest_segment_index(input.points, pre_refined_goal.point.pose, 3.0, M_PI_4);
-    pre_refined_goal.point.pose.position.z = calc_interpolated_z(
-      input, pre_refined_goal.point.pose.position, closest_seg_idx_for_pre_goal);
+      autoware::motion_utils::findFirstNearestIndexWithSoftConstraints(
+        input.points, pre_refined_goal.point.pose, 3.0, M_PI_4);
+
+    if (auto z = calc_interpolated_z(input, pre_refined_goal.point.pose.position, closest_seg_idx_for_pre_goal)) {
+      pre_refined_goal.point.pose.position.z = *z;
+    } else {
+      return std::nullopt;
+    }
+
     pre_refined_goal.point.longitudinal_velocity_mps =
       calc_interpolated_velocity(input, closest_seg_idx_for_pre_goal);
 
-    // find min_dist_out_of_circle_index whose distance to goal is longer than search_radius_range
-    const auto min_dist_out_of_circle_index_opt =
-      find_index_out_of_goal_search_range(input.points, goal, goal_lane_id, search_radius_range);
-    if (!min_dist_out_of_circle_index_opt) {
-      return false;
-    }
-    const size_t min_dist_out_of_circle_index = min_dist_out_of_circle_index_opt.value();
+    // Find min_dist_out_of_circle_index whose distance to goal is longer than search_radius_range
+    const auto min_dist_out_of_circle_index =
+      autoware::motion_utils::findFirstNearestIndexWithSoftConstraints(
+        input.points, goal, search_radius_range, M_PI_4);
 
-    // create output points
-    output_ptr->points.reserve(output_ptr->points.size() + min_dist_out_of_circle_index + 3);
+    // Create output points
+    output.points.reserve(output.points.size() + min_dist_out_of_circle_index + 3);
     for (size_t i = 0; i <= min_dist_out_of_circle_index; ++i) {
-      output_ptr->points.push_back(input.points.at(i));
+      output.points.push_back(input.points.at(i));
     }
-    output_ptr->points.push_back(pre_refined_goal);
-    output_ptr->points.push_back(refined_goal);
+    output.points.push_back(pre_refined_goal);
+    output.points.push_back(refined_goal);
 
-    {  // fill skipped lane ids
-      // pre refined goal
-      auto & pre_goal = output_ptr->points.at(output_ptr->points.size() - 2);
-      for (size_t i = min_dist_out_of_circle_index + 1; i < input.points.size(); ++i) {
-        for (const auto target_lane_id : input.points.at(i).lane_ids) {
-          const bool is_lane_id_found =
-            std::find(pre_goal.lane_ids.begin(), pre_goal.lane_ids.end(), target_lane_id) !=
-            pre_goal.lane_ids.end();
-          if (!is_lane_id_found) {
-            pre_goal.lane_ids.push_back(target_lane_id);
-          }
+    // Add lane IDs from skipped points to the pre-goal point
+    auto & pre_goal = output.points.at(output.points.size() - 2);
+    for (size_t i = min_dist_out_of_circle_index + 1; i < input.points.size(); ++i) {
+      for (const auto target_lane_id : input.points.at(i).lane_ids) {
+        const bool is_lane_id_found =
+          std::find(pre_goal.lane_ids.begin(), pre_goal.lane_ids.end(), target_lane_id) !=
+          pre_goal.lane_ids.end();
+        if (!is_lane_id_found) {
+          pre_goal.lane_ids.push_back(target_lane_id);
         }
       }
-
-      // goal
-      output_ptr->points.back().lane_ids = input.points.back().lane_ids;
     }
 
-    output_ptr->left_bound = input.left_bound;
-    output_ptr->right_bound = input.right_bound;
-    return true;
+    // Attach goal lane IDs to the last point
+    output.points.back().lane_ids = input.points.back().lane_ids;
+
+    output.left_bound = input.left_bound;
+    output.right_bound = input.right_bound;
+    return output;
+
   } catch (std::out_of_range & ex) {
     RCLCPP_ERROR_STREAM(
-      rclcpp::get_logger("behavior_path_planner").get_child("utils"),
+      rclcpp::get_logger("path_generator").get_child("utils"),
       "failed to set goal: " << ex.what());
-    return false;
+    return std::nullopt;
   }
 }
 
@@ -477,12 +437,17 @@ const geometry_msgs::msg::Pose refine_goal(
   const auto lanelet_point = lanelet::utils::conversion::toLaneletPoint(goal.position);
   const double distance = boost::geometry::distance(
     goal_lanelet.polygon2d().basicPolygon(), lanelet::utils::to2D(lanelet_point).basicPoint());
+
+  // You are almost at the goal
   if (distance < std::numeric_limits<double>::epsilon()) {
     return goal;
   }
 
+  // Get the closest segment to the goal
   const auto segment = lanelet::utils::getClosestSegment(
     lanelet::utils::to2D(lanelet_point), goal_lanelet.centerline());
+
+  // If the segment is empty, return the original goal.
   if (segment.empty()) {
     return goal;
   }
@@ -511,23 +476,22 @@ const geometry_msgs::msg::Pose refine_goal(
 }
 
 PathWithLaneId refine_path_for_goal(
-  const double search_radius_range, const double search_rad_range, const PathWithLaneId & input,
-  const geometry_msgs::msg::Pose & goal, const int64_t goal_lane_id)
+  const double search_radius_range, const PathWithLaneId & input, const geometry_msgs::msg::Pose & goal)
 {
   PathWithLaneId filtered_path = input;
-  PathWithLaneId path_with_goal;
   filtered_path.points = autoware::motion_utils::removeOverlapPoints(filtered_path.points);
 
-  // always set zero velocity at the end of path for safety
+  // Always set zero velocity at the end of path for safety
   if (!filtered_path.points.empty()) {
     filtered_path.points.back().point.longitudinal_velocity_mps = 0.0;
   }
 
-  if (set_goal(
-        search_radius_range, search_rad_range, filtered_path, goal, goal_lane_id,
-        &path_with_goal)) {
-    return path_with_goal;
+  // If set_goal returns a valid path, return it
+  if (const auto path_with_goal = set_goal(search_radius_range, filtered_path, goal)) {
+    return *path_with_goal;
   }
+
+  // Otherwise, return the original path with zero velocity at the end
   return filtered_path;
 }
 
@@ -549,16 +513,15 @@ lanelet::ConstLanelets extract_lanelets_from_path(
   return refined_path_lanelets;
 }
 
-bool get_goal_lanelet(const PlannerData & planner_data, lanelet::ConstLanelet * goal_lanelet)
+std::optional<lanelet::ConstLanelet> get_goal_lanelet(const PlannerData & planner_data)
 {
   const lanelet::Id goal_lane_id = planner_data.goal_lane_id;
   for (const auto & llt : planner_data.route_lanelets) {
     if (llt.id() == goal_lane_id) {
-      *goal_lanelet = llt;
-      return true;
+      return llt;
     }
   }
-  return false;
+  return std::nullopt;
 }
 
 bool is_in_lanelets(const geometry_msgs::msg::Pose & pose, const lanelet::ConstLanelets & lanes)
@@ -574,13 +537,17 @@ bool is_in_lanelets(const geometry_msgs::msg::Pose & pose, const lanelet::ConstL
 bool is_path_valid(
   const PathWithLaneId & refined_path, const std::shared_ptr<const PlannerData> & planner_data)
 {
+  // Extract lanelets from the refined path
   const auto lanelets = extract_lanelets_from_path(refined_path, planner_data);
-  // std::any_of detects whether any point lies outside lanelets
+
+  // Check if any point lies outside the extracted lanelets
   bool has_points_outside_lanelet = std::any_of(
     refined_path.points.begin(), refined_path.points.end(),
     [&lanelets](const auto & refined_path_point) {
       return !is_in_lanelets(refined_path_point.point.pose, lanelets);
     });
+
+  // Return true if no points lie outside the extracted lanelets
   return !has_points_outside_lanelet;
 }
 
@@ -588,15 +555,14 @@ PathWithLaneId modify_path_for_smooth_goal_connection(
   const PathWithLaneId & path, const std::shared_ptr<const PlannerData> & planner_data)
 {
   const auto goal = planner_data->goal_pose;
-  const auto goal_lane_id = planner_data->goal_lane_id;
 
   geometry_msgs::msg::Pose refined_goal{};
   {
     lanelet::ConstLanelet goal_lanelet;
 
     // First, polish up the goal pose if possible
-    if (get_goal_lanelet(*planner_data, &goal_lanelet)) {
-      refined_goal = refine_goal(goal, goal_lanelet);
+    if (const auto goal_lanelet = get_goal_lanelet(*planner_data)) {
+      refined_goal = refine_goal(goal, *goal_lanelet);
     } else {
       refined_goal = goal;
     }
@@ -604,20 +570,21 @@ PathWithLaneId modify_path_for_smooth_goal_connection(
   double goal_search_radius{
     planner_data->path_generator_parameters.refine_goal_search_radius_range};
 
-  // TODO(shen): define in the parameter
-  constexpr double range_reduce_by{1.0};  // set a reasonable value, 10% - 20% of the
-                                          // refine_goal_search_radius_range is recommended
   bool is_valid_path{false};
   PathWithLaneId refined_path;
 
   // Then, refine the path for the goal
   while (goal_search_radius >= 0 && !is_valid_path) {
-    refined_path =
-      refine_path_for_goal(goal_search_radius, M_PI * 0.5, path, refined_goal, goal_lane_id);
+    refined_path = refine_path_for_goal(goal_search_radius, path, refined_goal);
     if (is_path_valid(refined_path, planner_data)) {
       is_valid_path = true;
     }
-    goal_search_radius -= range_reduce_by;
+    goal_search_radius -= planner_data->path_generator_parameters.search_radius_decrement;
+  }
+
+  // It is better to return the original path if the refined path is not valid
+  if (!is_valid_path) {
+    return path;
   }
   return refined_path;
 }

@@ -49,6 +49,14 @@ PathGenerator::PathGenerator(const rclcpp::NodeOptions & node_options)
   // Initialize path_generator_parameters
   planner_data_.path_generator_parameters.refine_goal_search_radius_range =
     declare_parameter<double>("refine_goal_search_radius_range");
+  planner_data_.path_generator_parameters.search_radius_decrement =
+    declare_parameter<double>("search_radius_decrement");
+
+  // Ensure that the refine_goal_search_radius_range and search_radius_decrement must be positive
+  if (planner_data_.path_generator_parameters.refine_goal_search_radius_range <= 0 ||
+      planner_data_.path_generator_parameters.search_radius_decrement <= 0) {
+    throw std::runtime_error("refine_goal_search_radius_range and search_radius_decrement must be positive");
+  }
 
   param_listener_ =
     std::make_shared<::path_generator::ParamListener>(this->get_node_parameters_interface());

@@ -154,15 +154,14 @@ std::vector<geometry_msgs::msg::Point> get_path_bound(
  * search_radius_range. Then insert the goal into the path. The previous goal point generated
  * from the goal posture information is also inserted for the smooth connection of the goal pose.
  * @param [in] search_radius_range distance on path to be modified for goal insertion
- * @param [in] search_rad_range [unused]
  * @param [in] input original path
  * @param [in] goal original goal pose
- * @param [in] goal_lane_id [unused]
+ * @param [in] goal_lane_id
  * @param [in] output_ptr output path with modified points for the goal
  */
 bool set_goal(
-  const double search_radius_range, const double search_rad_range, const PathWithLaneId & input,
-  const geometry_msgs::msg::Pose & goal, const int64_t goal_lane_id, PathWithLaneId * output_ptr);
+  const double search_radius_range, const PathWithLaneId & input, const geometry_msgs::msg::Pose & goal,
+  const int64_t goal_lane_id, PathWithLaneId * output_ptr);
 
 /**
  * @brief Recreate the goal pose to prevent the goal point being too far from the lanelet, which
@@ -185,8 +184,8 @@ const geometry_msgs::msg::Pose refine_goal(
  * @return Recreated path
  */
 PathWithLaneId refine_path_for_goal(
-  const double search_radius_range, const double search_rad_range, const PathWithLaneId & input,
-  const geometry_msgs::msg::Pose & goal, const int64_t goal_lane_id);
+  const double search_radius_range, const PathWithLaneId & input, const geometry_msgs::msg::Pose & goal,
+  const int64_t goal_lane_id);
 
 /**
  * @brief Extract lanelets from the path.
