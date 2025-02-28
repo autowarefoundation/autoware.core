@@ -503,7 +503,7 @@ lanelet::ConstLanelets extract_lanelets_from_path(
     const auto & path_point = refined_path.points.at(i);
     int64_t lane_id = path_point.lane_ids.at(0);
     lanelet::ConstLanelet lanelet = planner_data->lanelet_map_ptr->laneletLayer.get(lane_id);
-    bool is_unique =
+    const bool is_unique =
       std::find(refined_path_lanelets.begin(), refined_path_lanelets.end(), lanelet) ==
       refined_path_lanelets.end();
     if (is_unique) {
@@ -540,8 +540,8 @@ bool is_path_valid(
   // Extract lanelets from the refined path
   const auto lanelets = extract_lanelets_from_path(refined_path, planner_data);
 
-  // Check if any point lies outside the extracted lanelets
-  bool has_points_outside_lanelet = std::any_of(
+  // std::any_of detects whether any point lies outside lanelets
+  const bool has_points_outside_lanelet = std::any_of(
     refined_path.points.begin(), refined_path.points.end(),
     [&lanelets](const auto & refined_path_point) {
       return !is_in_lanelets(refined_path_point.point.pose, lanelets);
