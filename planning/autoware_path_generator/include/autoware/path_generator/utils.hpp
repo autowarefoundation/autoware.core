@@ -193,7 +193,7 @@ PathWithLaneId refine_path_for_goal(
  * @param planner_data Planner data.
  * @return Extracted lanelets
  */
-lanelet::ConstLanelets extract_lanelets_from_path(
+std::optional<lanelet::ConstLanelets> extract_lanelets_from_path(
   const PathWithLaneId & refined_path, const std::shared_ptr<const PlannerData> & planner_data);
 
 /**

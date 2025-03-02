@@ -47,9 +47,20 @@ std::optional<double> calc_interpolated_z(
   const autoware_internal_planning_msgs::msg::PathWithLaneId & input,
   const geometry_msgs::msg::Point target_pos, const size_t seg_idx)
 {
-  // Check if input is empty or seg_idx is invalid
-  if (input.points.empty() || seg_idx >= input.points.size() - 1) {
+  // Check if input is empty
+  if (input.points.empty()) {
+    RCLCPP_WARN(rclcpp::get_logger("path_generator"), "Input is empty");
     return std::nullopt;
+  }
+  // Check if seg_idx is invalid: -2 is to avoid out of bounds error by seg_idx + 1
+  if (seg_idx > input.points.size() - 2) {
+    RCLCPP_WARN(rclcpp::get_logger("path_generator"),
+                 "seg_idx: %zu is invalid for input size: %zu.\n"
+                 "Use the z that of the last point as the interpolated z.",
+                 seg_idx, input.points.size());
+
+    // Return the z of the last point if interpolation is not possible
+    return input.points.back().point.pose.position.z;
   }
 
   try {
@@ -67,20 +78,42 @@ std::optional<double> calc_interpolated_z(
              : closest_z + (next_z - closest_z) * closest_to_target_dist / seg_dist;
 
   } catch (const std::exception & e) {
+    RCLCPP_ERROR(rclcpp::get_logger("path_generator"), "Error: %s", e.what());
     return std::nullopt;
   }
 }
 
-double calc_interpolated_velocity(
+std::optional<double> calc_interpolated_velocity(
   const autoware_internal_planning_msgs::msg::PathWithLaneId & input, const size_t seg_idx)
 {
-  const double seg_dist =
-    autoware::motion_utils::calcSignedArcLength(input.points, seg_idx, seg_idx + 1);
+  // Check if input is empty
+  if (input.points.empty()) {
+    RCLCPP_WARN(rclcpp::get_logger("path_generator"), "Input is empty");
+    return std::nullopt;
+  }
+  // Check if seg_idx is invalid: -2 is to avoid out of bounds error by seg_idx + 1
+  if (seg_idx > input.points.size() - 2) {
+    RCLCPP_WARN(rclcpp::get_logger("path_generator"),
+                 "seg_idx: %zu is invalid for input size: %zu.\n"
+                 "Use the velocity that of the last point as the interpolated velocity.",
+                 seg_idx, input.points.size());
 
-  const double closest_vel = input.points.at(seg_idx).point.longitudinal_velocity_mps;
-  const double next_vel = input.points.at(seg_idx + 1).point.longitudinal_velocity_mps;
-  const double interpolated_vel = std::abs(seg_dist) < 1e-06 ? next_vel : closest_vel;
-  return interpolated_vel;
+    // Return the velocity of the last point if interpolation is not possible
+    return input.points.back().point.longitudinal_velocity_mps;
+  }
+
+  try {
+    const double seg_dist =
+      autoware::motion_utils::calcSignedArcLength(input.points, seg_idx, seg_idx + 1);
+
+    const double closest_vel = input.points.at(seg_idx).point.longitudinal_velocity_mps;
+    const double next_vel = input.points.at(seg_idx + 1).point.longitudinal_velocity_mps;
+    const double interpolated_vel = std::abs(seg_dist) < 1e-06 ? next_vel : closest_vel;
+    return interpolated_vel;
+  } catch (const std::exception & e) {
+    RCLCPP_ERROR(rclcpp::get_logger("path_generator"), "Error: %s", e.what());
+    return std::nullopt;
+  }
 }
 
 }  // namespace
@@ -364,12 +397,13 @@ std::optional<PathWithLaneId> set_goal(
     // Set goal
     refined_goal.point.pose = goal;
 
-    // In set_goal function:
     if (auto z = calc_interpolated_z(input, goal.position, closest_seg_idx_for_goal)) {
       refined_goal.point.pose.position.z = *z;
     } else {
+      RCLCPP_ERROR(rclcpp::get_logger("path_generator"), "Failed to calculate z for goal");
       return std::nullopt;
     }
+
     refined_goal.point.longitudinal_velocity_mps = 0.0;
 
     // Calculate pre_refined_goal with interpolation
@@ -387,11 +421,16 @@ std::optional<PathWithLaneId> set_goal(
         input, pre_refined_goal.point.pose.position, closest_seg_idx_for_pre_goal)) {
       pre_refined_goal.point.pose.position.z = *z;
     } else {
+      RCLCPP_ERROR(rclcpp::get_logger("path_generator"), "Failed to calculate z for pre_goal");
       return std::nullopt;
     }
 
-    pre_refined_goal.point.longitudinal_velocity_mps =
-      calc_interpolated_velocity(input, closest_seg_idx_for_pre_goal);
+    if (auto velocity = calc_interpolated_velocity(input, closest_seg_idx_for_pre_goal)) {
+      pre_refined_goal.point.longitudinal_velocity_mps = *velocity;
+    } else {
+      RCLCPP_ERROR(rclcpp::get_logger("path_generator"), "Failed to calculate velocity for pre_goal");
+      return std::nullopt;
+    }
 
     // Find min_dist_out_of_circle_index whose distance to goal is longer than search_radius_range
     const auto min_dist_out_of_circle_index =
@@ -424,8 +463,8 @@ std::optional<PathWithLaneId> set_goal(
 
     output.left_bound = input.left_bound;
     output.right_bound = input.right_bound;
-    return output;
 
+    return output;
   } catch (std::out_of_range & ex) {
     RCLCPP_ERROR_STREAM(
       rclcpp::get_logger("path_generator").get_child("utils"), "failed to set goal: " << ex.what());
@@ -482,6 +521,7 @@ PathWithLaneId refine_path_for_goal(
   const geometry_msgs::msg::Pose & goal)
 {
   PathWithLaneId filtered_path = input;
+
   filtered_path.points = autoware::motion_utils::removeOverlapPoints(filtered_path.points);
 
   // Always set zero velocity at the end of path for safety
@@ -498,20 +538,31 @@ PathWithLaneId refine_path_for_goal(
   return filtered_path;
 }
 
-lanelet::ConstLanelets extract_lanelets_from_path(
+std::optional<lanelet::ConstLanelets> extract_lanelets_from_path(
   const PathWithLaneId & refined_path, const std::shared_ptr<const PlannerData> & planner_data)
 {
   lanelet::ConstLanelets refined_path_lanelets;
   for (size_t i = 0; i < refined_path.points.size(); ++i) {
-    const auto & path_point = refined_path.points.at(i);
-    int64_t lane_id = path_point.lane_ids.at(0);
-    lanelet::ConstLanelet lanelet = planner_data->lanelet_map_ptr->laneletLayer.get(lane_id);
-    const bool is_unique =
-      std::find(refined_path_lanelets.begin(), refined_path_lanelets.end(), lanelet) ==
-      refined_path_lanelets.end();
-    if (is_unique) {
-      refined_path_lanelets.push_back(lanelet);
+    try {
+      const auto & path_point = refined_path.points.at(i);
+
+      // TODO(sasakisasaki): It seems sometimes path_point.lane_ids is empty.
+      //                     We should check this case.
+      int64_t lane_id = path_point.lane_ids.at(0);
+      lanelet::ConstLanelet lanelet = planner_data->lanelet_map_ptr->laneletLayer.get(lane_id);
+
+      const bool is_unique =
+        std::find(refined_path_lanelets.begin(), refined_path_lanelets.end(), lanelet) ==
+        refined_path_lanelets.end();
+
+      if (is_unique) {
+        refined_path_lanelets.push_back(lanelet);
+      }
+    } catch (const std::out_of_range & e) {
+      RCLCPP_ERROR(rclcpp::get_logger("path_generator"), "Out of range error: %s", e.what());
+      return std::nullopt;
     }
+
   }
   return refined_path_lanelets;
 }
@@ -541,7 +592,12 @@ bool is_path_valid(
   const PathWithLaneId & refined_path, const std::shared_ptr<const PlannerData> & planner_data)
 {
   // Extract lanelets from the refined path
-  const auto lanelets = extract_lanelets_from_path(refined_path, planner_data);
+  const auto lanelets_opt = extract_lanelets_from_path(refined_path, planner_data);
+  if (!lanelets_opt) {
+    RCLCPP_ERROR(rclcpp::get_logger("path_generator"), "Failed to extract lanelets from path");
+    return false;
+  }
+  const auto & lanelets = lanelets_opt.value();
 
   // std::any_of detects whether any point lies outside lanelets
   const bool has_points_outside_lanelet = std::any_of(
