@@ -54,10 +54,11 @@ std::optional<double> calc_interpolated_z(
   }
   // Check if seg_idx is invalid: -2 is to avoid out of bounds error by seg_idx + 1
   if (seg_idx > input.points.size() - 2) {
-    RCLCPP_WARN(rclcpp::get_logger("path_generator"),
-                 "seg_idx: %zu is invalid for input size: %zu.\n"
-                 "Use the z that of the last point as the interpolated z.",
-                 seg_idx, input.points.size());
+    RCLCPP_WARN(
+      rclcpp::get_logger("path_generator"),
+      "seg_idx: %zu is invalid for input size: %zu.\n"
+      "Use the z that of the last point as the interpolated z.",
+      seg_idx, input.points.size());
 
     // Return the z of the last point if interpolation is not possible
     return input.points.back().point.pose.position.z;
@@ -93,10 +94,11 @@ std::optional<double> calc_interpolated_velocity(
   }
   // Check if seg_idx is invalid: -2 is to avoid out of bounds error by seg_idx + 1
   if (seg_idx > input.points.size() - 2) {
-    RCLCPP_WARN(rclcpp::get_logger("path_generator"),
-                 "seg_idx: %zu is invalid for input size: %zu.\n"
-                 "Use the velocity that of the last point as the interpolated velocity.",
-                 seg_idx, input.points.size());
+    RCLCPP_WARN(
+      rclcpp::get_logger("path_generator"),
+      "seg_idx: %zu is invalid for input size: %zu.\n"
+      "Use the velocity that of the last point as the interpolated velocity.",
+      seg_idx, input.points.size());
 
     // Return the velocity of the last point if interpolation is not possible
     return input.points.back().point.longitudinal_velocity_mps;
@@ -428,7 +430,8 @@ std::optional<PathWithLaneId> set_goal(
     if (auto velocity = calc_interpolated_velocity(input, closest_seg_idx_for_pre_goal)) {
       pre_refined_goal.point.longitudinal_velocity_mps = *velocity;
     } else {
-      RCLCPP_ERROR(rclcpp::get_logger("path_generator"), "Failed to calculate velocity for pre_goal");
+      RCLCPP_ERROR(
+        rclcpp::get_logger("path_generator"), "Failed to calculate velocity for pre_goal");
       return std::nullopt;
     }
 
@@ -562,7 +565,6 @@ std::optional<lanelet::ConstLanelets> extract_lanelets_from_path(
       RCLCPP_ERROR(rclcpp::get_logger("path_generator"), "Out of range error: %s", e.what());
       return std::nullopt;
     }
-
   }
   return refined_path_lanelets;
 }
