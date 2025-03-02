@@ -28,6 +28,6 @@ ament_auto_package(INSTALL_TO_SHARE
 )
 
 install(PROGRAMS
-  scripts/lanelet_anonymization_local.py
+  scripts/lanelet_anonymizer.py
   DESTINATION lib/${PROJECT_NAME}
 )

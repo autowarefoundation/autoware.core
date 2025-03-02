@@ -154,7 +154,7 @@ std::vector<T> forEachMatchInMultiMap(const MapT& map, const KeyT& key, Func&& f
 On the VMB, create the map in local projector(or convert it to local projector from MGRS projector) and save the file as `<input_map.osm>`. Next, select the point to use as (0.0, 0.0) and pass its `<ID>` and run
 
 ```bash
-ros2 run autoware_lanelet2_utility lanelet_anonymization_local.py <inpput_map.osm> <output_map.osm> <ID>
+ros2 run autoware_lanelet2_utility lanelet_anonymizer.py <input_map.osm> <output_map.osm> <ID>
 ```
 
 Then the coordinate of the specified point is (0, 0) on the loaded map
