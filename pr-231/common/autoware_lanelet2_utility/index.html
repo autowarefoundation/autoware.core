@@ -2327,7 +2327,7 @@
 </code></pre></div>
 <h2 id="how-to-craft-test-map">How to craft test map<a class="headerlink" href="#how-to-craft-test-map" title="Permanent link">#</a></h2>
 <p>On the VMB, create the map in local projector(or convert it to local projector from MGRS projector) and save the file as <code>&lt;input_map.osm&gt;</code>. Next, select the point to use as (0.0, 0.0) and pass its <code>&lt;ID&gt;</code> and run</p>
-<div class="highlight"><pre><span></span><code>ros2<span class="w"> </span>run<span class="w"> </span>autoware_lanelet2_utility<span class="w"> </span>lanelet_anonymization_local.py<span class="w"> </span>&lt;inpput_map.osm&gt;<span class="w"> </span>&lt;output_map.osm&gt;<span class="w"> </span>&lt;ID&gt;
+<div class="highlight"><pre><span></span><code>ros2<span class="w"> </span>run<span class="w"> </span>autoware_lanelet2_utility<span class="w"> </span>lanelet_anonymizer.py<span class="w"> </span>&lt;input_map.osm&gt;<span class="w"> </span>&lt;output_map.osm&gt;<span class="w"> </span>&lt;ID&gt;
 </code></pre></div>
 <p>Then the coordinate of the specified point is (0, 0) on the loaded map</p></div>
 
