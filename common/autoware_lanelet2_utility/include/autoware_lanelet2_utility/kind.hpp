@@ -19,9 +19,6 @@
 
 namespace autoware::lanelet2_utility
 {
-
-inline namespace kind
-{
 static constexpr const char * k_road_lane_type = "road";
 static constexpr const char * k_shoulder_lane_type = "road_shoulder";
 static constexpr const char * k_bicycle_lane_type = "bicycle_lane";
@@ -58,10 +55,8 @@ bool is_shoulder_lane(const lanelet::ConstLanelet & lanelet);
 /**
  * @brief check if the given lanelet type has "bicycle_lane" subtype
  * @param [in] lanelet input lanelet
- * @return if the lanelet is bicicye_lane or not
+ * @return if the lanelet is bicycle_lane or not
  */
 bool is_bicycle_lane(const lanelet::ConstLanelet & lanelet);
-}  // namespace kind
-
 }  // namespace autoware::lanelet2_utility
 #endif  // AUTOWARE_LANELET2_UTILITY__KIND_HPP_
