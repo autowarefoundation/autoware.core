@@ -123,11 +123,32 @@ void Trajectory<PointType>::align_orientation_with_trajectory_direction()
     const tf2::Vector3 desired_x_axis(
       std::cos(elevation) * std::cos(azimuth), std::cos(elevation) * std::sin(azimuth),
       std::sin(elevation));
-    const tf2::Vector3 rotation_axis = current_x_axis.cross(desired_x_axis).normalized();
     const double dot_product = current_x_axis.dot(desired_x_axis);
     const double rotation_angle = std::acos(dot_product);
 
-    const tf2::Quaternion delta_q(rotation_axis, rotation_angle);
+    tf2::Quaternion delta_q;
+    // Compute cross product
+    tf2::Vector3 cross = current_x_axis.cross(desired_x_axis);
+    // Check if cross product is near zero vector
+    if (cross.length2() < 1e-6) {
+      // Vectors are parallel or anti-parallel
+      if (dot_product > 0.9999) {
+        // Vectors are nearly identical; no rotation needed
+        delta_q = tf2::Quaternion(0, 0, 0, 1);  // Identity quaternion
+      } else if (dot_product < -0.9999) {
+        // Vectors are opposite; choose an arbitrary axis perpendicular to current_x_axis
+        tf2::Vector3 arbitrary_axis(0.0, 1.0, 0.0);
+        if (std::abs(current_x_axis.dot(arbitrary_axis)) > 0.9999) {
+          arbitrary_axis = tf2::Vector3(0.0, 0.0, 1.0);
+        }
+        tf2::Vector3 rotation_axis = current_x_axis.cross(arbitrary_axis).normalized();
+        delta_q = tf2::Quaternion(rotation_axis, M_PI);
+      }
+    } else {
+      tf2::Vector3 rotation_axis = cross.normalized();
+      delta_q = tf2::Quaternion(rotation_axis, rotation_angle);
+    }
+
     const tf2::Quaternion aligned_orientation_tf2 =
       (delta_q * current_orientation_tf2).normalized();
 
