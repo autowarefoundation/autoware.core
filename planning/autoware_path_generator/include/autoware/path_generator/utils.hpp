@@ -156,12 +156,11 @@ std::vector<geometry_msgs::msg::Point> get_path_bound(
  * @param [in] search_radius_range distance on path to be modified for goal insertion
  * @param [in] input original path
  * @param [in] goal original goal pose
- * @param [in] goal_lane_id
- * @param [in] output_ptr output path with modified points for the goal
+ * @return output path with modified points for the goal (std::nullopt if not found)
  */
-bool set_goal(
+std::optional<PathWithLaneId> set_goal(
   const double search_radius_range, const PathWithLaneId & input,
-  const geometry_msgs::msg::Pose & goal, const int64_t goal_lane_id, PathWithLaneId * output_ptr);
+  const geometry_msgs::msg::Pose & goal);
 
 /**
  * @brief Recreate the goal pose to prevent the goal point being too far from the lanelet, which
@@ -177,15 +176,13 @@ const geometry_msgs::msg::Pose refine_goal(
 /**
  * @brief Recreate the path with a given goal pose.
  * @param search_radius_range Searching radius.
- * @param search_rad_range Searching angle.
  * @param input Input path.
- * @param goal Goal pose.
- * @param goal_lane_id Lane ID of goal lanelet.
+ * @param refined_goal Goal pose.
  * @return Recreated path
  */
 PathWithLaneId refine_path_for_goal(
   const double search_radius_range, const PathWithLaneId & input,
-  const geometry_msgs::msg::Pose & goal, const int64_t goal_lane_id);
+  const geometry_msgs::msg::Pose & goal);
 
 /**
  * @brief Extract lanelets from the path.
