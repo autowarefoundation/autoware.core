@@ -112,46 +112,47 @@ void Trajectory<PointType>::align_orientation_with_trajectory_direction()
   for (const auto & s : bases_) {
     const double azimuth = this->azimuth(s);
     const double elevation = this->elevation(s);
+
     const geometry_msgs::msg::Quaternion current_orientation =
       orientation_interpolator_->compute(s);
+
     tf2::Quaternion current_orientation_tf2(
       current_orientation.x, current_orientation.y, current_orientation.z, current_orientation.w);
     current_orientation_tf2.normalize();
-    const tf2::Vector3 x_axis(1.0, 0.0, 0.0);
-    const tf2::Vector3 current_x_axis = tf2::quatRotate(current_orientation_tf2, x_axis);
 
+    // Calculate the current x-axis of the orientation (local x-axis)
+    const tf2::Vector3 current_x_axis =
+      tf2::quatRotate(current_orientation_tf2, tf2::Vector3(1, 0, 0));
+
+    // Calculate the desired x-axis direction based on the trajectory's azimuth and elevation
     const tf2::Vector3 desired_x_axis(
       std::cos(elevation) * std::cos(azimuth), std::cos(elevation) * std::sin(azimuth),
       std::sin(elevation));
+
+    // Compute the dot product and the angle between the current and desired x-axes
     const double dot_product = current_x_axis.dot(desired_x_axis);
     const double rotation_angle = std::acos(dot_product);
 
-    tf2::Quaternion delta_q;
-    // Compute cross product
-    tf2::Vector3 cross = current_x_axis.cross(desired_x_axis);
-    // Check if cross product is near zero vector
-    if (cross.length2() < 1e-6) {
-      // Vectors are parallel or anti-parallel
-      if (dot_product > 0.9999) {
-        // Vectors are nearly identical; no rotation needed
-        delta_q = tf2::Quaternion(0, 0, 0, 1);  // Identity quaternion
-      } else if (dot_product < -0.9999) {
-        // Vectors are opposite; choose an arbitrary axis perpendicular to current_x_axis
-        tf2::Vector3 arbitrary_axis(0.0, 1.0, 0.0);
-        if (std::abs(current_x_axis.dot(arbitrary_axis)) > 0.9999) {
-          arbitrary_axis = tf2::Vector3(0.0, 0.0, 1.0);
-        }
-        tf2::Vector3 rotation_axis = current_x_axis.cross(arbitrary_axis).normalized();
-        delta_q = tf2::Quaternion(rotation_axis, M_PI);
-      }
+    tf2::Vector3 rotation_axis;
+    // If the rotation angle is nearly 0 or 180 degrees, choose a default rotation axis
+    if (std::abs(rotation_angle) < 1e-6 || std::abs(rotation_angle - M_PI) < 1e-6) {
+      // Use the rotated z-axis as the fallback axis
+      rotation_axis = tf2::quatRotate(current_orientation_tf2, tf2::Vector3(0, 0, 1));
     } else {
-      tf2::Vector3 rotation_axis = cross.normalized();
-      delta_q = tf2::Quaternion(rotation_axis, rotation_angle);
+      // Otherwise, compute the rotation axis using the cross product of the current and desired
+      // x-axes
+      tf2::Vector3 cross = current_x_axis.cross(desired_x_axis);
+      rotation_axis = cross.normalized();
     }
 
+    // Create a quaternion representing the rotation required to align the x-axis
+    tf2::Quaternion delta_q = tf2::Quaternion(rotation_axis, rotation_angle);
+
+    // Apply the rotation delta to the current orientation and normalize the result
     const tf2::Quaternion aligned_orientation_tf2 =
       (delta_q * current_orientation_tf2).normalized();
 
+    // Convert the tf2 quaternion back to geometry_msgs quaternion format
     geometry_msgs::msg::Quaternion aligned_orientation;
     aligned_orientation.x = aligned_orientation_tf2.x();
     aligned_orientation.y = aligned_orientation_tf2.y();
@@ -163,7 +164,7 @@ void Trajectory<PointType>::align_orientation_with_trajectory_direction()
   const bool success = orientation_interpolator_->build(bases_, aligned_orientations);
   if (!success) {
     throw std::runtime_error(
-      "Failed to build orientation interpolator.");  // This Exception should not be thrown.
+      "Failed to build orientation interpolator.");  // This exception should not be thrown.
   }
 }
 
