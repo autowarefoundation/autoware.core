@@ -2057,91 +2057,96 @@
 <table>
 <thead>
 <tr>
-<th align="left">Word</th>
-<th align="center">Meaning</th>
-<th align="center">Illustration</th>
+<th>Word</th>
+<th>Meaning</th>
+<th>Illustration</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left"><code>driving</code></td>
-<td align="center">The vehicle position belongs to the designated Lanelet.</td>
-<td align="center">In each map, green Lanelet are the <code>driving</code> lanes of the vehicle.<br><img alt="driving" src="media/nomenclature/driving.drawio.svg"></td>
+<td><code>driving</code></td>
+<td>The vehicle position belongs to the designated Lanelet.</td>
+<td>In each map, green Lanelet are the <code>driving</code> lanes of the vehicle.<br><img alt="driving" src="media/nomenclature/driving.drawio.svg"></td>
 </tr>
 <tr>
-<td align="left"><code>boundary</code>,<br><code>entry</code>,<br><code>exit</code></td>
-<td align="center">The <code>boundary</code> of a Lanelet refers to the left or right Linestring.</td>
-<td align="center"><img alt="boundary_entry_exit" src="media/nomenclature/boundary_entry_exit.drawio.svg"></td>
+<td><code>boundary</code>,<br><code>entry</code>,<br><code>exit</code></td>
+<td>The <code>boundary</code> of a Lanelet refers to the left or right Linestring.</td>
+<td><img alt="boundary_entry_exit" src="media/nomenclature/boundary_entry_exit.drawio.svg"></td>
 </tr>
 <tr>
-<td align="left"><code>adjacent</code></td>
-<td align="center">If A is <code>adjacent</code> to B, A and B share a common <code>boundary</code> with same direction either on the left or right side.</td>
-<td align="center">In each map, orange Lanelet is <code>adjacent</code> to green Lanelet.<br><img alt="adjacent" src="media/nomenclature/adjacent.drawio.svg"></td>
+<td><code>adjacent</code></td>
+<td>If A is <code>adjacent</code> to B, A and B share a common <code>boundary</code> with same direction either on the left or right side.</td>
+<td>In each map, orange Lanelet is <code>adjacent</code> to green Lanelet.<br><img alt="adjacent" src="media/nomenclature/adjacent.drawio.svg"></td>
 </tr>
 <tr>
-<td align="left"><code>same_direction</code></td>
-<td align="center">Lanelet A and Lanelet B are <code>same_direction</code> if A and B are directly or indirectly <code>adjacent</code> to each other.</td>
-<td align="center">In each map, orange Lanelets are <code>same_direction</code> as green Lanelet.<br><img alt="same_direction" src="media/nomenclature/same_direction.drawio.svg"></td>
+<td><code>same_direction</code></td>
+<td>Lanelet A and Lanelet B are <code>same_direction</code> if A and B are directly or indirectly <code>adjacent</code> to each other.</td>
+<td>In each map, orange Lanelets are <code>same_direction</code> as green Lanelet.<br><img alt="same_direction" src="media/nomenclature/same_direction.drawio.svg"></td>
 </tr>
 <tr>
-<td align="left"><code>bundle</code></td>
-<td align="center">A <code>bundle</code> refers to a transitive closure set of Lanelets which are <code>same_direction</code> to each other.</td>
-<td align="center">The enclosed sets of Lanelets are <code>bundle</code>s.<br><img alt="bundle" src="media/nomenclature/bundle.drawio.svg"></td>
+<td><code>bundle</code></td>
+<td>A <code>bundle</code> refers to a transitive closure set of Lanelets which are <code>same_direction</code> to each other.</td>
+<td>The enclosed sets of Lanelets are <code>bundle</code>s.<br><img alt="bundle" src="media/nomenclature/bundle.drawio.svg"></td>
 </tr>
 <tr>
-<td align="left"><code>opposite</code></td>
-<td align="center">If A is <code>opposite</code> to B, A and B share a common <code>boundary</code> with opposite direction.</td>
-<td align="center">In the first map, green Lanelet and orange Lanelet are <code>opposite</code> to each other.<br>In the second map, two red Lanelets are not <code>opposite</code> relation because they do not share a common LineString.<br><img alt="opposite" src="media/nomenclature/opposite.drawio.svg"></td>
+<td><code>opposite</code></td>
+<td>If A is <code>opposite</code> to B, A and B share a common <code>boundary</code> with opposite direction.</td>
+<td>In the first map, green Lanelet and orange Lanelet are <code>opposite</code> to each other.<br>In the second map, two red Lanelets are not <code>opposite</code> relation because they do not share a common LineString.<br><img alt="opposite" src="media/nomenclature/opposite.drawio.svg"></td>
 </tr>
 <tr>
-<td align="left"><code>opposite_direction</code></td>
-<td align="center">If A and B are <code>opposite_direction</code>, the <code>bundle</code> of A and B are directly <code>opposite</code> to each other.</td>
-<td align="center">In the each map, green Lanelet and orange Lanelet are <code>opposite_direction</code> because their <code>bundle</code>s(enclosed in dotted line) are <code>opposite</code> relation.<br><img alt="opposite_direction" src="media/nomenclature/opposite_direction.drawio.svg"></td>
+<td><code>opposite_direction</code></td>
+<td>If A and B are <code>opposite_direction</code>, the <code>bundle</code> of A and B are directly <code>opposite</code> to each other.</td>
+<td>In the each map, green Lanelet and orange Lanelet are <code>opposite_direction</code> because their <code>bundle</code>s(enclosed in dotted line) are <code>opposite</code> relation.<br><img alt="opposite_direction" src="media/nomenclature/opposite_direction.drawio.svg"></td>
 </tr>
 <tr>
-<td align="left"><code>connected</code></td>
-<td align="center">A is <code>connected</code> to(from) B if and only if the <code>exit</code>(<code>entry</code>) of A is identical to the <code>entry</code>(<code>exit</code>) of B.</td>
-<td align="center">A is connected to B, and B is connected from A.<br><img alt="connected" src="media/nomenclature/connected.drawio.svg"></td>
+<td><code>connected</code></td>
+<td>A is <code>connected</code> to(from) B if and only if the <code>exit</code>(<code>entry</code>) of A is identical to the <code>entry</code>(<code>exit</code>) of B.</td>
+<td>A is connected to B, and B is connected from A.<br><img alt="connected" src="media/nomenclature/connected.drawio.svg"></td>
 </tr>
 <tr>
-<td align="left"><code>following</code></td>
-<td align="center">The <code>following</code> Lanelets of A is the list of Lanelets to which A is <code>connected</code>.</td>
-<td align="center">In each map, orange Lanelets are the <code>following</code> of green Lanelet.<br><img alt="following" src="media/nomenclature/following.drawio.svg"></td>
+<td><code>following</code></td>
+<td>The <code>following</code> Lanelets of A is the list of Lanelets to which A is <code>connected</code>.</td>
+<td>In each map, orange Lanelets are the <code>following</code> of green Lanelet.<br><img alt="following" src="media/nomenclature/following.drawio.svg"></td>
 </tr>
 <tr>
-<td align="left"><code>previous</code></td>
-<td align="center">The <code>previous</code> Lanelets of A is the list of Lanelets from which A is <code>connected</code>.</td>
-<td align="center">In each map, orange Lanelets are the <code>previous</code> of green Lanelet. <br> <img alt="previous" src="media/nomenclature/previous.drawio.svg"></td>
+<td><code>previous</code></td>
+<td>The <code>previous</code> Lanelets of A is the list of Lanelets from which A is <code>connected</code>.</td>
+<td>In each map, orange Lanelets are the <code>previous</code> of green Lanelet. <br> <img alt="previous" src="media/nomenclature/previous.drawio.svg"></td>
 </tr>
 <tr>
-<td align="left"><code>conflicting</code></td>
-<td align="center">A is <code>conflicting</code> with B if A and B are geometrically intersecting.</td>
-<td align="center"></td>
+<td><code>conflicting</code></td>
+<td>A is <code>conflicting</code> with B if A and B are geometrically intersecting.</td>
+<td></td>
 </tr>
 <tr>
-<td align="left"><code>merging</code></td>
-<td align="center">A is said to be <code>merging</code> Lanelet of B if and only if A is <code>conflicting</code> with B and both A and B are connected to a common Lanelet.</td>
-<td align="center">In each map, one of the orange Lanelet is a <code>merging</code> Lanelet of the other orange Lanelet.<br><img alt="merging" src="media/nomenclature/merging.drawio.svg"></td>
+<td><code>merging</code></td>
+<td>A is said to be <code>merging</code> Lanelet of B if and only if A is <code>conflicting</code> with B and both A and B are connected to a common Lanelet.</td>
+<td>In each map, one of the orange Lanelet is a <code>merging</code> Lanelet of the other orange Lanelet.<br><img alt="merging" src="media/nomenclature/merging.drawio.svg"></td>
 </tr>
 <tr>
-<td align="left"><code>sibling</code></td>
-<td align="center">The designated Lanelets are referred to as <code>sibling</code> if all of them are <code>connected</code> from a common Lanelet.</td>
-<td align="center">In each map, orange Lanelets are <code>sibling</code>s.<br><img alt="sibling" src="media/nomenclature/sibling.drawio.svg"></td>
+<td><code>sibling</code></td>
+<td>The designated Lanelets are referred to as <code>sibling</code> if all of them are <code>connected</code> from a common Lanelet.</td>
+<td>In each map, orange Lanelets are <code>sibling</code>s.<br><img alt="sibling" src="media/nomenclature/sibling.drawio.svg"></td>
 </tr>
 <tr>
-<td align="left"><code>oncoming</code></td>
-<td align="center">TBD</td>
-<td align="center">TBD</td>
+<td><code>oncoming</code></td>
+<td>TBD</td>
+<td>TBD</td>
 </tr>
 <tr>
-<td align="left"><code>upcoming</code></td>
-<td align="center">TBD</td>
-<td align="center">TBD</td>
+<td><code>upcoming</code></td>
+<td>TBD</td>
+<td>TBD</td>
 </tr>
 <tr>
-<td align="left"><code>sequence</code></td>
-<td align="center"><code>sequence</code> is a list of Lanelets whose each element is <code>connected from</code> or <code>adjacent to</code> the previous element.</td>
-<td align="center"><img alt="sequence" src="media/nomenclature/sequence.drawio.svg"></td>
+<td><code>sequence</code></td>
+<td><code>sequence</code> is a list of Lanelets whose each element is <code>connected from</code> or <code>adjacent to</code> the previous element.</td>
+<td><img alt="sequence" src="media/nomenclature/sequence.drawio.svg"></td>
+</tr>
+<tr>
+<td><code>similar</code></td>
+<td>A and B are called <code>similar</code> if and only if both of them have same valid <code>turn_direction</code> value.</td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -2149,7 +2154,7 @@
 <table>
 <thead>
 <tr>
-<th align="left">Header</th>
+<th>Header</th>
 <th>function</th>
 <th>description</th>
 <th>average computational complexity</th>
@@ -2158,81 +2163,123 @@
 </thead>
 <tbody>
 <tr>
-<td align="left"><code>&lt;autoware_lanelet2_utility/kind.hpp&gt;</code></td>
+<td><code>&lt;autoware_lanelet2_utility/kind.hpp&gt;</code></td>
 <td><code>is_road_lane</code></td>
 <td></td>
 <td><span class="arithmatex">\(O(1)\)</span></td>
 <td></td>
 </tr>
 <tr>
-<td align="left"></td>
+<td></td>
 <td><code>is_shoulder_lane</code></td>
 <td></td>
 <td><span class="arithmatex">\(O(1)\)</span></td>
 <td></td>
 </tr>
 <tr>
-<td align="left"></td>
+<td></td>
 <td><code>is_bicycle_lane</code></td>
 <td></td>
 <td><span class="arithmatex">\(O(1)\)</span></td>
 <td></td>
 </tr>
 <tr>
-<td align="left"><code>&lt;autoware_lanelet2_utility/topology.hpp&gt;</code></td>
+<td><code>&lt;autoware_lanelet2_utility/topology.hpp&gt;</code></td>
 <td><code>left_lanelet</code></td>
 <td>This function ignores the permission of lane change. Also it ignores <code>shoulder</code> and <code>bicycle</code> Lanelet.</td>
 <td><span class="arithmatex">\(O(1)\)</span></td>
 <td>In the first map, the green Lanelet is the <code>left_lanelet</code> of the orange Lanelet.<br>In the second and third map, the <code>left_lanelet</code> of the orange Lanelet is <code>null</code>.<br><img alt="left_lanelet" src="media/api/left_lanelet.drawio.svg"></td>
 </tr>
 <tr>
-<td align="left"></td>
+<td></td>
 <td><code>right_lanelet</code></td>
 <td>same as above <code>left_lanelet</code></td>
 <td><span class="arithmatex">\(O(1)\)</span></td>
 <td></td>
 </tr>
 <tr>
-<td align="left"></td>
+<td></td>
+<td><code>left_similar_lanelet</code>(TODO)</td>
+<td>same as above <code>left_lanelet</code></td>
+<td><span class="arithmatex">\(O(1)\)</span></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>right_similar_lanelet</code>(TODO)</td>
+<td>same as above <code>left_lanelet</code></td>
+<td><span class="arithmatex">\(O(1)\)</span></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
 <td><code>left_opposite_lanelet</code></td>
 <td>same as below <code>right_opposite_lanelet</code></td>
 <td><span class="arithmatex">\(O(1)\)</span><br>see <a href="./#complexity-of-findusage"><code>findUsage</code></a> for detail</td>
 <td></td>
 </tr>
 <tr>
-<td align="left"></td>
+<td></td>
 <td><code>right_opposite_lanelet</code></td>
 <td></td>
 <td><span class="arithmatex">\(O(1)\)</span><br>see <a href="./#complexity-of-findusage"><code>findUsage</code></a> for detail</td>
 <td>In the first and second map, the green Lanelet is the <code>right_opposite_lanelet</code> of the orange Lanelet.<br>In the third map, the <code>right_opposite_lanelet</code> of the orange Lanelet is <code>null</code>.<br><img alt="right_opposite_lanelet" src="media/api/right_opposite_lanelet.drawio.svg"></td>
 </tr>
 <tr>
-<td align="left"></td>
+<td></td>
 <td><code>leftmost_lanelet</code></td>
 <td></td>
 <td><span class="arithmatex">\(O(W)\)</span> where <span class="arithmatex">\(W\)</span> is the size of the <code>bundle</code>.</td>
 <td>In the first and second map, the green Lanelet is the <code>leftmost_lanelet</code> of the orange Lanelet.<br>In the third map, the <code>leftmost_lanelet</code> of the orange Lanelet is <code>null</code>.<br><img alt="leftmost_lanelet" src="media/api/leftmost_lanelet.drawio.svg"></td>
 </tr>
 <tr>
-<td align="left"></td>
+<td></td>
 <td><code>rightmost_lanelet</code></td>
 <td></td>
 <td><span class="arithmatex">\(O(W)\)</span> where <span class="arithmatex">\(W\)</span> is the size of the <code>bundle</code>.</td>
 <td>In the first map, the green Lanelet is the <code>rightmost_lanelet</code> of the orange Lanelet.<br>In the second and third map, the <code>rightmost_lanelet</code> of the orange Lanelet is <code>null</code>.<br><img alt="rightmost_lanelet" src="media/api/rightmost_lanelet.drawio.svg"></td>
 </tr>
 <tr>
-<td align="left"></td>
+<td></td>
 <td><code>left_lanelets</code></td>
 <td>The input Lanelet is not included in the output.</td>
 <td><span class="arithmatex">\(O(W)\)</span> where <span class="arithmatex">\(W\)</span> is the size of the <code>bundle</code>.</td>
 <td>In the first map, the green Lanelete are the <code>left_lanelets</code> of the orange Lanelet.<br>In the second and third map, <code>left_lanelets</code> of the orange Lanelet is empty.<br><img alt="left_lanelets" src="media/api/left_lanelets.drawio.svg"></td>
 </tr>
 <tr>
-<td align="left"></td>
+<td></td>
 <td><code>right_lanelets</code></td>
 <td>same as above <code>left_lanelets</code>.</td>
 <td><span class="arithmatex">\(O(W)\)</span> where <span class="arithmatex">\(W\)</span> is the size of the <code>bundle.</code></td>
 <td>In the first map, the green Lanelets are the <code>right_lanelets</code> of the orange Lanelet.<br>In the second and third map, <code>right_lanelets</code> of the orange Lanelet is empty.<br><img alt="right_lanelets" src="media/api/right_lanelets.drawio.svg"></td>
+</tr>
+<tr>
+<td></td>
+<td><code>following_lanelets</code></td>
+<td></td>
+<td><span class="arithmatex">\(O(E)\)</span> where <span class="arithmatex">\(E\)</span> is the number of Lanelets to which the input is connected to.</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>previous_lanelets</code></td>
+<td></td>
+<td><span class="arithmatex">\(O(E)\)</span> where <span class="arithmatex">\(E\)</span> is the number of Lanelets from which the input is connected from.</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>sibling_lanelets</code></td>
+<td></td>
+<td><span class="arithmatex">\(O(E)\)</span> where <span class="arithmatex">\(E\)</span> is the number of sibling Lanelets</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>from_ids</code></td>
+<td></td>
+<td><span class="arithmatex">\(O(n)\)</span></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -2311,7 +2358,7 @@
 <span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">unordered_multimap</span><span class="o">&lt;</span><span class="n">RegulatoryElementConstPtr</span><span class="p">,</span><span class="w"> </span><span class="n">Lanelet</span><span class="o">&gt;</span><span class="w"> </span><span class="n">regElemLookup</span><span class="p">;</span>
 <span class="p">};</span>
 </code></pre></div>
-<p>Thus the complexity of <code>findUsage</code> function is equal to that of <code>std::unordered_multimap::equal_range</code></p>
+<p>Thus the complexity of <code>findUsage</code> function is equal to that of <code>std::unordered_multimap::equal_range</code> which is <span class="arithmatex">\(O(1)\)</span>.</p>
 <div class="highlight"><span class="filename">lanelet2_core/src/LaneletMap.cpp#L419-L424</span><pre><span></span><code><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
 <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">PrimitiveLayer</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">ConstPrimitiveT</span><span class="o">&gt;</span><span class="w"> </span><span class="n">PrimitiveLayer</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">findUsages</span><span class="p">(</span>
 <span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">traits</span><span class="o">::</span><span class="n">ConstPrimitiveType</span><span class="o">&lt;</span><span class="n">traits</span><span class="o">::</span><span class="n">OwnedT</span><span class="o">&lt;</span><span class="n">PrimitiveLayer</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">PrimitiveT</span><span class="o">&gt;&gt;&amp;</span><span class="w"> </span><span class="n">primitive</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span>
