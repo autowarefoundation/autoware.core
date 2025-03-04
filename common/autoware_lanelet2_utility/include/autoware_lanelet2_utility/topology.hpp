@@ -45,14 +45,39 @@ std::optional<lanelet::ConstLanelet> right_lanelet(
   const lanelet::routing::RoutingGraphConstPtr routing_graph);
 
 /**
- * @brief get the left adjacent and opposite_direction lanelet on the routing graph if exists
+ * @brief get left_lanelet() or sibling lanelet. If `lanelet` has turn_direction, search for sibling
+ * lanelet is limited to the one with same turn_direction value
  * @param [in] lanelet input lanelet
  * @param [in] routing_graph routing_graph containing `lanelet`
+ * @return optional of abovementioned lanelet(nullopt if there is no such lanelet)
+ */
+/*
+std::optional<lanelet::ConstLanelet> left_similar_lanelet(
+const lanelet::ConstLanelet & lanelet, const lanelet::LaneletMapConstPtr lanelet_map,
+const lanelet::routing::RoutingGraphConstPtr routing_graph);
+*/
+
+/**
+ * @brief get right_lanelet() or sibling lanelet. If `lanelet` has turn_direction, search for
+ * sibling lanelet is limited to the one with same turn_direction value
+ * @param [in] lanelet input lanelet
+ * @param [in] routing_graph routing_graph containing `lanelet`
+ * @return optional of abovementioned lanelet(nullopt if there is no such lanelet)
+ */
+/*
+std::optional<lanelet::ConstLanelet> right_similar_lanelet(
+const lanelet::ConstLanelet & lanelet, const lanelet::LaneletMapConstPtr lanelet_map,
+const lanelet::routing::RoutingGraphConstPtr routing_graph);
+*/
+
+/**
+ * @brief get the left adjacent and opposite_direction lanelet on the routing graph if exists
+ * @param [in] lanelet input lanelet
+ * @param [in] lanelet_map lanelet_map containing `lanelet`
  * @return optional of the left opposite lanelet(nullopt if there is not such opposite lanelet)
  */
 std::optional<lanelet::ConstLanelet> left_opposite_lanelet(
-  const lanelet::ConstLanelet & lanelet,
-  const lanelet::routing::RoutingGraphConstPtr routing_graph);
+  const lanelet::ConstLanelet & lanelet, const lanelet::LaneletMapConstPtr lanelet_map);
 
 /**
  * @brief get the right adjacent and opposite_direction lanelet on the routing graph if exists
@@ -61,8 +86,7 @@ std::optional<lanelet::ConstLanelet> left_opposite_lanelet(
  * @return optional of the right opposite lanelet(nullopt if there is no such opposite lanelet)
  */
 std::optional<lanelet::ConstLanelet> right_opposite_lanelet(
-  const lanelet::ConstLanelet & lanelet,
-  const lanelet::routing::RoutingGraphConstPtr routing_graph);
+  const lanelet::ConstLanelet & lanelet, const lanelet::LaneletMapConstPtr lanelet_map);
 
 /**
  * @brief get the leftmost same_direction lanelet if exists
@@ -89,8 +113,9 @@ std::optional<lanelet::ConstLanelet> rightmost_lanelet(
  * `lanelet`
  */
 lanelet::ConstLanelets left_lanelets(
-  const lanelet::ConstLanelet & lanelet, const lanelet::routing::RoutingGraphConstPtr routing_graph,
-  const bool include_opposite = false, const bool invert_opposite_lane = false);
+  const lanelet::ConstLanelet & lanelet, const lanelet::LaneletMapConstPtr lanelet_map,
+  const lanelet::routing::RoutingGraphConstPtr routing_graph, const bool include_opposite = false,
+  const bool invert_opposite_lane = false);
 
 /**
  * @brief get the right lanelets which are adjacent to `lanelet`
@@ -103,8 +128,9 @@ lanelet::ConstLanelets left_lanelets(
  * `lanelet`
  */
 lanelet::ConstLanelets right_lanelets(
-  const lanelet::ConstLanelet & lanelet, const lanelet::routing::RoutingGraphConstPtr routing_graph,
-  const bool include_opposite = false, const bool invert_opposite_lane = false);
+  const lanelet::ConstLanelet & lanelet, const lanelet::LaneletMapConstPtr lanelet_map,
+  const lanelet::routing::RoutingGraphConstPtr routing_graph, const bool include_opposite = false,
+  const bool invert_opposite_lane = false);
 
 /**
  * @brief get the following lanelets
@@ -143,7 +169,7 @@ lanelet::ConstLanelets sibling_lanelets(
  * @return the list of Lanelets in the same order as `ids`
  */
 lanelet::ConstLanelets from_ids(
-  const lanelet::LaneletMapConstPtr lanelet_map_ptr, const std::vector<lanelet::Id> & ids);
+  const lanelet::LaneletMapConstPtr lanelet_map, const std::vector<lanelet::Id> & ids);
 }  // namespace autoware::lanelet2_utility
 
 #endif  // AUTOWARE_LANELET2_UTILITY__TOPOLOGY_HPP_
