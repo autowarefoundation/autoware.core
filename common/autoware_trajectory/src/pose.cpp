@@ -114,7 +114,6 @@ void Trajectory<PointType>::align_orientation_with_trajectory_direction()
     const double elevation = this->elevation(s);
     const geometry_msgs::msg::Quaternion current_orientation =
       orientation_interpolator_->compute(s);
-
     tf2::Quaternion current_orientation_tf2(
       current_orientation.x, current_orientation.y, current_orientation.z, current_orientation.w);
     current_orientation_tf2.normalize();
@@ -128,7 +127,6 @@ void Trajectory<PointType>::align_orientation_with_trajectory_direction()
       std::cos(elevation) * std::cos(azimuth), std::cos(elevation) * std::sin(azimuth),
       std::sin(elevation));
 
-    // Compute the dot product and the angle between the current and desired x-axes
     const double dot_product = current_x_axis.dot(desired_x_axis);
     const double rotation_angle = std::acos(dot_product);
 
@@ -151,7 +149,6 @@ void Trajectory<PointType>::align_orientation_with_trajectory_direction()
     const tf2::Quaternion aligned_orientation_tf2 =
       (delta_q * current_orientation_tf2).normalized();
 
-    // Convert the tf2 quaternion back to geometry_msgs quaternion format
     geometry_msgs::msg::Quaternion aligned_orientation;
     aligned_orientation.x = aligned_orientation_tf2.x();
     aligned_orientation.y = aligned_orientation_tf2.y();
