@@ -46,6 +46,20 @@ namespace autoware::path_generator
 PathGenerator::PathGenerator(const rclcpp::NodeOptions & node_options)
 : Node("path_generator", node_options)
 {
+  // Initialize path_generator_parameters
+  planner_data_.path_generator_parameters.refine_goal_search_radius_range =
+    declare_parameter<double>("refine_goal_search_radius_range");
+  planner_data_.path_generator_parameters.search_radius_decrement =
+    declare_parameter<double>("search_radius_decrement");
+
+  // Ensure that the refine_goal_search_radius_range and search_radius_decrement must be positive
+  if (
+    planner_data_.path_generator_parameters.refine_goal_search_radius_range <= 0 ||
+    planner_data_.path_generator_parameters.search_radius_decrement <= 0) {
+    throw std::runtime_error(
+      "refine_goal_search_radius_range and search_radius_decrement must be positive");
+  }
+
   param_listener_ =
     std::make_shared<::path_generator::ParamListener>(this->get_node_parameters_interface());
 
@@ -154,6 +168,8 @@ void PathGenerator::set_route(const LaneletRoute::ConstSharedPtr & route_ptr)
       }
     }
   }
+
+  planner_data_.goal_lane_id = route_ptr->segments.back().preferred_primitive.id;
 
   const auto set_lanelets_from_segment =
     [&](
@@ -359,23 +375,39 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
     }
   }
 
-  auto trajectory = Trajectory::Builder().build(path_points_with_lane_id);
+  auto planner_data_ptr = std::make_shared<const PlannerData>(planner_data_);
+
+  // Compose path with lane id
+  PathWithLaneId path_with_lane_id;
+  path_with_lane_id.header.frame_id = planner_data_.route_frame_id;
+  path_with_lane_id.header.stamp = now();
+  path_with_lane_id.points = std::move(path_points_with_lane_id);
+
+  // Smooth path for goal connection
+  const auto smooth_path =
+    utils::modify_path_for_smooth_goal_connection(path_with_lane_id, planner_data_ptr);
+
+  auto trajectory = Trajectory::Builder().build(smooth_path.points);
   if (!trajectory) {
     return std::nullopt;
   }
 
+  // Attach orientation for all the points
   trajectory->align_orientation_with_trajectory_direction();
+
+  // Refine the trajectory by cropping
   trajectory->crop(
     s_offset + s_start -
       get_arc_length_along_centerline(
-        extended_lanelet_sequence, lanelet::utils::conversion::toLaneletPoint(
-                                     path_points_with_lane_id.front().point.pose.position)),
+        extended_lanelet_sequence,
+        lanelet::utils::conversion::toLaneletPoint(smooth_path.points.front().point.pose.position)),
     s_end - s_start);
 
-  PathWithLaneId path{};
-  path.header.frame_id = planner_data_.route_frame_id;
-  path.header.stamp = now();
-  path.points = trajectory->restore();
+  // Compose the polished path
+  PathWithLaneId polished_path{};
+  polished_path.header.frame_id = planner_data_.route_frame_id;
+  polished_path.header.stamp = now();
+  polished_path.points = trajectory->restore();
 
   const auto get_path_bound = [&](const lanelet::CompoundLineString2d & lanelet_bound) {
     const auto s_bound_start =
@@ -385,10 +417,10 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
     return utils::get_path_bound(
       lanelet_bound, extended_lanelet_sequence.centerline2d(), s_bound_start, s_bound_end);
   };
-  path.left_bound = get_path_bound(extended_lanelet_sequence.leftBound2d());
-  path.right_bound = get_path_bound(extended_lanelet_sequence.rightBound2d());
+  polished_path.left_bound = get_path_bound(extended_lanelet_sequence.leftBound2d());
+  polished_path.right_bound = get_path_bound(extended_lanelet_sequence.rightBound2d());
 
-  return path;
+  return polished_path;
 }
 }  // namespace autoware::path_generator
 

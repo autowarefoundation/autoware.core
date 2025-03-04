@@ -148,6 +148,100 @@ std::vector<geometry_msgs::msg::Point> get_path_bound(
   const double s_end);
 
 /**
+ * @brief find index out of goal search range
+ * @param points points of path
+ * @param goal goal pose
+ * @param goal_lane_id lane id of goal lanelet
+ * @param max_dist maximum distance to search for goal index
+ * @return index out of goal search range (std::nullopt if not found)
+ */
+std::optional<size_t> find_index_out_of_goal_search_range(
+  const std::vector<PathPointWithLaneId> & points, const geometry_msgs::msg::Pose & goal,
+  const int64_t goal_lane_id, const double max_dist = std::numeric_limits<double>::max());
+
+/**
+ * @brief Modify the path points near the goal to smoothly connect the input path and the goal
+ * point
+ * @details Remove the path points that are forward from the goal by the distance of
+ * search_radius_range. Then insert the goal into the path. The previous goal point generated
+ * from the goal posture information is also inserted for the smooth connection of the goal pose.
+ * @param [in] search_radius_range distance on path to be modified for goal insertion
+ * @param [in] input original path
+ * @param [in] goal original goal pose
+ * @param [in] goal_lane_id Lane ID of goal lanelet.
+ * @return output path with modified points for the goal (std::nullopt if not found)
+ */
+std::optional<PathWithLaneId> set_goal(
+  const double search_radius_range, const PathWithLaneId & input,
+  const geometry_msgs::msg::Pose & goal, const int64_t goal_lane_id);
+
+/**
+ * @brief Recreate the goal pose to prevent the goal point being too far from the lanelet, which
+ *  causes the path to twist near the goal.
+ * @details Return the goal point projected on the straight line of the segment of lanelet
+ *  closest to the original goal.
+ * @param [in] goal original goal pose
+ * @param [in] goal_lanelet lanelet containing the goal pose
+ */
+const geometry_msgs::msg::Pose refine_goal(
+  const geometry_msgs::msg::Pose & goal, const lanelet::ConstLanelet & goal_lanelet);
+
+/**
+ * @brief Recreate the path with a given goal pose.
+ * @param search_radius_range Searching radius.
+ * @param input Input path.
+ * @param refined_goal Goal pose.
+ * @param goal_lane_id Lane ID of goal lanelet.
+ * @return Recreated path
+ */
+PathWithLaneId refine_path_for_goal(
+  const double search_radius_range, const PathWithLaneId & input,
+  const geometry_msgs::msg::Pose & goal, const int64_t goal_lane_id);
+
+/**
+ * @brief Extract lanelets from the path.
+ * @param path Input path.
+ * @param planner_data Planner data.
+ * @return Extracted lanelets
+ */
+std::optional<lanelet::ConstLanelets> extract_lanelets_from_path(
+  const PathWithLaneId & refined_path, const std::shared_ptr<const PlannerData> & planner_data);
+
+/**
+ * @brief Get the goal lanelet.
+ * @param planner_data Planner data.
+ * @param goal_lanelet Goal lanelet.
+ * @return True if the goal lanelet is found, false otherwise
+ */
+bool get_goal_lanelet(const PlannerData & planner_data, lanelet::ConstLanelet * goal_lanelet);
+
+/**
+ * @brief Check if the pose is in the lanelets.
+ * @param pose Pose.
+ * @param lanes Lanelets.
+ * @return True if the pose is in the lanelets, false otherwise
+ */
+bool is_in_lanelets(const geometry_msgs::msg::Pose & pose, const lanelet::ConstLanelets & lanes);
+
+/**
+ * @brief Check if the path is valid.
+ * @param refined_path Input path.
+ * @param planner_data Planner data.
+ * @return True if the path is valid, false otherwise
+ */
+bool is_path_valid(
+  const PathWithLaneId & refined_path, const std::shared_ptr<const PlannerData> & planner_data);
+
+/**
+ * @brief Modify the path to connect smoothly to the goal.
+ * @param path Input path.
+ * @param planner_data Planner data.
+ * @return Modified path
+ */
+PathWithLaneId modify_path_for_smooth_goal_connection(
+  const PathWithLaneId & path, const std::shared_ptr<const PlannerData> & planner_data);
+
+/**
  * @brief get earliest turn signal based on turn direction specified for lanelets
  * @param path target path
  * @param planner_data planner data
