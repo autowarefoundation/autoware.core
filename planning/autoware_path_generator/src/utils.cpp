@@ -378,9 +378,52 @@ std::vector<geometry_msgs::msg::Point> get_path_bound(
   return path_bound;
 }
 
+std::optional<size_t> find_index_out_of_goal_search_range(
+  const std::vector<autoware_internal_planning_msgs::msg::PathPointWithLaneId> & points,
+  const geometry_msgs::msg::Pose & goal, const int64_t goal_lane_id, const double max_dist)
+{
+  if (points.empty()) {
+    return std::nullopt;
+  }
+
+  // find goal index
+  size_t min_dist_index;
+  {
+    bool found = false;
+    double min_dist = std::numeric_limits<double>::max();
+    for (size_t i = 0; i < points.size(); ++i) {
+      const auto & lane_ids = points.at(i).lane_ids;
+
+      const double dist_to_goal = autoware_utils::calc_distance2d(points.at(i).point.pose, goal);
+      const bool is_goal_lane_id_in_point =
+        std::find(lane_ids.begin(), lane_ids.end(), goal_lane_id) != lane_ids.end();
+      if (dist_to_goal < max_dist && dist_to_goal < min_dist && is_goal_lane_id_in_point) {
+        min_dist_index = i;
+        min_dist = dist_to_goal;
+        found = true;
+      }
+    }
+    if (!found) {
+      return std::nullopt;
+    }
+  }
+
+  // find index out of goal search range
+  size_t min_dist_out_of_range_index = min_dist_index;
+  for (int i = min_dist_index; 0 <= i; --i) {
+    const double dist = autoware_utils::calc_distance2d(points.at(i).point, goal);
+    min_dist_out_of_range_index = i;
+    if (max_dist < dist) {
+      break;
+    }
+  }
+
+  return min_dist_out_of_range_index;
+}
+
 std::optional<PathWithLaneId> set_goal(
   const double search_radius_range, const PathWithLaneId & input,
-  const geometry_msgs::msg::Pose & goal)
+  const geometry_msgs::msg::Pose & goal, const int64_t goal_lane_id)
 {
   try {
     if (input.points.empty()) {
@@ -436,9 +479,12 @@ std::optional<PathWithLaneId> set_goal(
     }
 
     // Find min_dist_out_of_circle_index whose distance to goal is longer than search_radius_range
-    const auto min_dist_out_of_circle_index =
-      autoware::motion_utils::findFirstNearestIndexWithSoftConstraints(
-        input.points, goal, search_radius_range, M_PI_4);
+    const auto min_dist_out_of_circle_index_opt =
+      find_index_out_of_goal_search_range(input.points, goal, goal_lane_id, search_radius_range);
+    if (!min_dist_out_of_circle_index_opt) {
+      return std::nullopt;
+    }
+    const auto min_dist_out_of_circle_index = min_dist_out_of_circle_index_opt.value();
 
     // Create output points
     output.points.reserve(output.points.size() + min_dist_out_of_circle_index + 3);
@@ -521,7 +567,7 @@ const geometry_msgs::msg::Pose refine_goal(
 
 PathWithLaneId refine_path_for_goal(
   const double search_radius_range, const PathWithLaneId & input,
-  const geometry_msgs::msg::Pose & goal)
+  const geometry_msgs::msg::Pose & goal, const int64_t goal_lane_id)
 {
   PathWithLaneId filtered_path = input;
 
@@ -533,7 +579,7 @@ PathWithLaneId refine_path_for_goal(
   }
 
   // If set_goal returns a valid path, return it
-  if (const auto path_with_goal = set_goal(search_radius_range, filtered_path, goal)) {
+  if (const auto path_with_goal = set_goal(search_radius_range, filtered_path, goal, goal_lane_id)) {
     return *path_with_goal;
   }
 
@@ -636,7 +682,7 @@ PathWithLaneId modify_path_for_smooth_goal_connection(
 
   // Then, refine the path for the goal
   while (goal_search_radius >= 0 && !is_valid_path) {
-    refined_path = refine_path_for_goal(goal_search_radius, path, refined_goal);
+    refined_path = refine_path_for_goal(goal_search_radius, path, refined_goal, planner_data->goal_lane_id);
     if (is_path_valid(refined_path, planner_data)) {
       is_valid_path = true;
     }

@@ -148,6 +148,18 @@ std::vector<geometry_msgs::msg::Point> get_path_bound(
   const double s_end);
 
 /**
+ * @brief find index out of goal search range
+ * @param points points of path
+ * @param goal goal pose
+ * @param goal_lane_id lane id of goal lanelet
+ * @param max_dist maximum distance to search for goal index
+ * @return index out of goal search range (std::nullopt if not found)
+ */
+std::optional<size_t> find_index_out_of_goal_search_range(
+  const std::vector<PathPointWithLaneId> & points, const geometry_msgs::msg::Pose & goal,
+  const int64_t goal_lane_id, const double max_dist = std::numeric_limits<double>::max());
+
+/**
  * @brief Modify the path points near the goal to smoothly connect the input path and the goal
  * point
  * @details Remove the path points that are forward from the goal by the distance of
@@ -156,11 +168,12 @@ std::vector<geometry_msgs::msg::Point> get_path_bound(
  * @param [in] search_radius_range distance on path to be modified for goal insertion
  * @param [in] input original path
  * @param [in] goal original goal pose
+ * @param [in] goal_lane_id Lane ID of goal lanelet.
  * @return output path with modified points for the goal (std::nullopt if not found)
  */
 std::optional<PathWithLaneId> set_goal(
   const double search_radius_range, const PathWithLaneId & input,
-  const geometry_msgs::msg::Pose & goal);
+  const geometry_msgs::msg::Pose & goal, const int64_t goal_lane_id);
 
 /**
  * @brief Recreate the goal pose to prevent the goal point being too far from the lanelet, which
@@ -178,11 +191,12 @@ const geometry_msgs::msg::Pose refine_goal(
  * @param search_radius_range Searching radius.
  * @param input Input path.
  * @param refined_goal Goal pose.
+ * @param goal_lane_id Lane ID of goal lanelet.
  * @return Recreated path
  */
 PathWithLaneId refine_path_for_goal(
   const double search_radius_range, const PathWithLaneId & input,
-  const geometry_msgs::msg::Pose & goal);
+  const geometry_msgs::msg::Pose & goal, const int64_t goal_lane_id);
 
 /**
  * @brief Extract lanelets from the path.
