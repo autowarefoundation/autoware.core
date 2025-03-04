@@ -579,7 +579,8 @@ PathWithLaneId refine_path_for_goal(
   }
 
   // If set_goal returns a valid path, return it
-  if (const auto path_with_goal = set_goal(search_radius_range, filtered_path, goal, goal_lane_id)) {
+  if (
+    const auto path_with_goal = set_goal(search_radius_range, filtered_path, goal, goal_lane_id)) {
     return *path_with_goal;
   }
 
@@ -679,7 +680,8 @@ PathWithLaneId modify_path_for_smooth_goal_connection(
 
   // Then, refine the path for the goal
   while (goal_search_radius >= 0 && !is_valid_path) {
-    refined_path = refine_path_for_goal(goal_search_radius, path, refined_goal, planner_data->goal_lane_id);
+    refined_path =
+      refine_path_for_goal(goal_search_radius, path, refined_goal, planner_data->goal_lane_id);
     if (is_path_valid(refined_path, planner_data)) {
       is_valid_path = true;
     }
