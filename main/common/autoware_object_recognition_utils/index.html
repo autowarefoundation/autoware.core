@@ -8,20 +8,20 @@
       
       
       
-        <link rel="canonical" href="https://autowarefoundation.github.io/autoware.core/main/common/autoware_interpolation/">
+        <link rel="canonical" href="https://autowarefoundation.github.io/autoware.core/main/common/autoware_object_recognition_utils/">
       
       
-        <link rel="prev" href="../autoware_geography_utils/">
+        <link rel="prev" href="../autoware_node/">
       
       
-        <link rel="next" href="../autoware_kalman_filter/">
+        <link rel="next" href="../autoware_osqp_interface/design/osqp_interface-design/">
       
       <link rel="icon" href="../../docs/assets/images/autoware-foundation.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.20">
     
     
       
-        <title>Interpolation package - Autoware Core Documentation</title>
+        <title>autoware_object_recognition_utils - Autoware Core Documentation</title>
       
     
     
@@ -77,7 +77,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#interpolation-package" class="md-skip">
+        <a href="#autoware_object_recognition_utils" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Interpolation package
+              autoware_object_recognition_utils
             
           </span>
         </div>
@@ -552,18 +552,18 @@
               
   
   
-    
-  
   
     
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_3" checked>
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_3" >
       
       
         
@@ -575,12 +575,12 @@
       
         
         
-        <div class="md-nav__link md-nav__link--index md-nav__link--active">
-          <a href="./">Autoware interpolation</a>
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../autoware_interpolation/">Autoware interpolation</a>
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_3_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_3_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_1_3">
           <span class="md-nav__icon md-icon"></span>
           Autoware interpolation
@@ -844,18 +844,18 @@
               
   
   
+    
+  
   
     
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
       
       
       
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_7" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_7" checked>
       
       
         
@@ -867,12 +867,12 @@
       
         
         
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_object_recognition_utils/">Autoware object recognition utils</a>
+        <div class="md-nav__link md-nav__link--index md-nav__link--active">
+          <a href="./">Autoware object recognition utils</a>
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_7_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_7_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_1_7">
           <span class="md-nav__icon md-icon"></span>
           Autoware object recognition utils
@@ -2000,43 +2000,64 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#linear-interpolation" class="md-nav__link">
-    Linear Interpolation
+  <a href="#overview" class="md-nav__link">
+    Overview
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#spline-interpolation" class="md-nav__link">
-    Spline Interpolation
+  <a href="#design" class="md-nav__link">
+    Design
   </a>
   
-    <nav class="md-nav" aria-label="Spline Interpolation">
+    <nav class="md-nav" aria-label="Design">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#evaluation-of-calculation-cost" class="md-nav__link">
-    Evaluation of calculation cost
+  <a href="#conversion" class="md-nav__link">
+    Conversion
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#spline-interpolation-algorithm" class="md-nav__link">
-    Spline Interpolation Algorithm
+  <a href="#geometry" class="md-nav__link">
+    Geometry
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#tridiagonal-matrix-algorithm" class="md-nav__link">
-    Tridiagonal Matrix Algorithm
+  <a href="#matching" class="md-nav__link">
+    Matching
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#object-classification" class="md-nav__link">
+    Object Classification
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#predicted-path-utils" class="md-nav__link">
+    Predicted Path Utils
   </a>
   
 </li>
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
   
 </li>
       
@@ -2058,108 +2079,38 @@
   
 
 
-<div><h1 id="interpolation-package">Interpolation package<a class="headerlink" href="#interpolation-package" title="Permanent link">#</a></h1>
-<p>This package supplies linear and spline interpolation functions.</p>
-<h2 id="linear-interpolation">Linear Interpolation<a class="headerlink" href="#linear-interpolation" title="Permanent link">#</a></h2>
-<p><code>lerp(src_val, dst_val, ratio)</code> (for scalar interpolation) interpolates <code>src_val</code> and <code>dst_val</code> with <code>ratio</code>.
-This will be replaced with <code>std::lerp(src_val, dst_val, ratio)</code> in <code>C++20</code>.</p>
-<p><code>lerp(base_keys, base_values, query_keys)</code> (for vector interpolation) applies linear regression to each two continuous points whose x values are<code>base_keys</code> and whose y values are <code>base_values</code>.
-Then it calculates interpolated values on y-axis for <code>query_keys</code> on x-axis.</p>
-<h2 id="spline-interpolation">Spline Interpolation<a class="headerlink" href="#spline-interpolation" title="Permanent link">#</a></h2>
-<p><code>spline(base_keys, base_values, query_keys)</code> (for vector interpolation) applies spline regression to each two continuous points whose x values are<code>base_keys</code> and whose y values are <code>base_values</code>.
-Then it calculates interpolated values on y-axis for <code>query_keys</code> on x-axis.</p>
-<h3 id="evaluation-of-calculation-cost">Evaluation of calculation cost<a class="headerlink" href="#evaluation-of-calculation-cost" title="Permanent link">#</a></h3>
-<p>We evaluated calculation cost of spline interpolation for 100 points, and adopted the best one which is tridiagonal matrix algorithm.
-Methods except for tridiagonal matrix algorithm exists in <code>spline_interpolation</code> package, which has been removed from Autoware.</p>
-<table>
-<thead>
-<tr>
-<th>Method</th>
-<th>Calculation time</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Tridiagonal Matrix Algorithm</td>
-<td>0.007 [ms]</td>
-</tr>
-<tr>
-<td>Preconditioned Conjugate Gradient</td>
-<td>0.024 [ms]</td>
-</tr>
-<tr>
-<td>Successive Over-Relaxation</td>
-<td>0.074 [ms]</td>
-</tr>
-</tbody>
-</table>
-<h3 id="spline-interpolation-algorithm">Spline Interpolation Algorithm<a class="headerlink" href="#spline-interpolation-algorithm" title="Permanent link">#</a></h3>
-<p>Assuming that the size of <code>base_keys</code> (<span class="arithmatex">\(x_i\)</span>) and <code>base_values</code> (<span class="arithmatex">\(y_i\)</span>) are <span class="arithmatex">\(N + 1\)</span>, we aim to calculate spline interpolation with the following equation to interpolate between <span class="arithmatex">\(y_i\)</span> and <span class="arithmatex">\(y_{i+1}\)</span>.</p>
-<div class="arithmatex">\[
-Y_i(x) = a_i (x - x_i)^3 + b_i (x - x_i)^2 + c_i (x - x_i) + d_i \ \ \ (i = 0, \dots, N-1)
-\]</div>
-<p>Constraints on spline interpolation are as follows.
-The number of constraints is <span class="arithmatex">\(4N\)</span>, which is equal to the number of variables of spline interpolation.</p>
-<div class="arithmatex">\[
-\begin{align}
-Y_i (x_i) &amp; = y_i \ \ \ (i = 0, \dots, N-1) \\
-Y_i (x_{i+1}) &amp; = y_{i+1} \ \ \ (i = 0, \dots, N-1) \\
-Y_i '(x_{i+1}) &amp; = Y_{i+1}' (x_{i+1}) \ \ \ (i = 0, \dots, N-2) \\
-Y_i (x_{i+1})'' &amp; = Y_{i+1}'' (x_{i+1}) \ \ \ (i = 0, \dots, N-2) \\
-Y_0 ''(x_0) &amp; = 0 \\
-Y_{N-1}'' (x_N) &amp; = 0
-\end{align}
-\]</div>
-<p>According to <a href="https://www.mk-mode.com/rails/docs/INTERPOLATION_SPLINE.pdf">this article</a>, spline interpolation is formulated as the following linear equation.</p>
-<div class="arithmatex">\[
-\begin{align}
- \begin{pmatrix}
-    2(h_0 + h_1) &amp; h_1 \\
-    h_0 &amp; 2 (h_1 + h_2) &amp; h_2 &amp; &amp; O \\
-        &amp;     &amp;     &amp; \ddots \\
-    O &amp;     &amp;     &amp;       &amp; h_{N-2} &amp; 2 (h_{N-2} + h_{N-1})
- \end{pmatrix}
- \begin{pmatrix}
-    v_1 \\ v_2 \\ v_3 \\ \vdots \\ v_{N-1}
- \end{pmatrix}=
- \begin{pmatrix}
-    w_1 \\ w_2 \\ w_3 \\ \vdots \\ w_{N-1}
- \end{pmatrix}
-\end{align}
-\]</div>
-<p>where</p>
-<div class="arithmatex">\[
-\begin{align}
-h_i &amp; = x_{i+1} - x_i \ \ \ (i = 0, \dots, N-1) \\
-w_i &amp; = 6 \left(\frac{y_{i+1} - y_{i+1}}{h_i} - \frac{y_i - y_{i-1}}{h_{i-1}}\right) \ \ \ (i = 1, \dots, N-1)
-\end{align}
-\]</div>
-<p>The coefficient matrix of this linear equation is tridiagonal matrix. Therefore, it can be solve with tridiagonal matrix algorithm, which can solve linear equations without gradient descent methods.</p>
-<p>Solving this linear equation with tridiagonal matrix algorithm, we can calculate coefficients of spline interpolation as follows.</p>
-<div class="arithmatex">\[
-\begin{align}
-a_i &amp; = \frac{v_{i+1} - v_i}{6 (x_{i+1} - x_i)} \ \ \ (i = 0, \dots, N-1) \\
-b_i &amp; = \frac{v_i}{2} \ \ \ (i = 0, \dots, N-1) \\
-c_i &amp; = \frac{y_{i+1} - y_i}{x_{i+1} - x_i} - \frac{1}{6}(x_{i+1} - x_i)(2 v_i + v_{i+1}) \ \ \ (i = 0, \dots, N-1) \\
-d_i &amp; = y_i \ \ \ (i = 0, \dots, N-1)
-\end{align}
-\]</div>
-<h3 id="tridiagonal-matrix-algorithm">Tridiagonal Matrix Algorithm<a class="headerlink" href="#tridiagonal-matrix-algorithm" title="Permanent link">#</a></h3>
-<p>We solve tridiagonal linear equation according to <a href="https://www.iist.ac.in/sites/default/files/people/tdma.pdf">this article</a> where variables of linear equation are expressed as follows in the implementation.</p>
-<div class="arithmatex">\[
-\begin{align}
- \begin{pmatrix}
-    b_0 &amp; c_0 &amp;     &amp; \\
-    a_0 &amp; b_1 &amp; c_2 &amp; O \\
-        &amp;     &amp; \ddots \\
-    O &amp;     &amp; a_{N-2} &amp;  b_{N-1}
- \end{pmatrix}
-x =
-\begin{pmatrix}
-    d_0 \\ d_2 \\ d_3 \\ \vdots \\ d_{N-1}
- \end{pmatrix}
-\end{align}
-\]</div></div>
+<div><h1 id="autoware_object_recognition_utils">autoware_object_recognition_utils<a class="headerlink" href="#autoware_object_recognition_utils" title="Permanent link">#</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">#</a></h2>
+<p>This package contains a library of common functions that are useful across the perception module and planning module.</p>
+<h2 id="design">Design<a class="headerlink" href="#design" title="Permanent link">#</a></h2>
+<h3 id="conversion">Conversion<a class="headerlink" href="#conversion" title="Permanent link">#</a></h3>
+<p>Ensuring accurate and efficient converting between DetectedObject and TrackedObject types.</p>
+<h3 id="geometry">Geometry<a class="headerlink" href="#geometry" title="Permanent link">#</a></h3>
+<p>It provides specialized implementations for each object type (e.g., DetectedObject, TrackedObject, and PredictedObject) to extract the pose information.</p>
+<h3 id="matching">Matching<a class="headerlink" href="#matching" title="Permanent link">#</a></h3>
+<p>It provides utility functions for calculating geometrical metrics, such as 2D IoU (Intersection over Union), GIoU (Generalized IoU), Precision, and Recall for objects. It also provides helper functions for computing areas of intersections, unions, and convex hulls of polygon</p>
+<h3 id="object-classification">Object Classification<a class="headerlink" href="#object-classification" title="Permanent link">#</a></h3>
+<p>Designed for processing and classifying detected objects, it implements the following functionalities:</p>
+<ul>
+<li>Handling of vehicle category checks</li>
+<li>Conversion between string class names and numerical labels</li>
+<li>Probability-based classification selection</li>
+<li>String representation of object labels</li>
+</ul>
+<h3 id="predicted-path-utils">Predicted Path Utils<a class="headerlink" href="#predicted-path-utils" title="Permanent link">#</a></h3>
+<p>Providing utility functions for handling predicted paths of objects. It includes the following functionalities:</p>
+<ul>
+<li>calcInterpolatedPose: Calculates an interpolated pose from a predicted path based on a given time.</li>
+<li>resamplePredictedPath (version 1): Resamples a predicted path according to a specified time vector, optionally using spline interpolation for smoother results.</li>
+<li>resamplePredictedPath (version 2): Resamples a predicted path at regular time intervals, including the terminal point, with optional spline interpolation.</li>
+</ul>
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">#</a></h2>
+<p>include all-in-one header files if multiple functionalities are needed:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;autoware_object_recognition_utils/object_recognition_utils.hpp&gt;</span>
+</code></pre></div>
+<p>include specific header files if only a subset of functionalities is needed:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;autoware_object_recognition_utils/object_classifier.hpp&gt;</span>
+</code></pre></div></div>
 
 
 
@@ -2186,7 +2137,7 @@ x =
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../autoware_geography_utils/" class="md-footer__link md-footer__link--prev" aria-label="Previous: autoware_geography_utils" rel="prev">
+          <a href="../autoware_node/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Autoware Node" rel="prev">
             <div class="md-footer__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
             </div>
@@ -2195,20 +2146,20 @@ x =
                 Previous
               </span>
               <div class="md-ellipsis">
-                autoware_geography_utils
+                Autoware Node
               </div>
             </div>
           </a>
         
         
           
-          <a href="../autoware_kalman_filter/" class="md-footer__link md-footer__link--next" aria-label="Next: kalman_filter" rel="next">
+          <a href="../autoware_osqp_interface/design/osqp_interface-design/" class="md-footer__link md-footer__link--next" aria-label="Next: Interface for the OSQP library" rel="next">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                kalman_filter
+                Interface for the OSQP library
               </div>
             </div>
             <div class="md-footer__button md-icon">
