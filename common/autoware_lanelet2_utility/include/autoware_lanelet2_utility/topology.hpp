@@ -27,7 +27,7 @@ namespace autoware::lanelet2_utility
 /**
  * @brief instantiate RoutingGraph from given LaneletMap only from "road" lanes
  * @param location [in, opt, lanelet::Locations::Germany] location value
- * @param particiapnt [in, opt, lanelet::Participants::Vehicle] participant value
+ * @param participant [in, opt, lanelet::Participants::Vehicle] participant value
  * @return RoutingGraph object without road_shoulder and bicycle_lane
  */
 lanelet::routing::RoutingGraphConstPtr instantiate_routing_graph(
@@ -60,7 +60,7 @@ std::optional<lanelet::ConstLanelet> right_lanelet(
  * lanelet is limited to the one with same turn_direction value
  * @param [in] lanelet input lanelet
  * @param [in] routing_graph routing_graph containing `lanelet`
- * @return optional of abovementioned lanelet(nullopt if there is no such lanelet)
+ * @return optional of aforementioned lanelet(nullopt if there is no such lanelet)
  */
 /*
 std::optional<lanelet::ConstLanelet> left_similar_lanelet(
@@ -73,7 +73,7 @@ const lanelet::routing::RoutingGraphConstPtr routing_graph);
  * sibling lanelet is limited to the one with same turn_direction value
  * @param [in] lanelet input lanelet
  * @param [in] routing_graph routing_graph containing `lanelet`
- * @return optional of abovementioned lanelet(nullopt if there is no such lanelet)
+ * @return optional of aforementioned lanelet(nullopt if there is no such lanelet)
  */
 /*
 std::optional<lanelet::ConstLanelet> right_similar_lanelet(

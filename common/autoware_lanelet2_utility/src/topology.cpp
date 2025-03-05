@@ -124,7 +124,7 @@ std::optional<lanelet::ConstLanelet> rightmost_lanelet(
   }
   size_t bundle_size_diagnosis = 0;
   while (bundle_size_diagnosis < k_normal_bundle_max_size) {
-    const auto next_right_lane = left_lanelet(right_lane.value(), routing_graph);
+    const auto next_right_lane = right_lanelet(right_lane.value(), routing_graph);
     if (!next_right_lane) {
       // reached
       return right_lane;
