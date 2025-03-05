@@ -23,7 +23,7 @@ def renumber_osm_ids(input_file):
     root = tree.getroot()
 
     id_map = {}
-    new_id = 0
+    new_id = 1
 
     # Collect nodes, ways, and relations with new ids
     for element in root.findall("node") + root.findall("way") + root.findall("relation"):

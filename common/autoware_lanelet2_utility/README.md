@@ -156,7 +156,15 @@ std::vector<T> forEachMatchInMultiMap(const MapT& map, const KeyT& key, Func&& f
 }
 ```
 
-## How to craft test map
+## Test maps
+
+| Map name                    | Origin point id | Image                                               |
+| --------------------------- | --------------- | --------------------------------------------------- |
+| `road_shoulder/highway.osm` | `1`             | ![highway](./media/maps/road_shoulder/highway.png)  |
+| `road_shoulder/pudo.osm`    | `140`           | ![pudo](./media/maps/road_shoulder/pudo.png)        |
+| `intersection/crossing.osm` | `1867`          | ![crossing](./media/maps/intersection/crossing.png) |
+
+### How to craft test map
 
 On the VMB, create the map in local projector(or convert it to local projector from MGRS projector) and save the file as `<input_map.osm>`. Next, select the point to use as (0.0, 0.0) and pass its `<ID>` and run
 
@@ -164,4 +172,10 @@ On the VMB, create the map in local projector(or convert it to local projector f
 ros2 run autoware_lanelet2_utility lanelet_anonymizer.py <input_map.osm> <output_map.osm> <ID>
 ```
 
-Then the coordinate of the specified point is (0, 0) on the loaded map
+Then the coordinate of the specified point is (0, 0) on the loaded map.
+
+By applying `lanelet_id_aligner.py`, the primitive ids are aligned to start from 1 and increase one-by-one.
+
+```bash
+ros2 run autoware_lanelet2_utility lanelet_id_aligner.py <input_map.osm>
+```

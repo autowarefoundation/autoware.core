@@ -30,5 +30,6 @@ ament_auto_package(INSTALL_TO_SHARE
 
 install(PROGRAMS
   scripts/lanelet_anonymizer.py
+  scripts/lanelet_id_aligner.py
   DESTINATION lib/${PROJECT_NAME}
 )

@@ -44,20 +44,20 @@ protected:
 
 TEST_F(TestWithRoadShoulderHighwayMap, LoadCheck)
 {
-  const auto point8 = lanelet_map_ptr_->pointLayer.get(8);
+  const auto point8 = lanelet_map_ptr_->pointLayer.get(1);
   EXPECT_EQ(point8.x(), 0.0);
   EXPECT_EQ(point8.y(), 0.0);
-  const auto point10 = lanelet_map_ptr_->pointLayer.get(10);
+  const auto point10 = lanelet_map_ptr_->pointLayer.get(2);
   EXPECT_EQ(point10.x(), 4.0);
   EXPECT_EQ(point10.y(), 0.0);
-  const auto point15 = lanelet_map_ptr_->pointLayer.get(15);
+  const auto point15 = lanelet_map_ptr_->pointLayer.get(3);
   EXPECT_EQ(point15.x(), 8.0);
   EXPECT_EQ(point15.y(), 0.0);
 }
 
 TEST_F(TestWithRoadShoulderHighwayMap, is_road_lane)
 {
-  const auto ll = lanelet_map_ptr_->laneletLayer.get(1275);
+  const auto ll = lanelet_map_ptr_->laneletLayer.get(47);
   EXPECT_EQ(autoware::lanelet2_utility::is_road_lane(ll), true);
   EXPECT_EQ(autoware::lanelet2_utility::is_shoulder_lane(ll), false);
   EXPECT_EQ(autoware::lanelet2_utility::is_bicycle_lane(ll), false);
@@ -65,7 +65,7 @@ TEST_F(TestWithRoadShoulderHighwayMap, is_road_lane)
 
 TEST_F(TestWithRoadShoulderHighwayMap, is_shoulder_lane)
 {
-  const auto ll = lanelet_map_ptr_->laneletLayer.get(67);
+  const auto ll = lanelet_map_ptr_->laneletLayer.get(44);
   EXPECT_EQ(autoware::lanelet2_utility::is_road_lane(ll), false);
   EXPECT_EQ(autoware::lanelet2_utility::is_shoulder_lane(ll), true);
   EXPECT_EQ(autoware::lanelet2_utility::is_bicycle_lane(ll), false);
