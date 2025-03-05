@@ -2198,6 +2198,13 @@
 </tr>
 <tr>
 <td><code>&lt;autoware_lanelet2_utility/topology.hpp&gt;</code></td>
+<td><code>instantiate_routing_graph</code></td>
+<td>This function creates a <code>RoutingGraph</code> object only from "road" lanes, which means "road_shoulder" and "bicycle_lane" Lanelets are inaccessible from left/right adjacency.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
 <td><code>left_lanelet</code></td>
 <td>This function ignores the permission of lane change. Also it ignores <code>shoulder</code> and <code>bicycle</code> Lanelet.</td>
 <td><span class="arithmatex">\(O(1)\)</span></td>
@@ -2386,6 +2393,7 @@
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="test-maps">Test maps<a class="headerlink" href="#test-maps" title="Permanent link">#</a></h2>
+<p>All of the maps are in <code>local</code> coordinate.</p>
 <table>
 <thead>
 <tr>
@@ -2398,16 +2406,21 @@
 <tr>
 <td><code>road_shoulder/highway.osm</code></td>
 <td><code>1</code></td>
-<td></td>
+<td><img alt="highway" src="media/maps/road_shoulder/highway.png"></td>
 </tr>
 <tr>
 <td><code>road_shoulder/pudo.osm</code></td>
 <td><code>140</code></td>
-<td></td>
+<td><img alt="pudo" src="media/maps/road_shoulder/pudo.png"></td>
 </tr>
 <tr>
 <td><code>intersection/crossing.osm</code></td>
-<td><code>1867</code></td>
+<td><code>1824</code></td>
+<td><img alt="crossing" src="media/maps/intersection/crossing.png"></td>
+</tr>
+<tr>
+<td><code>intersection/Tshape.osm</code></td>
+<td><code>212</code></td>
 <td></td>
 </tr>
 </tbody>
