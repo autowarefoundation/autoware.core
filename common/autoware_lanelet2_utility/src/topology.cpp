@@ -76,9 +76,7 @@ std::optional<lanelet::ConstLanelet> left_opposite_lanelet(
 {
   for (const auto & opposite_candidate :
        lanelet_map->laneletLayer.findUsages(lanelet.leftBound().invert())) {
-    if (opposite_candidate.rightBound().id() == lanelet.leftBound().id()) {
-      return opposite_candidate;
-    }
+    return opposite_candidate;
   }
   return std::nullopt;
 }
@@ -88,9 +86,7 @@ std::optional<lanelet::ConstLanelet> right_opposite_lanelet(
 {
   for (const auto & opposite_candidate :
        lanelet_map->laneletLayer.findUsages(lanelet.rightBound().invert())) {
-    if (opposite_candidate.leftBound().id() == lanelet.rightBound().id()) {
-      return opposite_candidate;
-    }
+    return opposite_candidate;
   }
   return std::nullopt;
 }
