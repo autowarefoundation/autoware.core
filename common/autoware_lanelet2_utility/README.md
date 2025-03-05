@@ -159,11 +159,13 @@ std::vector<T> forEachMatchInMultiMap(const MapT& map, const KeyT& key, Func&& f
 
 ## Test maps
 
+All of the maps are in `local` coordinate.
+
 | Map name                    | Origin point id | Image                                               |
 | --------------------------- | --------------- | --------------------------------------------------- |
 | `road_shoulder/highway.osm` | `1`             | ![highway](./media/maps/road_shoulder/highway.png)  |
 | `road_shoulder/pudo.osm`    | `140`           | ![pudo](./media/maps/road_shoulder/pudo.png)        |
-| `intersection/crossing.osm` | `1861`          | ![crossing](./media/maps/intersection/crossing.png) |
+| `intersection/crossing.osm` | `1824`          | ![crossing](./media/maps/intersection/crossing.png) |
 
 ### How to craft test map
 
