@@ -663,10 +663,11 @@ PathWithLaneId modify_path_for_smooth_goal_connection(
 
   geometry_msgs::msg::Pose refined_goal{};
   {
-    lanelet::ConstLanelet goal_lanelet;
+    // Prevent from shadowVariable
+    const auto goal_lanelet = get_goal_lanelet(*planner_data);
 
     // First, polish up the goal pose if possible
-    if (const auto goal_lanelet = get_goal_lanelet(*planner_data)) {
+    if (goal_lanelet) {
       refined_goal = refine_goal(goal, *goal_lanelet);
     } else {
       refined_goal = goal;
