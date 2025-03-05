@@ -31,7 +31,7 @@ autoware_planning_msgs::msg::TrajectoryPoint trajectory_point(double x, double y
   return point;
 }
 
-TEST(TrajectoryCreatorTest, create)
+TEST(TrajectoryCreatorTestForTrajectoryPoint, create)
 {
   {
     std::vector<autoware_planning_msgs::msg::TrajectoryPoint> points{trajectory_point(0.00, 0.00)};
@@ -47,7 +47,7 @@ TEST(TrajectoryCreatorTest, create)
   }
 }
 
-class TrajectoryTest : public ::testing::Test
+class TrajectoryTestForTrajectoryPoint : public ::testing::Test
 {
 public:
   std::optional<Trajectory> trajectory;
@@ -65,7 +65,7 @@ public:
   }
 };
 
-TEST_F(TrajectoryTest, compute)
+TEST_F(TrajectoryTestForTrajectoryPoint, compute)
 {
   double length = trajectory->length();
 
@@ -81,7 +81,7 @@ TEST_F(TrajectoryTest, compute)
   EXPECT_LT(point.pose.position.y, 10);
 }
 
-TEST_F(TrajectoryTest, manipulate_velocity)
+TEST_F(TrajectoryTestForTrajectoryPoint, manipulate_velocity)
 {
   trajectory->longitudinal_velocity_mps() = 10.0;
   trajectory->longitudinal_velocity_mps()
@@ -96,21 +96,21 @@ TEST_F(TrajectoryTest, manipulate_velocity)
   EXPECT_EQ(10.0, point3.longitudinal_velocity_mps);
 }
 
-TEST_F(TrajectoryTest, direction)
+TEST_F(TrajectoryTestForTrajectoryPoint, direction)
 {
   double dir = trajectory->azimuth(0.0);
   EXPECT_LT(0, dir);
   EXPECT_LT(dir, M_PI / 2);
 }
 
-TEST_F(TrajectoryTest, curvature)
+TEST_F(TrajectoryTestForTrajectoryPoint, curvature)
 {
   double curvature_val = trajectory->curvature(0.0);
   EXPECT_LT(-1.0, curvature_val);
   EXPECT_LT(curvature_val, 1.0);
 }
 
-TEST_F(TrajectoryTest, restore)
+TEST_F(TrajectoryTestForTrajectoryPoint, restore)
 {
   using autoware::trajectory::Trajectory;
   trajectory->longitudinal_velocity_mps().range(4.0, trajectory->length()).set(5.0);
@@ -118,7 +118,7 @@ TEST_F(TrajectoryTest, restore)
   EXPECT_EQ(11, points.size());
 }
 
-TEST_F(TrajectoryTest, crossed)
+TEST_F(TrajectoryTestForTrajectoryPoint, crossed)
 {
   lanelet::LineString2d line_string;
   line_string.push_back(lanelet::Point3d(lanelet::InvalId, 0.0, 10.0, 0.0));
@@ -131,7 +131,7 @@ TEST_F(TrajectoryTest, crossed)
   EXPECT_LT(crossed_point.at(0), trajectory->length());
 }
 
-TEST_F(TrajectoryTest, closest)
+TEST_F(TrajectoryTestForTrajectoryPoint, closest)
 {
   geometry_msgs::msg::Pose pose;
   pose.position.x = 5.0;
@@ -145,7 +145,7 @@ TEST_F(TrajectoryTest, closest)
   EXPECT_LT(distance, 3.0);
 }
 
-TEST_F(TrajectoryTest, crop)
+TEST_F(TrajectoryTestForTrajectoryPoint, crop)
 {
   double length = trajectory->length();
 
@@ -166,7 +166,7 @@ TEST_F(TrajectoryTest, crop)
   EXPECT_EQ(end_point_expect.pose.position.y, end_point_actual.pose.position.y);
 }
 
-TEST_F(TrajectoryTest, max_curvature)
+TEST_F(TrajectoryTestForTrajectoryPoint, max_curvature)
 {
   double max_curvature = autoware::trajectory::max_curvature(*trajectory);
   EXPECT_LT(0, max_curvature);
