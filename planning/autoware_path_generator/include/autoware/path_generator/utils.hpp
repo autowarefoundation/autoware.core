@@ -25,6 +25,8 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <limits>
+#include <memory>
 
 namespace autoware::path_generator
 {

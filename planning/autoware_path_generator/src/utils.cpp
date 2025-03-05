@@ -77,7 +77,6 @@ std::optional<double> calc_interpolated_z(
     return std::abs(seg_dist) < 1e-6
              ? next_z
              : closest_z + (next_z - closest_z) * closest_to_target_dist / seg_dist;
-
   } catch (const std::exception & e) {
     RCLCPP_ERROR(rclcpp::get_logger("path_generator"), "Error: %s", e.what());
     return std::nullopt;
