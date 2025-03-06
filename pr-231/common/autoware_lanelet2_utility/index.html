@@ -2264,14 +2264,14 @@
 <td><code>left_lanelets</code></td>
 <td>The input Lanelet is not included in the output.</td>
 <td><span class="arithmatex">\(O(W)\)</span> where <span class="arithmatex">\(W\)</span> is the size of the <code>bundle</code>.</td>
-<td>In the first map, the green Lanelets are the <code>left_lanelets</code> of the orange Lanelet.<br>In the second and third map, <code>left_lanelets</code> of the orange Lanelet is empty.<br><img alt="left_lanelets" src="media/api/left_lanelets.drawio.svg"></td>
+<td>In the first map, the green Lanelets are the <code>left_lanelets</code> of the orange Lanelet.<br>In the second and third map, <code>left_lanelets</code> of the orange Lanelet is empty.<br>If the flag <code>include_oppsite = true</code>, the left opposite Lanelet and all of its <code>same_direction</code> Lanelets area also retrieved as illustrated in the fourth and fifth maps.<br><img alt="left_lanelets" src="media/api/left_lanelets.drawio.svg"></td>
 </tr>
 <tr>
 <td></td>
 <td><code>right_lanelets</code></td>
 <td>same as above <code>left_lanelets</code>.</td>
 <td><span class="arithmatex">\(O(W)\)</span> where <span class="arithmatex">\(W\)</span> is the size of the <code>bundle.</code></td>
-<td>In the first map, the green Lanelets are the <code>right_lanelets</code> of the orange Lanelet.<br>In the second and third map, <code>right_lanelets</code> of the orange Lanelet is empty.<br><img alt="right_lanelets" src="media/api/right_lanelets.drawio.svg"></td>
+<td>In the first map, the green Lanelets are the <code>right_lanelets</code> of the orange Lanelet.<br>In the second and third map, <code>right_lanelets</code> of the orange Lanelet is empty.<br>If the flag <code>include_oppsite = true</code>, the right opposite Lanelet and all of its <code>same_direction</code> Lanelets area also retrieved as illustrated in the fourth and fifth maps.<br><img alt="right_lanelets" src="media/api/right_lanelets.drawio.svg"></td>
 </tr>
 <tr>
 <td></td>
@@ -2393,7 +2393,7 @@
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="test-maps">Test maps<a class="headerlink" href="#test-maps" title="Permanent link">#</a></h2>
-<p>All of the maps are in <code>local</code> coordinate.</p>
+<p>All of the maps are in <code>MGRS</code> coordinate. In each map, an anchor point is set to an origin point <span class="arithmatex">\((100.0, 100.0)\)</span> for simplicity.</p>
 <table>
 <thead>
 <tr>
@@ -2421,7 +2421,7 @@
 </tbody>
 </table>
 <h3 id="how-to-craft-test-map">How to craft test map<a class="headerlink" href="#how-to-craft-test-map" title="Permanent link">#</a></h3>
-<p>On the VMB, create the map in MGRS system and save the file as <code>&lt;input_map.osm&gt;</code>. Next, select the point to set (100.0, 100.0) and pass its <code>&lt;ID&gt;</code> and run</p>
+<p>On the VMB, create the map in MGRS system and save the file as <code>&lt;input_map.osm&gt;</code>. Next, select the point to set as origin, get its <code>&lt;ID&gt;</code> and run</p>
 <div class="highlight"><pre><span></span><code>ros2<span class="w"> </span>run<span class="w"> </span>autoware_lanelet2_utility<span class="w"> </span>lanelet_anonymizer.py<span class="w"> </span>&lt;input_map.osm&gt;<span class="w"> </span>&lt;output_map.osm&gt;<span class="w"> </span>&lt;ID&gt;
 </code></pre></div>
 <p>Then the coordinate of the specified point is (100, 100) on the loaded map(NOTE: not exactly (0, 0) because MGRS does not any point to have negative coordinate value).</p>
