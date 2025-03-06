@@ -257,8 +257,9 @@ lanelet::ConstLanelets sibling_lanelets(
 lanelet::ConstLanelets from_ids(
   const lanelet::LaneletMapConstPtr lanelet_map, const std::vector<lanelet::Id> & ids)
 {
-  return ids |
-         ranges::view::transform([&](const auto id) { return lanelet_map->laneletLayer.get(id); }) |
+  return ids | ranges::views::transform([&](const auto id) {
+           return lanelet_map->laneletLayer.get(id);
+         }) |
          ranges::to<std::vector>();
 }
 }  // namespace autoware::lanelet2_utility

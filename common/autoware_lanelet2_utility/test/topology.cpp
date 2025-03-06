@@ -209,7 +209,7 @@ TEST_F(TestWithIntersectionCrossingMap, previous_lanelets)
   const auto previous = lanelet2_utility::previous_lanelets(
     lanelet_map_ptr_->laneletLayer.get(2249), routing_graph_ptr_);
   EXPECT_EQ(previous.size(), 3);
-  const auto ids = previous | ranges::view::transform([](const auto & l) { return l.id(); }) |
+  const auto ids = previous | ranges::views::transform([](const auto & l) { return l.id(); }) |
                    ranges::to<std::set>();
   EXPECT_EQ(ids.find(2283) != ids.end(), true);
   EXPECT_EQ(ids.find(2265) != ids.end(), true);
@@ -220,7 +220,7 @@ TEST_F(TestWithIntersectionCrossingMap, sibling_lanelets)
 {
   const auto siblings = lanelet2_utility::sibling_lanelets(
     lanelet_map_ptr_->laneletLayer.get(2273), routing_graph_ptr_);
-  const auto ids = siblings | ranges::view::transform([](const auto & l) { return l.id(); }) |
+  const auto ids = siblings | ranges::views::transform([](const auto & l) { return l.id(); }) |
                    ranges::to<std::set>();
   EXPECT_EQ(ids.find(2273) != ids.end(), false);
   EXPECT_EQ(ids.find(2280) != ids.end(), true);
