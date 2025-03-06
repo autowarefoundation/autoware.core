@@ -289,10 +289,13 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
   const lanelet::LaneletSequence & lanelet_sequence, const double s_start, const double s_end,
   const Params & params) const
 {
-
   // Sanity check
   if (s_start > s_end) {
-    RCLCPP_ERROR(get_logger(), "s_start must not be greater than s_end: Provided s_start = %f, s_end = %f. Skipping path generation.", s_start, s_end);
+    RCLCPP_ERROR(
+      get_logger(),
+      "s_start must not be greater than s_end: Provided s_start = %f, s_end = %f. Skipping path "
+      "generation.",
+      s_start, s_end);
     return std::nullopt;
   }
 
@@ -394,8 +397,8 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
   trajectory->crop(
     s_offset + s_start -
       get_arc_length_along_centerline(
-        extended_lanelet_sequence,
-        lanelet::utils::conversion::toLaneletPoint(path_points_with_lane_id.front().point.pose.position)),
+        extended_lanelet_sequence, lanelet::utils::conversion::toLaneletPoint(
+                                     path_points_with_lane_id.front().point.pose.position)),
     s_end - s_start);
 
   // Compose the polished path
@@ -407,7 +410,8 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
   PathWithLaneId finalized_path_with_lane_id{};
 
   // Check if the cropped trajectory has a goal point
-  const auto distance_to_goal = autoware_utils::calc_distance2d(preprocessed_path.points.back().point.pose, planner_data_.goal_pose);
+  const auto distance_to_goal = autoware_utils::calc_distance2d(
+    preprocessed_path.points.back().point.pose, planner_data_.goal_pose);
 
   if (distance_to_goal < 1e-6) {
     // Perform smooth goal connection
@@ -432,7 +436,8 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
       lanelet_bound, extended_lanelet_sequence.centerline2d(), s_bound_start, s_bound_end);
   };
   finalized_path_with_lane_id.left_bound = get_path_bound(extended_lanelet_sequence.leftBound2d());
-  finalized_path_with_lane_id.right_bound = get_path_bound(extended_lanelet_sequence.rightBound2d());
+  finalized_path_with_lane_id.right_bound =
+    get_path_bound(extended_lanelet_sequence.rightBound2d());
 
   return finalized_path_with_lane_id;
 }
