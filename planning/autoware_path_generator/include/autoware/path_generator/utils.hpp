@@ -18,8 +18,11 @@
 #include "autoware/path_generator/common_structs.hpp"
 
 #include <autoware_internal_planning_msgs/msg/path_with_lane_id.hpp>
+#include <autoware_vehicle_msgs/msg/turn_indicators_command.hpp>
 
 #include <optional>
+#include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -27,6 +30,12 @@ namespace autoware::path_generator
 {
 using autoware_internal_planning_msgs::msg::PathPointWithLaneId;
 using autoware_internal_planning_msgs::msg::PathWithLaneId;
+using autoware_vehicle_msgs::msg::TurnIndicatorsCommand;
+
+const std::unordered_map<std::string, uint8_t> turn_signal_command_map = {
+  {"left", TurnIndicatorsCommand::ENABLE_LEFT},
+  {"right", TurnIndicatorsCommand::ENABLE_RIGHT},
+  {"straight", TurnIndicatorsCommand::DISABLE}};
 
 namespace utils
 {
@@ -102,6 +111,30 @@ std::vector<std::pair<lanelet::ConstPoints3d, std::pair<double, double>>> get_wa
   const double group_separation_threshold, const double interval_margin_ratio);
 
 /**
+ * @brief get position of first self-intersection (point where return
+ * path intersects outward path) of lanelet sequence in arc length
+ * @param lanelet_sequence target lanelet sequence (both left and right bound are
+ * considered)
+ * @param s_start longitudinal distance of point to start searching for self-intersections
+ * @param s_end longitudinal distance of point to end search
+ * @return longitudinal distance of self-intersecting point (std::nullopt if no
+ * self-intersection)
+ */
+std::optional<double> get_first_self_intersection_arc_length(
+  const lanelet::LaneletSequence & lanelet_sequence, const double s_start, const double s_end);
+
+/**
+ * @brief get position of first self-intersection of line string in arc length
+ * @param line_string target line string
+ * @param s_start longitudinal distance of point to start searching for self-intersections
+ * @param s_end longitudinal distance of point to end search
+ * @return longitudinal distance of self-intersecting point (std::nullopt if no
+ * self-intersection)
+ */
+std::optional<double> get_first_self_intersection_arc_length(
+  const lanelet::BasicLineString2d & line_string, const double s_start, const double s_end);
+
+/**
  * @brief get bound of path cropped within specified range
  * @param lanelet_bound original bound of lanelet
  * @param lanelet_centerline centerline of lanelet
@@ -113,6 +146,34 @@ std::vector<geometry_msgs::msg::Point> get_path_bound(
   const lanelet::CompoundLineString2d & lanelet_bound,
   const lanelet::CompoundLineString2d & lanelet_centerline, const double s_start,
   const double s_end);
+
+/**
+ * @brief get earliest turn signal based on turn direction specified for lanelets
+ * @param path target path
+ * @param planner_data planner data
+ * @param current_pose current pose of ego vehicle
+ * @param current_vel current longitudinal velocity of ego vehicle
+ * @param search_distance base search distance
+ * @param search_time time to extend search distance
+ * @param angle_threshold_deg angle threshold for required end point determination
+ * @param base_link_to_front distance from base link to front of ego vehicle
+ * @return turn signal
+ */
+TurnIndicatorsCommand get_turn_signal(
+  const PathWithLaneId & path, const PlannerData & planner_data,
+  const geometry_msgs::msg::Pose & current_pose, const double current_vel,
+  const double search_distance, const double search_time, const double angle_threshold_deg,
+  const double base_link_to_front);
+
+/**
+ * @brief get required end point for turn signal activation
+ * @param lanelet target lanelet
+ * @param angle_threshold_deg  yaw angle difference threshold
+ * @return required end point
+ */
+
+std::optional<lanelet::ConstPoint2d> get_turn_signal_required_end_point(
+  const lanelet::ConstLanelet & lanelet, const double angle_threshold_deg);
 }  // namespace utils
 }  // namespace autoware::path_generator
 

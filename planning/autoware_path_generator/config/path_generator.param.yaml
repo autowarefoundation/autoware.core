@@ -7,3 +7,8 @@
     waypoint_group:
       separation_threshold: 1.0
       interval_margin_ratio: 10.0
+    turn_signal:
+      search_time: 3.0
+      search_distance: 30.0
+      resampling_interval: 1.0
+      angle_threshold_deg: 15.0
