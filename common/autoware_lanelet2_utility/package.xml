@@ -15,7 +15,6 @@
   <depend>autoware_lanelet2_extension</depend>
   <depend>range-v3</depend>
   <depend>rclcpp</depend>
-  <depend>visualization_msgs</depend>
 
   <test_depend>ament_cmake_ros</test_depend>
   <test_depend>ament_index_cpp</test_depend>
