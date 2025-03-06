@@ -12,16 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "local_projector.hpp"
+#include "map_loader.hpp"
 
 #include <ament_index_cpp/get_package_share_directory.hpp>
-#include <autoware_lanelet2_extension/projection/mgrs_projector.hpp>
 #include <autoware_lanelet2_utility/topology.hpp>
+#include <range/v3/all.hpp>
 
 #include <gtest/gtest.h>
 #include <lanelet2_io/Io.h>
 
 #include <filesystem>
+#include <set>
 #include <string>
 
 namespace fs = std::filesystem;
@@ -42,108 +43,125 @@ protected:
       "sample_map";
     const auto intersection_crossing_map_path = sample_map_dir / "intersection" / "crossing.osm";
 
-    lanelet_map_ptr_ = load_local_coordinate_map(intersection_crossing_map_path.string());
+    lanelet_map_ptr_ = load_mgrs_coordinate_map(intersection_crossing_map_path.string());
     routing_graph_ptr_ = lanelet2_utility::instantiate_routing_graph(lanelet_map_ptr_);
   }
 };
 
 TEST_F(TestWithIntersectionCrossingMap, LoadCheck)
 {
-  const auto point = lanelet_map_ptr_->pointLayer.get(1824);
-  EXPECT_EQ(point.x(), 0.0);
-  EXPECT_EQ(point.y(), 0.0);
+  const auto point = lanelet_map_ptr_->pointLayer.get(1791);
+  EXPECT_NEAR(point.x(), 100.0, 0.05);
+  EXPECT_NEAR(point.y(), 100.0, 0.05);
 }
 
 TEST_F(TestWithIntersectionCrossingMap, shoulder_lane_is_inaccessible_on_routing_graph)
 {
   const auto lane =
-    lanelet2_utility::left_lanelet(lanelet_map_ptr_->laneletLayer.get(2341), routing_graph_ptr_);
+    lanelet2_utility::left_lanelet(lanelet_map_ptr_->laneletLayer.get(2257), routing_graph_ptr_);
   EXPECT_EQ(lane.has_value(), false);
 }
 
 TEST_F(TestWithIntersectionCrossingMap, bicycle_lane_is_inaccessible_on_routing_graph)
 {
   const auto lane =
-    lanelet2_utility::left_lanelet(lanelet_map_ptr_->laneletLayer.get(2372), routing_graph_ptr_);
+    lanelet2_utility::left_lanelet(lanelet_map_ptr_->laneletLayer.get(2286), routing_graph_ptr_);
   EXPECT_EQ(lane.has_value(), false);
 }
 
 TEST_F(TestWithIntersectionCrossingMap, left_lanelet_without_lc_permission)
 {
   const auto lane =
-    lanelet2_utility::left_lanelet(lanelet_map_ptr_->laneletLayer.get(2335), routing_graph_ptr_);
-  EXPECT_EQ(lane.value().id(), 2334);
+    lanelet2_utility::left_lanelet(lanelet_map_ptr_->laneletLayer.get(2246), routing_graph_ptr_);
+  EXPECT_EQ(lane.value().id(), 2245);
 }
 
 TEST_F(TestWithIntersectionCrossingMap, left_lanelet_with_lc_permission)
 {
   const auto lane =
-    lanelet2_utility::left_lanelet(lanelet_map_ptr_->laneletLayer.get(2334), routing_graph_ptr_);
-  EXPECT_EQ(lane.value().id(), 2333);
+    lanelet2_utility::left_lanelet(lanelet_map_ptr_->laneletLayer.get(2245), routing_graph_ptr_);
+  EXPECT_EQ(lane.value().id(), 2244);
 }
 
 TEST_F(TestWithIntersectionCrossingMap, right_lanelet_without_lc_permission)
 {
   const auto lane =
-    lanelet2_utility::right_lanelet(lanelet_map_ptr_->laneletLayer.get(2333), routing_graph_ptr_);
-  EXPECT_EQ(lane.value().id(), 2334);
+    lanelet2_utility::right_lanelet(lanelet_map_ptr_->laneletLayer.get(2245), routing_graph_ptr_);
+  EXPECT_EQ(lane.value().id(), 2246);
 }
 
 TEST_F(TestWithIntersectionCrossingMap, right_lanelet_with_lc_permission)
 {
   const auto lane =
-    lanelet2_utility::right_lanelet(lanelet_map_ptr_->laneletLayer.get(2334), routing_graph_ptr_);
-  EXPECT_EQ(lane.value().id(), 2335);
+    lanelet2_utility::right_lanelet(lanelet_map_ptr_->laneletLayer.get(2244), routing_graph_ptr_);
+  EXPECT_EQ(lane.value().id(), 2245);
+}
+
+TEST_F(TestWithIntersectionCrossingMap, right_opposite_lanelet)
+{
+  const auto lane = lanelet2_utility::right_opposite_lanelet(
+    lanelet_map_ptr_->laneletLayer.get(2288), lanelet_map_ptr_);
+  EXPECT_EQ(lane.value().id(), 2311);
 }
 
 TEST_F(TestWithIntersectionCrossingMap, leftmost_lanelet_valid)
 {
   const auto lane = lanelet2_utility::leftmost_lanelet(
-    lanelet_map_ptr_->laneletLayer.get(2335), routing_graph_ptr_);
-  EXPECT_EQ(lane.value().id(), 2333);
+    lanelet_map_ptr_->laneletLayer.get(2288), routing_graph_ptr_);
+  EXPECT_EQ(lane.value().id(), 2286);
 }
 
 TEST_F(TestWithIntersectionCrossingMap, leftmost_lanelet_null)
 {
   const auto lane = lanelet2_utility::leftmost_lanelet(
-    lanelet_map_ptr_->laneletLayer.get(2333), routing_graph_ptr_);
+    lanelet_map_ptr_->laneletLayer.get(2286), routing_graph_ptr_);
   EXPECT_EQ(lane.has_value(), false);
 }
 
 TEST_F(TestWithIntersectionCrossingMap, rightmost_lanelet_valid)
 {
   const auto lane = lanelet2_utility::rightmost_lanelet(
-    lanelet_map_ptr_->laneletLayer.get(2333), routing_graph_ptr_);
-  EXPECT_EQ(lane.value().id(), 2337);
+    lanelet_map_ptr_->laneletLayer.get(2286), routing_graph_ptr_);
+  EXPECT_EQ(lane.value().id(), 2288);
 }
 
 TEST_F(TestWithIntersectionCrossingMap, rightmost_lanelet_null)
 {
   const auto lane = lanelet2_utility::rightmost_lanelet(
-    lanelet_map_ptr_->laneletLayer.get(2337), routing_graph_ptr_);
+    lanelet_map_ptr_->laneletLayer.get(2288), routing_graph_ptr_);
   EXPECT_EQ(lane.has_value(), false);
 }
 
 TEST_F(TestWithIntersectionCrossingMap, left_lanelets_without_opposite)
 {
   const auto lefts = lanelet2_utility::left_lanelets(
-    lanelet_map_ptr_->laneletLayer.get(2344), lanelet_map_ptr_, routing_graph_ptr_);
-  EXPECT_EQ(lefts.size(), 3);
-  EXPECT_EQ(lefts[0].id(), 2343);
-  EXPECT_EQ(lefts[1].id(), 2342);
-  EXPECT_EQ(lefts[2].id(), 2341);
+    lanelet_map_ptr_->laneletLayer.get(2288), lanelet_map_ptr_, routing_graph_ptr_);
+  EXPECT_EQ(lefts.size(), 2);
+  EXPECT_EQ(lefts[0].id(), 2287);
+  EXPECT_EQ(lefts[1].id(), 2286);
 }
 
 TEST_F(TestWithIntersectionCrossingMap, right_lanelets_without_opposite)
 {
   const auto lefts = lanelet2_utility::right_lanelets(
-    lanelet_map_ptr_->laneletLayer.get(2341), lanelet_map_ptr_, routing_graph_ptr_);
-  EXPECT_EQ(lefts.size(), 3);
-  EXPECT_EQ(lefts[0].id(), 2342);
-  EXPECT_EQ(lefts[1].id(), 2343);
-  EXPECT_EQ(lefts[2].id(), 2344);
+    lanelet_map_ptr_->laneletLayer.get(2286), lanelet_map_ptr_, routing_graph_ptr_);
+  EXPECT_EQ(lefts.size(), 2);
+  EXPECT_EQ(lefts[0].id(), 2287);
+  EXPECT_EQ(lefts[1].id(), 2288);
 }
 
+TEST_F(TestWithIntersectionCrossingMap, following_lanelets)
+{
+  const auto following = lanelet2_utility::following_lanelets(
+    lanelet_map_ptr_->laneletLayer.get(2244), routing_graph_ptr_);
+  EXPECT_EQ(following.size(), 2);
+  const auto ids = following | ranges::views::transform([](const auto & l) { return l.id(); }) |
+                   ranges::to<std::set>();
+  EXPECT_EQ(ids.find(2271) != ids.end(), true);
+  EXPECT_EQ(ids.find(2265) != ids.end(), true);
+}
+
+/*
 class TestWithIntersection_T_ShapeMap : public ::testing::Test
 {
 protected:
@@ -168,6 +186,7 @@ TEST_F(TestWithIntersection_T_ShapeMap, LoadCheck)
   EXPECT_EQ(point.x(), 0.0);
   EXPECT_EQ(point.y(), 0.0);
 }
+*/
 }  // namespace autoware
 
 int main(int argc, char ** argv)

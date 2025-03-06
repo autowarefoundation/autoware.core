@@ -17,8 +17,8 @@
 import argparse
 import xml.etree.ElementTree as ET
 
-origin_offset_x = 0.0
-origin_offset_y = 0.0
+origin_x = 100.0
+origin_y = 100.0
 
 
 def update_osm_latlon(osm_file, output_file, origin_id):
@@ -33,8 +33,8 @@ def update_osm_latlon(osm_file, output_file, origin_id):
 
         if node.attrib["id"] == str(origin_id):
             old_origin_local_xy = (float(local_x_tag.attrib["v"]), float(local_y_tag.attrib["v"]))
-            local_x_tag.set("v", str(0.0 - origin_offset_x))
-            local_y_tag.set("v", str(0.0 - origin_offset_y))
+            local_x_tag.set("v", str(origin_x))
+            local_y_tag.set("v", str(origin_y))
             break
 
     if old_origin_local_xy is None:
@@ -55,10 +55,8 @@ def update_osm_latlon(osm_file, output_file, origin_id):
         adj_local_x = local_x - old_origin_x
         adj_local_y = local_y - old_origin_y
 
-        local_x_tag.set("v", str(adj_local_x - origin_offset_x))
-        local_y_tag.set("v", str(adj_local_y - origin_offset_y))
-        node.set("lat", str(0.0))
-        node.set("lon", str(0.0))
+        local_x_tag.set("v", str(origin_x + adj_local_x))
+        local_y_tag.set("v", str(origin_y + adj_local_y))
 
     tree.write(output_file, encoding="UTF-8", xml_declaration=True)
     print(f"Updated OSM file created: {output_file}")

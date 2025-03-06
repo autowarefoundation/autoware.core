@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef LOCAL_PROJECTOR_HPP_
-#define LOCAL_PROJECTOR_HPP_
+#ifndef MAP_LOADER_HPP_
+#define MAP_LOADER_HPP_
+
+#include <autoware_lanelet2_extension/projection/mgrs_projector.hpp>
 
 #include <lanelet2_core/LaneletMap.h>
 #include <lanelet2_io/Io.h>
@@ -22,33 +24,12 @@
 #include <string>
 #include <utility>
 
-class LocalProjector : public lanelet::Projector
-{
-public:
-  LocalProjector() : Projector(lanelet::Origin(lanelet::GPSPoint{})) {}
-
-  lanelet::BasicPoint3d forward(const lanelet::GPSPoint & gps) const override  // NOLINT
-  {
-    return lanelet::BasicPoint3d{0.0, 0.0, gps.ele};
-  }
-
-  [[nodiscard]] lanelet::GPSPoint reverse(const lanelet::BasicPoint3d & point) const override
-  {
-    return lanelet::GPSPoint{0.0, 0.0, point.z()};
-  }
-};
-
-inline lanelet::LaneletMapConstPtr load_local_coordinate_map(const std::string & path)
+inline lanelet::LaneletMapConstPtr load_mgrs_coordinate_map(const std::string & path)
 {
   lanelet::ErrorMessages errors{};
-  LocalProjector projector;
+  lanelet::projection::MGRSProjector projector;
   auto lanelet_map_ptr_mut = lanelet::load(path, projector, &errors);
-  for (auto point : lanelet_map_ptr_mut->pointLayer) {
-    point.x() = point.attribute("local_x").asDouble().value();
-    point.y() = point.attribute("local_y").asDouble().value();
-  }
-
   return lanelet::LaneletMapConstPtr{std::move(lanelet_map_ptr_mut)};
 }
 
-#endif  // LOCAL_PROJECTOR_HPP_
+#endif  // MAP_LOADER_HPP_

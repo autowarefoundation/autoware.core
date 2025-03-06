@@ -165,18 +165,17 @@ All of the maps are in `local` coordinate.
 | --------------------------- | --------------- | --------------------------------------------------- |
 | `road_shoulder/highway.osm` | `1`             | ![highway](./media/maps/road_shoulder/highway.png)  |
 | `road_shoulder/pudo.osm`    | `140`           | ![pudo](./media/maps/road_shoulder/pudo.png)        |
-| `intersection/crossing.osm` | `1824`          | ![crossing](./media/maps/intersection/crossing.png) |
-| `intersection/T-shape.osm`  | `212`           |                                                     |
+| `intersection/crossing.osm` | `1791`          | ![crossing](./media/maps/intersection/crossing.png) |
 
 ### How to craft test map
 
-On the VMB, create the map in local projector(or convert it to local projector from MGRS projector) and save the file as `<input_map.osm>`. Next, select the point to use as (0.0, 0.0) and pass its `<ID>` and run
+On the VMB, create the map in MGRS system and save the file as `<input_map.osm>`. Next, select the point to set (100.0, 100.0) and pass its `<ID>` and run
 
 ```bash
 ros2 run autoware_lanelet2_utility lanelet_anonymizer.py <input_map.osm> <output_map.osm> <ID>
 ```
 
-Then the coordinate of the specified point is (0, 0) on the loaded map.
+Then the coordinate of the specified point is (100, 100) on the loaded map(NOTE: not exactly (0, 0) because MGRS does not any point to have negative coordinate value).
 
 By applying `lanelet_id_aligner.py`, the primitive ids are aligned to start from 1 and increase one-by-one.
 
