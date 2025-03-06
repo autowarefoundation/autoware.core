@@ -2415,21 +2415,16 @@
 </tr>
 <tr>
 <td><code>intersection/crossing.osm</code></td>
-<td><code>1824</code></td>
+<td><code>1791</code></td>
 <td><img alt="crossing" src="media/maps/intersection/crossing.png"></td>
-</tr>
-<tr>
-<td><code>intersection/T-shape.osm</code></td>
-<td><code>212</code></td>
-<td></td>
 </tr>
 </tbody>
 </table>
 <h3 id="how-to-craft-test-map">How to craft test map<a class="headerlink" href="#how-to-craft-test-map" title="Permanent link">#</a></h3>
-<p>On the VMB, create the map in local projector(or convert it to local projector from MGRS projector) and save the file as <code>&lt;input_map.osm&gt;</code>. Next, select the point to use as (0.0, 0.0) and pass its <code>&lt;ID&gt;</code> and run</p>
+<p>On the VMB, create the map in MGRS system and save the file as <code>&lt;input_map.osm&gt;</code>. Next, select the point to set (100.0, 100.0) and pass its <code>&lt;ID&gt;</code> and run</p>
 <div class="highlight"><pre><span></span><code>ros2<span class="w"> </span>run<span class="w"> </span>autoware_lanelet2_utility<span class="w"> </span>lanelet_anonymizer.py<span class="w"> </span>&lt;input_map.osm&gt;<span class="w"> </span>&lt;output_map.osm&gt;<span class="w"> </span>&lt;ID&gt;
 </code></pre></div>
-<p>Then the coordinate of the specified point is (0, 0) on the loaded map.</p>
+<p>Then the coordinate of the specified point is (100, 100) on the loaded map(NOTE: not exactly (0, 0) because MGRS does not any point to have negative coordinate value).</p>
 <p>By applying <code>lanelet_id_aligner.py</code>, the primitive ids are aligned to start from 1 and increase one-by-one.</p>
 <div class="highlight"><pre><span></span><code>ros2<span class="w"> </span>run<span class="w"> </span>autoware_lanelet2_utility<span class="w"> </span>lanelet_id_aligner.py<span class="w"> </span>&lt;input_map.osm&gt;
 </code></pre></div></div>
