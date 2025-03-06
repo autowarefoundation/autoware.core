@@ -98,11 +98,18 @@ TEST_F(TestWithIntersectionCrossingMap, right_lanelet_with_lc_permission)
   EXPECT_EQ(lane.value().id(), 2245);
 }
 
-TEST_F(TestWithIntersectionCrossingMap, right_opposite_lanelet)
+TEST_F(TestWithIntersectionCrossingMap, right_opposite_lanelet_valid)
 {
   const auto lane = lanelet2_utility::right_opposite_lanelet(
     lanelet_map_ptr_->laneletLayer.get(2288), lanelet_map_ptr_);
   EXPECT_EQ(lane.value().id(), 2311);
+}
+
+TEST_F(TestWithIntersectionCrossingMap, right_opposite_lanelet_null)
+{
+  const auto lane = lanelet2_utility::right_opposite_lanelet(
+    lanelet_map_ptr_->laneletLayer.get(2260), lanelet_map_ptr_);
+  EXPECT_EQ(lane.has_value(), false);
 }
 
 TEST_F(TestWithIntersectionCrossingMap, leftmost_lanelet_valid)
@@ -177,6 +184,15 @@ TEST_F(TestWithIntersectionCrossingMap, right_lanelets_with_opposite)
   EXPECT_EQ(rights[3].id(), 2312);
 }
 
+TEST_F(TestWithIntersectionCrossingMap, right_lanelets_with_opposite_without_actual_opposites)
+{
+  const auto rights = lanelet2_utility::right_lanelets(
+    lanelet_map_ptr_->laneletLayer.get(2259), lanelet_map_ptr_, routing_graph_ptr_,
+    true /* include opposite */);
+  EXPECT_EQ(rights.size(), 1);
+  EXPECT_EQ(rights[0].id(), 2260);
+}
+
 TEST_F(TestWithIntersectionCrossingMap, following_lanelets)
 {
   const auto following = lanelet2_utility::following_lanelets(
@@ -240,11 +256,18 @@ protected:
   }
 };
 
-TEST_F(TestWithIntersectionCrossingInverseMap, left_opposite_lanelet)
+TEST_F(TestWithIntersectionCrossingInverseMap, left_opposite_lanelet_valid)
 {
   const auto lane = lanelet2_utility::left_opposite_lanelet(
     lanelet_map_ptr_->laneletLayer.get(2311), lanelet_map_ptr_);
   EXPECT_EQ(lane.value().id(), 2288);
+}
+
+TEST_F(TestWithIntersectionCrossingInverseMap, left_opposite_lanelet_null)
+{
+  const auto lane = lanelet2_utility::left_opposite_lanelet(
+    lanelet_map_ptr_->laneletLayer.get(2252), lanelet_map_ptr_);
+  EXPECT_EQ(lane.has_value(), false);
 }
 
 TEST_F(TestWithIntersectionCrossingInverseMap, left_lanelets_with_opposite)
@@ -256,6 +279,14 @@ TEST_F(TestWithIntersectionCrossingInverseMap, left_lanelets_with_opposite)
   EXPECT_EQ(lefts[1].id(), 2288);
   EXPECT_EQ(lefts[2].id(), 2287);
   EXPECT_EQ(lefts[3].id(), 2286);
+}
+
+TEST_F(TestWithIntersectionCrossingInverseMap, left_lanelets_with_opposite_without_actual_opposites)
+{
+  const auto lefts = lanelet2_utility::left_lanelets(
+    lanelet_map_ptr_->laneletLayer.get(2251), lanelet_map_ptr_, routing_graph_ptr_, true);
+  EXPECT_EQ(lefts.size(), 1);
+  EXPECT_EQ(lefts[0].id(), 2252);
 }
 
 }  // namespace autoware

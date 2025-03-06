@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include <autoware_lanelet2_utility/topology.hpp>
+#include <range/v3/all.hpp>
 #include <rclcpp/logging.hpp>
 
 #include <lanelet2_core/primitives/Lanelet.h>
@@ -256,10 +257,8 @@ lanelet::ConstLanelets sibling_lanelets(
 lanelet::ConstLanelets from_ids(
   const lanelet::LaneletMapConstPtr lanelet_map, const std::vector<lanelet::Id> & ids)
 {
-  lanelet::ConstLanelets lanelets;
-  for (const auto id : ids) {
-    lanelets.push_back(lanelet_map->laneletLayer.get(id));
-  }
-  return lanelets;
+  return ids |
+         ranges::view::transform([&](const auto id) { return lanelet_map->laneletLayer.get(id); }) |
+         ranges::to<std::vector>();
 }
 }  // namespace autoware::lanelet2_utility
