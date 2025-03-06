@@ -109,10 +109,12 @@ std::optional<lanelet::ConstLanelet> leftmost_lanelet(
     bundle_size_diagnosis++;
   }
 
+  // LCOV_EXCL_START
   RCLCPP_ERROR(
     rclcpp::get_logger("autoware_lanelet2_utility"),
     "You have passed an unrealistic map with a bundle of size>=10");
   return std::nullopt;
+  // LCOV_EXCL_STOP
 }
 
 std::optional<lanelet::ConstLanelet> rightmost_lanelet(
@@ -133,10 +135,12 @@ std::optional<lanelet::ConstLanelet> rightmost_lanelet(
     bundle_size_diagnosis++;
   }
 
+  // LCOV_EXCL_START
   RCLCPP_ERROR(
     rclcpp::get_logger("autoware_lanelet2_utility"),
     "You have passed an unrealistic map with a bundle of size>=10");
   return std::nullopt;
+  // LCOV_EXCL_STOP
 }
 
 lanelet::ConstLanelets left_lanelets(
@@ -155,21 +159,24 @@ lanelet::ConstLanelets left_lanelets(
     left_lane = left_lanelet(left_lane.value(), routing_graph);
     bundle_size_diagnosis++;
   }
+  // LCOV_EXCL_START
   if (bundle_size_diagnosis >= k_normal_bundle_max_size) {
     RCLCPP_ERROR(
       rclcpp::get_logger("autoware_lanelet2_utility"),
       "You have passed an unrealistic map with a bundle of size>=10");
     return {};
   }
+  // LCOV_EXCL_STOP
   if (lefts.empty()) {
     return {};
   }
   const auto & leftmost = lefts.back();
   if (include_opposite) {
-    const auto direct_opposite = right_opposite_lanelet(leftmost, lanelet_map);
+    const auto direct_opposite = left_opposite_lanelet(leftmost, lanelet_map);
     if (direct_opposite) {
       const auto opposites =
         right_lanelets(direct_opposite.value(), lanelet_map, routing_graph, false, false);
+      lefts.push_back(direct_opposite.value());
       for (const auto & opposite : opposites) {
         lefts.push_back(invert_opposite_lane ? opposite.invert() : opposite);
       }
@@ -194,12 +201,14 @@ lanelet::ConstLanelets right_lanelets(
     right_lane = right_lanelet(right_lane.value(), routing_graph);
     bundle_size_diagnosis++;
   }
+  // LCOV_EXCL_START
   if (bundle_size_diagnosis >= k_normal_bundle_max_size) {
     RCLCPP_ERROR(
       rclcpp::get_logger("autoware_lanelet2_utility"),
       "You have passed an unrealistic map with a bundle of size>=10");
     return {};
   }
+  // LCOV_EXCL_STOP
   if (rights.empty()) {
     return {};
   }
@@ -209,6 +218,7 @@ lanelet::ConstLanelets right_lanelets(
     if (direct_opposite) {
       const auto opposites =
         left_lanelets(direct_opposite.value(), lanelet_map, routing_graph, false, false);
+      rights.push_back(direct_opposite.value());
       for (const auto & opposite : opposites) {
         rights.push_back(invert_opposite_lane ? opposite.invert() : opposite);
       }

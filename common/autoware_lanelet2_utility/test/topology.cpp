@@ -24,6 +24,7 @@
 #include <filesystem>
 #include <set>
 #include <string>
+#include <vector>
 
 namespace fs = std::filesystem;
 
@@ -141,6 +142,13 @@ TEST_F(TestWithIntersectionCrossingMap, left_lanelets_without_opposite)
   EXPECT_EQ(lefts[1].id(), 2286);
 }
 
+TEST_F(TestWithIntersectionCrossingMap, left_lanelets_without_opposite_empty)
+{
+  const auto lefts = lanelet2_utility::left_lanelets(
+    lanelet_map_ptr_->laneletLayer.get(2286), lanelet_map_ptr_, routing_graph_ptr_);
+  EXPECT_EQ(lefts.size(), 0);
+}
+
 TEST_F(TestWithIntersectionCrossingMap, right_lanelets_without_opposite)
 {
   const auto lefts = lanelet2_utility::right_lanelets(
@@ -148,6 +156,25 @@ TEST_F(TestWithIntersectionCrossingMap, right_lanelets_without_opposite)
   EXPECT_EQ(lefts.size(), 2);
   EXPECT_EQ(lefts[0].id(), 2287);
   EXPECT_EQ(lefts[1].id(), 2288);
+}
+
+TEST_F(TestWithIntersectionCrossingMap, right_lanelets_without_opposite_empty)
+{
+  const auto lefts = lanelet2_utility::right_lanelets(
+    lanelet_map_ptr_->laneletLayer.get(2288), lanelet_map_ptr_, routing_graph_ptr_);
+  EXPECT_EQ(lefts.size(), 0);
+}
+
+TEST_F(TestWithIntersectionCrossingMap, right_lanelets_with_opposite)
+{
+  const auto rights = lanelet2_utility::right_lanelets(
+    lanelet_map_ptr_->laneletLayer.get(2286), lanelet_map_ptr_, routing_graph_ptr_,
+    true /* include opposite */);
+  EXPECT_EQ(rights.size(), 4);
+  EXPECT_EQ(rights[0].id(), 2287);
+  EXPECT_EQ(rights[1].id(), 2288);
+  EXPECT_EQ(rights[2].id(), 2311);
+  EXPECT_EQ(rights[3].id(), 2312);
 }
 
 TEST_F(TestWithIntersectionCrossingMap, following_lanelets)
@@ -161,8 +188,40 @@ TEST_F(TestWithIntersectionCrossingMap, following_lanelets)
   EXPECT_EQ(ids.find(2265) != ids.end(), true);
 }
 
-/*
-class TestWithIntersection_T_ShapeMap : public ::testing::Test
+TEST_F(TestWithIntersectionCrossingMap, previous_lanelets)
+{
+  const auto previous = lanelet2_utility::previous_lanelets(
+    lanelet_map_ptr_->laneletLayer.get(2249), routing_graph_ptr_);
+  EXPECT_EQ(previous.size(), 3);
+  const auto ids = previous | ranges::view::transform([](const auto & l) { return l.id(); }) |
+                   ranges::to<std::set>();
+  EXPECT_EQ(ids.find(2283) != ids.end(), true);
+  EXPECT_EQ(ids.find(2265) != ids.end(), true);
+  EXPECT_EQ(ids.find(2270) != ids.end(), true);
+}
+
+TEST_F(TestWithIntersectionCrossingMap, sibling_lanelets)
+{
+  const auto siblings = lanelet2_utility::sibling_lanelets(
+    lanelet_map_ptr_->laneletLayer.get(2273), routing_graph_ptr_);
+  const auto ids = siblings | ranges::view::transform([](const auto & l) { return l.id(); }) |
+                   ranges::to<std::set>();
+  EXPECT_EQ(ids.find(2273) != ids.end(), false);
+  EXPECT_EQ(ids.find(2280) != ids.end(), true);
+  EXPECT_EQ(ids.find(2281) != ids.end(), true);
+}
+
+TEST_F(TestWithIntersectionCrossingMap, from_ids)
+{
+  const auto lanelets =
+    lanelet2_utility::from_ids(lanelet_map_ptr_, std::vector<lanelet::Id>({2296, 2286, 2270}));
+  EXPECT_EQ(lanelets.size(), 3);
+  EXPECT_EQ(lanelets[0].id(), 2296);
+  EXPECT_EQ(lanelets[1].id(), 2286);
+  EXPECT_EQ(lanelets[2].id(), 2270);
+}
+
+class TestWithIntersectionCrossingInverseMap : public ::testing::Test
 {
 protected:
   lanelet::LaneletMapConstPtr lanelet_map_ptr_{nullptr};
@@ -173,20 +232,32 @@ protected:
     const auto sample_map_dir =
       fs::path(ament_index_cpp::get_package_share_directory("autoware_lanelet2_utility")) /
       "sample_map";
-    const auto intersection_t_shape_map_path = sample_map_dir / "intersection" / "T-Shape.osm";
+    const auto intersection_crossing_map_path =
+      sample_map_dir / "intersection" / "crossing_inverse.osm";
 
-    lanelet_map_ptr_ = load_local_coordinate_map(intersection_t_shape_map_path.string());
+    lanelet_map_ptr_ = load_mgrs_coordinate_map(intersection_crossing_map_path.string());
     routing_graph_ptr_ = lanelet2_utility::instantiate_routing_graph(lanelet_map_ptr_);
   }
 };
 
-TEST_F(TestWithIntersection_T_ShapeMap, LoadCheck)
+TEST_F(TestWithIntersectionCrossingInverseMap, left_opposite_lanelet)
 {
-  const auto point = lanelet_map_ptr_->pointLayer.get(212);
-  EXPECT_EQ(point.x(), 0.0);
-  EXPECT_EQ(point.y(), 0.0);
+  const auto lane = lanelet2_utility::left_opposite_lanelet(
+    lanelet_map_ptr_->laneletLayer.get(2311), lanelet_map_ptr_);
+  EXPECT_EQ(lane.value().id(), 2288);
 }
-*/
+
+TEST_F(TestWithIntersectionCrossingInverseMap, left_lanelets_with_opposite)
+{
+  const auto lefts = lanelet2_utility::left_lanelets(
+    lanelet_map_ptr_->laneletLayer.get(2312), lanelet_map_ptr_, routing_graph_ptr_, true);
+  EXPECT_EQ(lefts.size(), 4);
+  EXPECT_EQ(lefts[0].id(), 2311);
+  EXPECT_EQ(lefts[1].id(), 2288);
+  EXPECT_EQ(lefts[2].id(), 2287);
+  EXPECT_EQ(lefts[3].id(), 2286);
+}
+
 }  // namespace autoware
 
 int main(int argc, char ** argv)

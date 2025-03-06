@@ -167,7 +167,7 @@ lanelet::ConstLanelets previous_lanelets(
  * @brief get the sibling lanelets
  * @param [in] lanelet input lanelet
  * @param [in] routing_graph routing_graph containing `lanelet`
- * @return the sibling lanelets
+ * @return the sibling lanelets excluding `lanelet`
  */
 lanelet::ConstLanelets sibling_lanelets(
   const lanelet::ConstLanelet & lanelet,
