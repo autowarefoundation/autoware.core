@@ -8,9 +8,6 @@ inputs:
   runner:
     description: ""
     required: true
-  build-depends-repos:
-    description: ""
-    required: true
   build-pre-command:
     description: ""
     required: true
@@ -63,7 +60,6 @@ runs:
       with:
         rosdistro: ${{ inputs.rosdistro }}
         target-packages: ${{ steps.get-modified-packages.outputs.modified-packages }}
-        build-depends-repos: ${{ inputs.build-depends-repos }}
         build-pre-command: ${{ inputs.build-pre-command }}
 
     - name: Show ccache stats after build
@@ -77,7 +73,6 @@ runs:
       with:
         rosdistro: ${{ inputs.rosdistro }}
         target-packages: ${{ steps.get-modified-packages.outputs.modified-packages }}
-        build-depends-repos: ${{ inputs.build-depends-repos }}
 
     - name: Upload coverage to CodeCov
       if: ${{ steps.test.outputs.coverage-report-files != '' }}
