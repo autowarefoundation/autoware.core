@@ -12,12 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <gtest/gtest.h>
-#include <Eigen/Dense>
-#include <vector>
-#include <stdexcept>
-#include "autoware/qp_interface/qp_interface.hpp"
 #include "autoware/qp_interface/osqp_interface.hpp"
+#include "autoware/qp_interface/qp_interface.hpp"
+
+#include <Eigen/Dense>
+
+#include <gtest/gtest.h>
+
+#include <stdexcept>
+#include <vector>
 
 namespace autoware::qp_interface
 {
@@ -31,7 +34,9 @@ TEST(QPInterfaceTest, InitializeProblem_NonSquareP_ThrowsException)
   bool enable_warm_start = false;
   c_float eps_abs = 1e-4;
 
-  EXPECT_THROW({OSQPInterface osqp_instance(P, A, q, l, u, enable_warm_start, eps_abs);}, std::invalid_argument);
+  EXPECT_THROW(
+    { OSQPInterface osqp_instance(P, A, q, l, u, enable_warm_start, eps_abs); },
+    std::invalid_argument);
 }
 
 TEST(QPInterfaceTest, InitializeProblem_PRowsNotEqualQSize_ThrowsException)
@@ -44,7 +49,9 @@ TEST(QPInterfaceTest, InitializeProblem_PRowsNotEqualQSize_ThrowsException)
   bool enable_warm_start = false;
   c_float eps_abs = 1e-4;
 
-  EXPECT_THROW({OSQPInterface osqp_instance(P, A, q, l, u, enable_warm_start, eps_abs);}, std::invalid_argument);
+  EXPECT_THROW(
+    { OSQPInterface osqp_instance(P, A, q, l, u, enable_warm_start, eps_abs); },
+    std::invalid_argument);
 }
 
 TEST(QPInterfaceTest, InitializeProblem_PRowsNotEqualACols_ThrowsException)
@@ -57,7 +64,9 @@ TEST(QPInterfaceTest, InitializeProblem_PRowsNotEqualACols_ThrowsException)
   bool enable_warm_start = false;
   c_float eps_abs = 1e-4;
 
-  EXPECT_THROW({OSQPInterface osqp_instance(P, A, q, l, u, enable_warm_start, eps_abs);}, std::invalid_argument);
+  EXPECT_THROW(
+    { OSQPInterface osqp_instance(P, A, q, l, u, enable_warm_start, eps_abs); },
+    std::invalid_argument);
 }
 
 TEST(QPInterfaceTest, InitializeProblem_ARowsNotEqualLSize_ThrowsException)
@@ -70,7 +79,9 @@ TEST(QPInterfaceTest, InitializeProblem_ARowsNotEqualLSize_ThrowsException)
   bool enable_warm_start = false;
   c_float eps_abs = 1e-4;
 
-  EXPECT_THROW({OSQPInterface osqp_instance(P, A, q, l, u, enable_warm_start, eps_abs);}, std::invalid_argument);
+  EXPECT_THROW(
+    { OSQPInterface osqp_instance(P, A, q, l, u, enable_warm_start, eps_abs); },
+    std::invalid_argument);
 }
 
 TEST(QPInterfaceTest, InitializeProblem_ARowsNotEqualUSize_ThrowsException)
@@ -83,7 +94,9 @@ TEST(QPInterfaceTest, InitializeProblem_ARowsNotEqualUSize_ThrowsException)
   bool enable_warm_start = false;
   c_float eps_abs = 1e-4;
 
-  EXPECT_THROW({OSQPInterface osqp_instance(P, A, q, l, u, enable_warm_start, eps_abs);}, std::invalid_argument);
+  EXPECT_THROW(
+    { OSQPInterface osqp_instance(P, A, q, l, u, enable_warm_start, eps_abs); },
+    std::invalid_argument);
 }
 
 TEST(QPInterfaceTest, InitializeProblem_ValidInputs_Success)
@@ -99,7 +112,7 @@ TEST(QPInterfaceTest, InitializeProblem_ValidInputs_Success)
   c_float eps_abs = 1e-4;
 
   OSQPInterface osqp_instance(P, A, q, l, u, enable_warm_start, eps_abs);
-  EXPECT_NO_THROW({OSQPInterface osqp_instance(P, A, q, l, u, enable_warm_start, eps_abs);});
+  EXPECT_NO_THROW({ OSQPInterface osqp_instance(P, A, q, l, u, enable_warm_start, eps_abs); });
 }
 
 TEST(QPInterfaceTest, Optimize_ValidInputs_ReturnsResult)
