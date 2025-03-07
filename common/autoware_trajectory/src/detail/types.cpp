@@ -14,6 +14,8 @@
 
 #include "autoware/trajectory/detail/types.hpp"
 
+#include <autoware_planning_msgs/msg/detail/trajectory_point__struct.hpp>
+
 namespace autoware::trajectory::detail
 {
 MutablePoint3d to_point(geometry_msgs::msg::Point & p)
@@ -27,6 +29,11 @@ MutablePoint3d to_point(geometry_msgs::msg::Pose & p)
 }
 
 MutablePoint3d to_point(autoware_planning_msgs::msg::PathPoint & p)
+{
+  return {p.pose.position.x, p.pose.position.y, p.pose.position.z};
+}
+
+MutablePoint3d to_point(autoware_planning_msgs::msg::TrajectoryPoint & p)
 {
   return {p.pose.position.x, p.pose.position.y, p.pose.position.z};
 }
@@ -52,6 +59,11 @@ ImmutablePoint3d to_point(const geometry_msgs::msg::Pose & p)
 }
 
 ImmutablePoint3d to_point(const autoware_planning_msgs::msg::PathPoint & p)
+{
+  return {p.pose.position.x, p.pose.position.y, p.pose.position.z};
+}
+
+ImmutablePoint3d to_point(const autoware_planning_msgs::msg::TrajectoryPoint & p)
 {
   return {p.pose.position.x, p.pose.position.y, p.pose.position.z};
 }
