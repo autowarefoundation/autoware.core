@@ -5,6 +5,7 @@
   <version>0.0.0</version>
   <description>The autoware_lanelet2_utility package</description>
   <maintainer email="mamoru.sobue@tier4.jp">Mamoru Sobue</maintainer>
+  <maintainer email="kosuke.takeuchi@tier4.jp">Kosuke Takeuchi</maintainer>
   <license>Apache License 2.0</license>
 
   <author email="mamoru.sobue@tier4.jp">Mamoru Sobue</author>
