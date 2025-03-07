@@ -1,4 +1,4 @@
-# autoware_lanelet2_utility
+# autoware_lanelet2_utils
 
 ## Nomenclature
 

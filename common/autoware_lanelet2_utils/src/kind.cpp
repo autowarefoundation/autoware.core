@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <autoware_lanelet2_utility/kind.hpp>
+#include <autoware_lanelet2_utils/kind.hpp>
 
 #include <lanelet2_core/primitives/Lanelet.h>
 
-namespace autoware::lanelet2_utility
+namespace autoware::lanelet2_utils
 {
 bool is_road_lane(const lanelet::ConstLanelet & lanelet)
 {
@@ -35,4 +35,4 @@ bool is_bicycle_lane(const lanelet::ConstLanelet & lanelet)
   return strcmp(
            lanelet.attributeOr(lanelet::AttributeName::Subtype, "none"), k_bicycle_lane_type) == 0;
 }
-}  // namespace autoware::lanelet2_utility
+}  // namespace autoware::lanelet2_utils
