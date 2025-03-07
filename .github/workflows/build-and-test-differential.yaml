@@ -26,7 +26,7 @@ jobs:
     needs: require-label
     if: ${{ needs.require-label.outputs.result == 'true' }}
     runs-on: ubuntu-24.04
-    container: ghcr.io/autowarefoundation/autoware:core-devel
+    container: ghcr.io/autowarefoundation/autoware:core-common-devel
     steps:
       - name: Set PR fetch depth
         run: echo "PR_FETCH_DEPTH=$(( ${{ github.event.pull_request.commits }} + 1 ))" >> "${GITHUB_ENV}"
@@ -47,7 +47,7 @@ jobs:
   clang-tidy-differential:
     needs: build-and-test-differential
     runs-on: ubuntu-24.04
-    container: ghcr.io/autowarefoundation/autoware:core-devel
+    container: ghcr.io/autowarefoundation/autoware:core-common-devel
     steps:
       - name: Set PR fetch depth
         run: echo "PR_FETCH_DEPTH=$(( ${{ github.event.pull_request.commits }} + 1 ))" >> "${GITHUB_ENV}"

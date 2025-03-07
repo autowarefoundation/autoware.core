@@ -374,6 +374,7 @@ T generateTrajectory(
   using Point = typename T::_points_type::value_type;
 
   T traj;
+  traj.header.stamp = rclcpp::Clock{RCL_ROS_TIME}.now();
   for (size_t i = 0; i < num_points; ++i) {
     const double theta = init_theta + static_cast<double>(i) * delta_theta;
     const double x = static_cast<double>(i) * point_interval * std::cos(theta);
@@ -399,6 +400,7 @@ inline PathWithLaneId generateTrajectory<PathWithLaneId>(
   const double init_theta, const double delta_theta, const size_t overlapping_point_index)
 {
   PathWithLaneId traj;
+  traj.header.stamp = rclcpp::Clock{RCL_ROS_TIME}.now();
 
   for (size_t i = 0; i < num_points; i++) {
     const double theta = init_theta + static_cast<double>(i) * delta_theta;
