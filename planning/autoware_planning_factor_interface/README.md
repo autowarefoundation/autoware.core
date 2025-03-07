@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `PlanningFactorInterface` is a C++ class designed to facilitate the addition and publication of planning factors. 
+The `PlanningFactorInterface` is a C++ class designed to facilitate the addition and publication of planning factors.
 
 ## Design
 
@@ -11,7 +11,6 @@ The `PlanningFactorInterface` class is designed to be lightweight and efficient,
 - **Add:** Methods to add planning factors to the interface.
 
 - **Publisher:** The class includes a publisher for `PlanningFactorArray` messages, which are used to distribute planning factors to other nodes in the system.
-
 
 The design emphasizes flexibility and ease of use, allowing developers to quickly integrate new planning factors into autoware.
 
