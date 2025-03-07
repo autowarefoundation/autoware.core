@@ -117,7 +117,8 @@ std::vector<double> Trajectory<PointType>::get_internal_bases() const
 
   auto bases = detail::merge_vectors(
     bases_, get_bases(this->longitudinal_velocity_mps()), get_bases(this->lateral_velocity_mps()),
-    get_bases(this->heading_rate_rps()));
+    get_bases(this->heading_rate_rps()), get_bases(this->acceleration_mps2()),
+    get_bases(this->front_wheel_angle_rad()), get_bases(this->rear_wheel_angle_rad()));
 
   bases = detail::crop_bases(bases, start_, end_);
   std::transform(
@@ -134,6 +135,9 @@ PointType Trajectory<PointType>::compute(double s) const
     static_cast<float>(this->longitudinal_velocity_mps().compute(s));
   result.lateral_velocity_mps = static_cast<float>(this->lateral_velocity_mps().compute(s));
   result.heading_rate_rps = static_cast<float>(this->heading_rate_rps().compute(s));
+  result.acceleration_mps2 = static_cast<float>(this->acceleration_mps2().compute(s));
+  result.front_wheel_angle_rad = static_cast<float>(this->front_wheel_angle_rad().compute(s));
+  result.rear_wheel_angle_rad = static_cast<float>(this->rear_wheel_angle_rad().compute(s));
   return result;
 }
 
