@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <autoware_lanelet2_utility/topology.hpp>
+#include <autoware_lanelet2_utils/topology.hpp>
 #include <range/v3/all.hpp>
 #include <rclcpp/logging.hpp>
 
@@ -21,7 +21,7 @@
 
 #include <vector>
 
-namespace autoware::lanelet2_utility
+namespace autoware::lanelet2_utils
 {
 
 static constexpr size_t k_normal_bundle_max_size = 10;
@@ -262,4 +262,4 @@ lanelet::ConstLanelets from_ids(
          }) |
          ranges::to<std::vector>();
 }
-}  // namespace autoware::lanelet2_utility
+}  // namespace autoware::lanelet2_utils

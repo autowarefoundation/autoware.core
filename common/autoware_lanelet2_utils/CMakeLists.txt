@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(autoware_lanelet2_utility)
+project(autoware_lanelet2_utils)
 
 find_package(autoware_cmake REQUIRED)
 autoware_package()
