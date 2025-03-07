@@ -2134,47 +2134,47 @@
 <tr>
 <td><code>boundary</code>,<br><code>entry</code>,<br><code>exit</code></td>
 <td>The <code>boundary</code> of a Lanelet refers to the left or right Linestring.</td>
-<td><img alt="boundary_entry_exit" src="media/nomenclature/boundary_entry_exit.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Fpr-243common%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fboundary_entry_exit.drawio.svg">Open</a></td>
+<td><img alt="boundary_entry_exit" src="media/nomenclature/boundary_entry_exit.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Fpr-243%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fboundary_entry_exit.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td><code>adjacent</code></td>
 <td>If A is <code>adjacent</code> to B, A and B share a common <code>boundary</code> with same direction either on the left or right side.</td>
-<td>In each map, orange Lanelet is <code>adjacent</code> to green Lanelet.<br><img alt="adjacent" src="media/nomenclature/adjacent.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Fpr-243common%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fadjacent.drawio.svg">Open</a></td>
+<td>In each map, orange Lanelet is <code>adjacent</code> to green Lanelet.<br><img alt="adjacent" src="media/nomenclature/adjacent.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Fpr-243%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fadjacent.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td><code>same_direction</code></td>
 <td>Lanelet A and Lanelet B are <code>same_direction</code> if A and B are directly or indirectly <code>adjacent</code> to each other.</td>
-<td>In each map, orange Lanelets are <code>same_direction</code> as green Lanelet.<br><img alt="same_direction" src="media/nomenclature/same_direction.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Fpr-243common%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fsame_direction.drawio.svg">Open</a></td>
+<td>In each map, orange Lanelets are <code>same_direction</code> as green Lanelet.<br><img alt="same_direction" src="media/nomenclature/same_direction.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Fpr-243%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fsame_direction.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td><code>bundle</code></td>
 <td>A <code>bundle</code> refers to a transitive closure set of Lanelets which are <code>same_direction</code> to each other.</td>
-<td>The enclosed sets of Lanelets are <code>bundle</code>s.<br><img alt="bundle" src="media/nomenclature/bundle.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Fpr-243common%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fbundle.drawio.svg">Open</a></td>
+<td>The enclosed sets of Lanelets are <code>bundle</code>s.<br><img alt="bundle" src="media/nomenclature/bundle.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Fpr-243%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fbundle.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td><code>opposite</code></td>
 <td>If A is <code>opposite</code> to B, A and B share a common <code>boundary</code> with opposite direction.</td>
-<td>In the first map, green Lanelet and orange Lanelet are <code>opposite</code> to each other.<br>In the second map, two red Lanelets are not <code>opposite</code> relation because they do not share a common LineString.<br><img alt="opposite" src="media/nomenclature/opposite.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Fpr-243common%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fopposite.drawio.svg">Open</a></td>
+<td>In the first map, green Lanelet and orange Lanelet are <code>opposite</code> to each other.<br>In the second map, two red Lanelets are not <code>opposite</code> relation because they do not share a common LineString.<br><img alt="opposite" src="media/nomenclature/opposite.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Fpr-243%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fopposite.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td><code>opposite_direction</code></td>
 <td>If A and B are <code>opposite_direction</code>, the <code>bundle</code> of A and B are directly <code>opposite</code> to each other.</td>
-<td>In the each map, green Lanelet and orange Lanelet are <code>opposite_direction</code> because their <code>bundle</code>s(enclosed in dotted line) are <code>opposite</code> relation.<br><img alt="opposite_direction" src="media/nomenclature/opposite_direction.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Fpr-243common%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fopposite_direction.drawio.svg">Open</a></td>
+<td>In the each map, green Lanelet and orange Lanelet are <code>opposite_direction</code> because their <code>bundle</code>s(enclosed in dotted line) are <code>opposite</code> relation.<br><img alt="opposite_direction" src="media/nomenclature/opposite_direction.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Fpr-243%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fopposite_direction.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td><code>connected</code></td>
 <td>A is <code>connected</code> to(from) B if and only if the <code>exit</code>(<code>entry</code>) of A is identical to the <code>entry</code>(<code>exit</code>) of B.</td>
-<td>A is connected to B, and B is connected from A.<br><img alt="connected" src="media/nomenclature/connected.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Fpr-243common%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fconnected.drawio.svg">Open</a></td>
+<td>A is connected to B, and B is connected from A.<br><img alt="connected" src="media/nomenclature/connected.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Fpr-243%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fconnected.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td><code>following</code></td>
 <td>The <code>following</code> Lanelets of A is the list of Lanelets to which A is <code>connected</code>.</td>
-<td>In each map, orange Lanelets are the <code>following</code> of green Lanelet.<br><img alt="following" src="media/nomenclature/following.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Fpr-243common%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Ffollowing.drawio.svg">Open</a></td>
+<td>In each map, orange Lanelets are the <code>following</code> of green Lanelet.<br><img alt="following" src="media/nomenclature/following.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Fpr-243%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Ffollowing.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td><code>previous</code></td>
 <td>The <code>previous</code> Lanelets of A is the list of Lanelets from which A is <code>connected</code>.</td>
-<td>In each map, orange Lanelets are the <code>previous</code> of green Lanelet. <br> <img alt="previous" src="media/nomenclature/previous.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Fpr-243common%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fprevious.drawio.svg">Open</a></td>
+<td>In each map, orange Lanelets are the <code>previous</code> of green Lanelet. <br> <img alt="previous" src="media/nomenclature/previous.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Fpr-243%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fprevious.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td><code>conflicting</code></td>
@@ -2184,12 +2184,12 @@
 <tr>
 <td><code>merging</code></td>
 <td>A is said to be <code>merging</code> Lanelet of B if and only if A is <code>conflicting</code> with B and both A and B are connected to a common Lanelet.</td>
-<td>In each map, one of the orange Lanelet is a <code>merging</code> Lanelet of the other orange Lanelet.<br><img alt="merging" src="media/nomenclature/merging.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Fpr-243common%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fmerging.drawio.svg">Open</a></td>
+<td>In each map, one of the orange Lanelet is a <code>merging</code> Lanelet of the other orange Lanelet.<br><img alt="merging" src="media/nomenclature/merging.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Fpr-243%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fmerging.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td><code>sibling</code></td>
 <td>The designated Lanelets are referred to as <code>sibling</code> if all of them are <code>connected</code> from a common Lanelet.</td>
-<td>In each map, orange Lanelets are <code>sibling</code>s.<br><img alt="sibling" src="media/nomenclature/sibling.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Fpr-243common%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fsibling.drawio.svg">Open</a></td>
+<td>In each map, orange Lanelets are <code>sibling</code>s.<br><img alt="sibling" src="media/nomenclature/sibling.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Fpr-243%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fsibling.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td><code>oncoming</code></td>
