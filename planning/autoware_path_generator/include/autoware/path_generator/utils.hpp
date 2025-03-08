@@ -150,18 +150,6 @@ std::vector<geometry_msgs::msg::Point> get_path_bound(
   const double s_end);
 
 /**
- * @brief find index out of goal search range
- * @param points points of path
- * @param goal goal pose
- * @param goal_lane_id lane id of goal lanelet
- * @param max_dist maximum distance to search for goal index
- * @return index out of goal search range (std::nullopt if not found)
- */
-std::optional<size_t> find_index_out_of_goal_search_range(
-  const std::vector<PathPointWithLaneId> & points, const geometry_msgs::msg::Pose & goal,
-  const int64_t goal_lane_id, const double max_dist = std::numeric_limits<double>::max());
-
-/**
  * @brief Recreate the goal pose to prevent the goal point being too far from the lanelet, which
  *  causes the path to twist near the goal.
  * @details Return the goal point projected on the straight line of the segment of lanelet
@@ -174,7 +162,6 @@ const geometry_msgs::msg::Pose refine_goal(
 
 /**
  * @brief Recreate the path with a given goal pose.
- * @param search_radius_range Searching radius.
  * @param input Input path.
  * @param refined_goal Goal pose.
  * @return Recreated path
