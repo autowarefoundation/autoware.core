@@ -409,11 +409,12 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
 
   PathWithLaneId finalized_path_with_lane_id{};
 
-  // Check if the cropped trajectory has a goal point
+  // Check if the goal point is in the search range
+  // Note: We assume the current position is the first point of the path
   const auto distance_to_goal = autoware_utils::calc_distance2d(
-    preprocessed_path.points.back().point.pose, planner_data_.goal_pose);
+    preprocessed_path.points.front().point.pose, planner_data_.goal_pose);
 
-  if (distance_to_goal < 1e-6) {
+  if (distance_to_goal < planner_data_.path_generator_parameters.refine_goal_search_radius_range) {
     // Perform smooth goal connection
     auto planner_data_ptr = std::make_shared<const PlannerData>(planner_data_);
     finalized_path_with_lane_id =
