@@ -30,12 +30,12 @@ struct PathGeneratorParameters
   /**
    * @brief Distance on path to be modified for goal insertion
    */
-  double refine_goal_search_radius_range;
+  double refine_goal_search_radius_range{0.0};
 
   /**
    * @brief Decrement of the search radius range
    */
-  double search_radius_decrement;
+  double search_radius_decrement{0.0};
 };
 
 struct PlannerData
