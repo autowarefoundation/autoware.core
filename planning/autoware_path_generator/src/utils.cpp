@@ -445,20 +445,8 @@ PathWithLaneId modify_path_for_smooth_goal_connection(
     const auto goal_lanelet = get_goal_lanelet(*planner_data);
     const auto refined_goal = goal_lanelet.has_value() ?  refine_goal(goal, *goal_lanelet) : goal;
 
-  bool is_valid_path{false};
-  PathWithLaneId refined_path;
-
-  // Then, refine the path for the goal
-  refined_path = refine_path_for_goal(path, refined_goal);
-  if (is_path_valid(refined_path, planner_data)) {
-    is_valid_path = true;
-  }
-
-  // It is better to return the original path if the refined path is not valid
-  if (!is_valid_path) {
-    return path;
-  }
-  return refined_path;
+  const PathWithLaneId refined_path = refine_path_for_goal(path, refined_goal);
+  return is_path_valid(refined_path, planner_data) ? refined_path : path;
 }
 
 TurnIndicatorsCommand get_turn_signal(
