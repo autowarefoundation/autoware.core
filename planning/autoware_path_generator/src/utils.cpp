@@ -442,8 +442,8 @@ PathWithLaneId modify_path_for_smooth_goal_connection(
 {
   const auto goal = planner_data->goal_pose;
 
-    const auto goal_lanelet = get_goal_lanelet(*planner_data);
-    const auto refined_goal = goal_lanelet.has_value() ?  refine_goal(goal, *goal_lanelet) : goal;
+  const auto goal_lanelet = get_goal_lanelet(*planner_data);
+  const auto refined_goal = goal_lanelet.has_value() ? refine_goal(goal, *goal_lanelet) : goal;
 
   const PathWithLaneId refined_path = refine_path_for_goal(path, refined_goal);
   return is_path_valid(refined_path, planner_data) ? refined_path : path;
