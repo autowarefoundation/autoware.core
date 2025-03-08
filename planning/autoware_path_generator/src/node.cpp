@@ -289,16 +289,6 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
   const lanelet::LaneletSequence & lanelet_sequence, const double s_start, const double s_end,
   const Params & params) const
 {
-  // Sanity check
-  if (s_start > s_end) {
-    RCLCPP_ERROR(
-      get_logger(),
-      "s_start must not be greater than s_end: Provided s_start = %f, s_end = %f. Skipping path "
-      "generation.",
-      s_start, s_end);
-    return std::nullopt;
-  }
-
   std::vector<PathPointWithLaneId> path_points_with_lane_id{};
 
   const auto add_path_point = [&](const auto & path_point, const lanelet::ConstLanelet & lanelet) {
