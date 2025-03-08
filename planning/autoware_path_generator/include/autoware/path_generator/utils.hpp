@@ -166,19 +166,22 @@ const geometry_msgs::msg::Pose refine_goal(
  * @param lanes Lanelets.
  * @return Pre-goal point.
  */
-PathPointWithLaneId prepare_pre_goal(const geometry_msgs::msg::Pose & goal, const lanelet::ConstLanelets & lanes);
+PathPointWithLaneId prepare_pre_goal(
+  const geometry_msgs::msg::Pose & goal, const lanelet::ConstLanelets & lanes);
 
 /**
- * @brief Get the index of the point closest to the circumference of the circle whose center is the goal and outside of it.
+ * @brief Get the index of the point closest to the circumference of the circle whose center is the
+ * goal and outside of it.
  * @param points Points to search.
  * @param goal Goal pose.
  * @param goal_lane_id Lane ID of the goal.
  * @param max_dist Maximum distance to search.
- * @return Index of the point closest to the circumference of the circle whose center is the goal and outside of it.
+ * @return Index of the point closest to the circumference of the circle whose center is the goal
+ * and outside of it.
  */
 std::optional<size_t> find_index_out_of_goal_search_range(
-  const std::vector<PathPointWithLaneId> & points,
-  const geometry_msgs::msg::Pose & goal, const int64_t goal_lane_id, const double max_dist);
+  const std::vector<PathPointWithLaneId> & points, const geometry_msgs::msg::Pose & goal,
+  const int64_t goal_lane_id, const double max_dist);
 
 /**
  * @brief Get the path up to just before the pre_goal.
@@ -187,7 +190,8 @@ std::optional<size_t> find_index_out_of_goal_search_range(
  * @return Recreated path
  */
 std::optional<PathWithLaneId> path_up_to_just_before_pre_goal(
-  const PathWithLaneId & input, const geometry_msgs::msg::Pose & goal, const lanelet::Id goal_lane_id, const double search_radius_range);
+  const PathWithLaneId & input, const geometry_msgs::msg::Pose & goal,
+  const lanelet::Id goal_lane_id, const double search_radius_range);
 
 /**
  * @brief Recreate the path with a given goal pose.
@@ -197,7 +201,8 @@ std::optional<PathWithLaneId> path_up_to_just_before_pre_goal(
  * @return Recreated path
  */
 PathWithLaneId refine_path_for_goal(
-  const PathWithLaneId & input, const geometry_msgs::msg::Pose & goal, const PlannerData & planner_data);
+  const PathWithLaneId & input, const geometry_msgs::msg::Pose & goal,
+  const PlannerData & planner_data);
 
 /**
  * @brief Extract lanelets from the path.
@@ -229,8 +234,7 @@ bool is_in_lanelets(const geometry_msgs::msg::Pose & pose, const lanelet::ConstL
  * @param planner_data Planner data.
  * @return True if the path is valid, false otherwise
  */
-bool is_path_valid(
-  const PathWithLaneId & refined_path, const PlannerData & planner_data);
+bool is_path_valid(const PathWithLaneId & refined_path, const PlannerData & planner_data);
 
 /**
  * @brief Modify the path to connect smoothly to the goal.

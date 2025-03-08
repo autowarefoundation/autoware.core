@@ -352,30 +352,32 @@ const geometry_msgs::msg::Pose refine_goal(
 // To perform smooth goal connection, we need to prepare the point before the goal point.
 // This function prepares the point before the goal point.
 // See the link below for more details:
-//   - https://autowarefoundation.github.io/autoware.universe/main/planning/behavior_path_planner/autoware_behavior_path_goal_planner_module/#fixed_goal_planner
-PathPointWithLaneId prepare_pre_goal(const geometry_msgs::msg::Pose & goal, const lanelet::ConstLanelets & lanes)
+//   -
+//   https://autowarefoundation.github.io/autoware.universe/main/planning/behavior_path_planner/autoware_behavior_path_goal_planner_module/#fixed_goal_planner
+PathPointWithLaneId prepare_pre_goal(
+  const geometry_msgs::msg::Pose & goal, const lanelet::ConstLanelets & lanes)
 {
-    PathPointWithLaneId pre_refined_goal{};
+  PathPointWithLaneId pre_refined_goal{};
 
-    // -1.0 is to prepare the point before the goal point. See the link above for more details.
-    constexpr double goal_to_pre_goal_distance = -1.0;
+  // -1.0 is to prepare the point before the goal point. See the link above for more details.
+  constexpr double goal_to_pre_goal_distance = -1.0;
 
-    // First, calculate the pose of the pre_goal point
-    pre_refined_goal.point.pose =
-      autoware_utils::calc_offset_pose(goal, goal_to_pre_goal_distance, 0.0, 0.0);
+  // First, calculate the pose of the pre_goal point
+  pre_refined_goal.point.pose =
+    autoware_utils::calc_offset_pose(goal, goal_to_pre_goal_distance, 0.0, 0.0);
 
-    // Second, find and set the lane_id that the pre_goal point belongs to
-    for (const auto & lane : lanes) {
-        if (lanelet::utils::isInLanelet(pre_refined_goal.point.pose, lane)) {
-          // Prevent from duplication
-          if(exists(pre_refined_goal.lane_ids, lane.id())) {
-            continue;
-          }
-          pre_refined_goal.lane_ids.push_back(lane.id());
-        }
+  // Second, find and set the lane_id that the pre_goal point belongs to
+  for (const auto & lane : lanes) {
+    if (lanelet::utils::isInLanelet(pre_refined_goal.point.pose, lane)) {
+      // Prevent from duplication
+      if (exists(pre_refined_goal.lane_ids, lane.id())) {
+        continue;
+      }
+      pre_refined_goal.lane_ids.push_back(lane.id());
     }
+  }
 
-    return pre_refined_goal;
+  return pre_refined_goal;
 }
 
 // A function that assumes a circle with radius max_dist centered at the goal and returns
@@ -423,37 +425,42 @@ std::optional<size_t> find_index_out_of_goal_search_range(
 }
 
 // Clean up points around the goal for smooth goal connection
-// This function returns the cleaned up path. You need to add pre_goal and goal to the returned path.
-// This is because we'll do spline interpolation between the tail of the returned path and the pre_goal later at this file.
-//   - https://github.com/tier4/autoware.universe/blob/908cb7ee5cca01c367f03caf6db4562a620504fb/planning/behavior_path_planner/autoware_behavior_path_planner/src/behavior_path_planner_node.cpp#L724-L725
+// This function returns the cleaned up path. You need to add pre_goal and goal to the returned
+// path. This is because we'll do spline interpolation between the tail of the returned path and the
+// pre_goal later at this file.
+//   -
+//   https://github.com/tier4/autoware.universe/blob/908cb7ee5cca01c367f03caf6db4562a620504fb/planning/behavior_path_planner/autoware_behavior_path_planner/src/behavior_path_planner_node.cpp#L724-L725
 std::optional<PathWithLaneId> path_up_to_just_before_pre_goal(
-  const PathWithLaneId & input, const geometry_msgs::msg::Pose & goal, const lanelet::Id goal_lane_id, const double search_radius_range)
+  const PathWithLaneId & input, const geometry_msgs::msg::Pose & goal,
+  const lanelet::Id goal_lane_id, const double search_radius_range)
 {
-    // Find min_dist_out_of_circle_index whose distance to goal is longer than search_radius_range
-    const auto min_dist_out_of_circle_index_opt =
-      find_index_out_of_goal_search_range(input.points, goal, goal_lane_id, search_radius_range);
+  // Find min_dist_out_of_circle_index whose distance to goal is longer than search_radius_range
+  const auto min_dist_out_of_circle_index_opt =
+    find_index_out_of_goal_search_range(input.points, goal, goal_lane_id, search_radius_range);
 
-    // It seems we are almost at the goal as no point is found outside of the circle whose center is the goal
-    if (!min_dist_out_of_circle_index_opt) {
-      return std::nullopt;
-    }
+  // It seems we are almost at the goal as no point is found outside of the circle whose center is
+  // the goal
+  if (!min_dist_out_of_circle_index_opt) {
+    return std::nullopt;
+  }
 
-    // It seems we have a point outside of the circle whose center is the goal
-    const auto min_dist_out_of_circle_index = min_dist_out_of_circle_index_opt.value();
+  // It seems we have a point outside of the circle whose center is the goal
+  const auto min_dist_out_of_circle_index = min_dist_out_of_circle_index_opt.value();
 
-    // Fill all the points up to just before the point outside of the circle
-    PathWithLaneId output;
-    output.points.reserve(output.points.size() + min_dist_out_of_circle_index + 3);
-    for (size_t i = 0; i <= min_dist_out_of_circle_index; ++i) {
-      output.points.push_back(input.points.at(i));
-    }
+  // Fill all the points up to just before the point outside of the circle
+  PathWithLaneId output;
+  output.points.reserve(output.points.size() + min_dist_out_of_circle_index + 3);
+  for (size_t i = 0; i <= min_dist_out_of_circle_index; ++i) {
+    output.points.push_back(input.points.at(i));
+  }
 
-    return output;
+  return output;
 }
 
 // Function to refine the path for the goal
 PathWithLaneId refine_path_for_goal(
-  const PathWithLaneId & input, const geometry_msgs::msg::Pose & goal, const PlannerData & planner_data)
+  const PathWithLaneId & input, const geometry_msgs::msg::Pose & goal,
+  const PlannerData & planner_data)
 {
   PathWithLaneId filtered_path = input;
 
@@ -465,7 +472,9 @@ PathWithLaneId refine_path_for_goal(
   }
 
   // Clean up points around the goal for smooth goal connection
-  auto path_up_to_just_before_pre_goal_opt = path_up_to_just_before_pre_goal(filtered_path, goal, planner_data.goal_lane_id, planner_data.path_generator_parameters.refine_goal_search_radius_range);
+  auto path_up_to_just_before_pre_goal_opt = path_up_to_just_before_pre_goal(
+    filtered_path, goal, planner_data.goal_lane_id,
+    planner_data.path_generator_parameters.refine_goal_search_radius_range);
   if (!path_up_to_just_before_pre_goal_opt) {
     // It seems we are almost at the goal and no need to clean up. Lets use the original path.
     return input;
@@ -540,8 +549,7 @@ bool is_in_lanelets(const geometry_msgs::msg::Pose & pose, const lanelet::ConstL
   return false;
 }
 
-bool is_path_valid(
-  const PathWithLaneId & refined_path, const PlannerData & planner_data)
+bool is_path_valid(const PathWithLaneId & refined_path, const PlannerData & planner_data)
 {
   // Extract lanelets from the refined path
   const auto lanelets_opt = extract_lanelets_from_path(refined_path, planner_data);
