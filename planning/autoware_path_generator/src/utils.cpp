@@ -493,9 +493,14 @@ PathWithLaneId refine_path_for_goal(
 
   // Reserve the size of the path + pre_goal + goal
   path_up_to_just_before_pre_goal.points.reserve(path_up_to_just_before_pre_goal.points.size() + 2);
+
+  // Insert pre_goal to the path
   path_up_to_just_before_pre_goal.points.push_back(prepare_pre_goal(goal, lanes));
 
-  // Replace the goal point with the refined goal
+  // Insert goal (obtained from the tail of input path) to the cleaned up path
+  path_up_to_just_before_pre_goal.points.push_back(input.points.back());
+
+  // Finally, replace the goal point with the refined one
   path_up_to_just_before_pre_goal.points.back().point.pose = goal;
 
   // If necessary, do more fine tuning for goal connection here
