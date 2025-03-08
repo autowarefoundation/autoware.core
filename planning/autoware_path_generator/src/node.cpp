@@ -406,7 +406,7 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
 
   if (distance_to_goal < planner_data_.path_generator_parameters.refine_goal_search_radius_range) {
     // Perform smooth goal connection
-    auto planner_data_ptr = std::make_shared<const PlannerData>(planner_data_);
+    const auto planner_data_ptr = std::make_shared<const PlannerData>(planner_data_);
     finalized_path_with_lane_id =
       utils::modify_path_for_smooth_goal_connection(std::move(preprocessed_path), planner_data_ptr);
   } else {
