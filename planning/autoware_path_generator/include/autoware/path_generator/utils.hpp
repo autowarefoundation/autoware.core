@@ -162,22 +162,6 @@ std::optional<size_t> find_index_out_of_goal_search_range(
   const int64_t goal_lane_id, const double max_dist = std::numeric_limits<double>::max());
 
 /**
- * @brief Modify the path points near the goal to smoothly connect the input path and the goal
- * point
- * @details Remove the path points that are forward from the goal by the distance of
- * search_radius_range. Then insert the goal into the path. The previous goal point generated
- * from the goal posture information is also inserted for the smooth connection of the goal pose.
- * @param [in] search_radius_range distance on path to be modified for goal insertion
- * @param [in] input original path
- * @param [in] goal original goal pose
- * @param [in] goal_lane_id Lane ID of goal lanelet.
- * @return output path with modified points for the goal (std::nullopt if not found)
- */
-std::optional<PathWithLaneId> set_goal(
-  const double search_radius_range, const PathWithLaneId & input,
-  const geometry_msgs::msg::Pose & goal, const int64_t goal_lane_id);
-
-/**
  * @brief Recreate the goal pose to prevent the goal point being too far from the lanelet, which
  *  causes the path to twist near the goal.
  * @details Return the goal point projected on the straight line of the segment of lanelet
@@ -193,12 +177,10 @@ const geometry_msgs::msg::Pose refine_goal(
  * @param search_radius_range Searching radius.
  * @param input Input path.
  * @param refined_goal Goal pose.
- * @param goal_lane_id Lane ID of goal lanelet.
  * @return Recreated path
  */
 PathWithLaneId refine_path_for_goal(
-  const double search_radius_range, const PathWithLaneId & input,
-  const geometry_msgs::msg::Pose & goal, const int64_t goal_lane_id);
+  const PathWithLaneId & input, const geometry_msgs::msg::Pose & goal);
 
 /**
  * @brief Extract lanelets from the path.
