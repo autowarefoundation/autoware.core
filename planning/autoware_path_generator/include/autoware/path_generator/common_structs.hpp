@@ -24,20 +24,6 @@
 
 namespace autoware::path_generator
 {
-
-struct PathGeneratorParameters
-{
-  /**
-   * @brief Distance on path to be modified for goal insertion
-   */
-  double refine_goal_search_radius_range{0.0};
-
-  /**
-   * @brief Decrement of the search radius range
-   */
-  double search_radius_decrement{0.0};
-};
-
 struct PlannerData
 {
   lanelet::LaneletMapPtr lanelet_map_ptr{nullptr};
@@ -45,15 +31,12 @@ struct PlannerData
   lanelet::routing::RoutingGraphPtr routing_graph_ptr{nullptr};
 
   std::string route_frame_id{};
-  lanelet::Id goal_lane_id{};
   geometry_msgs::msg::Pose goal_pose{};
 
   lanelet::ConstLanelets route_lanelets{};
   lanelet::ConstLanelets preferred_lanelets{};
   lanelet::ConstLanelets start_lanelets{};
   lanelet::ConstLanelets goal_lanelets{};
-
-  PathGeneratorParameters path_generator_parameters{};
 };
 }  // namespace autoware::path_generator
 

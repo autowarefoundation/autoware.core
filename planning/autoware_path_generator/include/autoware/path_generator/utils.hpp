@@ -240,10 +240,12 @@ bool is_path_valid(const PathWithLaneId & refined_path, const PlannerData & plan
  * @brief Modify the path to connect smoothly to the goal.
  * @param path Input path.
  * @param planner_data Planner data.
+ * @param refine_goal_search_radius_range Refine goal search radius range.
  * @return Modified path
  */
 PathWithLaneId modify_path_for_smooth_goal_connection(
-  const PathWithLaneId & path, const std::shared_ptr<const PlannerData> & planner_data);
+  const PathWithLaneId & path, const std::shared_ptr<const PlannerData> & planner_data,
+  const double refine_goal_search_radius_range);
 
 /**
  * @brief get earliest turn signal based on turn direction specified for lanelets

@@ -352,7 +352,6 @@ const geometry_msgs::msg::Pose refine_goal(
 // To perform smooth goal connection, we need to prepare the point before the goal point.
 // This function prepares the point before the goal point.
 // See the link below for more details:
-//   -
 //   https://autowarefoundation.github.io/autoware.universe/main/planning/behavior_path_planner/autoware_behavior_path_goal_planner_module/#fixed_goal_planner
 PathPointWithLaneId prepare_pre_goal(
   const geometry_msgs::msg::Pose & goal, const lanelet::ConstLanelets & lanes)
@@ -428,8 +427,7 @@ std::optional<size_t> find_index_out_of_goal_search_range(
 // This function returns the cleaned up path. You need to add pre_goal and goal to the returned
 // path. This is because we'll do spline interpolation between the tail of the returned path and the
 // pre_goal later at this file.
-//   -
-//   https://github.com/tier4/autoware.universe/blob/908cb7ee5cca01c367f03caf6db4562a620504fb/planning/behavior_path_planner/autoware_behavior_path_planner/src/behavior_path_planner_node.cpp#L724-L725
+//   https://github.com/autowarefoundation/autoware.universe/blob/908cb7ee5cca01c367f03caf6db4562a620504fb/planning/behavior_path_planner/autoware_behavior_path_planner/src/behavior_path_planner_node.cpp#L724-L725
 std::optional<PathWithLaneId> get_path_up_to_just_before_pre_goal(
   const PathWithLaneId & input, const geometry_msgs::msg::Pose & goal,
   const lanelet::Id goal_lane_id, const double search_radius_range)
@@ -460,7 +458,7 @@ std::optional<PathWithLaneId> get_path_up_to_just_before_pre_goal(
 // Function to refine the path for the goal
 PathWithLaneId refine_path_for_goal(
   const PathWithLaneId & input, const geometry_msgs::msg::Pose & goal,
-  const PlannerData & planner_data)
+  const PlannerData & planner_data, const double refine_goal_search_radius_range)
 {
   PathWithLaneId filtered_path = input;
 
@@ -468,8 +466,8 @@ PathWithLaneId refine_path_for_goal(
 
   // Clean up points around the goal for smooth goal connection
   auto path_up_to_just_before_pre_goal_opt = get_path_up_to_just_before_pre_goal(
-    filtered_path, goal, planner_data.goal_lane_id,
-    planner_data.path_generator_parameters.refine_goal_search_radius_range);
+    filtered_path, goal, planner_data.preferred_lanelets.back().id(),
+    refine_goal_search_radius_range);
 
   if (!path_up_to_just_before_pre_goal_opt) {
     // It seems we are almost at the goal and no need to clean up. Lets use the original path.
@@ -542,7 +540,7 @@ std::optional<lanelet::ConstLanelets> extract_lanelets_from_path(
 
 std::optional<lanelet::ConstLanelet> get_goal_lanelet(const PlannerData & planner_data)
 {
-  const lanelet::Id goal_lane_id = planner_data.goal_lane_id;
+  const lanelet::Id goal_lane_id = planner_data.preferred_lanelets.back().id();
   for (const auto & llt : planner_data.route_lanelets) {
     if (llt.id() == goal_lane_id) {
       return llt;
@@ -583,7 +581,8 @@ bool is_path_valid(const PathWithLaneId & refined_path, const PlannerData & plan
 }
 
 PathWithLaneId modify_path_for_smooth_goal_connection(
-  const PathWithLaneId & path, const std::shared_ptr<const PlannerData> & planner_data)
+  const PathWithLaneId & path, const std::shared_ptr<const PlannerData> & planner_data,
+  const double refine_goal_search_radius_range)
 {
   const auto goal = planner_data->goal_pose;
 
@@ -600,7 +599,8 @@ PathWithLaneId modify_path_for_smooth_goal_connection(
     }
   }
 
-  const PathWithLaneId refined_path = refine_path_for_goal(path, refined_goal, *planner_data);
+  const PathWithLaneId refined_path =
+    refine_path_for_goal(path, refined_goal, *planner_data, refine_goal_search_radius_range);
   return is_path_valid(refined_path, *planner_data) ? refined_path : path;
 }
 

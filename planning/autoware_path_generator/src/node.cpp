@@ -46,20 +46,6 @@ namespace autoware::path_generator
 PathGenerator::PathGenerator(const rclcpp::NodeOptions & node_options)
 : Node("path_generator", node_options)
 {
-  // Initialize path_generator_parameters
-  planner_data_.path_generator_parameters.refine_goal_search_radius_range =
-    declare_parameter<double>("refine_goal_search_radius_range");
-  planner_data_.path_generator_parameters.search_radius_decrement =
-    declare_parameter<double>("search_radius_decrement");
-
-  // Ensure that the refine_goal_search_radius_range and search_radius_decrement must be positive
-  if (
-    planner_data_.path_generator_parameters.refine_goal_search_radius_range <= 0 ||
-    planner_data_.path_generator_parameters.search_radius_decrement <= 0) {
-    throw std::runtime_error(
-      "refine_goal_search_radius_range and search_radius_decrement must be positive");
-  }
-
   param_listener_ =
     std::make_shared<::path_generator::ParamListener>(this->get_node_parameters_interface());
 
@@ -71,6 +57,13 @@ PathGenerator::PathGenerator(const rclcpp::NodeOptions & node_options)
   vehicle_info_ = autoware::vehicle_info_utils::VehicleInfoUtils(*this).getVehicleInfo();
 
   const auto params = param_listener_->get_params();
+
+  // Ensure that the refine_goal_search_radius_range and search_radius_decrement must be positive
+  if (params.refine_goal_search_radius_range <= 0 || params.search_radius_decrement <= 0) {
+    throw std::runtime_error(
+      "refine_goal_search_radius_range and search_radius_decrement must be positive");
+  }
+
   timer_ = rclcpp::create_timer(
     this, get_clock(), rclcpp::Rate(params.planning_hz).period(),
     std::bind(&PathGenerator::run, this));
@@ -168,8 +161,6 @@ void PathGenerator::set_route(const LaneletRoute::ConstSharedPtr & route_ptr)
       }
     }
   }
-
-  planner_data_.goal_lane_id = route_ptr->segments.back().preferred_primitive.id;
 
   const auto set_lanelets_from_segment =
     [&](
@@ -404,11 +395,13 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
   const auto distance_to_goal = autoware_utils::calc_distance2d(
     preprocessed_path.points.front().point.pose, planner_data_.goal_pose);
 
-  if (distance_to_goal < planner_data_.path_generator_parameters.refine_goal_search_radius_range) {
+  if (distance_to_goal < params.refine_goal_search_radius_range) {
     // Perform smooth goal connection
     const auto planner_data_ptr = std::make_shared<const PlannerData>(planner_data_);
-    finalized_path_with_lane_id =
-      utils::modify_path_for_smooth_goal_connection(std::move(preprocessed_path), planner_data_ptr);
+    const auto params = param_listener_->get_params();
+
+    finalized_path_with_lane_id = utils::modify_path_for_smooth_goal_connection(
+      std::move(preprocessed_path), planner_data_ptr, params.refine_goal_search_radius_range);
   } else {
     finalized_path_with_lane_id = std::move(preprocessed_path);
   }
