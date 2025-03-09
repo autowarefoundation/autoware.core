@@ -430,7 +430,7 @@ std::optional<size_t> find_index_out_of_goal_search_range(
 // pre_goal later at this file.
 //   -
 //   https://github.com/tier4/autoware.universe/blob/908cb7ee5cca01c367f03caf6db4562a620504fb/planning/behavior_path_planner/autoware_behavior_path_planner/src/behavior_path_planner_node.cpp#L724-L725
-std::optional<PathWithLaneId> path_up_to_just_before_pre_goal(
+std::optional<PathWithLaneId> get_path_up_to_just_before_pre_goal(
   const PathWithLaneId & input, const geometry_msgs::msg::Pose & goal,
   const lanelet::Id goal_lane_id, const double search_radius_range)
 {
@@ -472,18 +472,22 @@ PathWithLaneId refine_path_for_goal(
   }
 
   // Clean up points around the goal for smooth goal connection
-  auto path_up_to_just_before_pre_goal_opt = path_up_to_just_before_pre_goal(
+  auto path_up_to_just_before_pre_goal_opt = get_path_up_to_just_before_pre_goal(
     filtered_path, goal, planner_data.goal_lane_id,
     planner_data.path_generator_parameters.refine_goal_search_radius_range);
+
   if (!path_up_to_just_before_pre_goal_opt) {
     // It seems we are almost at the goal and no need to clean up. Lets use the original path.
     return input;
   }
 
   // Get the value from the optional
-  auto path_up_to_just_before_pre_goal = path_up_to_just_before_pre_goal_opt.value();
+  auto final_path = path_up_to_just_before_pre_goal_opt.value();
 
-  // Add pre_goal to the path
+  // Reserve the size of the path + pre_goal + goal
+  final_path.points.reserve(final_path.points.size() + 2);
+
+  // Prepare lanes only for pre_goal. Maybe we can simplify without using this.
   const auto lanes_opt = extract_lanelets_from_path(filtered_path, planner_data);
   if (!lanes_opt) {
     // It might be better to use the original path when the lanelets are not found
@@ -491,21 +495,29 @@ PathWithLaneId refine_path_for_goal(
   }
   const auto lanes = lanes_opt.value();
 
-  // Reserve the size of the path + pre_goal + goal
-  path_up_to_just_before_pre_goal.points.reserve(path_up_to_just_before_pre_goal.points.size() + 2);
+  // Prepare pre_goal which is just before the goal
+  PathPointWithLaneId pre_refined_goal = prepare_pre_goal(goal, lanes);
 
-  // Insert pre_goal to the path
-  path_up_to_just_before_pre_goal.points.push_back(prepare_pre_goal(goal, lanes));
+  // Insert pre_goal to the path with zero velocity as it is almost at the goal
+  pre_refined_goal.point.longitudinal_velocity_mps = 0.0;
+  final_path.points.push_back(pre_refined_goal);
 
   // Insert goal (obtained from the tail of input path) to the cleaned up path
-  path_up_to_just_before_pre_goal.points.push_back(input.points.back());
+  final_path.points.push_back(input.points.back());
 
   // Finally, replace the goal point with the refined one
-  path_up_to_just_before_pre_goal.points.back().point.pose = goal;
+  final_path.points.back().point.pose = goal;
+
+  // Set zero velocity at the goal
+  final_path.points.back().point.longitudinal_velocity_mps = 0.0;
+
+  // Also set the left/right bound
+  final_path.left_bound = input.left_bound;
+  final_path.right_bound = input.right_bound;
 
   // If necessary, do more fine tuning for goal connection here
 
-  return path_up_to_just_before_pre_goal;
+  return final_path;
 }
 
 std::optional<lanelet::ConstLanelets> extract_lanelets_from_path(
@@ -593,20 +605,8 @@ PathWithLaneId modify_path_for_smooth_goal_connection(
     }
   }
 
-  bool is_valid_path{false};
-  PathWithLaneId refined_path;
-
-  // Then, refine the path for the goal
-  refined_path = refine_path_for_goal(path, refined_goal, *planner_data);
-  if (is_path_valid(refined_path, *planner_data)) {
-    is_valid_path = true;
-  }
-
-  // It is better to return the original path if the refined path is not valid
-  if (!is_valid_path) {
-    return path;
-  }
-  return refined_path;
+  const PathWithLaneId refined_path = refine_path_for_goal(path, refined_goal, *planner_data);
+  return is_path_valid(refined_path, *planner_data) ? refined_path : path;
 }
 
 TurnIndicatorsCommand get_turn_signal(

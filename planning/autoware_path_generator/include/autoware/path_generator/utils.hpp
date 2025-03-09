@@ -189,7 +189,7 @@ std::optional<size_t> find_index_out_of_goal_search_range(
  * @param refined_goal Goal pose.
  * @return Recreated path
  */
-std::optional<PathWithLaneId> path_up_to_just_before_pre_goal(
+std::optional<PathWithLaneId> get_path_up_to_just_before_pre_goal(
   const PathWithLaneId & input, const geometry_msgs::msg::Pose & goal,
   const lanelet::Id goal_lane_id, const double search_radius_range);
 
