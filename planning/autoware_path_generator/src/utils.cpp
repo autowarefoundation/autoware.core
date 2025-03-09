@@ -466,11 +466,6 @@ PathWithLaneId refine_path_for_goal(
 
   filtered_path.points = autoware::motion_utils::removeOverlapPoints(filtered_path.points);
 
-  // Always set zero velocity at the end of path for safety
-  if (!filtered_path.points.empty()) {
-    filtered_path.points.back().point.longitudinal_velocity_mps = 0.0;
-  }
-
   // Clean up points around the goal for smooth goal connection
   auto path_up_to_just_before_pre_goal_opt = get_path_up_to_just_before_pre_goal(
     filtered_path, goal, planner_data.goal_lane_id,
