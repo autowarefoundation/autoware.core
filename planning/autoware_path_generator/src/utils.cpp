@@ -446,6 +446,7 @@ std::optional<PathWithLaneId> get_path_up_to_just_before_pre_goal(
 
   // It seems we have a point outside of the circle whose center is the goal
   const auto min_dist_out_of_circle_index = min_dist_out_of_circle_index_opt.value();
+  if (min_dist_out_of_circle_index == 0) return std::nullopt;
 
   // Fill all the points up to just before the point outside of the circle
   PathWithLaneId output;
