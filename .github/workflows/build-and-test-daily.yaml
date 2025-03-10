@@ -32,6 +32,7 @@ jobs:
           rosdistro: humble
           target-packages: ${{ steps.get-self-packages.outputs.self-packages }}
           build-depends-repos: build_depends.repos
+          underlay-workspace: /opt/autoware
 
       - name: Test
         if: ${{ steps.get-self-packages.outputs.self-packages != '' }}

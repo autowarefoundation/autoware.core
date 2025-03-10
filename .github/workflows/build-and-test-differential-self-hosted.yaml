@@ -48,6 +48,7 @@ jobs:
           rosdistro: ${{ matrix.rosdistro }}
           target-packages: ${{ steps.get-modified-packages.outputs.modified-packages }}
           build-depends-repos: ${{ matrix.build-depends-repos }}
+          underlay-workspace: /opt/autoware
 
       - name: Test
         if: ${{ steps.get-modified-packages.outputs.modified-packages != '' }}
