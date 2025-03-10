@@ -50,7 +50,10 @@ TEST(PlanningModuleInterfaceTest, NodeTestWithExceptionTrajectory)
   test_manager->publishInput(
     test_target_node, "path_generator/input/vector_map", autoware::test_utils::makeMapBinMsg());
   test_manager->publishInput(
-    test_target_node, "path_generator/input/odometry", autoware::test_utils::makeOdometry());
+    test_target_node, "path_generator/input/odometry",
+    autoware::test_utils::makeOdometry().set__pose(
+      geometry_msgs::msg::PoseWithCovariance{}.set__pose(
+        autoware::test_utils::makeBehaviorNormalRoute().start_pose)));
 
   // create subscriber in test_manager
   test_manager->subscribeOutput<autoware_internal_planning_msgs::msg::PathWithLaneId>(
