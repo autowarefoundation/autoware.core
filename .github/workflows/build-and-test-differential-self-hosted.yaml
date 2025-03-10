@@ -27,7 +27,6 @@ jobs:
         include:
           - rosdistro: humble
             container: ros:humble
-            build-depends-repos: build_depends.repos
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -43,11 +42,10 @@ jobs:
 
       - name: Build
         if: ${{ steps.get-modified-packages.outputs.modified-packages != '' }}
-        uses: autowarefoundation/autoware-github-actions/colcon-build@v1
+        uses: youtalk/autoware-github-actions/colcon-build@source-opt-autoware-setup
         with:
           rosdistro: ${{ matrix.rosdistro }}
           target-packages: ${{ steps.get-modified-packages.outputs.modified-packages }}
-          build-depends-repos: ${{ matrix.build-depends-repos }}
 
       - name: Test
         if: ${{ steps.get-modified-packages.outputs.modified-packages != '' }}
@@ -55,4 +53,3 @@ jobs:
         with:
           rosdistro: ${{ matrix.rosdistro }}
           target-packages: ${{ steps.get-modified-packages.outputs.modified-packages }}
-          build-depends-repos: ${{ matrix.build-depends-repos }}
