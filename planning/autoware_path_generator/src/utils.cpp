@@ -489,11 +489,33 @@ PathWithLaneId refine_path_for_goal(
   const auto lanes = lanes_opt.value();
 
   // Prepare pre_goal which is just before the goal
-  PathPointWithLaneId pre_refined_goal = prepare_pre_goal(goal, lanes);
+  PathPointWithLaneId pre_goal = prepare_pre_goal(goal, lanes);
 
-  // Insert pre_goal to the path with zero velocity as it is almost at the goal
-  pre_refined_goal.point.longitudinal_velocity_mps = 0.0;
-  final_path.points.push_back(pre_refined_goal);
+  // Insert pre_goal to the path. As this pre_goal has the role that of the point just before the
+  // goal, we set the velocity that of the point just before the tail of the input path (size - 2).
+  // ------------------------------------------------------------------------------------------
+  //       <-- path_up_to_just_before_pre_goal_opt -->  <-- cleaned up by range -->  goal
+  // input: 0, 1, 2, 3, ........., out_of_circle_index, ................., size - 2, size - 1
+  // ------------------------------------------------------------------------------------------
+  //       <-- path_up_to_just_before_pre_goal_opt -->                     # We add these points
+  // final: 0, 1, 2, 3, ........., out_of_circle_index                   , pre_goal, goal
+  // ------------------------------------------------------------------------------------------
+
+  // Check if the input path has the point just before the goal
+  if (input.points.size() < 2) {
+    // But not empty?
+    if (input.points.empty()) {
+      return input;
+    }
+    // Set the velocity of the pre_goal to the velocity of the last point
+    pre_goal.point.longitudinal_velocity_mps = input.points.back().point.longitudinal_velocity_mps;
+  } else {
+    // Set the velocity of the pre_goal to the velocity of the point just before the goal
+    pre_goal.point.longitudinal_velocity_mps =
+      input.points.at(input.points.size() - 2).point.longitudinal_velocity_mps;
+  }
+
+  final_path.points.push_back(pre_goal);
 
   // Insert goal (obtained from the tail of input path) to the cleaned up path
   final_path.points.push_back(input.points.back());
