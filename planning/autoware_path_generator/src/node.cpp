@@ -393,7 +393,7 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
   // Check if the goal point is in the search range
   // Note: We assume the current position is the first point of the path
   const auto distance_to_goal = autoware_utils::calc_distance2d(
-    preprocessed_path.points.front().point.pose, planner_data_.goal_pose);
+    preprocessed_path.points.back().point.pose, planner_data_.goal_pose);
 
   if (distance_to_goal < params.refine_goal_search_radius_range) {
     // Perform smooth goal connection
