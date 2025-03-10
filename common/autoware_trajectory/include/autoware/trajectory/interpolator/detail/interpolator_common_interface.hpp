@@ -18,6 +18,7 @@
 #include <Eigen/Dense>
 #include <rclcpp/logging.hpp>
 
+#include <utility>
 #include <vector>
 
 namespace autoware::trajectory::interpolator::detail
@@ -85,7 +86,7 @@ protected:
    * @param s The input value.
    * @return The input value, clamped to the range of the interpolator.
    */
-double validate_compute_input(const double s) const
+  double validate_compute_input(const double s) const
   {
     if (s < start() || s > end()) {
       RCLCPP_WARN(
@@ -110,7 +111,7 @@ double validate_compute_input(const double s) const
    *
    * @throw std::out_of_range if the input value is outside the range of the bases array.
    */
-int32_t get_index(const double s, bool end_inclusive = true) const
+  int32_t get_index(const double s, bool end_inclusive = true) const
   {
     if (end_inclusive && s == end()) {
       return static_cast<int32_t>(bases_.size()) - 2;
@@ -148,9 +149,7 @@ public:
     if (bases.size() < minimum_required_points()) {
       return false;
     }
-    return build_impl(
-      std::forward<std::decay_t<BaseVectorT>>(bases),
-      std::forward<std::decay_t<ValueVectorT>>(values));
+    return build_impl(std::forward<BaseVectorT>(bases), std::forward<ValueVectorT>(values));
   }
 
   /**
