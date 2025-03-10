@@ -33,7 +33,7 @@ struct InterpolationFailure
 inline InterpolationFailure operator+(
   const InterpolationFailure & primary, const InterpolationFailure & nested)
 {
-  return InterpolationFailure{primary.what + ". " + nested.what};
+  return InterpolationFailure{primary.what + " ==> " + nested.what};
 }
 
 using InterpolationResult = tl::expected<InterpolationSuccess, InterpolationFailure>;

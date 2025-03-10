@@ -154,9 +154,7 @@ public:
         "base size " + std::to_string(bases.size()) + " is less than minimum required " +
         std::to_string(minimum_required)});
     }
-    if (!build_impl(
-          std::forward<std::decay_t<BaseVectorT>>(bases),
-          std::forward<std::decay_t<ValueVectorT>>(values))) {
+    if (!build_impl(std::forward<BaseVectorT>(bases), std::forward<ValueVectorT>(values))) {
       return tl::unexpected(
         InterpolationFailure{"failed to interpolate from given base and values"});
     }
