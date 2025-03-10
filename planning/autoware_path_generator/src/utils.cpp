@@ -578,7 +578,7 @@ bool is_path_valid(const PathWithLaneId & refined_path, const PlannerData & plan
 }
 
 PathWithLaneId modify_path_for_smooth_goal_connection(
-  const PathWithLaneId & path, const std::shared_ptr<const PlannerData> & planner_data,
+  const PathWithLaneId & path, const PlannerData & planner_data,
   const double refine_goal_search_radius_range)
 {
   const auto goal = planner_data->goal_pose;
