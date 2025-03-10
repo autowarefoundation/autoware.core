@@ -8,7 +8,7 @@ on:
 jobs:
   build-and-test-daily:
     runs-on: ubuntu-24.04
-    container: ghcr.io/autowarefoundation/autoware:core-devel
+    container: ghcr.io/autowarefoundation/autoware:core-common-devel
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
