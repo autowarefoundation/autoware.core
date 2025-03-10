@@ -59,6 +59,13 @@ PathGenerator::PathGenerator(const rclcpp::NodeOptions & node_options)
   vehicle_info_ = autoware::vehicle_info_utils::VehicleInfoUtils(*this).getVehicleInfo();
 
   const auto params = param_listener_->get_params();
+
+  // Ensure that the refine_goal_search_radius_range and search_radius_decrement must be positive
+  if (params.refine_goal_search_radius_range <= 0 || params.search_radius_decrement <= 0) {
+    throw std::runtime_error(
+      "refine_goal_search_radius_range and search_radius_decrement must be positive");
+  }
+
   timer_ = rclcpp::create_timer(
     this, get_clock(), rclcpp::Rate(params.planning_hz).period(),
     std::bind(&PathGenerator::run, this));
@@ -371,7 +378,10 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
     return std::nullopt;
   }
 
+  // Attach orientation for all the points
   trajectory->align_orientation_with_trajectory_direction();
+
+  // Refine the trajectory by cropping
   trajectory->crop(
     s_offset + s_start -
       get_arc_length_along_centerline(
@@ -379,10 +389,35 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
                                      path_points_with_lane_id.front().point.pose.position)),
     s_end - s_start);
 
-  PathWithLaneId path{};
-  path.header.frame_id = planner_data_.route_frame_id;
-  path.header.stamp = now();
-  path.points = trajectory->restore();
+  // Compose the polished path
+  PathWithLaneId preprocessed_path{};
+  preprocessed_path.points = trajectory->restore();
+
+  PathWithLaneId finalized_path_with_lane_id{};
+
+  // Check if the goal point is in the search range
+  // Note: We only see if the goal is approaching the tail of the path.
+  const auto distance_to_goal = autoware_utils::calc_distance2d(
+    preprocessed_path.points.back().point.pose, planner_data_.goal_pose);
+
+  if (distance_to_goal < params.refine_goal_search_radius_range) {
+    // Perform smooth goal connection
+    const auto params = param_listener_->get_params();
+
+    finalized_path_with_lane_id = utils::modify_path_for_smooth_goal_connection(
+      std::move(preprocessed_path), planner_data_, params.refine_goal_search_radius_range);
+  } else {
+    finalized_path_with_lane_id = std::move(preprocessed_path);
+  }
+
+  // check if the path is empty
+  if (finalized_path_with_lane_id.points.empty()) {
+    return std::nullopt;
+  }
+
+  // Set header which is needed to engage
+  finalized_path_with_lane_id.header.frame_id = planner_data_.route_frame_id;
+  finalized_path_with_lane_id.header.stamp = now();
 
   const auto get_path_bound = [&](const lanelet::CompoundLineString2d & lanelet_bound) {
     const auto s_bound_start =
@@ -392,10 +427,11 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
     return utils::get_path_bound(
       lanelet_bound, extended_lanelet_sequence.centerline2d(), s_bound_start, s_bound_end);
   };
-  path.left_bound = get_path_bound(extended_lanelet_sequence.leftBound2d());
-  path.right_bound = get_path_bound(extended_lanelet_sequence.rightBound2d());
+  finalized_path_with_lane_id.left_bound = get_path_bound(extended_lanelet_sequence.leftBound2d());
+  finalized_path_with_lane_id.right_bound =
+    get_path_bound(extended_lanelet_sequence.rightBound2d());
 
-  return path;
+  return finalized_path_with_lane_id;
 }
 }  // namespace autoware::path_generator
 

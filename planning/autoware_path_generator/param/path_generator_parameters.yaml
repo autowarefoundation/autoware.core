@@ -28,3 +28,9 @@ path_generator:
 
     angle_threshold_deg:
       type: double
+
+  refine_goal_search_radius_range:
+    type: double
+
+  search_radius_decrement:
+    type: double

@@ -278,6 +278,34 @@ LaneletRoute makeBehaviorNormalRoute()
   return route;
 }
 
+// this is for the test lanelet2_map.osm
+// file hash: a9f84cff03b55a64917bc066451276d2293b0a54f5c088febca0c7fdf2f245d5
+LaneletRoute makeBehaviorGoalOnLeftSideRoute()
+{
+  // TODO(sasakisasaki): this is very similar to the makeBehaviorNormalRoute()
+  // Perhaps we can simplify the code
+
+  LaneletRoute route;
+  route.header.frame_id = "map";
+  route.start_pose =
+    createPose({3722.16015625, 73723.515625, 0.233112560494183, 0.9724497591854532});
+
+  // Make the goal on the left side
+  route.goal_pose = createPose({3779.5, 73721.2734, -0.5107480274693206, 0.8597304533609347});
+
+  std::vector<int> primitive_ids = {9102, 9178, 54, 112};
+  for (int id : primitive_ids) {
+    route.segments.push_back(createLaneletSegment(id));
+  }
+
+  std::array<uint8_t, 16> uuid_bytes{210, 87,  16,  126, 98,  151, 58, 28,
+                                     252, 221, 230, 92,  122, 170, 46, 6};
+  route.uuid.uuid = uuid_bytes;
+
+  route.allow_modification = false;
+  return route;
+}
+
 // cppcheck-suppress unusedFunction
 void spinSomeNodes(
   rclcpp::Node::SharedPtr test_node, rclcpp::Node::SharedPtr target_node, const int repeat_count)
