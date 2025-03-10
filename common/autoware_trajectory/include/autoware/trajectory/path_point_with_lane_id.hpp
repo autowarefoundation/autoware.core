@@ -52,7 +52,7 @@ public:
    * @param points Vector of points
    * @return True if the build is successful
    */
-  bool build(const std::vector<PointType> & points);
+  interpolator::InterpolationResult build(const std::vector<PointType> & points);
 
   std::vector<double> get_internal_bases() const override;
 
@@ -136,14 +136,16 @@ public:
       return *this;
     }
 
-    std::optional<Trajectory> build(const std::vector<PointType> & points)
+    tl::expected<Trajectory, interpolator::InterpolationFailure> build(
+      const std::vector<PointType> & points)
     {
-      if (trajectory_->build(points)) {
-        auto result = std::make_optional<Trajectory>(std::move(*trajectory_));
+      auto trajectory_result = trajectory_->build(points);
+      if (trajectory_result) {
+        auto result = Trajectory(std::move(*trajectory_));
         trajectory_.reset();
         return result;
       }
-      return std::nullopt;
+      return tl::unexpected(trajectory_result.error());
     }
   };
 };

@@ -15,9 +15,11 @@
 #ifndef AUTOWARE__TRAJECTORY__INTERPOLATOR__DETAIL__INTERPOLATOR_COMMON_INTERFACE_HPP_
 #define AUTOWARE__TRAJECTORY__INTERPOLATOR__DETAIL__INTERPOLATOR_COMMON_INTERFACE_HPP_
 
-#include <Eigen/Dense>
+#include "autoware/trajectory/interpolator/result.hpp"
+
 #include <rclcpp/logging.hpp>
 
+#include <utility>
 #include <vector>
 
 namespace autoware::trajectory::interpolator::detail
@@ -85,7 +87,7 @@ protected:
    * @param s The input value.
    * @return The input value, clamped to the range of the interpolator.
    */
-double validate_compute_input(const double s) const
+  double validate_compute_input(const double s) const
   {
     if (s < start() || s > end()) {
       RCLCPP_WARN(
@@ -110,7 +112,7 @@ double validate_compute_input(const double s) const
    *
    * @throw std::out_of_range if the input value is outside the range of the bases array.
    */
-int32_t get_index(const double s, bool end_inclusive = true) const
+  int32_t get_index(const double s, bool end_inclusive = true) const
   {
     if (end_inclusive && s == end()) {
       return static_cast<int32_t>(bases_.size()) - 2;
@@ -140,17 +142,25 @@ public:
     std::conjunction_v<
       std::is_same<std::decay_t<BaseVectorT>, std::vector<double>>,
       std::is_same<std::decay_t<ValueVectorT>, std::vector<T>>>,
-    bool>
+    InterpolationResult>
   {
     if (bases.size() != values.size()) {
-      return false;
+      return tl::unexpected(InterpolationFailure{
+        "base size " + std::to_string(bases.size()) + " and value size " +
+        std::to_string(values.size()) + " are different"});
     }
-    if (bases.size() < minimum_required_points()) {
-      return false;
+    if (const auto minimum_required = minimum_required_points(); bases.size() < minimum_required) {
+      return tl::unexpected(InterpolationFailure{
+        "base size " + std::to_string(bases.size()) + " is less than minimum required " +
+        std::to_string(minimum_required)});
     }
-    return build_impl(
-      std::forward<std::decay_t<BaseVectorT>>(bases),
-      std::forward<std::decay_t<ValueVectorT>>(values));
+    if (!build_impl(
+          std::forward<std::decay_t<BaseVectorT>>(bases),
+          std::forward<std::decay_t<ValueVectorT>>(values))) {
+      return tl::unexpected(
+        InterpolationFailure{"failed to interpolate from given base and values"});
+    }
+    return InterpolationSuccess{};
   }
 
   /**
