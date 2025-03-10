@@ -25,6 +25,7 @@
 #include <cmath>
 #include <cstddef>
 #include <memory>
+#include <utility>
 #include <vector>
 
 namespace autoware::trajectory
@@ -87,15 +88,15 @@ interpolator::InterpolationResult Trajectory<PointType>::build(
   start_ = bases_.front();
   end_ = bases_.back();
 
-  if (const auto result = x_interpolator_->build(bases_, xs); !result) {
+  if (const auto result = x_interpolator_->build(bases_, std::move(xs)); !result) {
     return tl::unexpected(
       interpolator::InterpolationFailure{"failed to interpolate Point::x"} + result.error());
   }
-  if (const auto result = y_interpolator_->build(bases_, ys); !result) {
+  if (const auto result = y_interpolator_->build(bases_, std::move(ys)); !result) {
     return tl::unexpected(
       interpolator::InterpolationFailure{"failed to interpolate Point::y"} + result.error());
   }
-  if (const auto result = z_interpolator_->build(bases_, zs); !result) {
+  if (const auto result = z_interpolator_->build(bases_, std::move(zs)); !result) {
     return tl::unexpected(
       interpolator::InterpolationFailure{"failed to interpolate Point::z"} + result.error());
   }

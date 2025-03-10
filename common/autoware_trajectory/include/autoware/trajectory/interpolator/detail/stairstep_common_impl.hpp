@@ -17,6 +17,7 @@
 
 #include "autoware/trajectory/interpolator/detail/interpolator_mixin.hpp"
 
+#include <utility>
 #include <vector>
 
 namespace autoware::trajectory::interpolator
@@ -72,9 +73,10 @@ protected:
    * @param bases The bases values.
    * @param values The values to interpolate.
    */
-  [[nodiscard]] bool build_impl(std::vector<double> && bases, std::vector<T> && values) override
+  [[nodiscard]] bool build_impl(
+    const std::vector<double> & bases, std::vector<T> && values) override
   {
-    this->bases_ = std::move(bases);
+    this->bases_ = bases;
     this->values_ = std::move(values);
     return true;
   }

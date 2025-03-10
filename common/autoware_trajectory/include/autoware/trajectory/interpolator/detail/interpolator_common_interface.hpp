@@ -77,7 +77,8 @@ protected:
    * @param bases The bases values.
    * @param values The values to interpolate.
    */
-  [[nodiscard]] virtual bool build_impl(std::vector<double> && bases, std::vector<T> && values) = 0;
+  [[nodiscard]] virtual bool build_impl(
+    const std::vector<double> & bases, std::vector<T> && values) = 0;
 
   /**
    * @brief Validate the input to the compute method.
