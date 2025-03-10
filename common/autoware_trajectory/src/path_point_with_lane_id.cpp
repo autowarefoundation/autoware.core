@@ -18,6 +18,7 @@
 #include "autoware/trajectory/interpolator/stairstep.hpp"
 
 #include <memory>
+#include <utility>
 #include <vector>
 
 namespace autoware::trajectory
@@ -56,7 +57,7 @@ interpolator::InterpolationResult Trajectory<PointType>::build(
       interpolator::InterpolationFailure{"failed to interpolate PathPointWithLaneId::point"} +
       result.error());
   }
-  if (const auto result = lane_ids().build(bases_, lane_ids_values); !result) {
+  if (const auto result = lane_ids().build(bases_, std::move(lane_ids_values)); !result) {
     return tl::unexpected(
       interpolator::InterpolationFailure{"failed to interpolate PathPointWithLaneId::lane_id"});
   }

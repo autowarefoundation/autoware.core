@@ -72,9 +72,10 @@ public:
     return interpolator_->build(bases_, values_);
   }
 
-  interpolator::InterpolationResult build(std::vector<double> && bases, std::vector<T> && values)
+  interpolator::InterpolationResult build(
+    const std::vector<double> & bases, std::vector<T> && values)
   {
-    bases_ = std::move(bases);
+    bases_ = bases;
     values_ = std::move(values);
     return interpolator_->build(bases_, values_);
   }

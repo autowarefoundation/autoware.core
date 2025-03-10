@@ -30,9 +30,9 @@ bool Linear::build_impl(const std::vector<double> & bases, const std::vector<dou
   return true;
 }
 
-bool Linear::build_impl(std::vector<double> && bases, std::vector<double> && values)
+bool Linear::build_impl(const std::vector<double> & bases, std::vector<double> && values)
 {
-  this->bases_ = std::move(bases);
+  this->bases_ = bases;
   this->values_ =
     Eigen::Map<const Eigen::VectorXd>(values.data(), static_cast<Eigen::Index>(values.size()));
   return true;

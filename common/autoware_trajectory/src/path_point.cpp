@@ -23,8 +23,8 @@
 #include <autoware_planning_msgs/msg/path_point.hpp>
 
 #include <memory>
+#include <utility>
 #include <vector>
-
 namespace autoware::trajectory
 {
 
@@ -80,18 +80,20 @@ interpolator::InterpolationResult Trajectory<PointType>::build(
     return tl::unexpected(
       interpolator::InterpolationFailure{"failed to interpolate PathPoint::pose"} + result.error());
   }
-  if (const auto result =
-        this->longitudinal_velocity_mps().build(bases_, longitudinal_velocity_mps_values);
+  if (const auto result = this->longitudinal_velocity_mps().build(
+        bases_, std::move(longitudinal_velocity_mps_values));
       !result) {
     return tl::unexpected(interpolator::InterpolationFailure{
       "failed to interpolate PathPoint::longitudinal_velocity_mps"});
   }
-  if (const auto result = this->lateral_velocity_mps().build(bases_, lateral_velocity_mps_values);
+  if (const auto result =
+        this->lateral_velocity_mps().build(bases_, std::move(lateral_velocity_mps_values));
       !result) {
     return tl::unexpected(
       interpolator::InterpolationFailure{"failed to interpolate PathPoint::lateral_velocity_mps"});
   }
-  if (const auto result = this->heading_rate_rps().build(bases_, heading_rate_rps_values);
+  if (const auto result =
+        this->heading_rate_rps().build(bases_, std::move(heading_rate_rps_values));
       !result) {
     return tl::unexpected(
       interpolator::InterpolationFailure{"failed to interpolate PathPoint::heading_rate_rps"});

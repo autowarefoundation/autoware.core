@@ -21,6 +21,7 @@
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2/LinearMath/Vector3.h>
 
+#include <utility>
 #include <vector>
 
 namespace autoware::trajectory
@@ -61,7 +62,7 @@ Trajectory<PointType>::Trajectory(const Trajectory<geometry_msgs::msg::Point> & 
   for (size_t i = 0; i < bases_.size(); ++i) {
     orientations[i].w = 1.0;
   }
-  const auto success = orientation_interpolator_->build(bases_, orientations);
+  const auto success = orientation_interpolator_->build(bases_, std::move(orientations));
 
   if (!success) {
     throw std::runtime_error(
@@ -88,7 +89,8 @@ interpolator::InterpolationResult Trajectory<PointType>::build(
     return tl::unexpected(
       interpolator::InterpolationFailure{"failed to interpolate Pose::points"} + result.error());
   }
-  if (const auto result = orientation_interpolator_->build(bases_, orientations); !result) {
+  if (const auto result = orientation_interpolator_->build(bases_, std::move(orientations));
+      !result) {
     return tl::unexpected(
       interpolator::InterpolationFailure{"failed to interpolate Pose::orientation"} +
       result.error());
@@ -164,7 +166,7 @@ void Trajectory<PointType>::align_orientation_with_trajectory_direction()
 
     aligned_orientations.emplace_back(aligned_orientation);
   }
-  const auto success = orientation_interpolator_->build(bases_, aligned_orientations);
+  const auto success = orientation_interpolator_->build(bases_, std::move(aligned_orientations));
   if (!success) {
     throw std::runtime_error(
       "Failed to build orientation interpolator.");  // This exception should not be thrown.
