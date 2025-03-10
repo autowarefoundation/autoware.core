@@ -72,6 +72,12 @@ void PlanningInterfaceTestManager::testWithBehaviorNormalRoute(
   publishInput(target_node, topic_name, autoware::test_utils::makeBehaviorNormalRoute(), 5);
 }
 
+void PlanningInterfaceTestManager::testWithBehaviorGoalOnLeftSide(
+  rclcpp::Node::SharedPtr target_node, const std::string & topic_name)
+{
+  publishInput(target_node, topic_name, autoware::test_utils::makeBehaviorGoalOnLeftSideRoute(), 5);
+}
+
 void PlanningInterfaceTestManager::testWithNormalPathWithLaneId(
   rclcpp::Node::SharedPtr target_node, const std::string & topic_name)
 {

@@ -86,6 +86,9 @@ public:
   void testWithBehaviorNormalRoute(
     rclcpp::Node::SharedPtr target_node, const std::string & topic_name);
 
+  void testWithBehaviorGoalOnLeftSide(
+    rclcpp::Node::SharedPtr target_node, const std::string & topic_name);
+
   void testWithNormalPathWithLaneId(
     rclcpp::Node::SharedPtr target_node, const std::string & topic_name);
   void testWithAbnormalPathWithLaneId(
