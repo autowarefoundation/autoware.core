@@ -542,7 +542,7 @@ std::optional<lanelet::ConstLanelets> extract_lanelets_from_path(
   for (size_t i = 0; i < refined_path.points.size(); ++i) {
     try {
       const auto & path_point = refined_path.points.at(i);
-      int64_t lane_id = path_point.lane_ids.at(0);
+      const int64_t lane_id = path_point.lane_ids.at(0);
       lanelet::ConstLanelet lanelet = planner_data.lanelet_map_ptr->laneletLayer.get(lane_id);
 
       if (!exists(refined_path_lanelets, lanelet)) {
