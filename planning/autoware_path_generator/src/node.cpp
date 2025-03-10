@@ -384,8 +384,6 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
 
   // Compose the polished path
   PathWithLaneId preprocessed_path{};
-  preprocessed_path.header.frame_id = planner_data_.route_frame_id;
-  preprocessed_path.header.stamp = now();
   preprocessed_path.points = trajectory->restore();
 
   PathWithLaneId finalized_path_with_lane_id{};
@@ -410,6 +408,10 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
   if (finalized_path_with_lane_id.points.empty()) {
     return std::nullopt;
   }
+
+  // Set header which is needed to engage
+  finalized_path_with_lane_id.header.frame_id = planner_data_.route_frame_id;
+  finalized_path_with_lane_id.header.stamp = now();
 
   const auto get_path_bound = [&](const lanelet::CompoundLineString2d & lanelet_bound) {
     const auto s_bound_start =
