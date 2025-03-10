@@ -587,18 +587,7 @@ PathWithLaneId modify_path_for_smooth_goal_connection(
 {
   const auto goal = planner_data->goal_pose;
 
-  geometry_msgs::msg::Pose refined_goal{};
-  {
-    // Prevent from shadowVariable
-    const auto goal_lanelet = get_goal_lanelet(*planner_data);
-
-    // First, polish up the goal pose if possible
-    if (goal_lanelet) {
-      refined_goal = refine_goal(goal, *goal_lanelet);
-    } else {
-      refined_goal = goal;
-    }
-  }
+  geometry_msgs::msg::Pose refined_goal = refine_goal(goal, planner_data->preferred_lanelets.back());
 
   const PathWithLaneId refined_path =
     refine_path_for_goal(path, refined_goal, *planner_data, refine_goal_search_radius_range);
