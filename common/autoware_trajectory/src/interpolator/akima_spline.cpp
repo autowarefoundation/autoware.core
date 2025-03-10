@@ -60,15 +60,6 @@ void AkimaSpline::compute_parameters(
   }
 }
 
-bool AkimaSpline::build_impl(const std::vector<double> & bases, const std::vector<double> & values)
-{
-  this->bases_ = bases;
-  compute_parameters(
-    Eigen::Map<const Eigen::VectorXd>(bases.data(), static_cast<Eigen::Index>(bases.size())),
-    Eigen::Map<const Eigen::VectorXd>(values.data(), static_cast<Eigen::Index>(values.size())));
-  return true;
-}
-
 bool AkimaSpline::build_impl(const std::vector<double> & bases, std::vector<double> && values)
 {
   this->bases_ = bases;
