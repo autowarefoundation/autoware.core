@@ -447,7 +447,6 @@ std::optional<PathWithLaneId> get_path_up_to_just_before_pre_goal(
 
   // Fill all the points up to just before the point outside of the circle
   PathWithLaneId output;
-  output.points.reserve(output.points.size() + min_dist_out_of_circle_index + 3);
   for (size_t i = 0; i <= min_dist_out_of_circle_index; ++i) {
     output.points.push_back(input.points.at(i));
   }
