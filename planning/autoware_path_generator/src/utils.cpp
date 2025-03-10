@@ -522,11 +522,7 @@ std::optional<lanelet::ConstLanelets> extract_lanelets_from_path(
       int64_t lane_id = path_point.lane_ids.at(0);
       lanelet::ConstLanelet lanelet = planner_data.lanelet_map_ptr->laneletLayer.get(lane_id);
 
-      const bool is_unique =
-        std::find(refined_path_lanelets.begin(), refined_path_lanelets.end(), lanelet) ==
-        refined_path_lanelets.end();
-
-      if (is_unique) {
+      if (!exists(refined_path_lanelets, lanelet)) {
         refined_path_lanelets.push_back(lanelet);
       }
     } catch (const std::out_of_range & e) {
@@ -580,7 +576,7 @@ bool is_path_valid(const PathWithLaneId & refined_path, const PlannerData & plan
 }
 
 PathWithLaneId modify_path_for_smooth_goal_connection(
-  const PathWithLaneId & path, const std::shared_ptr<const PlannerData> & planner_data,
+  const PathWithLaneId & path, const PlannerData & planner_data,
   const double refine_goal_search_radius_range)
 {
   const auto goal = planner_data->goal_pose;
