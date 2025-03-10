@@ -381,6 +381,7 @@ PathPointWithLaneId prepare_pre_goal(
 
 // A function that assumes a circle with radius max_dist centered at the goal and returns
 // the index of the point closest to the circumference of the circle and outside of it.
+// If no such point is found, return the farthest point from the goal in the circle.
 std::optional<size_t> find_index_out_of_goal_search_range(
   const std::vector<autoware_internal_planning_msgs::msg::PathPointWithLaneId> & points,
   const geometry_msgs::msg::Pose & goal, const int64_t goal_lane_id, const double max_dist)
