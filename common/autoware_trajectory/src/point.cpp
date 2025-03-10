@@ -62,7 +62,8 @@ Trajectory<PointType> & Trajectory<PointType>::operator=(const Trajectory & rhs)
   return *this;
 }
 
-bool Trajectory<PointType>::build(const std::vector<PointType> & points)
+interpolator::InterpolationResult Trajectory<PointType>::build(
+  const std::vector<PointType> & points)
 {
   std::vector<double> xs;
   std::vector<double> ys;
@@ -86,12 +87,19 @@ bool Trajectory<PointType>::build(const std::vector<PointType> & points)
   start_ = bases_.front();
   end_ = bases_.back();
 
-  bool is_valid = true;
-  is_valid &= x_interpolator_->build(bases_, xs);
-  is_valid &= y_interpolator_->build(bases_, ys);
-  is_valid &= z_interpolator_->build(bases_, zs);
-
-  return is_valid;
+  if (const auto result = x_interpolator_->build(bases_, xs); !result) {
+    return tl::unexpected(
+      interpolator::InterpolationFailure{"failed to interpolate Point::x"} + result.error());
+  }
+  if (const auto result = y_interpolator_->build(bases_, ys); !result) {
+    return tl::unexpected(
+      interpolator::InterpolationFailure{"failed to interpolate Point::y"} + result.error());
+  }
+  if (const auto result = z_interpolator_->build(bases_, zs); !result) {
+    return tl::unexpected(
+      interpolator::InterpolationFailure{"failed to interpolate Point::z"} + result.error());
+  }
+  return interpolator::InterpolationSuccess{};
 }
 
 double Trajectory<PointType>::clamp(const double s, bool show_warning) const
