@@ -2179,52 +2179,52 @@
 <tr>
 <td><code>driving</code></td>
 <td>The vehicle position belongs to the designated Lanelet.</td>
-<td>In each map, green Lanelet are the <code>driving</code> lanes of the vehicle.<br><img alt="driving" src="media/nomenclature/driving.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fdriving.drawio.svg">Open</a></td>
+<td>In each map, green Lanelet are the <code>driving</code> lanes of the vehicle.<br><img alt="driving" src="media/nomenclature/driving.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utils%2Fmedia%2Fnomenclature%2Fdriving.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td><code>boundary</code>,<br><code>entry</code>,<br><code>exit</code></td>
 <td>The <code>boundary</code> of a Lanelet refers to the left or right Linestring.</td>
-<td><img alt="boundary_entry_exit" src="media/nomenclature/boundary_entry_exit.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fboundary_entry_exit.drawio.svg">Open</a></td>
+<td><img alt="boundary_entry_exit" src="media/nomenclature/boundary_entry_exit.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utils%2Fmedia%2Fnomenclature%2Fboundary_entry_exit.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td><code>adjacent</code></td>
 <td>If A is <code>adjacent</code> to B, A and B share a common <code>boundary</code> with same direction either on the left or right side.</td>
-<td>In each map, orange Lanelet is <code>adjacent</code> to green Lanelet.<br><img alt="adjacent" src="media/nomenclature/adjacent.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fadjacent.drawio.svg">Open</a></td>
+<td>In each map, orange Lanelet is <code>adjacent</code> to green Lanelet.<br><img alt="adjacent" src="media/nomenclature/adjacent.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utils%2Fmedia%2Fnomenclature%2Fadjacent.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td><code>same_direction</code></td>
 <td>Lanelet A and Lanelet B are <code>same_direction</code> if A and B are directly or indirectly <code>adjacent</code> to each other.</td>
-<td>In each map, orange Lanelets are <code>same_direction</code> as green Lanelet.<br><img alt="same_direction" src="media/nomenclature/same_direction.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fsame_direction.drawio.svg">Open</a></td>
+<td>In each map, orange Lanelets are <code>same_direction</code> as green Lanelet.<br><img alt="same_direction" src="media/nomenclature/same_direction.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utils%2Fmedia%2Fnomenclature%2Fsame_direction.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td><code>bundle</code></td>
 <td>A <code>bundle</code> refers to a transitive closure set of Lanelets which are <code>same_direction</code> to each other.</td>
-<td>The enclosed sets of Lanelets are <code>bundle</code>s.<br><img alt="bundle" src="media/nomenclature/bundle.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fbundle.drawio.svg">Open</a></td>
+<td>The enclosed sets of Lanelets are <code>bundle</code>s.<br><img alt="bundle" src="media/nomenclature/bundle.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utils%2Fmedia%2Fnomenclature%2Fbundle.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td><code>opposite</code></td>
 <td>If A is <code>opposite</code> to B, A and B share a common <code>boundary</code> with opposite direction.</td>
-<td>In the first map, green Lanelet and orange Lanelet are <code>opposite</code> to each other.<br>In the second map, two red Lanelets are not <code>opposite</code> relation because they do not share a common LineString.<br><img alt="opposite" src="media/nomenclature/opposite.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fopposite.drawio.svg">Open</a></td>
+<td>In the first map, green Lanelet and orange Lanelet are <code>opposite</code> to each other.<br>In the second map, two red Lanelets are not <code>opposite</code> relation because they do not share a common LineString.<br><img alt="opposite" src="media/nomenclature/opposite.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utils%2Fmedia%2Fnomenclature%2Fopposite.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td><code>opposite_direction</code></td>
 <td>If A and B are <code>opposite_direction</code>, the <code>bundle</code> of A and B are directly <code>opposite</code> to each other.</td>
-<td>In the each map, green Lanelet and orange Lanelet are <code>opposite_direction</code> because their <code>bundle</code>s(enclosed in dotted line) are <code>opposite</code> relation.<br><img alt="opposite_direction" src="media/nomenclature/opposite_direction.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fopposite_direction.drawio.svg">Open</a></td>
+<td>In the each map, green Lanelet and orange Lanelet are <code>opposite_direction</code> because their <code>bundle</code>s(enclosed in dotted line) are <code>opposite</code> relation.<br><img alt="opposite_direction" src="media/nomenclature/opposite_direction.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utils%2Fmedia%2Fnomenclature%2Fopposite_direction.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td><code>connected</code></td>
 <td>A is <code>connected</code> to(from) B if and only if the <code>exit</code>(<code>entry</code>) of A is identical to the <code>entry</code>(<code>exit</code>) of B.</td>
-<td>A is connected to B, and B is connected from A.<br><img alt="connected" src="media/nomenclature/connected.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fconnected.drawio.svg">Open</a></td>
+<td>A is connected to B, and B is connected from A.<br><img alt="connected" src="media/nomenclature/connected.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utils%2Fmedia%2Fnomenclature%2Fconnected.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td><code>following</code></td>
 <td>The <code>following</code> Lanelets of A is the list of Lanelets to which A is <code>connected</code>.</td>
-<td>In each map, orange Lanelets are the <code>following</code> of green Lanelet.<br><img alt="following" src="media/nomenclature/following.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Ffollowing.drawio.svg">Open</a></td>
+<td>In each map, orange Lanelets are the <code>following</code> of green Lanelet.<br><img alt="following" src="media/nomenclature/following.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utils%2Fmedia%2Fnomenclature%2Ffollowing.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td><code>previous</code></td>
 <td>The <code>previous</code> Lanelets of A is the list of Lanelets from which A is <code>connected</code>.</td>
-<td>In each map, orange Lanelets are the <code>previous</code> of green Lanelet. <br> <img alt="previous" src="media/nomenclature/previous.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fprevious.drawio.svg">Open</a></td>
+<td>In each map, orange Lanelets are the <code>previous</code> of green Lanelet. <br> <img alt="previous" src="media/nomenclature/previous.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utils%2Fmedia%2Fnomenclature%2Fprevious.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td><code>conflicting</code></td>
@@ -2234,12 +2234,12 @@
 <tr>
 <td><code>merging</code></td>
 <td>A is said to be <code>merging</code> Lanelet of B if and only if A is <code>conflicting</code> with B and both A and B are connected to a common Lanelet.</td>
-<td>In each map, one of the orange Lanelet is a <code>merging</code> Lanelet of the other orange Lanelet.<br><img alt="merging" src="media/nomenclature/merging.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fmerging.drawio.svg">Open</a></td>
+<td>In each map, one of the orange Lanelet is a <code>merging</code> Lanelet of the other orange Lanelet.<br><img alt="merging" src="media/nomenclature/merging.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utils%2Fmedia%2Fnomenclature%2Fmerging.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td><code>sibling</code></td>
 <td>The designated Lanelets are referred to as <code>sibling</code> if all of them are <code>connected</code> from a common Lanelet.</td>
-<td>In each map, orange Lanelets are <code>sibling</code>s.<br><img alt="sibling" src="media/nomenclature/sibling.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fsibling.drawio.svg">Open</a></td>
+<td>In each map, orange Lanelets are <code>sibling</code>s.<br><img alt="sibling" src="media/nomenclature/sibling.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utils%2Fmedia%2Fnomenclature%2Fsibling.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td><code>oncoming</code></td>
@@ -2254,12 +2254,7 @@
 <tr>
 <td><code>sequence</code></td>
 <td><code>sequence</code> is a list of Lanelets whose each element is <code>connected from</code> or <code>adjacent to</code> the previous element.</td>
-<td><img alt="sequence" src="media/nomenclature/sequence.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fnomenclature%2Fsequence.drawio.svg">Open</a></td>
-</tr>
-<tr>
-<td><code>similar</code></td>
-<td>A and B are called <code>similar</code> if and only if both of them have same valid <code>turn_direction</code> value.</td>
-<td></td>
+<td><img alt="sequence" src="media/nomenclature/sequence.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utils%2Fmedia%2Fnomenclature%2Fsequence.drawio.svg">Open</a></td>
 </tr>
 </tbody>
 </table>
@@ -2276,28 +2271,28 @@
 </thead>
 <tbody>
 <tr>
-<td><code>&lt;autoware_lanelet2_utility/kind.hpp&gt;</code></td>
+<td><code>&lt;autoware_lanelet2_utils/kind.hpp&gt;</code></td>
 <td><code>is_road_lane</code></td>
-<td></td>
+<td>This function returns <code>true</code> if the input Lanelet is <code>road</code> subtype.</td>
 <td><span class="arithmatex">\(O(1)\)</span></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td><code>is_shoulder_lane</code></td>
-<td></td>
+<td>This function returns <code>true</code> if the input Lanelet is <code>road_shoulder</code> subtype.</td>
 <td><span class="arithmatex">\(O(1)\)</span></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td><code>is_bicycle_lane</code></td>
-<td></td>
+<td>This function returns <code>true</code> if the input Lanelet is <code>bicycle_lane</code> subtype.</td>
 <td><span class="arithmatex">\(O(1)\)</span></td>
 <td></td>
 </tr>
 <tr>
-<td><code>&lt;autoware_lanelet2_utility/topology.hpp&gt;</code></td>
+<td><code>&lt;autoware_lanelet2_utils/topology.hpp&gt;</code></td>
 <td><code>instantiate_routing_graph</code></td>
 <td>This function creates a <code>RoutingGraph</code> object only from "road" lanes, which means "road_shoulder" and "bicycle_lane" Lanelets are inaccessible from left/right adjacency.</td>
 <td></td>
@@ -2308,25 +2303,11 @@
 <td><code>left_lanelet</code></td>
 <td>This function ignores the permission of lane change. Also it ignores <code>shoulder</code> and <code>bicycle</code> Lanelet.</td>
 <td><span class="arithmatex">\(O(1)\)</span></td>
-<td>In the first map, the green Lanelet is the <code>left_lanelet</code> of the orange Lanelet.<br>In the second and third map, the <code>left_lanelet</code> of the orange Lanelet is <code>null</code>.<br><img alt="left_lanelet" src="media/api/left_lanelet.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fapi%2Fleft_lanelet.drawio.svg">Open</a></td>
+<td>In the first map, the green Lanelet is the <code>left_lanelet</code> of the orange Lanelet.<br>In the second and third map, the <code>left_lanelet</code> of the orange Lanelet is <code>null</code>.<br><img alt="left_lanelet" src="media/api/left_lanelet.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utils%2Fmedia%2Fapi%2Fleft_lanelet.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td></td>
 <td><code>right_lanelet</code></td>
-<td>same as above <code>left_lanelet</code></td>
-<td><span class="arithmatex">\(O(1)\)</span></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td><code>left_similar_lanelet</code>(TODO)</td>
-<td>same as above <code>left_lanelet</code></td>
-<td><span class="arithmatex">\(O(1)\)</span></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td><code>right_similar_lanelet</code>(TODO)</td>
 <td>same as above <code>left_lanelet</code></td>
 <td><span class="arithmatex">\(O(1)\)</span></td>
 <td></td>
@@ -2341,64 +2322,78 @@
 <tr>
 <td></td>
 <td><code>right_opposite_lanelet</code></td>
-<td></td>
+<td>This functions returns the right <code>opposite</code> Lanelet of the input Lanelet if available, otherwise returns null.</td>
 <td><span class="arithmatex">\(O(1)\)</span><br>see <a href="./#complexity-of-findusage"><code>findUsage</code></a> for detail</td>
-<td>In the first and second map, the green Lanelet is the <code>right_opposite_lanelet</code> of the orange Lanelet.<br>In the third map, the <code>right_opposite_lanelet</code> of the orange Lanelet is <code>null</code>.<br><img alt="right_opposite_lanelet" src="media/api/right_opposite_lanelet.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fapi%2Fright_opposite_lanelet.drawio.svg">Open</a></td>
+<td>In the first and second map, the green Lanelet is the <code>right_opposite_lanelet</code> of the orange Lanelet.<br>In the third map, the <code>right_opposite_lanelet</code> of the orange Lanelet is <code>null</code>.<br><img alt="right_opposite_lanelet" src="media/api/right_opposite_lanelet.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utils%2Fmedia%2Fapi%2Fright_opposite_lanelet.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td></td>
 <td><code>leftmost_lanelet</code></td>
-<td></td>
+<td>This function returns the Lanelet which is recursively left adjacent to the input Lanelet.</td>
 <td><span class="arithmatex">\(O(W)\)</span> where <span class="arithmatex">\(W\)</span> is the size of the <code>bundle</code>.</td>
-<td>In the first and second map, the green Lanelet is the <code>leftmost_lanelet</code> of the orange Lanelet.<br>In the third map, the <code>leftmost_lanelet</code> of the orange Lanelet is <code>null</code>.<br><img alt="leftmost_lanelet" src="media/api/leftmost_lanelet.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fapi%2Fleftmost_lanelet.drawio.svg">Open</a></td>
+<td>In the first and second map, the green Lanelet is the <code>leftmost_lanelet</code> of the orange Lanelet.<br>In the third map, the <code>leftmost_lanelet</code> of the orange Lanelet is <code>null</code>.<br><img alt="leftmost_lanelet" src="media/api/leftmost_lanelet.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utils%2Fmedia%2Fapi%2Fleftmost_lanelet.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td></td>
 <td><code>rightmost_lanelet</code></td>
-<td></td>
+<td>This function returns the Lanelet which is recursively right adjacent to the input Lanelet.</td>
 <td><span class="arithmatex">\(O(W)\)</span> where <span class="arithmatex">\(W\)</span> is the size of the <code>bundle</code>.</td>
-<td>In the first map, the green Lanelet is the <code>rightmost_lanelet</code> of the orange Lanelet.<br>In the second and third map, the <code>rightmost_lanelet</code> of the orange Lanelet is <code>null</code>.<br><img alt="rightmost_lanelet" src="media/api/rightmost_lanelet.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fapi%2Frightmost_lanelet.drawio.svg">Open</a></td>
+<td>In the first map, the green Lanelet is the <code>rightmost_lanelet</code> of the orange Lanelet.<br>In the second and third map, the <code>rightmost_lanelet</code> of the orange Lanelet is <code>null</code>.<br><img alt="rightmost_lanelet" src="media/api/rightmost_lanelet.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utils%2Fmedia%2Fapi%2Frightmost_lanelet.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td></td>
 <td><code>left_lanelets</code></td>
-<td>The input Lanelet is not included in the output.</td>
+<td>The input Lanelet is not included in the output, and output is ordered from left to right.</td>
 <td><span class="arithmatex">\(O(W)\)</span> where <span class="arithmatex">\(W\)</span> is the size of the <code>bundle</code>.</td>
-<td>In the first map, the green Lanelets are the <code>left_lanelets</code> of the orange Lanelet.<br>In the second and third map, <code>left_lanelets</code> of the orange Lanelet is empty.<br>If the flag <code>include_opposite = true</code>, the left opposite Lanelet and all of its <code>same_direction</code> Lanelets area also retrieved as illustrated in the fourth and fifth maps.<br><img alt="left_lanelets" src="media/api/left_lanelets.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fapi%2Fleft_lanelets.drawio.svg">Open</a></td>
+<td>In the first map, the green Lanelets are the <code>left_lanelets</code> of the orange Lanelet.<br>In the second and third map, <code>left_lanelets</code> of the orange Lanelet is empty.<br>If the flag <code>include_opposite = true</code>, the left opposite Lanelet and all of its <code>same_direction</code> Lanelets area also retrieved as illustrated in the fourth and fifth maps.<br><img alt="left_lanelets" src="media/api/left_lanelets.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utils%2Fmedia%2Fapi%2Fleft_lanelets.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td></td>
 <td><code>right_lanelets</code></td>
-<td>same as above <code>left_lanelets</code>.</td>
+<td>The input Lanelet is not included in the output, and output is ordered from right to left.</td>
 <td><span class="arithmatex">\(O(W)\)</span> where <span class="arithmatex">\(W\)</span> is the size of the <code>bundle.</code></td>
-<td>In the first map, the green Lanelets are the <code>right_lanelets</code> of the orange Lanelet.<br>In the second and third map, <code>right_lanelets</code> of the orange Lanelet is empty.<br>If the flag <code>include_opposite = true</code>, the right opposite Lanelet and all of its <code>same_direction</code> Lanelets area also retrieved as illustrated in the fourth and fifth maps.<br><img alt="right_lanelets" src="media/api/right_lanelets.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utility%2Fmedia%2Fapi%2Fright_lanelets.drawio.svg">Open</a></td>
+<td>In the first map, the green Lanelets are the <code>right_lanelets</code> of the orange Lanelet.<br>In the second and third map, <code>right_lanelets</code> of the orange Lanelet is empty.<br>If the flag <code>include_opposite = true</code>, the right opposite Lanelet and all of its <code>same_direction</code> Lanelets area also retrieved as illustrated in the fourth and fifth maps.<br><img alt="right_lanelets" src="media/api/right_lanelets.drawio.svg"><br><a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware.core%2Flatest%2Fcommon%2Fautoware_lanelet2_utils%2Fmedia%2Fapi%2Fright_lanelets.drawio.svg">Open</a></td>
 </tr>
 <tr>
 <td></td>
 <td><code>following_lanelets</code></td>
-<td></td>
+<td>This function returns the <code>following</code> Lanelets of the input Lanelet. The order is not defined.</td>
 <td><span class="arithmatex">\(O(E)\)</span> where <span class="arithmatex">\(E\)</span> is the number of Lanelets to which the input is connected to.</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td><code>previous_lanelets</code></td>
-<td></td>
+<td>This function returns the <code>previous</code> Lanelets of the input Lanelet. The order is not defined.</td>
 <td><span class="arithmatex">\(O(E)\)</span> where <span class="arithmatex">\(E\)</span> is the number of Lanelets from which the input is connected from.</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td><code>sibling_lanelets</code></td>
-<td></td>
+<td>This function returns the <code>sibling</code> Lanelets of the input Lanelet excluding itself. The order is not defined.</td>
 <td><span class="arithmatex">\(O(E)\)</span> where <span class="arithmatex">\(E\)</span> is the number of sibling Lanelets</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
 <td><code>from_ids</code></td>
-<td></td>
+<td>This function returns Lanelet objects in the same order as the input IDs.</td>
 <td><span class="arithmatex">\(O(n)\)</span></td>
+<td></td>
+</tr>
+<tr>
+<td><code>&lt;autoware_lanelet2_utils/intersection.hpp&gt;</code></td>
+<td><code>is_intersection_lanelet</code></td>
+<td>This function returns <code>true</code> if and only if the input Lanelet has <code>turn_direction</code> attribute.</td>
+<td><span class="arithmatex">\(O(1)\)</span></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>is_straight_lanelet</code>,<br><code>is_left_lanelet</code>,<br><code>is_right_lanelet</code></td>
+<td>This function returns <code>true</code> if and only if the input Lanelet has <code>turn_direction</code> attribute and its value is <code>straight</code>/<code>left</code>/<code>right</code>.</td>
+<td><span class="arithmatex">\(O(1)\)</span></td>
 <td></td>
 </tr>
 </tbody>
