@@ -54,7 +54,7 @@ public:
   Trajectory & operator=(const Trajectory & rhs);
   Trajectory & operator=(Trajectory && rhs) = default;
 
-  [[nodiscard]] std::vector<double> get_internal_bases() const override;
+  std::vector<double> get_internal_bases() const override;
 
   detail::InterpolatedArray<double> & longitudinal_velocity_mps()
   {
@@ -71,32 +71,29 @@ public:
 
   detail::InterpolatedArray<double> & rear_wheel_angle_rad() { return *rear_wheel_angle_rad_; }
 
-  [[nodiscard]] const detail::InterpolatedArray<double> & longitudinal_velocity_mps() const
+  const detail::InterpolatedArray<double> & longitudinal_velocity_mps() const
   {
     return *longitudinal_velocity_mps_;
   }
 
-  [[nodiscard]] const detail::InterpolatedArray<double> & lateral_velocity_mps() const
+  const detail::InterpolatedArray<double> & lateral_velocity_mps() const
   {
     return *lateral_velocity_mps_;
   }
 
-  [[nodiscard]] const detail::InterpolatedArray<double> & heading_rate_rps() const
-  {
-    return *heading_rate_rps_;
-  }
+  const detail::InterpolatedArray<double> & heading_rate_rps() const { return *heading_rate_rps_; }
 
-  [[nodiscard]] const detail::InterpolatedArray<double> & acceleration_mps2() const
+  const detail::InterpolatedArray<double> & acceleration_mps2() const
   {
     return *acceleration_mps2_;
   }
 
-  [[nodiscard]] const detail::InterpolatedArray<double> & front_wheel_angle_rad() const
+  const detail::InterpolatedArray<double> & front_wheel_angle_rad() const
   {
     return *front_wheel_angle_rad_;
   }
 
-  [[nodiscard]] const detail::InterpolatedArray<double> & rear_wheel_angle_rad() const
+  const detail::InterpolatedArray<double> & rear_wheel_angle_rad() const
   {
     return *rear_wheel_angle_rad_;
   }
@@ -113,14 +110,14 @@ public:
    * @param s Arc length
    * @return Point on the trajectory
    */
-  [[nodiscard]] PointType compute(double s) const;
+  PointType compute(const double s) const;
 
   /**
    * @brief Restore the trajectory points
    * @param min_points Minimum number of points
    * @return Vector of points
    */
-  [[nodiscard]] std::vector<PointType> restore(const size_t & min_points = 4) const;
+  std::vector<PointType> restore(const size_t min_points = 4) const;
 
   class Builder
   {
