@@ -8,7 +8,7 @@ on:
 jobs:
   build-and-test-daily:
     runs-on: ubuntu-24.04
-    container: ghcr.io/autowarefoundation/autoware:core-devel
+    container: ghcr.io/autowarefoundation/autoware:core-common-devel
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -27,11 +27,10 @@ jobs:
 
       - name: Build
         if: ${{ steps.get-self-packages.outputs.self-packages != '' }}
-        uses: autowarefoundation/autoware-github-actions/colcon-build@v1
+        uses: youtalk/autoware-github-actions/colcon-build@source-opt-autoware-setup
         with:
           rosdistro: humble
           target-packages: ${{ steps.get-self-packages.outputs.self-packages }}
-          build-depends-repos: build_depends.repos
 
       - name: Test
         if: ${{ steps.get-self-packages.outputs.self-packages != '' }}
@@ -40,7 +39,6 @@ jobs:
         with:
           rosdistro: humble
           target-packages: ${{ steps.get-self-packages.outputs.self-packages }}
-          build-depends-repos: build_depends.repos
 
       - name: Upload coverage to CodeCov
         if: ${{ steps.test.outputs.coverage-report-files != '' }}
