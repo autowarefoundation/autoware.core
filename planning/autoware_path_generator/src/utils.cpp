@@ -593,7 +593,7 @@ PathWithLaneId modify_path_for_smooth_goal_connection(
 {
   const auto goal = planner_data.goal_pose;
 
-  geometry_msgs::msg::Pose refined_goal = refine_goal(goal, planner_data.preferred_lanelets.back());
+  const geometry_msgs::msg::Pose refined_goal = refine_goal(goal, planner_data.preferred_lanelets.back());
 
   const PathWithLaneId refined_path =
     refine_path_for_goal(path, refined_goal, planner_data, refine_goal_search_radius_range);
