@@ -54,6 +54,8 @@ PathGenerator::PathGenerator(const rclcpp::NodeOptions & node_options)
   turn_signal_publisher_ =
     create_publisher<TurnIndicatorsCommand>("~/output/turn_indicators_cmd", 1);
 
+  hazard_signal_publisher_ = create_publisher<HazardLightsCommand>("~/output/hazard_lights_cmd", 1);
+
   vehicle_info_ = autoware::vehicle_info_utils::VehicleInfoUtils(*this).getVehicleInfo();
 
   const auto params = param_listener_->get_params();
@@ -84,6 +86,11 @@ void PathGenerator::run()
     vehicle_info_.max_longitudinal_offset_m);
   turn_signal.stamp = now();
   turn_signal_publisher_->publish(turn_signal);
+
+  HazardLightsCommand hazard_signal;
+  hazard_signal.command = HazardLightsCommand::NO_COMMAND;
+  hazard_signal.stamp = now();
+  hazard_signal_publisher_->publish(hazard_signal);
 
   path_publisher_->publish(*path);
 }
