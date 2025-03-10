@@ -17,6 +17,7 @@
 
 #include "autoware/trajectory/interpolator/detail/interpolator_mixin.hpp"
 
+#include <utility>
 #include <vector>
 
 namespace autoware::trajectory::interpolator
@@ -47,7 +48,7 @@ protected:
    * @param s The point at which to compute the interpolated value.
    * @return The interpolated value.
    */
-  [[nodiscard]] T compute_impl(const double & s) const override
+  T compute_impl(const double s) const override
   {
     const int32_t idx = this->get_index(s, false);
     return this->values_.at(idx);
@@ -58,10 +59,26 @@ protected:
    * @param bases The bases values.
    * @param values The values to interpolate.
    */
-  void build_impl(const std::vector<double> & bases, const std::vector<T> & values) override
+  [[nodiscard]] bool build_impl(
+    const std::vector<double> & bases, const std::vector<T> & values) override
   {
     this->bases_ = bases;
     this->values_ = values;
+    return true;
+  }
+
+  /**
+   * @brief Build the interpolator with the given values.
+   *
+   * @param bases The bases values.
+   * @param values The values to interpolate.
+   */
+  [[nodiscard]] bool build_impl(
+    const std::vector<double> & bases, std::vector<T> && values) override
+  {
+    this->bases_ = bases;
+    this->values_ = std::move(values);
+    return true;
   }
 
 public:

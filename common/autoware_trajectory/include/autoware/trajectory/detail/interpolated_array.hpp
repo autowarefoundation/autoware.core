@@ -64,10 +64,19 @@ public:
 
   InterpolatedArray(InterpolatedArray && other) = default;
 
-  bool build(const std::vector<double> & bases, const std::vector<T> & values)
+  interpolator::InterpolationResult build(
+    const std::vector<double> & bases, const std::vector<T> & values)
   {
     bases_ = bases;
     values_ = values;
+    return interpolator_->build(bases_, values_);
+  }
+
+  interpolator::InterpolationResult build(
+    const std::vector<double> & bases, std::vector<T> && values)
+  {
+    bases_ = bases;
+    values_ = std::move(values);
     return interpolator_->build(bases_, values_);
   }
 
@@ -99,22 +108,22 @@ public:
    * @brief Get the start value of the base.
    * @return The start value.
    */
-  [[nodiscard]] double start() const { return bases_.front(); }
+  double start() const { return bases_.front(); }
 
   /**
    * @brief Get the end value of the base.
    * @return The end value.
    */
-  [[nodiscard]] double end() const { return bases_.at(bases_.size() - 1); }
+  double end() const { return bases_.at(bases_.size() - 1); }
 
   class Segment
   {
     friend class InterpolatedArray;
 
-    double start_;
-    double end_;
+    const double start_;
+    const double end_;
     InterpolatedArray<T> & parent_;
-    Segment(InterpolatedArray<T> & parent, double start, double end)
+    Segment(InterpolatedArray<T> & parent, const double start, const double end)
     : start_(start), end_(end), parent_(parent)
     {
     }
@@ -125,7 +134,7 @@ public:
       std::vector<double> & bases = parent_.bases_;
       std::vector<T> & values = parent_.values_;
 
-      auto insert_if_not_present = [&](double val) -> size_t {
+      auto insert_if_not_present = [&](const double val) -> size_t {
         auto it = std::lower_bound(bases.begin(), bases.end(), val);
         size_t index = std::distance(bases.begin(), it);
 
@@ -153,7 +162,7 @@ public:
       // Set the values in the specified range
       std::fill(values.begin() + start_index, values.begin() + end_index + 1, value);
 
-      bool success = parent_.interpolator_->build(bases, values);
+      const auto success = parent_.interpolator_->build(bases, values);
       if (!success) {
         throw std::runtime_error(
           "Failed to build interpolator.");  // This Exception should not be thrown.
@@ -187,7 +196,7 @@ public:
   InterpolatedArray & operator=(const T & value)
   {
     std::fill(values_.begin(), values_.end(), value);
-    bool success = interpolator_->build(bases_, values_);
+    const auto success = interpolator_->build(bases_, values_);
     if (!success) {
       throw std::runtime_error(
         "Failed to build interpolator.");  // This Exception should not be thrown.
@@ -200,16 +209,13 @@ public:
    * @param x The position to compute the value at.
    * @return The interpolated value.
    */
-  [[nodiscard]] T compute(const double & x) const { return interpolator_->compute(x); }
+  T compute(const double x) const { return interpolator_->compute(x); }
 
   /**
    * @brief Get the underlying data of the array.
    * @return A pair containing the axis and values.
    */
-  [[nodiscard]] std::pair<std::vector<double>, std::vector<T>> get_data() const
-  {
-    return {bases_, values_};
-  }
+  std::pair<std::vector<double>, std::vector<T>> get_data() const { return {bases_, values_}; }
 };
 
 }  // namespace autoware::trajectory::detail

@@ -45,33 +45,30 @@ public:
 
   detail::InterpolatedArray<LaneIdType> & lane_ids() { return *lane_ids_; }
 
-  [[nodiscard]] const detail::InterpolatedArray<LaneIdType> & lane_ids() const
-  {
-    return *lane_ids_;
-  }
+  const detail::InterpolatedArray<LaneIdType> & lane_ids() const { return *lane_ids_; }
 
   /**
    * @brief Build the trajectory from the points
    * @param points Vector of points
    * @return True if the build is successful
    */
-  bool build(const std::vector<PointType> & points);
+  interpolator::InterpolationResult build(const std::vector<PointType> & points);
 
-  [[nodiscard]] std::vector<double> get_internal_bases() const override;
+  std::vector<double> get_internal_bases() const override;
 
   /**
    * @brief Compute the point on the trajectory at a given s value
    * @param s Arc length
    * @return Point on the trajectory
    */
-  [[nodiscard]] PointType compute(double s) const;
+  PointType compute(const double s) const;
 
   /**
    * @brief Restore the trajectory points
    * @param min_points Minimum number of points
    * @return Vector of points
    */
-  [[nodiscard]] std::vector<PointType> restore(const size_t & min_points = 4) const;
+  std::vector<PointType> restore(const size_t min_points = 4) const;
 
   class Builder
   {
@@ -139,14 +136,16 @@ public:
       return *this;
     }
 
-    std::optional<Trajectory> build(const std::vector<PointType> & points)
+    tl::expected<Trajectory, interpolator::InterpolationFailure> build(
+      const std::vector<PointType> & points)
     {
-      if (trajectory_->build(points)) {
-        auto result = std::make_optional<Trajectory>(std::move(*trajectory_));
+      auto trajectory_result = trajectory_->build(points);
+      if (trajectory_result) {
+        auto result = Trajectory(std::move(*trajectory_));
         trajectory_.reset();
         return result;
       }
-      return std::nullopt;
+      return tl::unexpected(trajectory_result.error());
     }
   };
 };

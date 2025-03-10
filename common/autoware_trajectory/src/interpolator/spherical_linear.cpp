@@ -16,20 +16,30 @@
 
 #include <Eigen/Geometry>
 
+#include <utility>
 #include <vector>
 
 namespace autoware::trajectory::interpolator
 {
 
-void SphericalLinear::build_impl(
+bool SphericalLinear::build_impl(
   const std::vector<double> & bases,
   const std::vector<geometry_msgs::msg::Quaternion> & quaternions)
 {
   this->bases_ = bases;
   this->quaternions_ = quaternions;
+  return true;
 }
 
-geometry_msgs::msg::Quaternion SphericalLinear::compute_impl(const double & s) const
+bool SphericalLinear::build_impl(
+  const std::vector<double> & bases, std::vector<geometry_msgs::msg::Quaternion> && quaternions)
+{
+  this->bases_ = bases;
+  this->quaternions_ = std::move(quaternions);
+  return true;
+}
+
+geometry_msgs::msg::Quaternion SphericalLinear::compute_impl(const double s) const
 {
   const int32_t idx = this->get_index(s);
   const double x0 = this->bases_.at(idx);

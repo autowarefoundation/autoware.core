@@ -59,7 +59,7 @@ private:
    * @param s The point at which to compute the first derivative.
    * @return The first derivative.
    */
-  [[nodiscard]] double compute_first_derivative_impl(const double &) const override { return 0.0; }
+  double compute_first_derivative_impl(const double) const override { return 0.0; }
 
   /**
    * @brief Compute the second derivative at the given point.
@@ -67,7 +67,7 @@ private:
    * @param s The point at which to compute the second derivative.
    * @return The second derivative.
    */
-  [[nodiscard]] double compute_second_derivative_impl(const double &) const override { return 0.0; }
+  double compute_second_derivative_impl(const double) const override { return 0.0; }
 
 public:
   NearestNeighbor() = default;

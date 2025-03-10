@@ -52,7 +52,17 @@ private:
    * @param bases The bases values.
    * @param values The values to interpolate.
    */
-  void build_impl(const std::vector<double> & bases, const std::vector<double> & values) override;
+  [[nodiscard]] bool build_impl(
+    const std::vector<double> & bases, const std::vector<double> & values) override;
+
+  /**
+   * @brief Build the interpolator with the given values.
+   *
+   * @param bases The bases values.
+   * @param values The values to interpolate.
+   */
+  [[nodiscard]] bool build_impl(
+    const std::vector<double> & bases, std::vector<double> && values) override;
 
   /**
    * @brief Compute the interpolated value at the given point.
@@ -60,7 +70,7 @@ private:
    * @param s The point at which to compute the interpolated value.
    * @return The interpolated value.
    */
-  [[nodiscard]] double compute_impl(const double & s) const override;
+  double compute_impl(const double s) const override;
 
   /**
    * @brief Compute the first derivative at the given point.
@@ -68,7 +78,7 @@ private:
    * @param s The point at which to compute the first derivative.
    * @return The first derivative.
    */
-  [[nodiscard]] double compute_first_derivative_impl(const double & s) const override;
+  double compute_first_derivative_impl(const double s) const override;
 
   /**
    * @brief Compute the second derivative at the given point.
@@ -76,7 +86,7 @@ private:
    * @param s The point at which to compute the second derivative.
    * @return The second derivative.
    */
-  [[nodiscard]] double compute_second_derivative_impl(const double & s) const override;
+  double compute_second_derivative_impl(const double s) const override;
 
 public:
   AkimaSpline() = default;
@@ -86,7 +96,7 @@ public:
    *
    * @return The minimum number of required points.
    */
-  [[nodiscard]] size_t minimum_required_points() const override { return 5; }
+  size_t minimum_required_points() const override { return 5; }
 };
 
 }  // namespace autoware::trajectory::interpolator

@@ -66,8 +66,9 @@ public:
       path_point_with_lane_id(8.11, 6.07, 1), path_point_with_lane_id(8.76, 7.23, 1),
       path_point_with_lane_id(9.36, 8.74, 1), path_point_with_lane_id(10.0, 10.0, 1)};
 
-    trajectory = Trajectory::Builder{}.build(points);
-    ASSERT_TRUE(trajectory);
+    const auto result = Trajectory::Builder{}.build(points);
+    ASSERT_TRUE(result);
+    trajectory.emplace(result.value());
   }
 };
 

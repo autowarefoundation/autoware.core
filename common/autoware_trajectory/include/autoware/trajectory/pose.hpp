@@ -52,26 +52,26 @@ public:
   // enable making trajectory from point trajectory
   explicit Trajectory(const Trajectory<geometry_msgs::msg::Point> & point_trajectory);
 
-  bool build(const std::vector<PointType> & points);
+  interpolator::InterpolationResult build(const std::vector<PointType> & points);
 
   /**
    * @brief Get the internal bases(arc lengths) of the trajectory
    * @return Vector of bases(arc lengths)
    */
-  [[nodiscard]] std::vector<double> get_internal_bases() const override;
+  std::vector<double> get_internal_bases() const override;
 
   /**
    * @brief Compute the pose on the trajectory at a given s value
    * @param s Arc length
    * @return Pose on the trajectory
    */
-  [[nodiscard]] PointType compute(double s) const;
+  PointType compute(const double s) const;
 
   /**
    * @brief Restore the trajectory poses
    * @return Vector of poses
    */
-  [[nodiscard]] std::vector<PointType> restore(const size_t & min_points = 4) const;
+  std::vector<PointType> restore(const size_t min_points = 4) const;
 
   /**
    * @brief Align the orientation with the direction
@@ -112,14 +112,16 @@ public:
       return *this;
     }
 
-    std::optional<Trajectory> build(const std::vector<PointType> & points)
+    tl::expected<Trajectory, interpolator::InterpolationFailure> build(
+      const std::vector<PointType> & points)
     {
-      if (trajectory_->build(points)) {
-        auto result = std::make_optional<Trajectory>(std::move(*trajectory_));
+      auto trajectory_result = trajectory_->build(points);
+      if (trajectory_result) {
+        auto result = Trajectory(std::move(*trajectory_));
         trajectory_.reset();
         return result;
       }
-      return std::nullopt;
+      return tl::unexpected(trajectory_result.error());
     }
   };
 };
