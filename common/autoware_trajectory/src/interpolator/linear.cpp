@@ -21,14 +21,23 @@
 namespace autoware::trajectory::interpolator
 {
 
-void Linear::build_impl(const std::vector<double> & bases, const std::vector<double> & values)
+bool Linear::build_impl(const std::vector<double> & bases, const std::vector<double> & values)
 {
   this->bases_ = bases;
   this->values_ =
     Eigen::Map<const Eigen::VectorXd>(values.data(), static_cast<Eigen::Index>(values.size()));
+  return true;
 }
 
-double Linear::compute_impl(const double & s) const
+bool Linear::build_impl(std::vector<double> && bases, std::vector<double> && values)
+{
+  this->bases_ = std::move(bases);
+  this->values_ =
+    Eigen::Map<const Eigen::VectorXd>(values.data(), static_cast<Eigen::Index>(values.size()));
+  return true;
+}
+
+double Linear::compute_impl(const double s) const
 {
   const int32_t idx = this->get_index(s);
   const double x0 = this->bases_.at(idx);
@@ -38,7 +47,7 @@ double Linear::compute_impl(const double & s) const
   return y0 + (y1 - y0) * (s - x0) / (x1 - x0);
 }
 
-double Linear::compute_first_derivative_impl(const double & s) const
+double Linear::compute_first_derivative_impl(const double s) const
 {
   const int32_t idx = this->get_index(s);
   const double x0 = this->bases_.at(idx);
@@ -48,7 +57,7 @@ double Linear::compute_first_derivative_impl(const double & s) const
   return (y1 - y0) / (x1 - x0);
 }
 
-double Linear::compute_second_derivative_impl(const double &) const
+double Linear::compute_second_derivative_impl(const double) const
 {
   return 0.0;
 }

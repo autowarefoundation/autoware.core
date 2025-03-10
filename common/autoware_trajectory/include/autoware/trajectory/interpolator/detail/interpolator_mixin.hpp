@@ -38,7 +38,7 @@ namespace autoware::trajectory::interpolator::detail
 template <class InterpolatorType, class T>
 struct InterpolatorMixin : public InterpolatorInterface<T>
 {
-  [[nodiscard]] std::shared_ptr<InterpolatorInterface<T>> clone() const override
+  std::shared_ptr<InterpolatorInterface<T>> clone() const override
   {
     return std::make_shared<InterpolatorType>(static_cast<const InterpolatorType &>(*this));
   }
@@ -62,9 +62,21 @@ struct InterpolatorMixin : public InterpolatorInterface<T>
       return *this;
     }
 
+    [[nodiscard]] Builder & set_bases(std::vector<double> && bases)
+    {
+      bases_ = std::move(bases);
+      return *this;
+    }
+
     [[nodiscard]] Builder & set_values(const std::vector<T> & values)
     {
       values_ = values;
+      return *this;
+    }
+
+    [[nodiscard]] Builder & set_values(std::vector<T> && values)
+    {
+      values_ = std::move(values);
       return *this;
     }
 
@@ -72,7 +84,7 @@ struct InterpolatorMixin : public InterpolatorInterface<T>
     [[nodiscard]] std::optional<InterpolatorType> build(Args &&... args)
     {
       auto interpolator = InterpolatorType(std::forward<Args>(args)...);
-      const bool success = interpolator.build(bases_, values_);
+      const bool success = interpolator.build(std::move(bases_), std::move(values_));
       if (!success) {
         return std::nullopt;
       }

@@ -32,7 +32,7 @@ template <typename T>
 class InterpolatorInterface : public detail::InterpolatorCommonInterface<T>
 {
 public:
-  [[nodiscard]] virtual std::shared_ptr<InterpolatorInterface<T>> clone() const = 0;
+  virtual std::shared_ptr<InterpolatorInterface<T>> clone() const = 0;
 };
 
 /**
@@ -52,7 +52,7 @@ protected:
    * @param s The point at which to compute the first derivative.
    * @return The first derivative.
    */
-  [[nodiscard]] virtual double compute_first_derivative_impl(const double & s) const = 0;
+  virtual double compute_first_derivative_impl(const double s) const = 0;
 
   /**
    * @brief Compute the second derivative at the given point.
@@ -62,7 +62,7 @@ protected:
    * @param s The point at which to compute the second derivative.
    * @return The second derivative.
    */
-  [[nodiscard]] virtual double compute_second_derivative_impl(const double & s) const = 0;
+  virtual double compute_second_derivative_impl(const double s) const = 0;
 
 public:
   /**
@@ -71,7 +71,7 @@ public:
    * @param s The point at which to compute the first derivative.
    * @return The first derivative.
    */
-  [[nodiscard]] double compute_first_derivative(const double & s) const
+  double compute_first_derivative(const double s) const
   {
     const double clamped_s = this->validate_compute_input(s);
     return compute_first_derivative_impl(clamped_s);
@@ -83,13 +83,13 @@ public:
    * @param s The point at which to compute the second derivative.
    * @return The second derivative.
    */
-  [[nodiscard]] double compute_second_derivative(const double & s) const
+  double compute_second_derivative(const double s) const
   {
     const double clamped_s = this->validate_compute_input(s);
     return compute_second_derivative_impl(clamped_s);
   }
 
-  [[nodiscard]] virtual std::shared_ptr<InterpolatorInterface<double>> clone() const = 0;
+  virtual std::shared_ptr<InterpolatorInterface<double>> clone() const = 0;
 };
 
 }  // namespace autoware::trajectory::interpolator
