@@ -94,7 +94,7 @@ bool Trajectory<PointType>::build(const std::vector<PointType> & points)
   return is_valid;
 }
 
-double Trajectory<PointType>::clamp(const double & s, bool show_warning) const
+double Trajectory<PointType>::clamp(const double s, bool show_warning) const
 {
   if ((s < 0 || s > length()) && show_warning) {
     RCLCPP_WARN(
@@ -108,7 +108,7 @@ std::vector<double> Trajectory<PointType>::get_internal_bases() const
 {
   auto bases = detail::crop_bases(bases_, start_, end_);
   std::transform(
-    bases.begin(), bases.end(), bases.begin(), [this](const double & s) { return s - start_; });
+    bases.begin(), bases.end(), bases.begin(), [this](const double s) { return s - start_; });
   return bases;
 }
 
@@ -117,42 +117,42 @@ double Trajectory<PointType>::length() const
   return end_ - start_;
 }
 
-PointType Trajectory<PointType>::compute(double s) const
+PointType Trajectory<PointType>::compute(const double s) const
 {
-  s = clamp(s, true);
+  const auto s_clamp = clamp(s, true);
   PointType result;
-  result.x = x_interpolator_->compute(s);
-  result.y = y_interpolator_->compute(s);
-  result.z = z_interpolator_->compute(s);
+  result.x = x_interpolator_->compute(s_clamp);
+  result.y = y_interpolator_->compute(s_clamp);
+  result.z = z_interpolator_->compute(s_clamp);
   return result;
 }
 
-double Trajectory<PointType>::azimuth(double s) const
+double Trajectory<PointType>::azimuth(const double s) const
 {
-  s = clamp(s, true);
-  const double dx = x_interpolator_->compute_first_derivative(s);
-  const double dy = y_interpolator_->compute_first_derivative(s);
+  const auto s_clamp = clamp(s, true);
+  const double dx = x_interpolator_->compute_first_derivative(s_clamp);
+  const double dy = y_interpolator_->compute_first_derivative(s_clamp);
   return std::atan2(dy, dx);
 }
 
-double Trajectory<PointType>::elevation(double s) const
+double Trajectory<PointType>::elevation(const double s) const
 {
-  s = clamp(s, true);
-  const double dz = z_interpolator_->compute_first_derivative(s);
+  const auto s_clamp = clamp(s, true);
+  const double dz = z_interpolator_->compute_first_derivative(s_clamp);
   return std::atan2(dz, 1.0);
 }
 
-double Trajectory<PointType>::curvature(double s) const
+double Trajectory<PointType>::curvature(const double s) const
 {
-  s = clamp(s, true);
-  const double dx = x_interpolator_->compute_first_derivative(s);
-  const double ddx = x_interpolator_->compute_second_derivative(s);
-  const double dy = y_interpolator_->compute_first_derivative(s);
-  const double ddy = y_interpolator_->compute_second_derivative(s);
+  const auto s_clamp = clamp(s, true);
+  const double dx = x_interpolator_->compute_first_derivative(s_clamp);
+  const double ddx = x_interpolator_->compute_second_derivative(s_clamp);
+  const double dy = y_interpolator_->compute_first_derivative(s_clamp);
+  const double ddy = y_interpolator_->compute_second_derivative(s_clamp);
   return std::abs(dx * ddy - dy * ddx) / std::pow(dx * dx + dy * dy, 1.5);
 }
 
-std::vector<PointType> Trajectory<PointType>::restore(const size_t & min_points) const
+std::vector<PointType> Trajectory<PointType>::restore(const size_t min_points) const
 {
   auto bases = get_internal_bases();
   bases = detail::fill_bases(bases, min_points);
@@ -164,7 +164,7 @@ std::vector<PointType> Trajectory<PointType>::restore(const size_t & min_points)
   return points;
 }
 
-void Trajectory<PointType>::crop(const double & start, const double & length)
+void Trajectory<PointType>::crop(const double start, const double length)
 {
   start_ = std::clamp(start_ + start, start_, end_);
   end_ = std::clamp(start_ + length, start_, end_);

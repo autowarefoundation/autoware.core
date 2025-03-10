@@ -126,22 +126,22 @@ std::vector<double> Trajectory<PointType>::get_internal_bases() const
   return bases;
 }
 
-PointType Trajectory<PointType>::compute(double s) const
+PointType Trajectory<PointType>::compute(const double s) const
 {
   PointType result;
   result.pose = Trajectory<geometry_msgs::msg::Pose>::compute(s);
-  s = clamp(s);
+  const auto s_clamp = clamp(s);
   result.longitudinal_velocity_mps =
-    static_cast<float>(this->longitudinal_velocity_mps().compute(s));
-  result.lateral_velocity_mps = static_cast<float>(this->lateral_velocity_mps().compute(s));
-  result.heading_rate_rps = static_cast<float>(this->heading_rate_rps().compute(s));
-  result.acceleration_mps2 = static_cast<float>(this->acceleration_mps2().compute(s));
-  result.front_wheel_angle_rad = static_cast<float>(this->front_wheel_angle_rad().compute(s));
-  result.rear_wheel_angle_rad = static_cast<float>(this->rear_wheel_angle_rad().compute(s));
+    static_cast<float>(this->longitudinal_velocity_mps().compute(s_clamp));
+  result.lateral_velocity_mps = static_cast<float>(this->lateral_velocity_mps().compute(s_clamp));
+  result.heading_rate_rps = static_cast<float>(this->heading_rate_rps().compute(s_clamp));
+  result.acceleration_mps2 = static_cast<float>(this->acceleration_mps2().compute(s_clamp));
+  result.front_wheel_angle_rad = static_cast<float>(this->front_wheel_angle_rad().compute(s_clamp));
+  result.rear_wheel_angle_rad = static_cast<float>(this->rear_wheel_angle_rad().compute(s_clamp));
   return result;
 }
 
-std::vector<PointType> Trajectory<PointType>::restore(const size_t & min_points) const
+std::vector<PointType> Trajectory<PointType>::restore(const size_t min_points) const
 {
   std::vector<double> bases = get_internal_bases();
   bases = detail::fill_bases(bases, min_points);

@@ -18,6 +18,7 @@
 #include <Eigen/Dense>
 #include <rclcpp/logging.hpp>
 
+#include <utility>
 #include <vector>
 
 namespace autoware::trajectory::interpolator::detail
@@ -35,17 +36,16 @@ class InterpolatorCommonInterface
 {
 protected:
   std::vector<double> bases_;  ///< bases values for the interpolation.
-  bool is_built_{false};       ///< flag indicating whether the interpolator has been built.
 
   /**
    * @brief Get the start of the interpolation range.
    */
-  [[nodiscard]] double start() const { return bases_.front(); }
+  double start() const { return bases_.front(); }
 
   /**
    * @brief Get the end of the interpolation range.
    */
-  [[nodiscard]] double end() const { return bases_.back(); }
+  double end() const { return bases_.back(); }
 
   /**
    * @brief Compute the interpolated value at the given point.
@@ -55,7 +55,7 @@ protected:
    * @param s The point at which to compute the interpolated value.
    * @return The interpolated value.
    */
-  [[nodiscard]] virtual T compute_impl(const double & s) const = 0;
+  virtual T compute_impl(const double s) const = 0;
 
   /**
    * @brief Build the interpolator with the given values.
@@ -65,7 +65,18 @@ protected:
    * @param bases The bases values.
    * @param values The values to interpolate.
    */
-  virtual void build_impl(const std::vector<double> & bases, const std::vector<T> & values) = 0;
+  [[nodiscard]] virtual bool build_impl(
+    const std::vector<double> & bases, const std::vector<T> & values) = 0;
+
+  /**
+   * @brief Build the interpolator with the given values.
+   *
+   * This method should be overridden by subclasses to provide the specific build logic.
+   *
+   * @param bases The bases values.
+   * @param values The values to interpolate.
+   */
+  [[nodiscard]] virtual bool build_impl(std::vector<double> && bases, std::vector<T> && values) = 0;
 
   /**
    * @brief Validate the input to the compute method.
@@ -75,7 +86,7 @@ protected:
    * @param s The input value.
    * @return The input value, clamped to the range of the interpolator.
    */
-  [[nodiscard]] double validate_compute_input(const double & s) const
+  double validate_compute_input(const double s) const
   {
     if (s < start() || s > end()) {
       RCLCPP_WARN(
@@ -100,7 +111,7 @@ protected:
    *
    * @throw std::out_of_range if the input value is outside the range of the bases array.
    */
-  [[nodiscard]] int32_t get_index(const double & s, bool end_inclusive = true) const
+  int32_t get_index(const double s, bool end_inclusive = true) const
   {
     if (end_inclusive && s == end()) {
       return static_cast<int32_t>(bases_.size()) - 2;
@@ -125,7 +136,12 @@ public:
    * @param values The values to interpolate.
    * @return True if the interpolator was built successfully, false otherwise.
    */
-  [[nodiscard]] bool build(const std::vector<double> & bases, const std::vector<T> & values)
+  template <typename BaseVectorT, typename ValueVectorT>
+  [[nodiscard]] auto build(BaseVectorT && bases, ValueVectorT && values) -> std::enable_if_t<
+    std::conjunction_v<
+      std::is_same<std::decay_t<BaseVectorT>, std::vector<double>>,
+      std::is_same<std::decay_t<ValueVectorT>, std::vector<T>>>,
+    bool>
   {
     if (bases.size() != values.size()) {
       return false;
@@ -133,17 +149,8 @@ public:
     if (bases.size() < minimum_required_points()) {
       return false;
     }
-    build_impl(bases, values);
-    is_built_ = true;
-    return true;
+    return build_impl(std::forward<BaseVectorT>(bases), std::forward<ValueVectorT>(values));
   }
-
-  /**
-   * @brief Check if the interpolator has been built.
-   *
-   * @return True if the interpolator has been built, false otherwise.
-   */
-  [[nodiscard]] bool is_built() const { return is_built_; }
 
   /**
    * @brief Get the minimum number of required points for the interpolator.
@@ -152,7 +159,7 @@ public:
    *
    * @return The minimum number of required points.
    */
-  [[nodiscard]] virtual size_t minimum_required_points() const = 0;
+  virtual size_t minimum_required_points() const = 0;
 
   /**
    * @brief Compute the interpolated value at the given point.
@@ -161,12 +168,8 @@ public:
    * @return The interpolated value.
    * @throw std::runtime_error if the interpolator has not been built.
    */
-  [[nodiscard]] T compute(const double & s) const
+  T compute(const double s) const
   {
-    if (!is_built_) {
-      throw std::runtime_error(
-        "Interpolator has not been built.");  // This Exception should not be thrown.
-    }
     const double clamped_s = validate_compute_input(s);
     return compute_impl(clamped_s);
   }
