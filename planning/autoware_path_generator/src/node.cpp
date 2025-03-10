@@ -395,11 +395,10 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
 
   if (distance_to_goal < params.refine_goal_search_radius_range) {
     // Perform smooth goal connection
-    const auto planner_data_ptr = std::make_shared<const PlannerData>(planner_data_);
     const auto params = param_listener_->get_params();
 
     finalized_path_with_lane_id = utils::modify_path_for_smooth_goal_connection(
-      std::move(preprocessed_path), planner_data_ptr, params.refine_goal_search_radius_range);
+      std::move(preprocessed_path), planner_data_, params.refine_goal_search_radius_range);
   } else {
     finalized_path_with_lane_id = std::move(preprocessed_path);
   }
