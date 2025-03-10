@@ -534,17 +534,6 @@ std::optional<lanelet::ConstLanelets> extract_lanelets_from_path(
   return refined_path_lanelets;
 }
 
-std::optional<lanelet::ConstLanelet> get_goal_lanelet(const PlannerData & planner_data)
-{
-  const lanelet::Id goal_lane_id = planner_data.preferred_lanelets.back().id();
-  for (const auto & llt : planner_data.route_lanelets) {
-    if (llt.id() == goal_lane_id) {
-      return llt;
-    }
-  }
-  return std::nullopt;
-}
-
 bool is_in_lanelets(const geometry_msgs::msg::Pose & pose, const lanelet::ConstLanelets & lanes)
 {
   for (const auto & lane : lanes) {

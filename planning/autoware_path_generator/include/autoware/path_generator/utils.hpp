@@ -214,13 +214,6 @@ std::optional<lanelet::ConstLanelets> extract_lanelets_from_path(
   const PathWithLaneId & refined_path, const PlannerData & planner_data);
 
 /**
- * @brief Get the goal lanelet.
- * @param planner_data Planner data.
- * @return Goal lanelet (std::nullopt if not found)
- */
-std::optional<lanelet::ConstLanelet> get_goal_lanelet(const PlannerData & planner_data);
-
-/**
  * @brief Check if the pose is in the lanelets.
  * @param pose Pose.
  * @param lanes Lanelets.
