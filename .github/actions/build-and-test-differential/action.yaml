@@ -61,6 +61,7 @@ runs:
         rosdistro: ${{ inputs.rosdistro }}
         target-packages: ${{ steps.get-modified-packages.outputs.modified-packages }}
         build-pre-command: ${{ inputs.build-pre-command }}
+        underlay-workspace: /opt/autoware
 
     - name: Show ccache stats after build
       run: du -sh ${CCACHE_DIR} && ccache -s
