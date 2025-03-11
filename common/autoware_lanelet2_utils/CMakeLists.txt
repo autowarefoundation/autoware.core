@@ -7,13 +7,18 @@ autoware_package()
 ament_auto_add_library(${PROJECT_NAME} SHARED
   src/kind.cpp
   src/topology.cpp
+  src/intersection.cpp
 )
 
 if(BUILD_TESTING)
   find_package(ament_cmake_ros REQUIRED)
   ament_auto_find_test_dependencies()
 
-  file(GLOB_RECURSE test_files test/*.cpp)
+  set(test_files
+    test/kind.cpp
+    test/topology.cpp
+    test/intersection.cpp
+  )
 
   foreach (test_file IN LISTS test_files)
     get_filename_component(test_file_name ${test_file} NAME)
