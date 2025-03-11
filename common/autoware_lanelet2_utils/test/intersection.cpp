@@ -34,7 +34,7 @@ protected:
   void SetUp() override
   {
     const auto sample_map_dir =
-      fs::path(ament_index_cpp::get_package_share_directory("autoware_lanelet2_utility")) /
+      fs::path(ament_index_cpp::get_package_share_directory("autoware_lanelet2_utils")) /
       "sample_map";
     const auto intersection_crossing_map_path = sample_map_dir / "intersection" / "crossing.osm";
 
