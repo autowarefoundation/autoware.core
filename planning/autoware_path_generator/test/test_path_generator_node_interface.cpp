@@ -65,6 +65,10 @@ TEST(PlanningModuleInterfaceTest, NodeTestWithExceptionTrajectory)
   ASSERT_NO_THROW_WITH_ERROR_MSG(
     test_manager->testWithBehaviorNormalRoute(test_target_node, route_topic_name));
 
+  // test with the goal on left side
+  ASSERT_NO_THROW_WITH_ERROR_MSG(
+    test_manager->testWithBehaviorGoalOnLeftSide(test_target_node, route_topic_name));
+
   EXPECT_GE(test_manager->getReceivedTopicNum(), 1);
 
   // test with trajectory with empty/one point/overlapping point

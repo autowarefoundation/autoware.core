@@ -303,6 +303,18 @@ RouteSections combineConsecutiveRouteSections(
 LaneletRoute makeBehaviorNormalRoute();
 
 /**
+ * @brief Creates a predefined behavior Lanelet route with the goal on the left side.
+ *
+ * This function initializes a LaneletRoute with predefined start and goal poses,
+ * a list of lanelet segment IDs, and a fixed UUID.
+ * this is for the test lanelet2_map.osm
+ * file hash: a9f84cff03b55a64917bc066451276d2293b0a54f5c088febca0c7fdf2f245d5
+ *
+ * @return A LaneletRoute with the specified attributes.
+ */
+LaneletRoute makeBehaviorGoalOnLeftSideRoute();
+
+/**
  * @brief Spins multiple ROS nodes a specified number of times.
  *
  * This function spins the given test and target nodes for the specified number of iterations.
