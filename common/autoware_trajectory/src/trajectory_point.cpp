@@ -15,7 +15,6 @@
 #include "autoware/trajectory/trajectory_point.hpp"
 
 #include "autoware/trajectory/detail/helpers.hpp"
-#include "autoware/trajectory/detail/interpolated_array.hpp"
 #include "autoware/trajectory/forward.hpp"
 #include "autoware/trajectory/interpolator/stairstep.hpp"
 #include "autoware/trajectory/pose.hpp"

@@ -18,8 +18,6 @@
 #include "autoware/trajectory/detail/types.hpp"
 #include "autoware/trajectory/forward.hpp"
 
-#include <Eigen/Core>
-
 #include <functional>
 #include <vector>
 namespace autoware::trajectory

@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef AUTOWARE__TRAJECTORY__DETAIL__INTERPOLATED_ARRAY_HPP_
-#define AUTOWARE__TRAJECTORY__DETAIL__INTERPOLATED_ARRAY_HPP_
+#ifndef AUTOWARE__TRAJECTORY__INTERPOLATED_ARRAY_HPP_
+#define AUTOWARE__TRAJECTORY__INTERPOLATED_ARRAY_HPP_
 
 #include "autoware/trajectory/detail/logging.hpp"
 #include "autoware/trajectory/interpolator/interpolator.hpp"
 
-#include <Eigen/Core>
 #include <rclcpp/logging.hpp>
 
 #include <algorithm>
@@ -220,4 +219,4 @@ public:
 
 }  // namespace autoware::trajectory::detail
 
-#endif  // AUTOWARE__TRAJECTORY__DETAIL__INTERPOLATED_ARRAY_HPP_
+#endif  // AUTOWARE__TRAJECTORY__INTERPOLATED_ARRAY_HPP_

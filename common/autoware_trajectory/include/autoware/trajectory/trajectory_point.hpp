@@ -15,7 +15,7 @@
 #ifndef AUTOWARE__TRAJECTORY__TRAJECTORY_POINT_HPP_
 #define AUTOWARE__TRAJECTORY__TRAJECTORY_POINT_HPP_
 
-#include "autoware/trajectory/detail/interpolated_array.hpp"
+#include "autoware/trajectory/interpolated_array.hpp"
 #include "autoware/trajectory/pose.hpp"
 
 #include <autoware_planning_msgs/msg/trajectory.hpp>
