@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <autoware_lanelet2_utility/intersection.hpp>
+#include <autoware_lanelet2_utils/intersection.hpp>
 
 #include <lanelet2_core/primitives/Lanelet.h>
 
