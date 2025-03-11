@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef AUTOWARE__INTERSECTION_HPP_
-#define AUTOWARE__INTERSECTION_HPP_
+#ifndef AUTOWARE__LANELET2_UTILS__INTERSECTION_HPP_
+#define AUTOWARE__LANELET2_UTILS__INTERSECTION_HPP_
 
 #include <lanelet2_core/Forward.h>
 
@@ -69,4 +69,4 @@ bool is_right_direction(const lanelet::ConstLanelet & lanelet);
 std::optional<TurnDirection> get_turn_direction(const lanelet::ConstLanelet & lanelet);
 
 }  // namespace autoware::lanelet2_utility
-#endif  // AUTOWARE__INTERSECTION_HPP_
+#endif  // AUTOWARE__LANELET2_UTILS__INTERSECTION_HPP_
