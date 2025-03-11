@@ -52,8 +52,9 @@ jobs:
 
       - name: Test
         if: ${{ steps.get-modified-packages.outputs.modified-packages != '' }}
-        uses: autowarefoundation/autoware-github-actions/colcon-test@v1
+        uses: autowarefoundation/autoware-github-actions/colcon-test@feat/underlay-workspace-colcon-test
         with:
           rosdistro: ${{ matrix.rosdistro }}
           target-packages: ${{ steps.get-modified-packages.outputs.modified-packages }}
           build-depends-repos: ${{ matrix.build-depends-repos }}
+          underlay-workspace: /opt/autoware
