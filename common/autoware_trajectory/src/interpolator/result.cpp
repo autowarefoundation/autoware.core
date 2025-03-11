@@ -12,28 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef AUTOWARE__TRAJECTORY__INTERPOLATOR__RESULT_HPP_
-#define AUTOWARE__TRAJECTORY__INTERPOLATOR__RESULT_HPP_
+#include "autoware/trajectory/interpolator/result.hpp"
 
-#include <tl_expected/expected.hpp>
-
-#include <string>
+#include <iostream>
+#include <sstream>
 
 namespace autoware::trajectory::interpolator
 {
-struct InterpolationSuccess
-{
-};
-
-struct InterpolationFailure
-{
-  const std::string what;
-};
 
 InterpolationFailure operator+(
-  const InterpolationFailure & primary, const InterpolationFailure & nested);
-
-using InterpolationResult = tl::expected<InterpolationSuccess, InterpolationFailure>;
+  const InterpolationFailure & primary, const InterpolationFailure & nested)
+{
+  std::stringstream ss;
+  ss << primary.what << "." << std::endl << "\tReason: " << nested.what << std::endl;
+  return InterpolationFailure{ss.str()};
+}
 
 }  // namespace autoware::trajectory::interpolator
-#endif  // AUTOWARE__TRAJECTORY__INTERPOLATOR__RESULT_HPP_

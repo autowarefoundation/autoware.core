@@ -106,25 +106,25 @@ interpolator::InterpolationResult Trajectory<PointType>::build(
         bases_, std::move(longitudinal_velocity_mps_values));
       !result) {
     return tl::unexpected(interpolator::InterpolationFailure{
-      "failed to interpolate TrajectoryPoint::longitudinal_velocity_mps_values"});
+      "failed to interpolate TrajectoryPoint::longitudinal_velocity_mps"});
   }
   if (const auto result =
         this->lateral_velocity_mps().build(bases_, std::move(lateral_velocity_mps_values));
       !result) {
     return tl::unexpected(interpolator::InterpolationFailure{
-      "failed to interpolate TrajectoryPoint::lateral_velocity_mps_values"});
+      "failed to interpolate TrajectoryPoint::lateral_velocity_mps"});
   }
   if (const auto result =
         this->heading_rate_rps().build(bases_, std::move(heading_rate_rps_values));
       !result) {
     return tl::unexpected(interpolator::InterpolationFailure{
-      "failed to interpolate TrajectoryPoint::heading_rate_rps_values"});
+      "failed to interpolate TrajectoryPoint::heading_rate_rps"});
   }
   if (const auto result =
         this->acceleration_mps2().build(bases_, std::move(acceleration_mps2_values));
       !result) {
     return tl::unexpected(interpolator::InterpolationFailure{
-      "failed to interpolate TrajectoryPoint::acceleration_mps2_values"});
+      "failed to interpolate TrajectoryPoint::acceleration_mps2"});
   }
   if (const auto result =
         this->front_wheel_angle_rad().build(bases_, std::move(front_wheel_angle_rad_values));
