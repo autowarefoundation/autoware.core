@@ -84,7 +84,8 @@ struct InterpolatorMixin : public InterpolatorInterface<T>
     [[nodiscard]] std::optional<InterpolatorType> build(Args &&... args)
     {
       auto interpolator = InterpolatorType(std::forward<Args>(args)...);
-      const bool success = interpolator.build(std::move(bases_), std::move(values_));
+      const interpolator::InterpolationResult success =
+        interpolator.build(std::move(bases_), std::move(values_));
       if (!success) {
         return std::nullopt;
       }
