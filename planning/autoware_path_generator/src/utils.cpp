@@ -259,20 +259,19 @@ std::vector<std::pair<lanelet::ConstPoints3d, std::pair<double, double>>> get_wa
 }
 
 std::vector<geometry_msgs::msg::Point> get_path_bound(
-  const lanelet::CompoundLineString2d & lanelet_bound,
+  const lanelet::CompoundLineString3d & lanelet_bound,
   const lanelet::CompoundLineString2d & lanelet_centerline, const double s_start,
   const double s_end)
 {
-  const auto path_start_point =
-    lanelet::geometry::interpolatedPointAtDistance(lanelet_centerline, s_start);
-  const auto path_end_point =
-    lanelet::geometry::interpolatedPointAtDistance(lanelet_centerline, s_end);
-
-  auto s_bound_start =
+  const auto lanelet_bound_2d = lanelet::utils::to2D(lanelet_bound);
+  const auto s_bound_start =
     lanelet::geometry::toArcCoordinates(
-      lanelet::utils::to2D(lanelet_bound.lineStrings().front()), path_start_point)
+      lanelet_bound_2d, lanelet::geometry::interpolatedPointAtDistance(lanelet_centerline, s_start))
       .length;
-  auto s_bound_end = lanelet::geometry::toArcCoordinates(lanelet_bound, path_end_point).length;
+  const auto s_bound_end =
+    lanelet::geometry::toArcCoordinates(
+      lanelet_bound_2d, lanelet::geometry::interpolatedPointAtDistance(lanelet_centerline, s_end))
+      .length;
 
   std::vector<geometry_msgs::msg::Point> path_bound{};
   auto s = 0.;
@@ -286,8 +285,7 @@ std::vector<geometry_msgs::msg::Point> get_path_bound(
     if (path_bound.empty()) {
       const auto interpolated_point =
         lanelet::geometry::interpolatedPointAtDistance(lanelet_bound, s_bound_start);
-      path_bound.push_back(
-        lanelet::utils::conversion::toGeomMsgPt(lanelet::utils::to3D(interpolated_point)));
+      path_bound.push_back(lanelet::utils::conversion::toGeomMsgPt(interpolated_point));
     } else {
       path_bound.push_back(lanelet::utils::conversion::toGeomMsgPt(*it));
     }
@@ -295,8 +293,7 @@ std::vector<geometry_msgs::msg::Point> get_path_bound(
     if (s >= s_bound_end) {
       const auto interpolated_point =
         lanelet::geometry::interpolatedPointAtDistance(lanelet_bound, s_bound_end);
-      path_bound.push_back(
-        lanelet::utils::conversion::toGeomMsgPt(lanelet::utils::to3D(interpolated_point)));
+      path_bound.push_back(lanelet::utils::conversion::toGeomMsgPt(interpolated_point));
       break;
     }
   }
