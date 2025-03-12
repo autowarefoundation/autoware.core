@@ -8,20 +8,20 @@
       
       
       
-        <link rel="canonical" href="https://autowarefoundation.github.io/autoware.core/main/testing/autoware_pyplot/">
+        <link rel="canonical" href="https://autowarefoundation.github.io/autoware.core/main/planning/autoware_route_handler/">
       
       
-        <link rel="prev" href="../autoware_planning_test_manager/">
+        <link rel="prev" href="../autoware_planning_factor_interface/">
       
       
-        <link rel="next" href="../autoware_test_utils/">
+        <link rel="next" href="../../sensing/autoware_gnss_poser/">
       
       <link rel="icon" href="../../docs/assets/images/autoware-foundation.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.20">
     
     
       
-        <title>autoware_pyplot - Autoware Core Documentation</title>
+        <title>route handler - Autoware Core Documentation</title>
       
     
     
@@ -77,7 +77,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#autoware_pyplot" class="md-skip">
+        <a href="#route-handler" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              autoware_pyplot
+              route handler
             
           </span>
         </div>
@@ -277,6 +277,8 @@
         
   
   
+    
+  
 
 
   
@@ -288,7 +290,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../planning/autoware_objects_of_interest_marker_interface/" class="md-tabs__link">
+      <a href="../autoware_objects_of_interest_marker_interface/" class="md-tabs__link md-tabs__link--active">
         Planning
       </a>
     </li>
@@ -323,8 +325,6 @@
         
   
   
-    
-  
 
 
   
@@ -336,7 +336,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../autoware_planning_test_manager/" class="md-tabs__link md-tabs__link--active">
+      <a href="../../testing/autoware_planning_test_manager/" class="md-tabs__link">
         Testing
       </a>
     </li>
@@ -1514,16 +1514,16 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
       
       
         
@@ -1542,7 +1542,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_4">
           <span class="md-nav__icon md-icon"></span>
           Planning
@@ -1577,7 +1577,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../planning/autoware_objects_of_interest_marker_interface/">Autoware objects of interest marker interface</a>
+          <a href="../autoware_objects_of_interest_marker_interface/">Autoware objects of interest marker interface</a>
           
         </div>
       
@@ -1625,7 +1625,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../planning/autoware_path_generator/">Autoware path generator</a>
+          <a href="../autoware_path_generator/">Autoware path generator</a>
           
         </div>
       
@@ -1673,7 +1673,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../planning/autoware_planning_factor_interface/">Autoware planning factor interface</a>
+          <a href="../autoware_planning_factor_interface/">Autoware planning factor interface</a>
           
         </div>
       
@@ -1697,18 +1697,18 @@
               
   
   
+    
+  
   
     
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
       
       
       
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_4" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" checked>
       
       
         
@@ -1720,12 +1720,12 @@
       
         
         
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../planning/autoware_route_handler/">Autoware route handler</a>
+        <div class="md-nav__link md-nav__link--index md-nav__link--active">
+          <a href="./">Autoware route handler</a>
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_4_4">
           <span class="md-nav__icon md-icon"></span>
           Autoware route handler
@@ -1842,16 +1842,16 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
       
       
         
@@ -1870,7 +1870,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_6">
           <span class="md-nav__icon md-icon"></span>
           Testing
@@ -1905,7 +1905,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_planning_test_manager/">Autoware planning test manager</a>
+          <a href="../../testing/autoware_planning_test_manager/">Autoware planning test manager</a>
           
         </div>
       
@@ -1929,18 +1929,18 @@
               
   
   
-    
-  
   
     
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" checked>
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2" >
       
       
         
@@ -1952,12 +1952,12 @@
       
         
         
-        <div class="md-nav__link md-nav__link--index md-nav__link--active">
-          <a href="./">Autoware pyplot</a>
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../testing/autoware_pyplot/">Autoware pyplot</a>
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_6_2">
           <span class="md-nav__icon md-icon"></span>
           Autoware pyplot
@@ -2001,7 +2001,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_test_utils/">Autoware test utils</a>
+          <a href="../../testing/autoware_test_utils/">Autoware test utils</a>
           
         </div>
       
@@ -2095,7 +2095,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autoware_testing/design/autoware_testing-design/" class="md-nav__link">
+      <a href="../../testing/autoware_testing/design/autoware_testing-design/" class="md-nav__link">
         autoware_testing
       </a>
     </li>
@@ -2150,9 +2150,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    usage
+  <a href="#unit-testing" class="md-nav__link">
+    Unit Testing
   </a>
+  
+    <nav class="md-nav" aria-label="Unit Testing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lane-change-test-route" class="md-nav__link">
+    Lane change test route
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2174,42 +2187,18 @@
   
 
 
-<div><h1 id="autoware_pyplot">autoware_pyplot<a class="headerlink" href="#autoware_pyplot" title="Permanent link">#</a></h1>
-<p>This package provides C++ interface for the notable <code>matplotlib</code> using <code>pybind11</code> backend for</p>
+<div><h1 id="route-handler">route handler<a class="headerlink" href="#route-handler" title="Permanent link">#</a></h1>
+<p><code>route_handler</code> is a library for calculating driving route on the lanelet map.</p>
+<h2 id="unit-testing">Unit Testing<a class="headerlink" href="#unit-testing" title="Permanent link">#</a></h2>
+<p>The unit testing depends on <code>autoware_test_utils</code> package.
+<code>autoware_test_utils</code> is a library that provides several common functions to simplify unit test creating.</p>
+<p><img alt="route_handler_test" src="images/route_handler_test.svg"></p>
+<p>By default, route file is necessary to create tests. The following illustrates the route that are used in the unit test</p>
+<h3 id="lane-change-test-route">Lane change test route<a class="headerlink" href="#lane-change-test-route" title="Permanent link">#</a></h3>
+<p><img alt="lane_change_test_route" src="images/lane_change_test_route.svg"></p>
 <ul>
-<li>creating scientific plots and images illustrating the function inputs/outputs</li>
-<li>debugging the output and internal data of a function before unit testing in a more lightweight manner than planning_simulator</li>
-</ul>
-<h2 id="usage">usage<a class="headerlink" href="#usage" title="Permanent link">#</a></h2>
-<p>In your main function, setup the python context and import <code>matplotlib</code></p>
-<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;autoware/pyplot/pyplot.hpp&gt;</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;pybind11/embed.h&gt;</span>
-
-<span class="c1">// in main...</span>
-<span class="w">  </span><span class="n">py</span><span class="o">::</span><span class="n">scoped_interpreter</span><span class="w"> </span><span class="n">guard</span><span class="p">{};</span>
-<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">plt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoware</span><span class="o">::</span><span class="n">pyplot</span><span class="o">::</span><span class="k">import</span><span class="p">();</span>
-</code></pre></div>
-<p>Then you can use major functionalities of <code>matplotlib</code> almost in the same way as native python code.</p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">    </span><span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Args</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">({</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">})),</span><span class="w"> </span><span class="n">Kwargs</span><span class="p">(</span><span class="s">"color"</span><span class="n">_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"blue"</span><span class="p">,</span><span class="w"> </span><span class="s">"linewidth"</span><span class="n">_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="p">));</span>
-<span class="w">    </span><span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">Args</span><span class="p">(</span><span class="s">"x-title"</span><span class="p">));</span>
-<span class="w">    </span><span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">Args</span><span class="p">(</span><span class="s">"y-title"</span><span class="p">));</span>
-<span class="w">    </span><span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="n">Args</span><span class="p">(</span><span class="s">"title"</span><span class="p">));</span>
-<span class="w">    </span><span class="n">plt</span><span class="p">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">Args</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">));</span>
-<span class="w">    </span><span class="n">plt</span><span class="p">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">Args</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">));</span>
-<span class="w">    </span><span class="n">plt</span><span class="p">.</span><span class="n">grid</span><span class="p">(</span><span class="n">Args</span><span class="p">(</span><span class="nb">true</span><span class="p">));</span>
-<span class="w">    </span><span class="n">plt</span><span class="p">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">Args</span><span class="p">(</span><span class="s">"test_single_plot.png"</span><span class="p">));</span>
-<span class="p">}</span>
-
-<span class="p">{</span>
-<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="p">[</span><span class="n">fig</span><span class="p">,</span><span class="w"> </span><span class="n">axes</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
-<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">ax1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
-<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">ax2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
-
-<span class="w">    </span><span class="n">ax1</span><span class="p">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="n">Args</span><span class="p">(</span><span class="s">"equal"</span><span class="p">));</span>
-<span class="w">    </span><span class="n">ax2</span><span class="p">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="n">Args</span><span class="p">(</span><span class="s">"equal"</span><span class="p">));</span>
-<span class="p">}</span>
-</code></pre></div></div>
+<li>The route is based on map that can be obtained from <code>autoware_test_utils\test_map</code></li>
+</ul></div>
 
 
 
@@ -2236,7 +2225,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../autoware_planning_test_manager/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Autoware Planning Test Manager" rel="prev">
+          <a href="../autoware_planning_factor_interface/" class="md-footer__link md-footer__link--prev" aria-label="Previous: autoware_planning_factor_interface" rel="prev">
             <div class="md-footer__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
             </div>
@@ -2245,20 +2234,20 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                Autoware Planning Test Manager
+                autoware_planning_factor_interface
               </div>
             </div>
           </a>
         
         
           
-          <a href="../autoware_test_utils/" class="md-footer__link md-footer__link--next" aria-label="Next: Test Utils" rel="next">
+          <a href="../../sensing/autoware_gnss_poser/" class="md-footer__link md-footer__link--next" aria-label="Next: gnss_poser" rel="next">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Test Utils
+                gnss_poser
               </div>
             </div>
             <div class="md-footer__button md-icon">
