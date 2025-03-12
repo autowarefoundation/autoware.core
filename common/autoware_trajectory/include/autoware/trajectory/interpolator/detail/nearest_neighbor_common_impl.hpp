@@ -17,8 +17,8 @@
 
 #include "autoware/trajectory/interpolator/detail/interpolator_mixin.hpp"
 
+#include <utility>
 #include <vector>
-
 namespace autoware::trajectory::interpolator
 {
 
@@ -46,7 +46,7 @@ protected:
    * @param s The point at which to compute the interpolated value.
    * @return The interpolated value.
    */
-  [[nodiscard]] T compute_impl(const double & s) const override
+  T compute_impl(const double s) const override
   {
     const int32_t idx = this->get_index(s);
     return (std::abs(s - this->bases_[idx]) <= std::abs(s - this->bases_[idx + 1]))
@@ -61,10 +61,26 @@ protected:
    * @param values The values to interpolate.
    * @return True if the interpolator was built successfully, false otherwise.
    */
-  void build_impl(const std::vector<double> & bases, const std::vector<T> & values) override
+  [[nodiscard]] bool build_impl(
+    const std::vector<double> & bases, const std::vector<T> & values) override
   {
     this->bases_ = bases;
     this->values_ = values;
+    return true;
+  }
+
+  /**
+   * @brief Build the interpolator with the given values.
+   *
+   * @param bases The bases values.
+   * @param values The values to interpolate.
+   * @return True if the interpolator was built successfully, false otherwise.
+   */
+  [[nodiscard]] bool build_impl(std::vector<double> && bases, std::vector<T> && values) override
+  {
+    this->bases_ = std::move(bases);
+    this->values_ = std::move(values);
+    return true;
   }
 
 public:
@@ -73,7 +89,7 @@ public:
    *
    * @return The minimum number of required points.
    */
-  [[nodiscard]] size_t minimum_required_points() const override { return 1; }
+  size_t minimum_required_points() const override { return 1; }
 };
 
 }  // namespace detail

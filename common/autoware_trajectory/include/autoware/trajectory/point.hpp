@@ -57,7 +57,7 @@ protected:
    * @brief Validate the arc length is within the trajectory
    * @param s Arc length
    */
-  [[nodiscard]] double clamp(const double & s, bool show_warning = false) const;
+  double clamp(const double s, bool show_warning = false) const;
 
 public:
   Trajectory();
@@ -71,19 +71,19 @@ public:
    * @brief Get the internal bases(arc lengths) of the trajectory
    * @return Vector of bases(arc lengths)
    */
-  [[nodiscard]] virtual std::vector<double> get_internal_bases() const;
+  virtual std::vector<double> get_internal_bases() const;
   /**
    * @brief Get the length of the trajectory
    * @return Length of the trajectory
    */
-  [[nodiscard]] double length() const;
+  double length() const;
 
   /**
    * @brief Compute the point on the trajectory at a given s value
    * @param s Arc length
    * @return Point on the trajectory
    */
-  [[nodiscard]] PointType compute(double s) const;
+  PointType compute(const double s) const;
 
   /**
    * @brief Build the trajectory from the points
@@ -97,30 +97,30 @@ public:
    * @param s Arc length
    * @return Azimuth in radians
    */
-  [[nodiscard]] double azimuth(double s) const;
+  double azimuth(const double s) const;
 
   /**
    * @brief Get the elevation angle at a given s value
    * @param s Arc length
    * @return Elevation in radians
    */
-  [[nodiscard]] double elevation(double s) const;
+  double elevation(const double s) const;
 
   /**
    * @brief Get the curvature at a given s value
    * @param s Arc length
    * @return Curvature
    */
-  [[nodiscard]] double curvature(double s) const;
+  double curvature(const double s) const;
 
   /**
    * @brief Restore the trajectory points
    * @param min_points Minimum number of points
    * @return Vector of points
    */
-  [[nodiscard]] std::vector<PointType> restore(const size_t & min_points = 4) const;
+  std::vector<PointType> restore(const size_t min_points = 4) const;
 
-  void crop(const double & start, const double & length);
+  void crop(const double start, const double length);
 
   class Builder
   {

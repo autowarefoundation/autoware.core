@@ -54,3 +54,4 @@ jobs:
         with:
           rosdistro: ${{ matrix.rosdistro }}
           target-packages: ${{ steps.get-modified-packages.outputs.modified-packages }}
+          underlay-workspace: /opt/autoware

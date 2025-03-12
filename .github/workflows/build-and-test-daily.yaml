@@ -40,6 +40,7 @@ jobs:
         with:
           rosdistro: humble
           target-packages: ${{ steps.get-self-packages.outputs.self-packages }}
+          underlay-workspace: /opt/autoware
 
       - name: Upload coverage to CodeCov
         if: ${{ steps.test.outputs.coverage-report-files != '' }}

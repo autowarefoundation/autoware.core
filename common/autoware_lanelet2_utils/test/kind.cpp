@@ -15,7 +15,7 @@
 #include "map_loader.hpp"
 
 #include <ament_index_cpp/get_package_share_directory.hpp>
-#include <autoware_lanelet2_utility/kind.hpp>
+#include <autoware_lanelet2_utils/kind.hpp>
 
 #include <gtest/gtest.h>
 
@@ -34,7 +34,7 @@ protected:
   void SetUp() override
   {
     const auto sample_map_dir =
-      fs::path(ament_index_cpp::get_package_share_directory("autoware_lanelet2_utility")) /
+      fs::path(ament_index_cpp::get_package_share_directory("autoware_lanelet2_utils")) /
       "sample_map";
     const auto road_shoulder_highway_map_path = sample_map_dir / "road_shoulder" / "highway.osm";
 
@@ -50,7 +50,7 @@ protected:
   void SetUp() override
   {
     const auto sample_map_dir =
-      fs::path(ament_index_cpp::get_package_share_directory("autoware_lanelet2_utility")) /
+      fs::path(ament_index_cpp::get_package_share_directory("autoware_lanelet2_utils")) /
       "sample_map";
     const auto road_shoulder_highway_map_path = sample_map_dir / "intersection" / "crossing.osm";
 
@@ -68,25 +68,25 @@ TEST_F(TestWithRoadShoulderHighwayMap, LoadCheck)
 TEST_F(TestWithRoadShoulderHighwayMap, is_road_lane)
 {
   const auto ll = lanelet_map_ptr_->laneletLayer.get(46);
-  EXPECT_EQ(lanelet2_utility::is_road_lane(ll), true);
-  EXPECT_EQ(lanelet2_utility::is_shoulder_lane(ll), false);
-  EXPECT_EQ(lanelet2_utility::is_bicycle_lane(ll), false);
+  EXPECT_EQ(lanelet2_utils::is_road_lane(ll), true);
+  EXPECT_EQ(lanelet2_utils::is_shoulder_lane(ll), false);
+  EXPECT_EQ(lanelet2_utils::is_bicycle_lane(ll), false);
 }
 
 TEST_F(TestWithRoadShoulderHighwayMap, is_shoulder_lane)
 {
   const auto ll = lanelet_map_ptr_->laneletLayer.get(47);
-  EXPECT_EQ(lanelet2_utility::is_road_lane(ll), false);
-  EXPECT_EQ(lanelet2_utility::is_shoulder_lane(ll), true);
-  EXPECT_EQ(lanelet2_utility::is_bicycle_lane(ll), false);
+  EXPECT_EQ(lanelet2_utils::is_road_lane(ll), false);
+  EXPECT_EQ(lanelet2_utils::is_shoulder_lane(ll), true);
+  EXPECT_EQ(lanelet2_utils::is_bicycle_lane(ll), false);
 }
 
 TEST_F(TestWithIntersectionCrossingMap, is_shoulder_lane)
 {
   const auto ll = lanelet_map_ptr_->laneletLayer.get(2303);
-  EXPECT_EQ(lanelet2_utility::is_road_lane(ll), false);
-  EXPECT_EQ(lanelet2_utility::is_shoulder_lane(ll), false);
-  EXPECT_EQ(lanelet2_utility::is_bicycle_lane(ll), true);
+  EXPECT_EQ(lanelet2_utils::is_road_lane(ll), false);
+  EXPECT_EQ(lanelet2_utils::is_shoulder_lane(ll), false);
+  EXPECT_EQ(lanelet2_utils::is_bicycle_lane(ll), true);
 }
 }  // namespace autoware
 
