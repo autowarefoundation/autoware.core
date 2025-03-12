@@ -16,6 +16,7 @@
 
 #include <Eigen/Dense>
 
+#include <utility>
 #include <vector>
 
 namespace autoware::trajectory::interpolator

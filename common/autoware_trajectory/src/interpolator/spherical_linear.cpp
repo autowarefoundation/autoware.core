@@ -16,6 +16,7 @@
 
 #include <Eigen/Geometry>
 
+#include <utility>
 #include <vector>
 
 namespace autoware::trajectory::interpolator

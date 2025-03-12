@@ -17,8 +17,8 @@
 
 #include "autoware/trajectory/interpolator/detail/interpolator_mixin.hpp"
 
+#include <utility>
 #include <vector>
-
 namespace autoware::trajectory::interpolator
 {
 
