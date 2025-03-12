@@ -18,6 +18,7 @@
 #include "autoware/trajectory/interpolator/cubic_spline.hpp"
 #include "autoware/trajectory/interpolator/linear.hpp"
 
+#include <Eigen/Core>
 #include <rclcpp/logging.hpp>
 
 #include <algorithm>
@@ -76,8 +77,9 @@ interpolator::InterpolationResult Trajectory<PointType>::build(
   zs.emplace_back(points[0].z);
 
   for (size_t i = 1; i < points.size(); ++i) {
-    const auto dist = std::hypot(points[i].x - points[i - 1].x, points[i].y - points[i - 1].y);
-    bases_.emplace_back(bases_.back() + dist);
+    const Eigen::Vector2d p0(points[i - 1].x, points[i - 1].y);
+    const Eigen::Vector2d p1(points[i].x, points[i].y);
+    bases_.emplace_back(bases_.back() + (p1 - p0).norm());
     xs.emplace_back(points[i].x);
     ys.emplace_back(points[i].y);
     zs.emplace_back(points[i].z);
@@ -103,7 +105,7 @@ interpolator::InterpolationResult Trajectory<PointType>::build(
 
 double Trajectory<PointType>::clamp(const double s, bool show_warning) const
 {
-  if (show_warning && (s < 0 || s > length())) {
+  if ((s < 0 || s > length()) && show_warning) {
     RCLCPP_WARN(
       rclcpp::get_logger("Trajectory"), "The arc length %f is out of the trajectory length %f", s,
       length());
