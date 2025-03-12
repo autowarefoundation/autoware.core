@@ -42,9 +42,20 @@ private:
    * @param values The values to interpolate.
    * @return True if the interpolator was built successfully, false otherwise.
    */
-  void build_impl(
+  [[nodiscard]] bool build_impl(
     const std::vector<double> & bases,
     const std::vector<geometry_msgs::msg::Quaternion> & quaternions) override;
+
+  /**
+   * @brief Build the interpolator with the given values.
+   *
+   * @param bases The bases values.
+   * @param values The values to interpolate.
+   * @return True if the interpolator was built successfully, false otherwise.
+   */
+  [[nodiscard]] bool build_impl(
+    std::vector<double> && bases,
+    std::vector<geometry_msgs::msg::Quaternion> && quaternions) override;
 
   /**
    * @brief Compute the interpolated value at the given point.
@@ -52,7 +63,7 @@ private:
    * @param s The point at which to compute the interpolated value.
    * @return The interpolated value.
    */
-  [[nodiscard]] geometry_msgs::msg::Quaternion compute_impl(const double & s) const override;
+  geometry_msgs::msg::Quaternion compute_impl(const double s) const override;
 
 public:
   /**
@@ -65,7 +76,7 @@ public:
    *
    * @return The minimum number of required points.
    */
-  [[nodiscard]] size_t minimum_required_points() const override;
+  size_t minimum_required_points() const override;
 };
 
 }  // namespace autoware::trajectory::interpolator

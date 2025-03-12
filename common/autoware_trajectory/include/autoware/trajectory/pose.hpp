@@ -58,20 +58,20 @@ public:
    * @brief Get the internal bases(arc lengths) of the trajectory
    * @return Vector of bases(arc lengths)
    */
-  [[nodiscard]] std::vector<double> get_internal_bases() const override;
+  std::vector<double> get_internal_bases() const override;
 
   /**
    * @brief Compute the pose on the trajectory at a given s value
    * @param s Arc length
    * @return Pose on the trajectory
    */
-  [[nodiscard]] PointType compute(double s) const;
+  PointType compute(const double s) const;
 
   /**
    * @brief Restore the trajectory poses
    * @return Vector of poses
    */
-  [[nodiscard]] std::vector<PointType> restore(const size_t & min_points = 4) const;
+  std::vector<PointType> restore(const size_t min_points = 4) const;
 
   /**
    * @brief Align the orientation with the direction
