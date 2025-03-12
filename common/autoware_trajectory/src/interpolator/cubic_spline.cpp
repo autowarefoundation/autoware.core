@@ -61,29 +61,40 @@ void CubicSpline::compute_parameters(
   }
 }
 
-void CubicSpline::build_impl(const std::vector<double> & bases, const std::vector<double> & values)
+bool CubicSpline::build_impl(const std::vector<double> & bases, const std::vector<double> & values)
 {
   this->bases_ = bases;
   compute_parameters(
     Eigen::Map<const Eigen::VectorXd>(bases.data(), static_cast<Eigen::Index>(bases.size())),
     Eigen::Map<const Eigen::VectorXd>(values.data(), static_cast<Eigen::Index>(values.size())));
+  return true;
 }
 
-double CubicSpline::compute_impl(const double & s) const
+bool CubicSpline::build_impl(std::vector<double> && bases, std::vector<double> && values)
+{
+  this->bases_ = std::move(bases);
+  compute_parameters(
+    Eigen::Map<const Eigen::VectorXd>(
+      this->bases_.data(), static_cast<Eigen::Index>(this->bases_.size())),
+    Eigen::Map<const Eigen::VectorXd>(values.data(), static_cast<Eigen::Index>(values.size())));
+  return true;
+}
+
+double CubicSpline::compute_impl(const double s) const
 {
   const int32_t i = this->get_index(s);
   const double dx = s - this->bases_.at(i);
   return a_(i) + b_(i) * dx + c_(i) * dx * dx + d_(i) * dx * dx * dx;
 }
 
-double CubicSpline::compute_first_derivative_impl(const double & s) const
+double CubicSpline::compute_first_derivative_impl(const double s) const
 {
   const int32_t i = this->get_index(s);
   const double dx = s - this->bases_.at(i);
   return b_(i) + 2 * c_(i) * dx + 3 * d_(i) * dx * dx;
 }
 
-double CubicSpline::compute_second_derivative_impl(const double & s) const
+double CubicSpline::compute_second_derivative_impl(const double s) const
 {
   const int32_t i = this->get_index(s);
   const double dx = s - this->bases_.at(i);

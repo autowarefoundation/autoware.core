@@ -73,16 +73,16 @@ std::vector<double> Trajectory<PointType>::get_internal_bases() const
   return bases;
 }
 
-PointType Trajectory<PointType>::compute(double s) const
+PointType Trajectory<PointType>::compute(const double s) const
 {
   PointType result;
   result.point = BaseClass::compute(s);
-  s = clamp(s);
-  result.lane_ids = lane_ids().compute(s);
+  const auto s_clamp = clamp(s);
+  result.lane_ids = lane_ids().compute(s_clamp);
   return result;
 }
 
-std::vector<PointType> Trajectory<PointType>::restore(const size_t & min_points) const
+std::vector<PointType> Trajectory<PointType>::restore(const size_t min_points) const
 {
   auto bases = get_internal_bases();
   bases = detail::fill_bases(bases, min_points);

@@ -93,16 +93,16 @@ std::vector<double> Trajectory<PointType>::get_internal_bases() const
 {
   auto bases = detail::crop_bases(bases_, start_, end_);
   std::transform(
-    bases.begin(), bases.end(), bases.begin(), [this](const double & s) { return s - start_; });
+    bases.begin(), bases.end(), bases.begin(), [this](const double s) { return s - start_; });
   return bases;
 }
 
-PointType Trajectory<PointType>::compute(double s) const
+PointType Trajectory<PointType>::compute(const double s) const
 {
   PointType result;
   result.position = BaseClass::compute(s);
-  s = clamp(s);
-  result.orientation = orientation_interpolator_->compute(s);
+  const auto s_clamp = clamp(s);
+  result.orientation = orientation_interpolator_->compute(s_clamp);
   return result;
 }
 
@@ -164,7 +164,7 @@ void Trajectory<PointType>::align_orientation_with_trajectory_direction()
   }
 }
 
-std::vector<PointType> Trajectory<PointType>::restore(const size_t & min_points) const
+std::vector<PointType> Trajectory<PointType>::restore(const size_t min_points) const
 {
   auto bases = get_internal_bases();
   bases = detail::fill_bases(bases, min_points);

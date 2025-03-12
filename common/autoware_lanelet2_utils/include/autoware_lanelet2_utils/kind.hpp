@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef AUTOWARE_LANELET2_UTILITY__KIND_HPP_
-#define AUTOWARE_LANELET2_UTILITY__KIND_HPP_
+#ifndef AUTOWARE_LANELET2_UTILS__KIND_HPP_
+#define AUTOWARE_LANELET2_UTILS__KIND_HPP_
 
 #include <lanelet2_core/Forward.h>
 
-namespace autoware::lanelet2_utility
+namespace autoware::lanelet2_utils
 {
 static constexpr const char * k_road_lane_type = "road";
 static constexpr const char * k_shoulder_lane_type = "road_shoulder";
@@ -58,5 +58,5 @@ bool is_shoulder_lane(const lanelet::ConstLanelet & lanelet);
  * @return if the lanelet is bicycle_lane or not
  */
 bool is_bicycle_lane(const lanelet::ConstLanelet & lanelet);
-}  // namespace autoware::lanelet2_utility
-#endif  // AUTOWARE_LANELET2_UTILITY__KIND_HPP_
+}  // namespace autoware::lanelet2_utils
+#endif  // AUTOWARE_LANELET2_UTILS__KIND_HPP_
