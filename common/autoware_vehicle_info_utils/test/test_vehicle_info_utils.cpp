@@ -72,9 +72,16 @@ TEST_F(VehicleInfoUtilTest, check_vehicle_info_value)
   EXPECT_FLOAT_EQ(footprint.at(VehicleInfo::RearLeftIndex).x(), -1.03);
   EXPECT_FLOAT_EQ(footprint.at(VehicleInfo::RearLeftIndex).y(), 1.63 / 2 + 0.1);
 
-  EXPECT_FLOAT_EQ(vehicle_info.calcMaxCurvature(), 1.0 / (vehicle_info.wheel_base_m / std::tan(vehicle_info.max_steer_angle_rad)));
-  EXPECT_FLOAT_EQ(vehicle_info.calcCurvatureFromSteerAngle(0.7), 1.0 / (vehicle_info.wheel_base_m / std::tan(0.7)));
-  EXPECT_FLOAT_EQ(vehicle_info.calcCurvatureFromSteerAngle(1e-8), std::numeric_limits<double>::max());
-  EXPECT_FLOAT_EQ(vehicle_info.calcSteerAngleFromCurvature(1.0 / (vehicle_info.wheel_base_m / std::tan(0.7))), 0.7);
-  EXPECT_FLOAT_EQ(vehicle_info.calcSteerAngleFromCurvature(1e-8), 0.0); 
+  EXPECT_FLOAT_EQ(
+    vehicle_info.calcMaxCurvature(),
+    1.0 / (vehicle_info.wheel_base_m / std::tan(vehicle_info.max_steer_angle_rad)));
+  EXPECT_FLOAT_EQ(
+    vehicle_info.calcCurvatureFromSteerAngle(0.7),
+    1.0 / (vehicle_info.wheel_base_m / std::tan(0.7)));
+  EXPECT_FLOAT_EQ(
+    vehicle_info.calcCurvatureFromSteerAngle(1e-8), std::numeric_limits<double>::max());
+  EXPECT_FLOAT_EQ(
+    vehicle_info.calcSteerAngleFromCurvature(1.0 / (vehicle_info.wheel_base_m / std::tan(0.7))),
+    0.7);
+  EXPECT_FLOAT_EQ(vehicle_info.calcSteerAngleFromCurvature(1e-8), 0.0);
 }
