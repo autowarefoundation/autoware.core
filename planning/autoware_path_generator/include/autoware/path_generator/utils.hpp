@@ -137,7 +137,7 @@ std::optional<double> get_first_self_intersection_arc_length(
   const lanelet::BasicLineString2d & line_string, const double s_start, const double s_end);
 
 /**
- * @brief get bound of path cropped within specified range
+ * @brief get path bound for PathWithLaneId cropped within specified range
  * @param lanelet_bound original bound of lanelet
  * @param lanelet_centerline centerline of lanelet
  * @param s_start longitudinal distance of start of bound
@@ -145,7 +145,7 @@ std::optional<double> get_first_self_intersection_arc_length(
  * @return cropped bound
  */
 std::vector<geometry_msgs::msg::Point> get_path_bound(
-  const lanelet::CompoundLineString2d & lanelet_bound,
+  const lanelet::CompoundLineString3d & lanelet_bound,
   const lanelet::CompoundLineString2d & lanelet_centerline, const double s_start,
   const double s_end);
 
