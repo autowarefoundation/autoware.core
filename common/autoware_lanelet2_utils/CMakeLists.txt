@@ -7,6 +7,7 @@ autoware_package()
 ament_auto_add_library(${PROJECT_NAME} SHARED
   src/kind.cpp
   src/topology.cpp
+  src/stop_line.cpp
   src/intersection.cpp
 )
 
