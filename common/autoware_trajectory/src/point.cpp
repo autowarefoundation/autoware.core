@@ -71,15 +71,19 @@ interpolator::InterpolationResult Trajectory<PointType>::build(
   std::vector<double> zs;
 
   bases_.clear();
+  bases_.reserve(points.size() + 1);
+  xs.reserve(points.size() + 1);
+  ys.reserve(points.size() + 1);
+  zs.reserve(points.size() + 1);
+
   bases_.emplace_back(0.0);
   xs.emplace_back(points[0].x);
   ys.emplace_back(points[0].y);
   zs.emplace_back(points[0].z);
 
   for (size_t i = 1; i < points.size(); ++i) {
-    const Eigen::Vector2d p0(points[i - 1].x, points[i - 1].y);
-    const Eigen::Vector2d p1(points[i].x, points[i].y);
-    bases_.emplace_back(bases_.back() + (p1 - p0).norm());
+    const auto dist = std::hypot(points[i].x - points[i - 1].x, points[i].y - points[i - 1].y);
+    bases_.emplace_back(bases_.back() + dist);
     xs.emplace_back(points[i].x);
     ys.emplace_back(points[i].y);
     zs.emplace_back(points[i].z);
@@ -105,7 +109,7 @@ interpolator::InterpolationResult Trajectory<PointType>::build(
 
 double Trajectory<PointType>::clamp(const double s, bool show_warning) const
 {
-  if ((s < 0 || s > length()) && show_warning) {
+  if (show_warning && (s < 0 || s > length())) {
     RCLCPP_WARN(
       rclcpp::get_logger("Trajectory"), "The arc length %f is out of the trajectory length %f", s,
       length());

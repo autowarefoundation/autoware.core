@@ -170,6 +170,7 @@ public:
     }
   };
 
+  // TODO(soblin): how to insert "linear" or "decelerating" velocity profile ?
   /**
    * @brief Get a Segment object to set values in a specific range.
    * @param start Start of the range.
