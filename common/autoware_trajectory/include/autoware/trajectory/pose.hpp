@@ -52,7 +52,7 @@ public:
   // enable making trajectory from point trajectory
   explicit Trajectory(const Trajectory<geometry_msgs::msg::Point> & point_trajectory);
 
-  bool build(const std::vector<PointType> & points);
+  interpolator::InterpolationResult build(const std::vector<PointType> & points);
 
   /**
    * @brief Get the internal bases(arc lengths) of the trajectory
@@ -112,14 +112,16 @@ public:
       return *this;
     }
 
-    std::optional<Trajectory> build(const std::vector<PointType> & points)
+    tl::expected<Trajectory, interpolator::InterpolationFailure> build(
+      const std::vector<PointType> & points)
     {
-      if (trajectory_->build(points)) {
-        auto result = std::make_optional<Trajectory>(std::move(*trajectory_));
+      auto trajectory_result = trajectory_->build(points);
+      if (trajectory_result) {
+        auto result = Trajectory(std::move(*trajectory_));
         trajectory_.reset();
         return result;
       }
-      return std::nullopt;
+      return tl::unexpected(trajectory_result.error());
     }
   };
 };
