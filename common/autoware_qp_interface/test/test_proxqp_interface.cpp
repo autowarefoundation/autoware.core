@@ -80,6 +80,15 @@ TEST(TestProxqpInterface, BasicQp)
       check_result(solution, status);
       EXPECT_EQ(proxqp.getIterationNumber(), 0);
     }
+    {
+      proxqp.updateEpsAbs(1.0e-4);
+      proxqp.updateEpsRel(1.0e-4);
+      proxqp.updateVerbose(true);
+      const auto solution = proxqp.QPInterface::optimize(P, A, q, l, u);
+      const auto status = proxqp.getStatus();
+      check_result(solution, status);
+      EXPECT_EQ(proxqp.getIterationNumber(), 0);
+    }
   }
 }
 }  // namespace
