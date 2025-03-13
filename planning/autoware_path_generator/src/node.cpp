@@ -299,6 +299,9 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
     path_points_with_lane_id.push_back(std::move(path_point_with_lane_id));
   };
 
+  const auto s_bound_start = s_start - vehicle_info_.max_longitudinal_offset_m;
+  const auto s_bound_end = s_end + vehicle_info_.max_longitudinal_offset_m;
+
   const auto waypoint_groups = utils::get_waypoint_groups(
     lanelet_sequence, *planner_data_.lanelet_map_ptr, params.waypoint_group.separation_threshold,
     params.waypoint_group.interval_margin_ratio);
@@ -306,8 +309,30 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
   auto extended_lanelets = lanelet_sequence.lanelets();
   auto s_offset = 0.;
 
+  {
+    auto extended_lanelets_length = lanelet::geometry::length2d(lanelet_sequence);
+    while (extended_lanelets_length < s_bound_end) {
+      const auto next_lanelets =
+        planner_data_.routing_graph_ptr->following(extended_lanelets.back());
+      if (next_lanelets.empty()) {
+        break;
+      }
+      extended_lanelets.push_back(next_lanelets.front());
+      extended_lanelets_length += lanelet::geometry::length2d(next_lanelets.front());
+    }
+  }
+
+  while (s_offset + s_bound_start < 0.) {
+    const auto prev_lanelets = planner_data_.routing_graph_ptr->previous(extended_lanelets.front());
+    if (prev_lanelets.empty()) {
+      break;
+    }
+    extended_lanelets.insert(extended_lanelets.begin(), prev_lanelets.front());
+    s_offset += lanelet::geometry::length2d(prev_lanelets.front());
+  }
+
   for (const auto & [waypoints, interval] : waypoint_groups) {
-    if (interval.first > 0.) {
+    if (s_offset + interval.first > 0.) {
       continue;
     }
     const auto prev_lanelet =
@@ -316,8 +341,7 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
       break;
     }
     extended_lanelets.insert(extended_lanelets.begin(), *prev_lanelet);
-    s_offset = lanelet::geometry::length2d(*prev_lanelet);
-    break;
+    s_offset += lanelet::geometry::length2d(*prev_lanelet);
   }
 
   const lanelet::LaneletSequence extended_lanelet_sequence(extended_lanelets);
@@ -419,17 +443,14 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
   finalized_path_with_lane_id.header.frame_id = planner_data_.route_frame_id;
   finalized_path_with_lane_id.header.stamp = now();
 
-  const auto get_path_bound = [&](const lanelet::CompoundLineString2d & lanelet_bound) {
-    const auto s_bound_start =
-      std::max(0., s_offset + s_start - vehicle_info_.max_longitudinal_offset_m);
-    const auto s_bound_end =
-      std::max(0., s_offset + s_end + vehicle_info_.max_longitudinal_offset_m);
-    return utils::get_path_bound(
-      lanelet_bound, extended_lanelet_sequence.centerline2d(), s_bound_start, s_bound_end);
-  };
-  finalized_path_with_lane_id.left_bound = get_path_bound(extended_lanelet_sequence.leftBound2d());
-  finalized_path_with_lane_id.right_bound =
-    get_path_bound(extended_lanelet_sequence.rightBound2d());
+  const auto s_bound_start_offset = std::max(0., s_offset + s_bound_start);
+  const auto s_bound_end_offset = std::max(0., s_offset + s_bound_end);
+  finalized_path_with_lane_id.left_bound = utils::get_path_bound(
+    extended_lanelet_sequence.leftBound(), extended_lanelet_sequence.centerline2d(),
+    s_bound_start_offset, s_bound_end_offset);
+  finalized_path_with_lane_id.right_bound = utils::get_path_bound(
+    extended_lanelet_sequence.rightBound(), extended_lanelet_sequence.centerline2d(),
+    s_bound_start_offset, s_bound_end_offset);
 
   return finalized_path_with_lane_id;
 }
