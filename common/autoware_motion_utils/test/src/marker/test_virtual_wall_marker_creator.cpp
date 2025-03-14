@@ -16,6 +16,7 @@
 #include "gtest/gtest.h"
 
 #include <string>
+#include <vector>
 
 namespace
 {
@@ -67,32 +68,37 @@ TEST(VirtualWallMarkerCreator, oneWall)
 TEST(VirtualWallMarkerCreator, manyWalls)
 {
   autoware::motion_utils::VirtualWall wall;
+  std::vector<autoware::motion_utils::VirtualWall> walls;
   autoware::motion_utils::VirtualWallMarkerCreator creator;
   wall.style = autoware::motion_utils::VirtualWallType::stop;
   wall.ns = "ns1_";
-  creator.add_virtual_wall(wall);
-  creator.add_virtual_wall(wall);
-  creator.add_virtual_wall(wall);
+  walls.push_back(wall);
+  walls.push_back(wall);
+  walls.push_back(wall);
   wall.ns = "ns2_";
-  creator.add_virtual_wall(wall);
+  walls.push_back(wall);
   wall.style = autoware::motion_utils::VirtualWallType::slowdown;
   wall.ns = "ns2_";
-  creator.add_virtual_wall(wall);
-  creator.add_virtual_wall(wall);
+  walls.push_back(wall);
+  walls.push_back(wall);
   wall.ns = "ns3_";
-  creator.add_virtual_wall(wall);
-  creator.add_virtual_wall(wall);
-  creator.add_virtual_wall(wall);
+  walls.push_back(wall);
+  walls.push_back(wall);
+  walls.push_back(wall);
   wall.style = autoware::motion_utils::VirtualWallType::deadline;
   wall.ns = "ns1_";
-  creator.add_virtual_wall(wall);
+  walls.push_back(wall);
   wall.ns = "ns2_";
-  creator.add_virtual_wall(wall);
+  walls.push_back(wall);
   wall.ns = "ns3_";
-  creator.add_virtual_wall(wall);
+  walls.push_back(wall);
+  wall.style = autoware::motion_utils::VirtualWallType::pass;
+  wall.ns = "ns1_";
+  walls.push_back(wall);
+  creator.add_virtual_walls(walls);
 
   auto markers = creator.create_markers();
-  ASSERT_EQ(markers.markers.size(), 12UL * 2);
+  ASSERT_EQ(markers.markers.size(), 13UL * 2);
   EXPECT_TRUE(has_ns_id(markers, std::string("ns1_stop") + wall_ns_suffix, 0, 2));
   EXPECT_TRUE(has_ns_id(markers, std::string("ns1_stop") + text_ns_suffix, 0, 2));
   EXPECT_TRUE(has_ns_id(markers, std::string("ns2_stop") + wall_ns_suffix, 0));
@@ -107,8 +113,10 @@ TEST(VirtualWallMarkerCreator, manyWalls)
   EXPECT_TRUE(has_ns_id(markers, std::string("ns2_dead_line") + text_ns_suffix, 0));
   EXPECT_TRUE(has_ns_id(markers, std::string("ns3_dead_line") + wall_ns_suffix, 0));
   EXPECT_TRUE(has_ns_id(markers, std::string("ns3_dead_line") + text_ns_suffix, 0));
+  EXPECT_TRUE(has_ns_id(markers, std::string("ns1_intended_pass") + "_direction", 0));
+  EXPECT_TRUE(has_ns_id(markers, std::string("ns1_intended_pass") + text_ns_suffix, 0));
   markers = creator.create_markers();
-  ASSERT_EQ(markers.markers.size(), 12UL * 2);
+  ASSERT_EQ(markers.markers.size(), 13UL * 2);
   for (const auto & marker : markers.markers)
     EXPECT_EQ(marker.action, visualization_msgs::msg::Marker::DELETE);
   markers = creator.create_markers();
