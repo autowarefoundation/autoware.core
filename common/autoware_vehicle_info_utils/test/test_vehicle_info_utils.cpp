@@ -17,6 +17,7 @@
 
 #include <gtest/gtest.h>
 
+#include <limits>
 #include <memory>
 
 class VehicleInfoUtilTest : public ::testing::Test
