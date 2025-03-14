@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef AUTOWARE_LANELET2_UTILS__TOPOLOGY_HPP_
-#define AUTOWARE_LANELET2_UTILS__TOPOLOGY_HPP_
+#ifndef AUTOWARE__LANELET2_UTILS__TOPOLOGY_HPP_
+#define AUTOWARE__LANELET2_UTILS__TOPOLOGY_HPP_
 
 #include <lanelet2_core/primitives/Lanelet.h>
 #include <lanelet2_routing/Forward.h>
@@ -183,4 +183,4 @@ lanelet::ConstLanelets from_ids(
   const lanelet::LaneletMapConstPtr lanelet_map, const std::vector<lanelet::Id> & ids);
 }  // namespace autoware::lanelet2_utils
 
-#endif  // AUTOWARE_LANELET2_UTILS__TOPOLOGY_HPP_
+#endif  // AUTOWARE__LANELET2_UTILS__TOPOLOGY_HPP_
