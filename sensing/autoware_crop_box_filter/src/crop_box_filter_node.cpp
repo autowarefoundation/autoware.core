@@ -52,10 +52,11 @@
  */
 
 #include "autoware/crop_box_filter/crop_box_filter_node.hpp"
+
 #include <memory>
-#include <vector>
 #include <string>
 #include <utility>
+#include <vector>
 
 namespace autoware::crop_box_filter
 {
@@ -78,60 +79,47 @@ CropBoxFilter::CropBoxFilter(const rclcpp::NodeOptions & node_options)
 
   // get transform info for pointcloud
   {
-    
-    tf_input_orig_frame_ = static_cast<std::string>(declare_parameter("input_pointcloud_frame", "base_link"));
+    tf_input_orig_frame_ =
+      static_cast<std::string>(declare_parameter("input_pointcloud_frame", "base_link"));
     tf_input_frame_ = static_cast<std::string>(declare_parameter("input_frame", "base_link"));
     tf_output_frame_ = static_cast<std::string>(declare_parameter("output_frame", "base_link"));
 
     // Always consider static TF if in & out frames are same
     bool has_static_tf_only = false;
     if (tf_input_frame_ == tf_output_frame_) {
-    
       RCLCPP_INFO(
         this->get_logger(),
         "Input and output frames are the same. Overriding has_static_tf_only to true.");
-      
+
       has_static_tf_only = true;
     }
     managed_tf_buffer_ =
       std::make_unique<autoware_utils::ManagedTransformBuffer>(this, has_static_tf_only);
 
-
-    if (tf_input_orig_frame_ == tf_input_frame_)
-    {
+    if (tf_input_orig_frame_ == tf_input_frame_) {
       need_preprocess_transform_ = false;
       eigen_transform_preprocess_ = Eigen::Matrix4f::Identity(4, 4);
-    }
-    else
-    {
+    } else {
       if (!managed_tf_buffer_->get_transform(
-        tf_input_frame_, tf_input_orig_frame_, eigen_transform_preprocess_)) 
-      {
+            tf_input_frame_, tf_input_orig_frame_, eigen_transform_preprocess_)) {
         RCLCPP_ERROR(
-          this->get_logger(),
-          "Cannot get transform from %s to %s. Please check your TF tree.",tf_input_orig_frame_.c_str() , tf_input_frame_.c_str());
-      }
-      else
-      {
+          this->get_logger(), "Cannot get transform from %s to %s. Please check your TF tree.",
+          tf_input_orig_frame_.c_str(), tf_input_frame_.c_str());
+      } else {
         need_preprocess_transform_ = true;
       }
     }
 
-    if (tf_input_frame_ == tf_output_frame_)
-    {
+    if (tf_input_frame_ == tf_output_frame_) {
       need_postprocess_transform_ = false;
       eigen_transform_postprocess_ = Eigen::Matrix4f::Identity(4, 4);
-    }else
-    {
+    } else {
       if (!managed_tf_buffer_->get_transform(
-        tf_output_frame_, tf_input_frame_, eigen_transform_postprocess_)) 
-      {
+            tf_output_frame_, tf_input_frame_, eigen_transform_postprocess_)) {
         RCLCPP_ERROR(
-          this->get_logger(),
-          "Cannot get transform from %s to %s. Please check your TF tree.",tf_input_frame_.c_str()  , tf_output_frame_.c_str());
-      }
-      else
-      {
+          this->get_logger(), "Cannot get transform from %s to %s. Please check your TF tree.",
+          tf_input_frame_.c_str(), tf_output_frame_.c_str());
+      } else {
         need_postprocess_transform_ = true;
       }
     }
@@ -170,31 +158,26 @@ CropBoxFilter::CropBoxFilter(const rclcpp::NodeOptions & node_options)
   // set parameter service callback
   {
     using std::placeholders::_1;
-    set_param_res_ = this->add_on_set_parameters_callback(
-      std::bind(&CropBoxFilter::param_callback, this, _1));
+    set_param_res_ =
+      this->add_on_set_parameters_callback(std::bind(&CropBoxFilter::param_callback, this, _1));
   }
 
   // set input pointcloud callback
   {
     sub_input_ = this->create_subscription<PointCloud2>(
-      "input", rclcpp::SensorDataQoS().keep_last(max_queue_size_), 
+      "input", rclcpp::SensorDataQoS().keep_last(max_queue_size_),
       std::bind(&CropBoxFilter::pointcloud_callback, this, std::placeholders::_1));
   }
 
-  
   RCLCPP_DEBUG(this->get_logger(), "[Filter Constructor] successfully created.");
 }
-
-
-
 
 void CropBoxFilter::pointcloud_callback(const PointCloud2ConstPtr cloud)
 {
   // check whether the pointcloud is valid
   if (
     !is_data_layout_compatible_with_point_xyzircaedt(*cloud) &&
-    !is_data_layout_compatible_with_point_xyzirc(*cloud)) 
-  {
+    !is_data_layout_compatible_with_point_xyzirc(*cloud)) {
     RCLCPP_ERROR(
       get_logger(),
       "The pointcloud layout is not compatible with PointXYZIRCAEDT or PointXYZIRC. Aborting");
@@ -227,13 +210,12 @@ void CropBoxFilter::pointcloud_callback(const PointCloud2ConstPtr cloud)
     "received.",
     cloud->width * cloud->height, cloud->header.frame_id.c_str());
   // pointcloud check finished
-  
+
   // pointcloud processing
   auto output = PointCloud2();
 
   std::scoped_lock lock(mutex_);
   stop_watch_ptr_->toc("processing_time", true);
-
 
   int x_offset = cloud->fields[pcl::getFieldIndex(*cloud, "x")].offset;
   int y_offset = cloud->fields[pcl::getFieldIndex(*cloud, "y")].offset;
@@ -246,8 +228,7 @@ void CropBoxFilter::pointcloud_callback(const PointCloud2ConstPtr cloud)
 
   // pointcloud processing loop
   for (size_t global_offset = 0; global_offset + cloud->point_step <= cloud->data.size();
-       global_offset += cloud->point_step) 
-  {
+       global_offset += cloud->point_step) {
     Eigen::Vector4f point;
     Eigen::Vector4f point_preprocessed;
     std::memcpy(&point[0], &cloud->data[global_offset + x_offset], sizeof(float));
@@ -270,12 +251,9 @@ void CropBoxFilter::pointcloud_callback(const PointCloud2ConstPtr cloud)
                            point[1] > param_.min_y && point[1] < param_.max_y &&
                            point[0] > param_.min_x && point[0] < param_.max_x;
     if ((!param_.negative && point_is_inside) || (param_.negative && !point_is_inside)) {
-      
       // apply post-transform if needed
-      if(need_postprocess_transform_)
-      {
-        if(need_preprocess_transform_)
-        {
+      if (need_postprocess_transform_) {
+        if (need_preprocess_transform_) {
           Eigen::Vector4f point_postprocessed = eigen_transform_postprocess_ * point_preprocessed;
 
           memcpy(&output.data[output_size], &cloud->data[global_offset], cloud->point_step);
@@ -283,9 +261,8 @@ void CropBoxFilter::pointcloud_callback(const PointCloud2ConstPtr cloud)
           std::memcpy(&output.data[output_size + x_offset], &point_postprocessed[0], sizeof(float));
           std::memcpy(&output.data[output_size + y_offset], &point_postprocessed[1], sizeof(float));
           std::memcpy(&output.data[output_size + z_offset], &point_postprocessed[2], sizeof(float));
-          
-        }else
-        {
+
+        } else {
           Eigen::Vector4f point_postprocessed = eigen_transform_postprocess_ * point;
 
           memcpy(&output.data[output_size], &cloud->data[global_offset], cloud->point_step);
@@ -294,9 +271,7 @@ void CropBoxFilter::pointcloud_callback(const PointCloud2ConstPtr cloud)
           std::memcpy(&output.data[output_size + y_offset], &point_postprocessed[1], sizeof(float));
           std::memcpy(&output.data[output_size + z_offset], &point_postprocessed[2], sizeof(float));
         }
-      }
-      else
-      {  
+      } else {
         memcpy(&output.data[output_size], &cloud->data[global_offset], cloud->point_step);
 
         if (need_preprocess_transform_) {
@@ -329,8 +304,7 @@ void CropBoxFilter::pointcloud_callback(const PointCloud2ConstPtr cloud)
   output.row_step = static_cast<uint32_t>(output.data.size() / output.height);
 
   // publish polygon if subscribers exist
-  if(crop_box_polygon_pub_->get_subscription_count() > 0)
-  {
+  if (crop_box_polygon_pub_->get_subscription_count() > 0) {
     publish_crop_box_polygon();
   }
 
@@ -423,7 +397,8 @@ rcl_interfaces::msg::SetParametersResult CropBoxFilter::param_callback(
   new_param.max_x = get_param(p, "max_x", new_param.max_x) ? new_param.max_x : param_.max_x;
   new_param.max_y = get_param(p, "max_y", new_param.max_y) ? new_param.max_y : param_.max_y;
   new_param.max_z = get_param(p, "max_z", new_param.max_z) ? new_param.max_z : param_.max_z;
-  new_param.negative = get_param(p, "negative", new_param.negative) ? new_param.negative : param_.negative;
+  new_param.negative =
+    get_param(p, "negative", new_param.negative) ? new_param.negative : param_.negative;
 
   param_ = new_param;
 
@@ -624,7 +599,7 @@ bool CropBoxFilter::is_data_layout_compatible_with_point_xyzircaedt(const PointC
   return same_layout;
 }
 
-bool CropBoxFilter::is_valid( const PointCloud2ConstPtr & cloud)
+bool CropBoxFilter::is_valid(const PointCloud2ConstPtr & cloud)
 {
   if (cloud->width * cloud->height * cloud->point_step != cloud->data.size()) {
     RCLCPP_WARN(
