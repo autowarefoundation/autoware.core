@@ -1,5 +1,5 @@
 // Copyright(c) 2025 AutoCore Technology (Nanjing) Co., Ltd. All rights reserved.
-
+//
 // Copyright 2024 TIER IV, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -52,11 +52,10 @@
  */
 
 #include "autoware/crop_box_filter/crop_box_filter_node.hpp"
-
-#include <sensor_msgs/point_cloud2_iterator.hpp>
-
 #include <memory>
 #include <vector>
+#include <string>
+#include <utility>
 
 namespace autoware::crop_box_filter
 {
@@ -191,7 +190,7 @@ CropBoxFilter::CropBoxFilter(const rclcpp::NodeOptions & node_options)
 
 void CropBoxFilter::pointcloud_callback(const PointCloud2ConstPtr cloud)
 {
-  // chechk if the pointcloud is valid
+  // check whether the pointcloud is valid
   if (
     !is_data_layout_compatible_with_point_xyzircaedt(*cloud) &&
     !is_data_layout_compatible_with_point_xyzirc(*cloud)) 
