@@ -1,5 +1,5 @@
 // Copyright(c) 2025 AutoCore Technology (Nanjing) Co., Ltd. All rights reserved.
-
+//
 // Copyright 2020 Tier IV, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -57,6 +57,7 @@
 
 #include <geometry_msgs/msg/polygon_stamped.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
+#include <sensor_msgs/point_cloud2_iterator.hpp>
 
 #include <autoware_utils/ros/debug_publisher.hpp>
 #include <autoware_utils/ros/managed_transform_buffer.hpp>
@@ -65,12 +66,10 @@
 
 #include <autoware/point_types/types.hpp>
 
+#include <memory>
 #include <vector>
-
-namespace autoware::crop_box_filter
-{
-class CropBoxFilter : public rclcpp::Node
-{
+#include <string>
+#include <utility>
 
 using PointCloud2 = sensor_msgs::msg::PointCloud2;
 using PointCloud2ConstPtr = sensor_msgs::msg::PointCloud2::ConstSharedPtr;
@@ -79,9 +78,15 @@ using PointCloud = pcl::PointCloud<pcl::PointXYZ>;
 using PointCloudPtr = PointCloud::Ptr;
 using PointCloudConstPtr = PointCloud::ConstPtr;
 
+namespace autoware::crop_box_filter
+{
+
+class CropBoxFilter : public rclcpp::Node
+{
+
 private:
 
-  // member variable declearation & definitions *************************************
+  // member variable declaration & definitions *************************************
 
   /** \brief The managed transform buffer. */
   std::unique_ptr<autoware_utils::ManagedTransformBuffer> managed_tf_buffer_{nullptr};
@@ -123,7 +128,7 @@ private:
   /** \brief Parameter service callback result : needed to be hold */
   OnSetParametersCallbackHandle::SharedPtr set_param_res_;
 
-  // publiser and subscriber declaration *********************
+  // publisher and subscriber declaration *********************
 
   /** \brief The input PointCloud2 subscriber. */
   rclcpp::Subscription<PointCloud2>::SharedPtr sub_input_;
@@ -181,6 +186,7 @@ private:
 public:
   PCL_MAKE_ALIGNED_OPERATOR_NEW
   explicit CropBoxFilter(const rclcpp::NodeOptions & options);
+  void pointcloud_filter(const PointCloud2ConstPtr & cloud, PointCloud2 & output);
 };
 }  // namespace autoware::crop_box_filter
 

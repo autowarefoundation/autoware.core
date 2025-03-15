@@ -1,5 +1,5 @@
 // Copyright(c) 2025 AutoCore Technology (Nanjing) Co., Ltd. All rights reserved.
-
+//
 // Copyright 2024 TIER IV, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -52,11 +52,10 @@
  */
 
 #include "autoware/crop_box_filter/crop_box_filter_node.hpp"
-
-#include <sensor_msgs/point_cloud2_iterator.hpp>
-
 #include <memory>
 #include <vector>
+#include <string>
+#include <utility>
 
 namespace autoware::crop_box_filter
 {
@@ -75,7 +74,7 @@ CropBoxFilter::CropBoxFilter(const rclcpp::NodeOptions & node_options)
     published_time_publisher_ = std::make_unique<autoware_utils::PublishedTimePublisher>(this);
   }
 
-  max_queue_size_ = static_cast<std::size_t>(declare_parameter("max_queue_size", 5));
+  max_queue_size_ = static_cast<int64_t>(declare_parameter("max_queue_size", 5));
 
   // get transform info for pointcloud
   {
@@ -141,12 +140,12 @@ CropBoxFilter::CropBoxFilter(const rclcpp::NodeOptions & node_options)
   // get polygon parameters
   {
     auto & p = param_;
-    p.min_x = declare_parameter<float>("min_x");
-    p.min_y = declare_parameter<float>("min_y");
-    p.min_z = declare_parameter<float>("min_z");
-    p.max_x = declare_parameter<float>("max_x");
-    p.max_y = declare_parameter<float>("max_y");
-    p.max_z = declare_parameter<float>("max_z");
+    p.min_x = declare_parameter<double>("min_x");
+    p.min_y = declare_parameter<double>("min_y");
+    p.min_z = declare_parameter<double>("min_z");
+    p.max_x = declare_parameter<double>("max_x");
+    p.max_y = declare_parameter<double>("max_y");
+    p.max_z = declare_parameter<double>("max_z");
     p.negative = declare_parameter<bool>("negative");
     if (tf_input_frame_.empty()) {
       throw std::invalid_argument("Crop box requires non-empty input_frame");
@@ -186,56 +185,8 @@ CropBoxFilter::CropBoxFilter(const rclcpp::NodeOptions & node_options)
   RCLCPP_DEBUG(this->get_logger(), "[Filter Constructor] successfully created.");
 }
 
-
-
-
-void CropBoxFilter::pointcloud_callback(const PointCloud2ConstPtr cloud)
+void CropBoxFilter::pointcloud_filter(const PointCloud2ConstPtr & cloud, PointCloud2 & output)
 {
-  // chechk if the pointcloud is valid
-  if (
-    !is_data_layout_compatible_with_point_xyzircaedt(*cloud) &&
-    !is_data_layout_compatible_with_point_xyzirc(*cloud)) 
-  {
-    RCLCPP_ERROR(
-      get_logger(),
-      "The pointcloud layout is not compatible with PointXYZIRCAEDT or PointXYZIRC. Aborting");
-
-    if (is_data_layout_compatible_with_point_xyziradrt(*cloud)) {
-      RCLCPP_ERROR(
-        get_logger(),
-        "The pointcloud layout is compatible with PointXYZIRADRT. You may be using legacy "
-        "code/data");
-    }
-
-    if (is_data_layout_compatible_with_point_xyzi(*cloud)) {
-      RCLCPP_ERROR(
-        get_logger(),
-        "The pointcloud layout is compatible with PointXYZI. You may be using legacy "
-        "code/data");
-    }
-
-    return;
-  }
-
-  if (!is_valid(cloud)) {
-    RCLCPP_ERROR(this->get_logger(), "[input_pointcloud_callback] Invalid input pointcloud!");
-    return;
-  }
-
-  RCLCPP_DEBUG(
-    this->get_logger(),
-    "[input_pointcloud_callback] PointCloud with %d data points and frame %s on input topic "
-    "received.",
-    cloud->width * cloud->height, cloud->header.frame_id.c_str());
-  // pointcloud check finished
-  
-  // pointcloud processing
-  auto output = PointCloud2();
-
-  std::scoped_lock lock(mutex_);
-  stop_watch_ptr_->toc("processing_time", true);
-
-
   int x_offset = cloud->fields[pcl::getFieldIndex(*cloud, "x")].offset;
   int y_offset = cloud->fields[pcl::getFieldIndex(*cloud, "y")].offset;
   int z_offset = cloud->fields[pcl::getFieldIndex(*cloud, "z")].offset;
@@ -249,27 +200,30 @@ void CropBoxFilter::pointcloud_callback(const PointCloud2ConstPtr cloud)
   for (size_t global_offset = 0; global_offset + cloud->point_step <= cloud->data.size();
        global_offset += cloud->point_step) 
   {
+    // extract point data from point cloud data buffer
     Eigen::Vector4f point;
-    Eigen::Vector4f point_preprocessed;
+    
     std::memcpy(&point[0], &cloud->data[global_offset + x_offset], sizeof(float));
     std::memcpy(&point[1], &cloud->data[global_offset + y_offset], sizeof(float));
     std::memcpy(&point[2], &cloud->data[global_offset + z_offset], sizeof(float));
     point[3] = 1;
-    point_preprocessed[3] = 1;
 
     if (!std::isfinite(point[0]) || !std::isfinite(point[1]) || !std::isfinite(point[2])) {
       skipped_count++;
       continue;
     }
 
+    // preprocess point for filtering
+    Eigen::Vector4f point_preprocessed = point;
+
     // apply pre-transform if needed
     if (need_preprocess_transform_) {
       point_preprocessed = eigen_transform_preprocess_ * point;
     }
 
-    bool point_is_inside = point[2] > param_.min_z && point[2] < param_.max_z &&
-                           point[1] > param_.min_y && point[1] < param_.max_y &&
-                           point[0] > param_.min_x && point[0] < param_.max_x;
+    bool point_is_inside = point_preprocessed[2] > param_.min_z && point_preprocessed[2] < param_.max_z &&
+                            point_preprocessed[1] > param_.min_y && point_preprocessed[1] < param_.max_y &&
+                            point_preprocessed[0] > param_.min_x && point_preprocessed[0] < param_.max_x;
     if ((!param_.negative && point_is_inside) || (param_.negative && !point_is_inside)) {
       
       // apply post-transform if needed
@@ -321,6 +275,8 @@ void CropBoxFilter::pointcloud_callback(const PointCloud2ConstPtr cloud)
 
   output.header.frame_id = tf_output_frame_;
 
+  output.header.stamp = cloud->header.stamp;
+
   output.height = 1;
   output.fields = cloud->fields;
   output.is_bigendian = cloud->is_bigendian;
@@ -328,6 +284,31 @@ void CropBoxFilter::pointcloud_callback(const PointCloud2ConstPtr cloud)
   output.is_dense = cloud->is_dense;
   output.width = static_cast<uint32_t>(output.data.size() / output.height / output.point_step);
   output.row_step = static_cast<uint32_t>(output.data.size() / output.height);
+}
+
+void CropBoxFilter::pointcloud_callback(const PointCloud2ConstPtr cloud)
+{
+  // check whether the pointcloud is valid
+  if (!is_valid(cloud)) {
+    RCLCPP_ERROR(this->get_logger(), "[input_pointcloud_callback] Invalid input pointcloud!");
+    return;
+  }
+
+  RCLCPP_DEBUG(
+    this->get_logger(),
+    "[input_pointcloud_callback] PointCloud with %d data points and frame %s on input topic "
+    "received.",
+    cloud->width * cloud->height, cloud->header.frame_id.c_str());
+  // pointcloud check finished
+  
+  // pointcloud processing
+  auto output = PointCloud2();
+
+  std::scoped_lock lock(mutex_);
+  stop_watch_ptr_->toc("processing_time", true);
+
+  // filtering
+  pointcloud_filter( cloud, output);
 
   // publish polygon if subscribers exist
   if(crop_box_polygon_pub_->get_subscription_count() > 0)
@@ -354,7 +335,6 @@ void CropBoxFilter::pointcloud_callback(const PointCloud2ConstPtr cloud)
   }
 
   // publish result pointcloud
-  output.header.stamp = cloud->header.stamp;
   pub_output_->publish(std::move(output));
   published_time_publisher_->publish_if_subscribed(pub_output_, cloud->header.stamp);
 }
@@ -627,6 +607,33 @@ bool CropBoxFilter::is_data_layout_compatible_with_point_xyzircaedt(const PointC
 
 bool CropBoxFilter::is_valid( const PointCloud2ConstPtr & cloud)
 {
+  // firstly check the fields of the point cloud
+  if (
+    !is_data_layout_compatible_with_point_xyzircaedt(*cloud) &&
+    !is_data_layout_compatible_with_point_xyzirc(*cloud)) 
+  {
+    RCLCPP_ERROR(
+      get_logger(),
+      "The pointcloud layout is not compatible with PointXYZIRCAEDT or PointXYZIRC. Aborting");
+
+    if (is_data_layout_compatible_with_point_xyziradrt(*cloud)) {
+      RCLCPP_ERROR(
+        get_logger(),
+        "The pointcloud layout is compatible with PointXYZIRADRT. You may be using legacy "
+        "code/data");
+    }
+
+    if (is_data_layout_compatible_with_point_xyzi(*cloud)) {
+      RCLCPP_ERROR(
+        get_logger(),
+        "The pointcloud layout is compatible with PointXYZI. You may be using legacy "
+        "code/data");
+    }
+
+    return false;
+  }
+
+  // secondly, verify the total size of the point cloud
   if (cloud->width * cloud->height * cloud->point_step != cloud->data.size()) {
     RCLCPP_WARN(
       this->get_logger(),
