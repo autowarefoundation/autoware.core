@@ -445,12 +445,12 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
 
   const auto s_bound_start_offset = std::max(0., s_offset + s_bound_start);
   const auto s_bound_end_offset = std::max(0., s_offset + s_bound_end);
+  const auto [s_left_bound_range, s_right_bound_range] =
+    utils::calc_bound_s_range(extended_lanelet_sequence, s_bound_start_offset, s_bound_end_offset);
   finalized_path_with_lane_id.left_bound = utils::get_path_bound(
-    extended_lanelet_sequence.leftBound(), extended_lanelet_sequence.centerline2d(),
-    s_bound_start_offset, s_bound_end_offset);
+    extended_lanelet_sequence.leftBound(), s_left_bound_range.first, s_left_bound_range.second);
   finalized_path_with_lane_id.right_bound = utils::get_path_bound(
-    extended_lanelet_sequence.rightBound(), extended_lanelet_sequence.centerline2d(),
-    s_bound_start_offset, s_bound_end_offset);
+    extended_lanelet_sequence.rightBound(), s_right_bound_range.first, s_right_bound_range.second);
 
   return finalized_path_with_lane_id;
 }
