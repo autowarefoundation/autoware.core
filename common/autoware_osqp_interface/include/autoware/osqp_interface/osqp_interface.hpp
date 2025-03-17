@@ -32,7 +32,6 @@ namespace autoware::osqp_interface
 {
 constexpr c_float INF = 1e30;
 
-
 struct OSQPResult
 {
   std::vector<double> primal_solution;

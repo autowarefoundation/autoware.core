@@ -359,12 +359,11 @@ int64_t OSQPInterface::initializeProblem(
   return m_exitflag;
 }
 
-OSQPResult
-OSQPInterface::solve()
+OSQPResult OSQPInterface::solve()
 {
   // Solve Problem
   int32_t exit_flag = osqp_solve(m_work.get());
-  
+
   /********************
    * EXTRACT SOLUTION
    ********************/
@@ -392,16 +391,14 @@ OSQPInterface::solve()
   return result;
 }
 
-OSQPResult
-OSQPInterface::optimize()
+OSQPResult OSQPInterface::optimize()
 {
   // Run the solver on the stored problem representation.
   OSQPResult result = solve();
   return result;
 }
 
-OSQPResult
-OSQPInterface::optimize(
+OSQPResult OSQPInterface::optimize(
   const Eigen::MatrixXd & P, const Eigen::MatrixXd & A, const std::vector<double> & q,
   const std::vector<double> & l, const std::vector<double> & u)
 {

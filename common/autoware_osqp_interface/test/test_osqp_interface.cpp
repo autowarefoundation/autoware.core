@@ -72,8 +72,7 @@ TEST(TestOsqpInterface, BasicQp)
   {
     // Define problem during optimization
     autoware::osqp_interface::OSQPInterface osqp;
-    autoware::osqp_interface::OSQPResult result =
-      osqp.optimize(P, A, q, l, u);
+    autoware::osqp_interface::OSQPResult result = osqp.optimize(P, A, q, l, u);
     check_result(result);
   }
 

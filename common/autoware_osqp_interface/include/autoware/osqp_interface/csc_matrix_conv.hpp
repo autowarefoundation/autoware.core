@@ -33,7 +33,7 @@ struct OSQP_INTERFACE_PUBLIC CSC_Matrix
   std::vector<c_int> m_row_idxs;
   /// Vector of 'val' indices where each column starts. Ex: [0, 2, 4] (Eigen: 'outer')
   std::vector<c_int> m_col_idxs;
-  
+
   friend std::ostream & operator<<(std::ostream & os, const CSC_Matrix & matrix)
   {
     os << "CSC_Matrix: {\n";
