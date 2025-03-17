@@ -49,7 +49,7 @@ public:
   Trajectory & operator=(const Trajectory & rhs);
   Trajectory & operator=(Trajectory && rhs) = default;
 
-  std::vector<double> get_internal_bases() const override;
+  std::vector<double> get_underlying_bases() const override;
 
   detail::InterpolatedArray<double> & longitudinal_velocity_mps()
   {

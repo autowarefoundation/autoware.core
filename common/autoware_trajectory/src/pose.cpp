@@ -53,7 +53,7 @@ Trajectory<PointType>::Trajectory(const Trajectory<geometry_msgs::msg::Point> & 
   x_interpolator_ = point_trajectory.x_interpolator_->clone();
   y_interpolator_ = point_trajectory.y_interpolator_->clone();
   z_interpolator_ = point_trajectory.z_interpolator_->clone();
-  bases_ = point_trajectory.get_internal_bases();
+  bases_ = point_trajectory.get_underlying_bases();
   start_ = point_trajectory.start_;
   end_ = point_trajectory.end_;
 
@@ -98,7 +98,7 @@ interpolator::InterpolationResult Trajectory<PointType>::build(
   return interpolator::InterpolationSuccess{};
 }
 
-std::vector<double> Trajectory<PointType>::get_internal_bases() const
+std::vector<double> Trajectory<PointType>::get_underlying_bases() const
 {
   auto bases = detail::crop_bases(bases_, start_, end_);
   std::transform(
@@ -175,7 +175,7 @@ void Trajectory<PointType>::align_orientation_with_trajectory_direction()
 
 std::vector<PointType> Trajectory<PointType>::restore(const size_t min_points) const
 {
-  auto bases = get_internal_bases();
+  auto bases = get_underlying_bases();
   bases = detail::fill_bases(bases, min_points);
   std::vector<PointType> points;
   points.reserve(bases.size());

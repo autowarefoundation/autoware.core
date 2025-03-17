@@ -117,7 +117,7 @@ double Trajectory<PointType>::clamp(const double s, bool show_warning) const
   return std::clamp(s, 0.0, length()) + start_;
 }
 
-std::vector<double> Trajectory<PointType>::get_internal_bases() const
+std::vector<double> Trajectory<PointType>::get_underlying_bases() const
 {
   auto bases = detail::crop_bases(bases_, start_, end_);
   std::transform(
@@ -167,7 +167,7 @@ double Trajectory<PointType>::curvature(const double s) const
 
 std::vector<PointType> Trajectory<PointType>::restore(const size_t min_points) const
 {
-  auto bases = get_internal_bases();
+  auto bases = get_underlying_bases();
   bases = detail::fill_bases(bases, min_points);
   std::vector<PointType> points;
   points.reserve(bases.size());
