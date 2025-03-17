@@ -16,7 +16,9 @@
 #define AUTOWARE__TRAJECTORY__POINT_HPP_
 
 #include "autoware/trajectory/forward.hpp"
+#include "autoware/trajectory/interpolator/cubic_spline.hpp"
 #include "autoware/trajectory/interpolator/interpolator.hpp"
+#include "autoware/trajectory/interpolator/linear.hpp"
 
 #include <Eigen/Dense>
 
@@ -60,7 +62,7 @@ protected:
   double clamp(const double s, bool show_warning = false) const;
 
 public:
-  Trajectory();
+  Trajectory() = default;
   virtual ~Trajectory() = default;
   Trajectory(const Trajectory & rhs);
   Trajectory(Trajectory && rhs) = default;
@@ -128,7 +130,14 @@ public:
     std::unique_ptr<Trajectory> trajectory_;
 
   public:
-    Builder() : trajectory_(std::make_unique<Trajectory>()) {}
+    Builder() : trajectory_(std::make_unique<Trajectory>()) { defaults(trajectory_.get()); }
+
+    static void defaults(Trajectory * trajectory)
+    {
+      trajectory->x_interpolator_ = std::make_shared<interpolator::CubicSpline>();
+      trajectory->y_interpolator_ = std::make_shared<interpolator::CubicSpline>();
+      trajectory->z_interpolator_ = std::make_shared<interpolator::Linear>();
+    }
 
     template <class InterpolatorType, class... Args>
     Builder & set_xy_interpolator(Args &&... args)

@@ -16,6 +16,7 @@
 #define AUTOWARE__TRAJECTORY__POSE_HPP_
 
 #include "autoware/trajectory/interpolator/interpolator.hpp"
+#include "autoware/trajectory/interpolator/spherical_linear.hpp"
 #include "autoware/trajectory/point.hpp"
 
 #include <geometry_msgs/msg/pose.hpp>
@@ -42,7 +43,7 @@ protected:
     orientation_interpolator_;  //!< Interpolator for orientations
 
 public:
-  Trajectory();
+  Trajectory() = default;
   ~Trajectory() override = default;
   Trajectory(const Trajectory & rhs);
   Trajectory(Trajectory && rhs) = default;
@@ -78,13 +79,19 @@ public:
    */
   void align_orientation_with_trajectory_direction();
 
-  class Builder
+  class Builder : public BaseClass::Builder
   {
   private:
     std::unique_ptr<Trajectory> trajectory_;
 
   public:
-    Builder() : trajectory_(std::make_unique<Trajectory>()) {}
+    Builder() : trajectory_(std::make_unique<Trajectory>()) { defaults(trajectory_.get()); }
+
+    static void defaults(Trajectory * trajectory)
+    {
+      BaseClass::Builder::defaults(trajectory);
+      trajectory->orientation_interpolator_ = std::make_shared<interpolator::SphericalLinear>();
+    }
 
     template <class InterpolatorType, class... Args>
     Builder & set_xy_interpolator(Args &&... args)

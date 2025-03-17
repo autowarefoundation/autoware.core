@@ -17,6 +17,7 @@
 
 #include "autoware/trajectory/detail/interpolated_array.hpp"
 #include "autoware/trajectory/interpolator/result.hpp"
+#include "autoware/trajectory/interpolator/stairstep.hpp"
 #include "autoware/trajectory/pose.hpp"
 
 #include <autoware_planning_msgs/msg/path_point.hpp>
@@ -42,7 +43,7 @@ class Trajectory<autoware_planning_msgs::msg::PathPoint>
     heading_rate_rps_;  //!< Heading rate in rad/s};
 
 public:
-  Trajectory();
+  Trajectory() = default;
   ~Trajectory() override = default;
   Trajectory(const Trajectory & rhs);
   Trajectory(Trajectory && rhs) = default;
@@ -93,13 +94,24 @@ public:
    */
   std::vector<PointType> restore(const size_t min_points = 4) const;
 
-  class Builder
+  class Builder : BaseClass::Builder
   {
   private:
     std::unique_ptr<Trajectory> trajectory_;
 
   public:
-    Builder() : trajectory_(std::make_unique<Trajectory>()) {}
+    Builder() : trajectory_(std::make_unique<Trajectory>()) { defaults(trajectory_.get()); }
+
+    static void defaults(Trajectory * trajectory)
+    {
+      BaseClass::Builder::defaults(trajectory);
+      trajectory->longitudinal_velocity_mps_ = std::make_shared<detail::InterpolatedArray<double>>(
+        std::make_shared<interpolator::Stairstep<double>>());
+      trajectory->lateral_velocity_mps_ = std::make_shared<detail::InterpolatedArray<double>>(
+        std::make_shared<interpolator::Stairstep<double>>());
+      trajectory->heading_rate_rps_ = std::make_shared<detail::InterpolatedArray<double>>(
+        std::make_shared<interpolator::Stairstep<double>>());
+    }
 
     template <class InterpolatorType, class... Args>
     Builder & set_xy_interpolator(Args &&... args)

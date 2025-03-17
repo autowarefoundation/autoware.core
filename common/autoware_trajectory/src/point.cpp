@@ -15,8 +15,6 @@
 #include "autoware/trajectory/point.hpp"
 
 #include "autoware/trajectory/detail/helpers.hpp"
-#include "autoware/trajectory/interpolator/cubic_spline.hpp"
-#include "autoware/trajectory/interpolator/linear.hpp"
 
 #include <Eigen/Core>
 #include <rclcpp/logging.hpp>
@@ -32,13 +30,6 @@ namespace autoware::trajectory
 {
 
 using PointType = geometry_msgs::msg::Point;
-
-Trajectory<PointType>::Trajectory()
-: x_interpolator_(std::make_shared<interpolator::CubicSpline>()),
-  y_interpolator_(std::make_shared<interpolator::CubicSpline>()),
-  z_interpolator_(std::make_shared<interpolator::Linear>())
-{
-}
 
 Trajectory<PointType>::Trajectory(const Trajectory & rhs)
 : x_interpolator_(rhs.x_interpolator_->clone()),

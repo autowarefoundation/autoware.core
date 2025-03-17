@@ -16,7 +16,6 @@
 
 #include "autoware/trajectory/detail/helpers.hpp"
 #include "autoware/trajectory/forward.hpp"
-#include "autoware/trajectory/interpolator/spherical_linear.hpp"
 
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2/LinearMath/Vector3.h>
@@ -27,11 +26,6 @@
 namespace autoware::trajectory
 {
 using PointType = geometry_msgs::msg::Pose;
-
-Trajectory<PointType>::Trajectory()
-: orientation_interpolator_(std::make_shared<interpolator::SphericalLinear>())
-{
-}
 
 Trajectory<PointType>::Trajectory(const Trajectory & rhs)
 : BaseClass(rhs), orientation_interpolator_(rhs.orientation_interpolator_->clone())

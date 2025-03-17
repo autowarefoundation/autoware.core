@@ -31,22 +31,6 @@ namespace autoware::trajectory
 
 using PointType = autoware_planning_msgs::msg::TrajectoryPoint;
 
-Trajectory<PointType>::Trajectory()
-: longitudinal_velocity_mps_(std::make_shared<detail::InterpolatedArray<double>>(
-    std::make_shared<interpolator::Stairstep<double>>())),
-  lateral_velocity_mps_(std::make_shared<detail::InterpolatedArray<double>>(
-    std::make_shared<interpolator::Stairstep<double>>())),
-  heading_rate_rps_(std::make_shared<detail::InterpolatedArray<double>>(
-    std::make_shared<interpolator::Stairstep<double>>())),
-  acceleration_mps2_(std::make_shared<detail::InterpolatedArray<double>>(
-    std::make_shared<interpolator::Stairstep<double>>())),
-  front_wheel_angle_rad_(std::make_shared<detail::InterpolatedArray<double>>(
-    std::make_shared<interpolator::Stairstep<double>>())),
-  rear_wheel_angle_rad_(std::make_shared<detail::InterpolatedArray<double>>(
-    std::make_shared<interpolator::Stairstep<double>>()))
-{
-}
-
 Trajectory<PointType>::Trajectory(const Trajectory & rhs)
 : BaseClass(rhs),
   longitudinal_velocity_mps_(

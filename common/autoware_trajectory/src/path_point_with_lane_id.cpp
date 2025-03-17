@@ -15,7 +15,6 @@
 #include "autoware/trajectory/path_point_with_lane_id.hpp"
 
 #include "autoware/trajectory/detail/helpers.hpp"
-#include "autoware/trajectory/interpolator/stairstep.hpp"
 
 #include <memory>
 #include <utility>
@@ -25,12 +24,6 @@ namespace autoware::trajectory
 {
 
 using PointType = autoware_internal_planning_msgs::msg::PathPointWithLaneId;
-
-Trajectory<PointType>::Trajectory()
-: lane_ids_(std::make_shared<detail::InterpolatedArray<LaneIdType>>(
-    std::make_shared<interpolator::Stairstep<LaneIdType>>()))
-{
-}
 
 Trajectory<PointType> & Trajectory<PointType>::operator=(const Trajectory & rhs)
 {

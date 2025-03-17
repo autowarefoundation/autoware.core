@@ -16,6 +16,7 @@
 #define AUTOWARE__TRAJECTORY__TRAJECTORY_POINT_HPP_
 
 #include "autoware/trajectory/detail/interpolated_array.hpp"
+#include "autoware/trajectory/interpolator/stairstep.hpp"
 #include "autoware/trajectory/pose.hpp"
 
 #include <autoware_planning_msgs/msg/trajectory.hpp>
@@ -47,7 +48,7 @@ class Trajectory<autoware_planning_msgs::msg::TrajectoryPoint>
     rear_wheel_angle_rad_;  //!< Rear wheel angle in rad} Warning, this is not used
 
 public:
-  Trajectory();
+  Trajectory() = default;
   ~Trajectory() override = default;
   Trajectory(const Trajectory & rhs);
   Trajectory(Trajectory && rhs) = default;
@@ -119,13 +120,30 @@ public:
    */
   std::vector<PointType> restore(const size_t min_points = 4) const;
 
-  class Builder
+  class Builder : public BaseClass::Builder
   {
   private:
     std::unique_ptr<Trajectory> trajectory_;
 
   public:
-    Builder() : trajectory_(std::make_unique<Trajectory>()) {}
+    Builder() : trajectory_(std::make_unique<Trajectory>()) { defaults(trajectory_.get()); }
+
+    static void defaults(Trajectory * trajectory)
+    {
+      BaseClass::Builder::defaults(trajectory);
+      trajectory->longitudinal_velocity_mps_ = std::make_shared<detail::InterpolatedArray<double>>(
+        std::make_shared<interpolator::Stairstep<double>>());
+      trajectory->lateral_velocity_mps_ = std::make_shared<detail::InterpolatedArray<double>>(
+        std::make_shared<interpolator::Stairstep<double>>());
+      trajectory->heading_rate_rps_ = std::make_shared<detail::InterpolatedArray<double>>(
+        std::make_shared<interpolator::Stairstep<double>>());
+      trajectory->acceleration_mps2_ = std::make_shared<detail::InterpolatedArray<double>>(
+        std::make_shared<interpolator::Stairstep<double>>());
+      trajectory->front_wheel_angle_rad_ = std::make_shared<detail::InterpolatedArray<double>>(
+        std::make_shared<interpolator::Stairstep<double>>());
+      trajectory->rear_wheel_angle_rad_ = std::make_shared<detail::InterpolatedArray<double>>(
+        std::make_shared<interpolator::Stairstep<double>>());
+    }
 
     template <class InterpolatorType, class... Args>
     Builder & set_xy_interpolator(Args &&... args)

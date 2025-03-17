@@ -15,6 +15,7 @@
 #ifndef AUTOWARE__TRAJECTORY__PATH_POINT_WITH_LANE_ID_HPP_
 #define AUTOWARE__TRAJECTORY__PATH_POINT_WITH_LANE_ID_HPP_
 
+#include "autoware/trajectory/interpolator/stairstep.hpp"
 #include "autoware/trajectory/path_point.hpp"
 
 #include <autoware_internal_planning_msgs/msg/path_point_with_lane_id.hpp>
@@ -36,7 +37,7 @@ class Trajectory<autoware_internal_planning_msgs::msg::PathPointWithLaneId>
   std::shared_ptr<detail::InterpolatedArray<LaneIdType>> lane_ids_;  //!< Lane ID
 
 public:
-  Trajectory();
+  Trajectory() = default;
   ~Trajectory() override = default;
   Trajectory(const Trajectory & rhs) = default;
   Trajectory(Trajectory && rhs) = default;
@@ -70,13 +71,20 @@ public:
    */
   std::vector<PointType> restore(const size_t min_points = 4) const;
 
-  class Builder
+  class Builder : public BaseClass::Builder
   {
   private:
     std::unique_ptr<Trajectory> trajectory_;
 
   public:
-    Builder() : trajectory_(std::make_unique<Trajectory>()) {}
+    Builder() : trajectory_(std::make_unique<Trajectory>()) { defaults(trajectory_.get()); }
+
+    static void defaults(Trajectory * trajectory)
+    {
+      BaseClass::Builder::defaults(trajectory);
+      trajectory->lane_ids_ = std::make_shared<detail::InterpolatedArray<LaneIdType>>(
+        std::make_shared<interpolator::Stairstep<LaneIdType>>());
+    }
 
     template <class InterpolatorType, class... Args>
     Builder & set_xy_interpolator(Args &&... args)
