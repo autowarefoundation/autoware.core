@@ -14,9 +14,12 @@
 
 #include "autoware/trajectory/pose.hpp"
 
+#include <autoware/pyplot/pyplot.hpp>
+
 #include <geometry_msgs/msg/pose.hpp>
 
-#include <matplotlibcpp17/pyplot.h>
+#include <pybind11/embed.h>
+#include <pybind11/stl.h>
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2/LinearMath/Vector3.h>
 
@@ -35,7 +38,7 @@ int main()
 {
   pybind11::scoped_interpreter guard{};
 
-  auto plt = matplotlibcpp17::pyplot::import();
+  auto plt = autoware::pyplot::import();
 
   std::vector<geometry_msgs::msg::Pose> poses = {
     pose(0.49, 0.59), pose(0.61, 1.22), pose(0.86, 1.93), pose(1.20, 2.56), pose(1.51, 3.17),
@@ -87,6 +90,7 @@ int main()
   }
 
   plt.axis(Args("equal"));
+  plt.grid();
   plt.legend();
   plt.show();
 }

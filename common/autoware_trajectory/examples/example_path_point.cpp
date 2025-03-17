@@ -16,13 +16,15 @@
 #include "autoware/trajectory/utils/crossed.hpp"
 #include "lanelet2_core/primitives/LineString.h"
 
+#include <autoware/pyplot/pyplot.hpp>
+
 #include <autoware_planning_msgs/msg/path_point.hpp>
 #include <geometry_msgs/msg/point.hpp>
 
 #include <boost/geometry/geometries/linestring.hpp>
 
-#include <Eigen/src/Core/Matrix.h>
-#include <matplotlibcpp17/pyplot.h>
+#include <pybind11/embed.h>
+#include <pybind11/stl.h>
 
 #include <iostream>
 #include <vector>
@@ -42,7 +44,7 @@ int main()
 
   pybind11::scoped_interpreter guard{};
 
-  auto plt = matplotlibcpp17::pyplot::import();
+  auto plt = autoware::pyplot::import();
 
   std::vector<autoware_planning_msgs::msg::PathPoint> points = {
     path_point(0.49, 0.59), path_point(0.61, 1.22), path_point(0.86, 1.93), path_point(1.20, 2.56),
@@ -113,6 +115,7 @@ int main()
   plt.plot(Args(x_stopped, y_stopped), Kwargs("label"_a = "Stopped", "color"_a = "orange"));
 
   plt.axis(Args("equal"));
+  plt.grid();
   plt.legend();
   plt.show();
 }
