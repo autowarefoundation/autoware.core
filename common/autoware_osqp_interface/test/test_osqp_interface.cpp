@@ -160,5 +160,41 @@ TEST(TestOsqpInterface, BasicQp)
     check_result(result);
     EXPECT_EQ(osqp.getTakenIter(), 1);
   }
+
+  // update settings
+  {
+    autoware::osqp_interface::OSQPInterface osqp(P, A, q, l, u, 1e-6);
+
+    osqp.updateP(P);
+    osqp.updateCscP(calCSCMatrixTrapezoidal(P));
+    osqp.updateA(A);
+    osqp.updateCscA(calCSCMatrix(A));
+    osqp.updateQ(q);
+    osqp.updateL(l);
+    osqp.updateU(u);
+    osqp.updateBounds(l, u);
+    osqp.updateEpsAbs(1e-6);
+    osqp.updateEpsRel(1e-6);
+    osqp.updateMaxIter(1000);
+    osqp.updateVerbose(true);
+    osqp.updateRhoInterval(10);
+    osqp.updateRho(0.1);
+    osqp.updateAlpha(1.6);
+    osqp.updateScaling(10);
+    osqp.updatePolish(true);
+    osqp.updatePolishRefinementIteration(10);
+    osqp.updateCheckTermination(1);
+
+    EXPECT_NO_THROW(osqp.optimize());
+  }
+
+  // get status
+  {
+    autoware::osqp_interface::OSQPInterface osqp(P, A, q, l, u, 1e-6);
+    osqp.optimize();
+    osqp.updatePolish(true);
+    EXPECT_EQ(osqp.getStatus(), 1);
+    EXPECT_EQ(osqp.getStatusMessage(), "solved");
+  }
 }
 }  // namespace
