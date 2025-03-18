@@ -273,8 +273,9 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
 
     if (
       const auto s_intersection =
-        utils::get_first_self_intersection_arc_length(lanelet_sequence, s_start, s_end)) {
-      s_end = std::clamp(s_end, 0.0, *s_intersection - vehicle_info_.max_longitudinal_offset_m);
+        utils::get_first_intersection_arc_length(lanelet_sequence, s_start, s_end)) {
+      s_end =
+        std::min(s_end, std::max(0., *s_intersection - vehicle_info_.max_longitudinal_offset_m));
     }
 
     return s_end;
@@ -445,12 +446,10 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
 
   const auto s_bound_start_offset = std::max(0., s_offset + s_bound_start);
   const auto s_bound_end_offset = std::max(0., s_offset + s_bound_end);
-  finalized_path_with_lane_id.left_bound = utils::get_path_bound(
-    extended_lanelet_sequence.leftBound(), extended_lanelet_sequence.centerline2d(),
-    s_bound_start_offset, s_bound_end_offset);
-  finalized_path_with_lane_id.right_bound = utils::get_path_bound(
-    extended_lanelet_sequence.rightBound(), extended_lanelet_sequence.centerline2d(),
-    s_bound_start_offset, s_bound_end_offset);
+  const auto [left_bound, right_bound] =
+    utils::get_path_bounds(extended_lanelet_sequence, s_bound_start_offset, s_bound_end_offset);
+  finalized_path_with_lane_id.left_bound = left_bound;
+  finalized_path_with_lane_id.right_bound = right_bound;
 
   return finalized_path_with_lane_id;
 }
