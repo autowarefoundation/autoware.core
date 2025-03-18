@@ -137,6 +137,16 @@ std::optional<double> get_first_self_intersection_arc_length(
   const lanelet::BasicLineString2d & line_string, const double s_start, const double s_end);
 
 /**
+ * @brief crop line string within specified range
+ * @param line_string target line string
+ * @param s_start longitudinal distance of start of cropped line string
+ * @param s_end longitudinal distance of end of cropped line string
+ * @return cropped line string
+ */
+lanelet::BasicLineString2d crop_basic_line_string(
+  const lanelet::BasicLineString2d & line_string, const double s_start, const double s_end);
+
+/**
  * @brief calculate range of s values for left and right bound of lanelet sequence
  * @param lanelet_sequence target lanelet sequence
  * @param s_start_centerline longitudinal distance of start of centerline

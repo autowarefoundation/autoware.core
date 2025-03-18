@@ -202,46 +202,24 @@ std::optional<double> get_first_self_intersection_arc_length(
     return std::nullopt;
   }
 
-  const lanelet::BasicLineString2d line_string_sliced = [&]() {
-    lanelet::BasicLineString2d result{};
-    double s = 0.;
-    for (size_t i = 1; i < line_string.size(); ++i) {
-      const double segment_length =
-        lanelet::geometry::distance2d(line_string.at(i - 1), line_string.at(i));
-      if (s + segment_length < s_start) {
-        s += segment_length;
-        continue;
-      }
-      // s_start is in this segment, so interpolate the point
-      const double ratio = (s_start - s) / segment_length;
-      lanelet::BasicPoint2d interpolated_point{};
-      interpolated_point.x() =
-        line_string.at(i - 1).x() + ratio * (line_string.at(i).x() - line_string.at(i - 1).x());
-      interpolated_point.y() =
-        line_string.at(i - 1).y() + ratio * (line_string.at(i).y() - line_string.at(i - 1).y());
-      result.push_back(interpolated_point);
-      result.insert(result.end(), line_string.begin() + i, line_string.end());
-      break;
-    }
-    return result;
-  }();
-  if (line_string_sliced.size() < 3) {
+  const auto cropped_line_string = crop_basic_line_string(line_string, s_start, s_end);
+  if (cropped_line_string.size() < 3) {
     return std::nullopt;
   }
 
   std::optional<std::pair<size_t, double>> last_intersection = std::nullopt;
-  const auto tree = lanelet::geometry::internal::makeIndexedSegmenTree(line_string_sliced);
+  const auto tree = lanelet::geometry::internal::makeIndexedSegmenTree(cropped_line_string);
   double s = s_start;
-  for (size_t i = 1; i < line_string_sliced.size() - 1; ++i) {
+  for (size_t i = 1; i < cropped_line_string.size() - 1; ++i) {
     if (last_intersection && i == last_intersection->first) {
       return s + last_intersection->second;
     }
-    s += lanelet::geometry::distance2d(line_string_sliced.at(i - 1), line_string_sliced.at(i));
+    s += lanelet::geometry::distance2d(cropped_line_string.at(i - 1), cropped_line_string.at(i));
     if (s > s_end) {
       break;
     }
     const auto self_intersections = lanelet::geometry::internal::getSelfIntersectionsAt(
-      tree, 0, lanelet::BasicSegment2d{line_string_sliced.at(i - 1), line_string_sliced.at(i)});
+      tree, 0, lanelet::BasicSegment2d{cropped_line_string.at(i - 1), cropped_line_string.at(i)});
     if (self_intersections.empty()) {
       continue;
     }
@@ -250,6 +228,33 @@ std::optional<double> get_first_self_intersection_arc_length(
   }
 
   return std::nullopt;
+}
+
+lanelet::BasicLineString2d crop_basic_line_string(
+  const lanelet::BasicLineString2d & line_string, const double s_start, const double s_end)
+{
+  std::vector<geometry_msgs::msg::Point> line_string_points{};
+  line_string_points.reserve(line_string.size());
+  std::transform(
+    line_string.begin(), line_string.end(), std::back_inserter(line_string_points),
+    [](const auto & point) {
+      geometry_msgs::msg::Point p{};
+      p.x = point.x();
+      p.y = point.y();
+      p.z = 0.0;
+      return p;
+    });
+  auto trajectory = autoware::trajectory::Trajectory<geometry_msgs::msg::Point>::Builder().build(
+    line_string_points);
+  trajectory->crop(s_start, s_end);
+  const auto cropped_line_string_points = trajectory->restore();
+  lanelet::BasicLineString2d cropped_line_string{};
+  cropped_line_string.reserve(cropped_line_string_points.size());
+  std::transform(
+    cropped_line_string_points.begin(), cropped_line_string_points.end(),
+    std::back_inserter(cropped_line_string),
+    [](const auto & point) { return lanelet::BasicPoint2d(point.x, point.y); });
+  return cropped_line_string;
 }
 
 std::vector<std::pair<lanelet::ConstPoints3d, std::pair<double, double>>> get_waypoint_groups(
