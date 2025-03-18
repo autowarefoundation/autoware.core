@@ -76,9 +76,10 @@ protected:
    * @param values The values to interpolate.
    * @return True if the interpolator was built successfully, false otherwise.
    */
-  [[nodiscard]] bool build_impl(std::vector<double> && bases, std::vector<T> && values) override
+  [[nodiscard]] bool build_impl(
+    const std::vector<double> & bases, std::vector<T> && values) override
   {
-    this->bases_ = std::move(bases);
+    this->bases_ = bases;
     this->values_ = std::move(values);
     return true;
   }
