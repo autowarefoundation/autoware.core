@@ -14,7 +14,7 @@
 
 #include "autoware/map_projection_loader/load_info_from_lanelet2_map.hpp"
 
-#include "autoware_map_msgs/msg/map_projector_info.hpp"
+#include <autoware_map_msgs/msg/map_projector_info.hpp>
 
 #include <lanelet2_core/LaneletMap.h>
 #include <lanelet2_core/geometry/LineString.h>
