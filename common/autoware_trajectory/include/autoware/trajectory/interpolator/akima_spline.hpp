@@ -62,7 +62,7 @@ private:
    * @param values The values to interpolate.
    */
   [[nodiscard]] bool build_impl(
-    std::vector<double> && bases, std::vector<double> && values) override;
+    const std::vector<double> & bases, std::vector<double> && values) override;
 
   /**
    * @brief Compute the interpolated value at the given point.

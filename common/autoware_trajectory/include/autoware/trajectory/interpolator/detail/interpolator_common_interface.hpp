@@ -15,7 +15,8 @@
 #ifndef AUTOWARE__TRAJECTORY__INTERPOLATOR__DETAIL__INTERPOLATOR_COMMON_INTERFACE_HPP_
 #define AUTOWARE__TRAJECTORY__INTERPOLATOR__DETAIL__INTERPOLATOR_COMMON_INTERFACE_HPP_
 
-#include <Eigen/Dense>
+#include "autoware/trajectory/interpolator/result.hpp"
+
 #include <rclcpp/logging.hpp>
 
 #include <utility>
@@ -76,7 +77,8 @@ protected:
    * @param bases The bases values.
    * @param values The values to interpolate.
    */
-  [[nodiscard]] virtual bool build_impl(std::vector<double> && bases, std::vector<T> && values) = 0;
+  [[nodiscard]] virtual bool build_impl(
+    const std::vector<double> & bases, std::vector<T> && values) = 0;
 
   /**
    * @brief Validate the input to the compute method.
@@ -141,15 +143,23 @@ public:
     std::conjunction_v<
       std::is_same<std::decay_t<BaseVectorT>, std::vector<double>>,
       std::is_same<std::decay_t<ValueVectorT>, std::vector<T>>>,
-    bool>
+    InterpolationResult>
   {
     if (bases.size() != values.size()) {
-      return false;
+      return tl::unexpected(InterpolationFailure{
+        "base size " + std::to_string(bases.size()) + " and value size " +
+        std::to_string(values.size()) + " are different"});
     }
-    if (bases.size() < minimum_required_points()) {
-      return false;
+    if (const auto minimum_required = minimum_required_points(); bases.size() < minimum_required) {
+      return tl::unexpected(InterpolationFailure{
+        "base size " + std::to_string(bases.size()) + " is less than minimum required " +
+        std::to_string(minimum_required)});
     }
-    return build_impl(std::forward<BaseVectorT>(bases), std::forward<ValueVectorT>(values));
+    if (!build_impl(std::forward<BaseVectorT>(bases), std::forward<ValueVectorT>(values))) {
+      return tl::unexpected(
+        InterpolationFailure{"failed to interpolate from given base and values"});
+    }
+    return InterpolationSuccess{};
   }
 
   /**

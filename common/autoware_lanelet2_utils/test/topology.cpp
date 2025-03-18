@@ -15,7 +15,7 @@
 #include "map_loader.hpp"
 
 #include <ament_index_cpp/get_package_share_directory.hpp>
-#include <autoware_lanelet2_utils/topology.hpp>
+#include <autoware/lanelet2_utils/topology.hpp>
 #include <range/v3/all.hpp>
 
 #include <gtest/gtest.h>
