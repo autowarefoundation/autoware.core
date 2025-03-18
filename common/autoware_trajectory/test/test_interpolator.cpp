@@ -61,7 +61,7 @@ TYPED_TEST_SUITE(TestInterpolator, Interpolators, );
 TYPED_TEST(TestInterpolator, compute)
 {
   this->interpolator =
-    typename TypeParam::Builder().set_bases(this->bases).set_values(this->values).build();
+    typename TypeParam::Builder().set_bases(this->bases).set_values(this->values).build().value();
   for (size_t i = 0; i < this->bases.size(); ++i) {
     EXPECT_NEAR(this->values[i], this->interpolator->compute(this->bases[i]), 1e-6);
   }

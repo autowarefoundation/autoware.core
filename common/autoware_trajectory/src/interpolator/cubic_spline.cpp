@@ -70,9 +70,9 @@ bool CubicSpline::build_impl(const std::vector<double> & bases, const std::vecto
   return true;
 }
 
-bool CubicSpline::build_impl(std::vector<double> && bases, std::vector<double> && values)
+bool CubicSpline::build_impl(const std::vector<double> & bases, std::vector<double> && values)
 {
-  this->bases_ = std::move(bases);
+  this->bases_ = bases;
   compute_parameters(
     Eigen::Map<const Eigen::VectorXd>(
       this->bases_.data(), static_cast<Eigen::Index>(this->bases_.size())),

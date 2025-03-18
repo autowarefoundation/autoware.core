@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <autoware_lanelet2_utils/topology.hpp>
+#include <autoware/lanelet2_utils/topology.hpp>
 #include <range/v3/all.hpp>
 #include <rclcpp/logging.hpp>
 

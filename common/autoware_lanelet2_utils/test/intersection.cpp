@@ -45,73 +45,68 @@ protected:
 TEST_F(TestWithIntersectionCrossingMap, is_intersection_lanelet_false)
 {
   EXPECT_EQ(
-    lanelet2_utility::is_intersection_lanelet(lanelet_map_ptr_->laneletLayer.get(2257)), false);
+    lanelet2_utils::is_intersection_lanelet(lanelet_map_ptr_->laneletLayer.get(2257)), false);
 }
 
 TEST_F(TestWithIntersectionCrossingMap, is_intersection_lanelet_true)
 {
   EXPECT_EQ(
-    lanelet2_utility::is_intersection_lanelet(lanelet_map_ptr_->laneletLayer.get(2274)), true);
+    lanelet2_utils::is_intersection_lanelet(lanelet_map_ptr_->laneletLayer.get(2274)), true);
 }
 
 TEST_F(TestWithIntersectionCrossingMap, is_straight_direction_false)
 {
-  EXPECT_EQ(
-    lanelet2_utility::is_straight_direction(lanelet_map_ptr_->laneletLayer.get(2274)), false);
+  EXPECT_EQ(lanelet2_utils::is_straight_direction(lanelet_map_ptr_->laneletLayer.get(2274)), false);
 }
 
 TEST_F(TestWithIntersectionCrossingMap, is_straight_direction_true)
 {
-  EXPECT_EQ(
-    lanelet2_utility::is_straight_direction(lanelet_map_ptr_->laneletLayer.get(2278)), true);
+  EXPECT_EQ(lanelet2_utils::is_straight_direction(lanelet_map_ptr_->laneletLayer.get(2278)), true);
 }
 
 TEST_F(TestWithIntersectionCrossingMap, is_left_direction_false)
 {
-  EXPECT_EQ(lanelet2_utility::is_left_direction(lanelet_map_ptr_->laneletLayer.get(2278)), false);
+  EXPECT_EQ(lanelet2_utils::is_left_direction(lanelet_map_ptr_->laneletLayer.get(2278)), false);
 }
 
 TEST_F(TestWithIntersectionCrossingMap, is_left_direction_true)
 {
-  EXPECT_EQ(lanelet2_utility::is_left_direction(lanelet_map_ptr_->laneletLayer.get(2274)), true);
+  EXPECT_EQ(lanelet2_utils::is_left_direction(lanelet_map_ptr_->laneletLayer.get(2274)), true);
 }
 
 TEST_F(TestWithIntersectionCrossingMap, is_right_direction_false)
 {
-  EXPECT_EQ(lanelet2_utility::is_right_direction(lanelet_map_ptr_->laneletLayer.get(2274)), false);
+  EXPECT_EQ(lanelet2_utils::is_right_direction(lanelet_map_ptr_->laneletLayer.get(2274)), false);
 }
 
 TEST_F(TestWithIntersectionCrossingMap, is_right_direction_true)
 {
-  EXPECT_EQ(lanelet2_utility::is_right_direction(lanelet_map_ptr_->laneletLayer.get(2277)), true);
+  EXPECT_EQ(lanelet2_utils::is_right_direction(lanelet_map_ptr_->laneletLayer.get(2277)), true);
 }
 
 TEST_F(TestWithIntersectionCrossingMap, get_turn_direction)
 {
   // not intersection
   EXPECT_EQ(
-    lanelet2_utility::get_turn_direction(lanelet_map_ptr_->laneletLayer.get(2257)).has_value(),
+    lanelet2_utils::get_turn_direction(lanelet_map_ptr_->laneletLayer.get(2257)).has_value(),
     false);
 
   // straight
   {
-    const auto lane =
-      lanelet2_utility::get_turn_direction(lanelet_map_ptr_->laneletLayer.get(2278));
-    EXPECT_EQ(lane.has_value() && lane.value() == lanelet2_utility::TurnDirection::Straight, true);
+    const auto lane = lanelet2_utils::get_turn_direction(lanelet_map_ptr_->laneletLayer.get(2278));
+    EXPECT_EQ(lane.has_value() && lane.value() == lanelet2_utils::TurnDirection::Straight, true);
   }
 
   // left
   {
-    const auto lane =
-      lanelet2_utility::get_turn_direction(lanelet_map_ptr_->laneletLayer.get(2274));
-    EXPECT_EQ(lane.has_value() && lane.value() == lanelet2_utility::TurnDirection::Left, true);
+    const auto lane = lanelet2_utils::get_turn_direction(lanelet_map_ptr_->laneletLayer.get(2274));
+    EXPECT_EQ(lane.has_value() && lane.value() == lanelet2_utils::TurnDirection::Left, true);
   }
 
   // right
   {
-    const auto lane =
-      lanelet2_utility::get_turn_direction(lanelet_map_ptr_->laneletLayer.get(2277));
-    EXPECT_EQ(lane.has_value() && lane.value() == lanelet2_utility::TurnDirection::Right, true);
+    const auto lane = lanelet2_utils::get_turn_direction(lanelet_map_ptr_->laneletLayer.get(2277));
+    EXPECT_EQ(lane.has_value() && lane.value() == lanelet2_utils::TurnDirection::Right, true);
   }
 }
 
