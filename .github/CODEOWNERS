@@ -27,5 +27,4 @@ testing/autoware_test_utils/** egon.kang@autocore.ai junya.sasaki@tier4.jp kyoic
 testing/autoware_testing/** adam.dabrowski@robotec.ai satoshi.ota@tier4.jp shumpei.wakabayashi@tier4.jp tomoya.kimura@tier4.jp @autowarefoundation/autoware-core-global-codeowners
 
 ### Copied from .github/CODEOWNERS-manual ###
-* @autowarefoundation/autoware-core-global-codeowners
 .* @autowarefoundation/autoware-core-global-codeowners

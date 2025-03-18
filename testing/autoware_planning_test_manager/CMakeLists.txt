@@ -8,4 +8,10 @@ ament_auto_add_library(autoware_planning_test_manager SHARED
   src/autoware_planning_test_manager.cpp
 )
 
+if(BUILD_TESTING)
+  ament_auto_add_gtest(test_autoware_planning_test_manager
+    test/test_planning_test_manager.cpp
+  )
+endif()
+
 ament_auto_package()

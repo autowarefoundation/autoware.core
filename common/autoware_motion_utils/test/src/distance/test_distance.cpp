@@ -111,6 +111,36 @@ TEST(distance, calcDecelDistWithJerkAndAccConstraints)
       current_vel, target_vel, current_acc, acc_min, jerk_acc, jerk_dec);
     EXPECT_NEAR(expected_dist, *dist, epsilon);
   }
+
+  // need to decelerate
+  {
+    constexpr double current_vel = 10.0;
+    constexpr double target_vel = 0.5;
+    constexpr double current_acc = -2.0;
+    constexpr double acc_min = -3.0;
+    constexpr double jerk_acc = 1.0;
+    constexpr double jerk_dec = -0.5;
+
+    constexpr double expected_dist = 21.3333;
+    const auto dist = calcDecelDistWithJerkAndAccConstraints(
+      current_vel, target_vel, current_acc, acc_min, jerk_acc, jerk_dec);
+    EXPECT_NEAR(expected_dist, *dist, epsilon);
+  }
+
+  // no need to decelerate
+  {
+    constexpr double current_vel = 16.7;
+    constexpr double target_vel = 16.7;
+    constexpr double current_acc = 0.0;
+    constexpr double acc_min = -0.5;
+    constexpr double jerk_acc = 1.0;
+    constexpr double jerk_dec = -0.5;
+
+    constexpr double expected_dist = 0.0;
+    const auto dist = calcDecelDistWithJerkAndAccConstraints(
+      current_vel, target_vel, current_acc, acc_min, jerk_acc, jerk_dec);
+    EXPECT_NEAR(expected_dist, *dist, epsilon);
+  }
 }
 
 }  // namespace
