@@ -96,7 +96,7 @@ EKFLocalizer::EKFLocalizer(const rclcpp::NodeOptions & node_options)
     std::shared_ptr<rclcpp::Node>(this, [](auto) {}));
 
   ekf_module_ = std::make_unique<EKFModule>(warning_, params_);
-  logger_configure_ = std::make_unique<autoware_utils::LoggerLevelConfigure>(this);
+  logger_configure_ = std::make_unique<autoware_utils_logging::LoggerLevelConfigure>(this);
 }
 
 /*
