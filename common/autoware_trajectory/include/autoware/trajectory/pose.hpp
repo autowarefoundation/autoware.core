@@ -58,7 +58,7 @@ public:
    * @brief Get the internal bases(arc lengths) of the trajectory
    * @return Vector of bases(arc lengths)
    */
-  std::vector<double> get_underlying_bases() const override;
+  std::vector<double> get_internal_bases() const override;
 
   /**
    * @brief Compute the pose on the trajectory at a given s value

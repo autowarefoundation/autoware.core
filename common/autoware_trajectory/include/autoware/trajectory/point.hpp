@@ -71,7 +71,7 @@ public:
    * @brief Get the internal bases(arc lengths) of the trajectory
    * @return Vector of bases(arc lengths)
    */
-  virtual std::vector<double> get_underlying_bases() const;
+  virtual std::vector<double> get_internal_bases() const;
   /**
    * @brief Get the length of the trajectory
    * @return Length of the trajectory
