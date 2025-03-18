@@ -15,9 +15,8 @@
 #ifndef AUTOWARE__MAP_PROJECTION_LOADER__MAP_PROJECTION_LOADER_HPP_
 #define AUTOWARE__MAP_PROJECTION_LOADER__MAP_PROJECTION_LOADER_HPP_
 
-#include <rclcpp/rclcpp.hpp>
-
 #include <autoware/component_interface_specs/map.hpp>
+#include <rclcpp/rclcpp.hpp>
 
 #include <string>
 
