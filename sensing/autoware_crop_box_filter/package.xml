@@ -17,7 +17,6 @@
   <maintainer email="lxg19892021@gmail.com">Xingang Liu</maintainer>
   <license>Apache License 2.0</license>
 
-
   <!-- Original authors -->
   <author>Open Perception</author>
   <author email="julius@kammerl.de">Julius Kammerl</author>
@@ -28,10 +27,10 @@
 
   <depend>autoware_point_types</depend>
   <depend>autoware_utils</depend>
+  <depend>geometry_msgs</depend>
   <depend>rclcpp</depend>
   <depend>rclcpp_components</depend>
   <depend>sensor_msgs</depend>
-  <depend>geometry_msgs</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>autoware_lint_common</test_depend>

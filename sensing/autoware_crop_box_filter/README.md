@@ -12,41 +12,40 @@ The `autoware_crop_box_filter` is implemented as a autoware core node that subsc
 
 ### Input
 
-| Name              | Type                            | Description       |
-| ----------------- | ------------------------------- | ----------------- |
-| `~/input/points`  | `sensor_msgs::msg::PointCloud2` | reference points  |
+| Name             | Type                            | Description      |
+| ---------------- | ------------------------------- | ---------------- |
+| `~/input/points` | `sensor_msgs::msg::PointCloud2` | reference points |
 
 ### Output
 
-| Name              | Type                            | Description     |
-| ----------------- | ------------------------------- | --------------- |
-| `~/output/points` | `sensor_msgs::msg::PointCloud2` | filtered points |
+| Name                 | Type                                 | Description          |
+| -------------------- | ------------------------------------ | -------------------- |
+| `~/output/points`    | `sensor_msgs::msg::PointCloud2`      | filtered points      |
 | `~/crop_box_polygon` | `geometry_msgs::msg::PolygonStamped` | bounding box polygon |
 
 ## Parameters
 
 ### Launch file Parameters
 
-| Name               | Type   | Default Value | Description                           |
-| ------------------ | ------ | ------------- | ------------------------------------- |
-| `input_frame`      | string | " "           | the frame id in which filtering is performed                         |
-| `output_frame`     | string | " "           | output frame id of the filtered points                                                |
-| `input_pointcloud_frame`     | string | " "           | frame id of input  pointcloud  |                                              
-| `max_queue_size`   | int    | 5             | max buffer size of input/output topics |
-| `crop_box_filter_param_file` | string | " "           | path to the parameter file for the node |
-
+| Name                         | Type   | Default Value | Description                                  |
+| ---------------------------- | ------ | ------------- | -------------------------------------------- |
+| `input_frame`                | string | " "           | the frame id in which filtering is performed |
+| `output_frame`               | string | " "           | output frame id of the filtered points       |
+| `input_pointcloud_frame`     | string | " "           | frame id of input pointcloud                 |
+| `max_queue_size`             | int    | 5             | max buffer size of input/output topics       |
+| `crop_box_filter_param_file` | string | " "           | path to the parameter file for the node      |
 
 ### Node Parameters
 
-| Name               | Type   | Default Value | Description                           |
-| ------------------ | ------ | ------------- | ------------------------------------- |
-| `min_x`            | double | -5.0          | minimum x value of the crop box       |
-| `min_y`            | double | -5.0          | minimum y value of the crop box       |
-| `min_z`            | double | -5.0          | minimum z value of the crop box       |
-| `max_x`            | double | 5.0           | maximum x value of the crop box       |
-| `max_y`            | double | 5.0           | maximum y value of the crop box       |
-| `max_z`            | double | 5.0           | maximum z value of the crop box       |
-| `negative`         | bool   | true          | if true, points inside the box are removed, otherwise points outside the box are removed |
+| Name       | Type   | Default Value | Description                                                                              |
+| ---------- | ------ | ------------- | ---------------------------------------------------------------------------------------- |
+| `min_x`    | double | -5.0          | minimum x value of the crop box                                                          |
+| `min_y`    | double | -5.0          | minimum y value of the crop box                                                          |
+| `min_z`    | double | -5.0          | minimum z value of the crop box                                                          |
+| `max_x`    | double | 5.0           | maximum x value of the crop box                                                          |
+| `max_y`    | double | 5.0           | maximum y value of the crop box                                                          |
+| `max_z`    | double | 5.0           | maximum z value of the crop box                                                          |
+| `negative` | bool   | true          | if true, points inside the box are removed, otherwise points outside the box are removed |
 
 ## Usage
 

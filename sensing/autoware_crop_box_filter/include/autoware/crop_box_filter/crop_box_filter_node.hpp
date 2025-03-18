@@ -55,21 +55,20 @@
 #ifndef AUTOWARE__CROP_BOX_FILTER__CROP_BOX_FILTER_NODE_HPP_
 #define AUTOWARE__CROP_BOX_FILTER__CROP_BOX_FILTER_NODE_HPP_
 
-#include <geometry_msgs/msg/polygon_stamped.hpp>
-#include <sensor_msgs/msg/point_cloud2.hpp>
-#include <sensor_msgs/point_cloud2_iterator.hpp>
-
+#include <autoware/point_types/types.hpp>
 #include <autoware_utils/ros/debug_publisher.hpp>
 #include <autoware_utils/ros/managed_transform_buffer.hpp>
 #include <autoware_utils/ros/published_time_publisher.hpp>
 #include <autoware_utils/system/stop_watch.hpp>
 
-#include <autoware/point_types/types.hpp>
+#include <geometry_msgs/msg/polygon_stamped.hpp>
+#include <sensor_msgs/msg/point_cloud2.hpp>
+#include <sensor_msgs/point_cloud2_iterator.hpp>
 
 #include <memory>
-#include <vector>
 #include <string>
 #include <utility>
+#include <vector>
 
 using PointCloud2 = sensor_msgs::msg::PointCloud2;
 using PointCloud2ConstPtr = sensor_msgs::msg::PointCloud2::ConstSharedPtr;
@@ -83,9 +82,7 @@ namespace autoware::crop_box_filter
 
 class CropBoxFilter : public rclcpp::Node
 {
-
 private:
-
   // member variable declaration & definitions *************************************
 
   /** \brief The managed transform buffer. */
@@ -142,16 +139,16 @@ private:
   std::unique_ptr<autoware_utils::PublishedTimePublisher> published_time_publisher_;
 
   // function declaration *************************************
-  
+
   void publish_crop_box_polygon();
-  
+
   void pointcloud_callback(const PointCloud2ConstPtr cloud);
 
   /** \brief Parameter service callback */
   rcl_interfaces::msg::SetParametersResult param_callback(const std::vector<rclcpp::Parameter> & p);
 
-  /** \brief Return whether the input PointCloud2 data has the same layout than PointXYZI. That is to
-   * say whether you can memcpy from the PointCloud2 data buffer to a PointXYZI */
+  /** \brief Return whether the input PointCloud2 data has the same layout than PointXYZI. That is
+   * to say whether you can memcpy from the PointCloud2 data buffer to a PointXYZI */
   bool is_data_layout_compatible_with_point_xyzi(const PointCloud2 & input);
 
   /** \brief Return whether the input PointCloud2 data has the same layout than PointXYZIRC. That is
@@ -162,8 +159,8 @@ private:
    * is to say whether you can memcpy from the PointCloud2 data buffer to a PointXYZIRADRT */
   bool is_data_layout_compatible_with_point_xyziradrt(const PointCloud2 & input);
 
-  /** \brief Return whether the input PointCloud2 data has the same layout than PointXYZIRCAEDT. That
-   * is to say whether you can memcpy from the PointCloud2 data buffer to a PointXYZIRCAEDT */
+  /** \brief Return whether the input PointCloud2 data has the same layout than PointXYZIRCAEDT.
+   * That is to say whether you can memcpy from the PointCloud2 data buffer to a PointXYZIRCAEDT */
   bool is_data_layout_compatible_with_point_xyzircaedt(const PointCloud2 & input);
 
   bool is_valid(const PointCloud2ConstPtr & cloud);
@@ -181,12 +178,11 @@ private:
     }
     return false;
   }
-  
 
 public:
   PCL_MAKE_ALIGNED_OPERATOR_NEW
   explicit CropBoxFilter(const rclcpp::NodeOptions & options);
-  void pointcloud_filter(const PointCloud2ConstPtr & cloud, PointCloud2 & output);
+  void filter_pointcloud(const PointCloud2ConstPtr & cloud, PointCloud2 & output);
 };
 }  // namespace autoware::crop_box_filter
 
