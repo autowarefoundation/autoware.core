@@ -45,7 +45,6 @@ public:
 
   detail::InterpolatedArray<LaneIdType> & lane_ids() { return *lane_ids_; }
 
-  // TODO(soblin):
   const detail::InterpolatedArray<LaneIdType> & lane_ids() const { return *lane_ids_; }
 
   /**
