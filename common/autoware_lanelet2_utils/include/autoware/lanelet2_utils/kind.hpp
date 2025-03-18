@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef AUTOWARE_LANELET2_UTILS__KIND_HPP_
-#define AUTOWARE_LANELET2_UTILS__KIND_HPP_
+#ifndef AUTOWARE__LANELET2_UTILS__KIND_HPP_
+#define AUTOWARE__LANELET2_UTILS__KIND_HPP_
 
 #include <lanelet2_core/Forward.h>
 
@@ -59,4 +59,4 @@ bool is_shoulder_lane(const lanelet::ConstLanelet & lanelet);
  */
 bool is_bicycle_lane(const lanelet::ConstLanelet & lanelet);
 }  // namespace autoware::lanelet2_utils
-#endif  // AUTOWARE_LANELET2_UTILS__KIND_HPP_
+#endif  // AUTOWARE__LANELET2_UTILS__KIND_HPP_

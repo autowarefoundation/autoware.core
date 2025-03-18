@@ -18,6 +18,7 @@
 #include "autoware/trajectory/interpolator/stairstep.hpp"
 
 #include <memory>
+#include <utility>
 #include <vector>
 
 namespace autoware::trajectory
@@ -40,7 +41,8 @@ Trajectory<PointType> & Trajectory<PointType>::operator=(const Trajectory & rhs)
   return *this;
 }
 
-bool Trajectory<PointType>::build(const std::vector<PointType> & points)
+interpolator::InterpolationResult Trajectory<PointType>::build(
+  const std::vector<PointType> & points)
 {
   std::vector<autoware_planning_msgs::msg::PathPoint> path_points;
   std::vector<std::vector<int64_t>> lane_ids_values;
@@ -49,10 +51,18 @@ bool Trajectory<PointType>::build(const std::vector<PointType> & points)
     path_points.emplace_back(point.point);
     lane_ids_values.emplace_back(point.lane_ids);
   }
-  bool is_valid = true;
-  is_valid &= BaseClass::build(path_points);
-  is_valid &= lane_ids().build(bases_, lane_ids_values);
-  return is_valid;
+
+  if (const auto result = BaseClass::build(path_points); !result) {
+    return tl::unexpected(
+      interpolator::InterpolationFailure{"failed to interpolate PathPointWithLaneId::point"} +
+      result.error());
+  }
+  if (const auto result = lane_ids().build(bases_, std::move(lane_ids_values)); !result) {
+    return tl::unexpected(
+      interpolator::InterpolationFailure{"failed to interpolate PathPointWithLaneId::lane_id"});
+  }
+
+  return interpolator::InterpolationSuccess{};
 }
 
 std::vector<double> Trajectory<PointType>::get_internal_bases() const
@@ -73,16 +83,16 @@ std::vector<double> Trajectory<PointType>::get_internal_bases() const
   return bases;
 }
 
-PointType Trajectory<PointType>::compute(double s) const
+PointType Trajectory<PointType>::compute(const double s) const
 {
   PointType result;
   result.point = BaseClass::compute(s);
-  s = clamp(s);
-  result.lane_ids = lane_ids().compute(s);
+  const auto s_clamp = clamp(s);
+  result.lane_ids = lane_ids().compute(s_clamp);
   return result;
 }
 
-std::vector<PointType> Trajectory<PointType>::restore(const size_t & min_points) const
+std::vector<PointType> Trajectory<PointType>::restore(const size_t min_points) const
 {
   auto bases = get_internal_bases();
   bases = detail::fill_bases(bases, min_points);

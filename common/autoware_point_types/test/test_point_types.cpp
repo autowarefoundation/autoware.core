@@ -25,6 +25,7 @@ TEST(PointEquality, PointXYZI)
   PointXYZI pt0{0, 1, 2, 3};
   PointXYZI pt1{0, 1, 2, 3};
   EXPECT_EQ(pt0, pt1);
+  EXPECT_TRUE(pt0 == pt1);
 }
 
 TEST(PointEquality, PointXYZIRADRT)
@@ -34,6 +35,7 @@ TEST(PointEquality, PointXYZIRADRT)
   PointXYZIRADRT pt0{0, 1, 2, 3, 4, 5, 6, 7, 8};
   PointXYZIRADRT pt1{0, 1, 2, 3, 4, 5, 6, 7, 8};
   EXPECT_EQ(pt0, pt1);
+  EXPECT_TRUE(pt0 == pt1);
 }
 
 TEST(PointEquality, PointXYZIRCAEDT)
@@ -43,6 +45,7 @@ TEST(PointEquality, PointXYZIRCAEDT)
   PointXYZIRCAEDT pt0{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
   PointXYZIRCAEDT pt1{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
   EXPECT_EQ(pt0, pt1);
+  EXPECT_TRUE(pt0 == pt1);
 }
 
 TEST(PointEquality, FloatEq)

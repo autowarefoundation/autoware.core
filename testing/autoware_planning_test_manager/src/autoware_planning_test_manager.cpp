@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "autoware_planning_test_manager/autoware_planning_test_manager.hpp"
+#include "autoware/planning_test_manager/autoware_planning_test_manager.hpp"
 
 #include <autoware/motion_utils/trajectory/conversion.hpp>
 

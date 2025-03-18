@@ -17,8 +17,8 @@
 #include <Eigen/Dense>
 
 #include <cmath>
+#include <utility>
 #include <vector>
-
 namespace autoware::trajectory::interpolator
 {
 
@@ -60,29 +60,39 @@ void AkimaSpline::compute_parameters(
   }
 }
 
-void AkimaSpline::build_impl(const std::vector<double> & bases, const std::vector<double> & values)
+bool AkimaSpline::build_impl(const std::vector<double> & bases, const std::vector<double> & values)
 {
   this->bases_ = bases;
   compute_parameters(
     Eigen::Map<const Eigen::VectorXd>(bases.data(), static_cast<Eigen::Index>(bases.size())),
     Eigen::Map<const Eigen::VectorXd>(values.data(), static_cast<Eigen::Index>(values.size())));
+  return true;
 }
 
-double AkimaSpline::compute_impl(const double & s) const
+bool AkimaSpline::build_impl(const std::vector<double> & bases, std::vector<double> && values)
+{
+  this->bases_ = bases;
+  compute_parameters(
+    Eigen::Map<const Eigen::VectorXd>(bases.data(), static_cast<Eigen::Index>(bases.size())),
+    Eigen::Map<const Eigen::VectorXd>(values.data(), static_cast<Eigen::Index>(values.size())));
+  return true;
+}
+
+double AkimaSpline::compute_impl(const double s) const
 {
   const int32_t i = this->get_index(s);
   const double dx = s - this->bases_[i];
   return a_[i] + b_[i] * dx + c_[i] * dx * dx + d_[i] * dx * dx * dx;
 }
 
-double AkimaSpline::compute_first_derivative_impl(const double & s) const
+double AkimaSpline::compute_first_derivative_impl(const double s) const
 {
   const int32_t i = this->get_index(s);
   const double dx = s - this->bases_[i];
   return b_[i] + 2 * c_[i] * dx + 3 * d_[i] * dx * dx;
 }
 
-double AkimaSpline::compute_second_derivative_impl(const double & s) const
+double AkimaSpline::compute_second_derivative_impl(const double s) const
 {
   const int32_t i = this->get_index(s);
   const double dx = s - this->bases_[i];
