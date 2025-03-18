@@ -1,4 +1,4 @@
-// Copyright 2024 TIER IV, Inc.
+// Copyright 2025 TIER IV, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,12 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// This file is kept for backwards compatibility. Should be removed in the future.
-// Tracked by: https://github.com/autowarefoundation/autoware.core/issues/224
+#include "autoware/trajectory/interpolator/result.hpp"
 
-#ifndef AUTOWARE_PLANNING_TEST_MANAGER__AUTOWARE_PLANNING_TEST_MANAGER_UTILS_HPP_
-#define AUTOWARE_PLANNING_TEST_MANAGER__AUTOWARE_PLANNING_TEST_MANAGER_UTILS_HPP_
+#include <iostream>
+#include <sstream>
 
-#include <autoware/planning_test_manager/autoware_planning_test_manager_utils.hpp>
+namespace autoware::trajectory::interpolator
+{
 
-#endif  // AUTOWARE_PLANNING_TEST_MANAGER__AUTOWARE_PLANNING_TEST_MANAGER_UTILS_HPP_
+InterpolationFailure operator+(
+  const InterpolationFailure & primary, const InterpolationFailure & nested)
+{
+  std::stringstream ss;
+  ss << primary.what << "." << std::endl << "\tReason: " << nested.what << std::endl;
+  return InterpolationFailure{ss.str()};
+}
+
+}  // namespace autoware::trajectory::interpolator

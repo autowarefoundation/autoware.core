@@ -15,7 +15,7 @@
 #include "../src/node.hpp"
 
 #include <ament_index_cpp/get_package_share_directory.hpp>
-#include <autoware_planning_test_manager/autoware_planning_test_manager.hpp>
+#include <autoware/planning_test_manager/autoware_planning_test_manager.hpp>
 #include <autoware_test_utils/autoware_test_utils.hpp>
 
 #include <autoware_internal_planning_msgs/msg/path_with_lane_id.hpp>
@@ -64,6 +64,10 @@ TEST(PlanningModuleInterfaceTest, NodeTestWithExceptionTrajectory)
   // test with normal trajectory
   ASSERT_NO_THROW_WITH_ERROR_MSG(
     test_manager->testWithBehaviorNormalRoute(test_target_node, route_topic_name));
+
+  // test with the goal on left side
+  ASSERT_NO_THROW_WITH_ERROR_MSG(
+    test_manager->testWithBehaviorGoalOnLeftSide(test_target_node, route_topic_name));
 
   EXPECT_GE(test_manager->getReceivedTopicNum(), 1);
 

@@ -20,6 +20,8 @@
 #include <autoware_internal_planning_msgs/msg/path_with_lane_id.hpp>
 #include <autoware_vehicle_msgs/msg/turn_indicators_command.hpp>
 
+#include <limits>
+#include <memory>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -135,7 +137,7 @@ std::optional<double> get_first_self_intersection_arc_length(
   const lanelet::BasicLineString2d & line_string, const double s_start, const double s_end);
 
 /**
- * @brief get bound of path cropped within specified range
+ * @brief get path bound for PathWithLaneId cropped within specified range
  * @param lanelet_bound original bound of lanelet
  * @param lanelet_centerline centerline of lanelet
  * @param s_start longitudinal distance of start of bound
@@ -143,9 +145,100 @@ std::optional<double> get_first_self_intersection_arc_length(
  * @return cropped bound
  */
 std::vector<geometry_msgs::msg::Point> get_path_bound(
-  const lanelet::CompoundLineString2d & lanelet_bound,
+  const lanelet::CompoundLineString3d & lanelet_bound,
   const lanelet::CompoundLineString2d & lanelet_centerline, const double s_start,
   const double s_end);
+
+/**
+ * @brief Recreate the goal pose to prevent the goal point being too far from the lanelet, which
+ *  causes the path to twist near the goal.
+ * @details Return the goal point projected on the straight line of the segment of lanelet
+ *  closest to the original goal.
+ * @param [in] goal original goal pose
+ * @param [in] goal_lanelet lanelet containing the goal pose
+ */
+const geometry_msgs::msg::Pose refine_goal(
+  const geometry_msgs::msg::Pose & goal, const lanelet::ConstLanelet & goal_lanelet);
+
+/**
+ * @brief Prepare the point before the goal point.
+ * @param goal Goal pose.
+ * @param lanes Lanelets.
+ * @return Pre-goal point.
+ */
+PathPointWithLaneId prepare_pre_goal(
+  const geometry_msgs::msg::Pose & goal, const lanelet::ConstLanelets & lanes);
+
+/**
+ * @brief Get the index of the point closest to the circumference of the circle whose center is the
+ * goal and outside of it.
+ * @param points Points to search.
+ * @param goal Goal pose.
+ * @param goal_lane_id Lane ID of the goal.
+ * @param max_dist Maximum distance to search.
+ * @return Index of the point closest to the circumference of the circle whose center is the goal
+ * and outside of it.
+ */
+std::optional<size_t> find_index_out_of_goal_search_range(
+  const std::vector<PathPointWithLaneId> & points, const geometry_msgs::msg::Pose & goal,
+  const int64_t goal_lane_id, const double max_dist);
+
+/**
+ * @brief Get the path up to just before the pre_goal.
+ * @param input Input path.
+ * @param refined_goal Goal pose.
+ * @return Recreated path
+ */
+std::optional<PathWithLaneId> get_path_up_to_just_before_pre_goal(
+  const PathWithLaneId & input, const geometry_msgs::msg::Pose & goal,
+  const lanelet::Id goal_lane_id, const double search_radius_range);
+
+/**
+ * @brief Recreate the path with a given goal pose.
+ * @param input Input path.
+ * @param refined_goal Goal pose.
+ * @param planner_data Planner data.
+ * @return Recreated path
+ */
+PathWithLaneId refine_path_for_goal(
+  const PathWithLaneId & input, const geometry_msgs::msg::Pose & goal,
+  const PlannerData & planner_data);
+
+/**
+ * @brief Extract lanelets from the path.
+ * @param path Input path.
+ * @param planner_data Planner data.
+ * @return Extracted lanelets
+ */
+std::optional<lanelet::ConstLanelets> extract_lanelets_from_path(
+  const PathWithLaneId & refined_path, const PlannerData & planner_data);
+
+/**
+ * @brief Check if the pose is in the lanelets.
+ * @param pose Pose.
+ * @param lanes Lanelets.
+ * @return True if the pose is in the lanelets, false otherwise
+ */
+bool is_in_lanelets(const geometry_msgs::msg::Pose & pose, const lanelet::ConstLanelets & lanes);
+
+/**
+ * @brief Check if the path is valid.
+ * @param refined_path Input path.
+ * @param planner_data Planner data.
+ * @return True if the path is valid, false otherwise
+ */
+bool is_path_valid(const PathWithLaneId & refined_path, const PlannerData & planner_data);
+
+/**
+ * @brief Modify the path to connect smoothly to the goal.
+ * @param path Input path.
+ * @param planner_data Planner data.
+ * @param refine_goal_search_radius_range Refine goal search radius range.
+ * @return Modified path
+ */
+PathWithLaneId modify_path_for_smooth_goal_connection(
+  const PathWithLaneId & path, const PlannerData & planner_data,
+  const double refine_goal_search_radius_range);
 
 /**
  * @brief get earliest turn signal based on turn direction specified for lanelets

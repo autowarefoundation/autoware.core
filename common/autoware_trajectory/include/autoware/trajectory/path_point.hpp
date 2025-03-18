@@ -16,6 +16,7 @@
 #define AUTOWARE__TRAJECTORY__PATH_POINT_HPP_
 
 #include "autoware/trajectory/detail/interpolated_array.hpp"
+#include "autoware/trajectory/interpolator/result.hpp"
 #include "autoware/trajectory/pose.hpp"
 
 #include <autoware_planning_msgs/msg/path_point.hpp>
@@ -48,7 +49,7 @@ public:
   Trajectory & operator=(const Trajectory & rhs);
   Trajectory & operator=(Trajectory && rhs) = default;
 
-  [[nodiscard]] std::vector<double> get_internal_bases() const override;
+  std::vector<double> get_internal_bases() const override;
 
   detail::InterpolatedArray<double> & longitudinal_velocity_mps()
   {
@@ -59,41 +60,38 @@ public:
 
   detail::InterpolatedArray<double> & heading_rate_rps() { return *heading_rate_rps_; }
 
-  [[nodiscard]] const detail::InterpolatedArray<double> & longitudinal_velocity_mps() const
+  const detail::InterpolatedArray<double> & longitudinal_velocity_mps() const
   {
     return *longitudinal_velocity_mps_;
   }
 
-  [[nodiscard]] const detail::InterpolatedArray<double> & lateral_velocity_mps() const
+  const detail::InterpolatedArray<double> & lateral_velocity_mps() const
   {
     return *lateral_velocity_mps_;
   }
 
-  [[nodiscard]] const detail::InterpolatedArray<double> & heading_rate_rps() const
-  {
-    return *heading_rate_rps_;
-  }
+  const detail::InterpolatedArray<double> & heading_rate_rps() const { return *heading_rate_rps_; }
 
   /**
    * @brief Build the trajectory from the points
    * @param points Vector of points
    * @return True if the build is successful
    */
-  bool build(const std::vector<PointType> & points);
+  interpolator::InterpolationResult build(const std::vector<PointType> & points);
 
   /**
    * @brief Compute the point on the trajectory at a given s value
    * @param s Arc length
    * @return Point on the trajectory
    */
-  [[nodiscard]] PointType compute(double s) const;
+  PointType compute(const double s) const;
 
   /**
    * @brief Restore the trajectory points
    * @param min_points Minimum number of points
    * @return Vector of points
    */
-  [[nodiscard]] std::vector<PointType> restore(const size_t & min_points = 4) const;
+  std::vector<PointType> restore(const size_t min_points = 4) const;
 
   class Builder
   {
@@ -153,14 +151,16 @@ public:
       return *this;
     }
 
-    std::optional<Trajectory> build(const std::vector<PointType> & points)
+    tl::expected<Trajectory, interpolator::InterpolationFailure> build(
+      const std::vector<PointType> & points)
     {
-      if (trajectory_->build(points)) {
-        auto result = std::make_optional<Trajectory>(std::move(*trajectory_));
+      auto trajectory_result = trajectory_->build(points);
+      if (trajectory_result) {
+        auto result = Trajectory(std::move(*trajectory_));
         trajectory_.reset();
         return result;
       }
-      return std::nullopt;
+      return tl::unexpected(trajectory_result.error());
     }
   };
 };
