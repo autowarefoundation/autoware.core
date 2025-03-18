@@ -16,6 +16,9 @@
 
 #include <lanelet2_core/geometry/Lanelet.h>
 
+#include <string>
+#include <tuple>
+
 namespace autoware::path_generator
 {
 using autoware_vehicle_msgs::msg::TurnIndicatorsCommand;
