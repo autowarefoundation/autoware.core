@@ -65,7 +65,7 @@ private:
    * @return True if the interpolator was built successfully, false otherwise.
    */
   [[nodiscard]] bool build_impl(
-    std::vector<double> && bases, std::vector<double> && values) override;
+    const std::vector<double> & bases, std::vector<double> && values) override;
 
   /**
    * @brief Compute the interpolated value at the given point.

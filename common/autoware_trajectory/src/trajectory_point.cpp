@@ -23,6 +23,7 @@
 #include <autoware_planning_msgs/msg/trajectory.hpp>
 
 #include <memory>
+#include <utility>
 #include <vector>
 
 namespace autoware::trajectory
@@ -75,7 +76,8 @@ Trajectory<PointType> & Trajectory<PointType>::operator=(const Trajectory & rhs)
   return *this;
 }
 
-bool Trajectory<PointType>::build(const std::vector<PointType> & points)
+interpolator::InterpolationResult Trajectory<PointType>::build(
+  const std::vector<PointType> & points)
 {
   std::vector<geometry_msgs::msg::Pose> poses;
   std::vector<double> longitudinal_velocity_mps_values;
@@ -95,17 +97,49 @@ bool Trajectory<PointType>::build(const std::vector<PointType> & points)
     rear_wheel_angle_rad_values.emplace_back(point.rear_wheel_angle_rad);
   }
 
-  bool is_valid = true;
+  if (const auto result = Trajectory<geometry_msgs::msg::Pose>::build(poses); !result) {
+    return tl::unexpected(
+      interpolator::InterpolationFailure{"failed to interpolate TrajectoryPoint::pose"} +
+      result.error());
+  }
+  if (const auto result = this->longitudinal_velocity_mps().build(
+        bases_, std::move(longitudinal_velocity_mps_values));
+      !result) {
+    return tl::unexpected(interpolator::InterpolationFailure{
+      "failed to interpolate TrajectoryPoint::longitudinal_velocity_mps"});
+  }
+  if (const auto result =
+        this->lateral_velocity_mps().build(bases_, std::move(lateral_velocity_mps_values));
+      !result) {
+    return tl::unexpected(interpolator::InterpolationFailure{
+      "failed to interpolate TrajectoryPoint::lateral_velocity_mps"});
+  }
+  if (const auto result =
+        this->heading_rate_rps().build(bases_, std::move(heading_rate_rps_values));
+      !result) {
+    return tl::unexpected(interpolator::InterpolationFailure{
+      "failed to interpolate TrajectoryPoint::heading_rate_rps"});
+  }
+  if (const auto result =
+        this->acceleration_mps2().build(bases_, std::move(acceleration_mps2_values));
+      !result) {
+    return tl::unexpected(interpolator::InterpolationFailure{
+      "failed to interpolate TrajectoryPoint::acceleration_mps2"});
+  }
+  if (const auto result =
+        this->front_wheel_angle_rad().build(bases_, std::move(front_wheel_angle_rad_values));
+      !result) {
+    return tl::unexpected(interpolator::InterpolationFailure{
+      "failed to interpolate TrajectoryPoint::front_wheel_angle_rad"});
+  }
+  if (const auto result =
+        this->rear_wheel_angle_rad().build(bases_, std::move(rear_wheel_angle_rad_values));
+      !result) {
+    return tl::unexpected(interpolator::InterpolationFailure{
+      "failed to interpolate TrajectoryPoint::rear_wheel_angle_rad"});
+  }
 
-  is_valid &= Trajectory<geometry_msgs::msg::Pose>::build(poses);
-  is_valid &= this->longitudinal_velocity_mps().build(bases_, longitudinal_velocity_mps_values);
-  is_valid &= this->lateral_velocity_mps().build(bases_, lateral_velocity_mps_values);
-  is_valid &= this->heading_rate_rps().build(bases_, heading_rate_rps_values);
-  is_valid &= this->acceleration_mps2().build(bases_, acceleration_mps2_values);
-  is_valid &= this->front_wheel_angle_rad().build(bases_, front_wheel_angle_rad_values);
-  is_valid &= this->rear_wheel_angle_rad().build(bases_, rear_wheel_angle_rad_values);
-
-  return is_valid;
+  return interpolator::InterpolationSuccess{};
 }
 
 std::vector<double> Trajectory<PointType>::get_internal_bases() const

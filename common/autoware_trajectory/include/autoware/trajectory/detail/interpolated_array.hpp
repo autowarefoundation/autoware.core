@@ -64,16 +64,18 @@ public:
 
   InterpolatedArray(InterpolatedArray && other) = default;
 
-  bool build(const std::vector<double> & bases, const std::vector<T> & values)
+  interpolator::InterpolationResult build(
+    const std::vector<double> & bases, const std::vector<T> & values)
   {
     bases_ = bases;
     values_ = values;
     return interpolator_->build(bases_, values_);
   }
 
-  bool build(std::vector<double> && bases, std::vector<T> && values)
+  interpolator::InterpolationResult build(
+    const std::vector<double> & bases, std::vector<T> && values)
   {
-    bases_ = std::move(bases);
+    bases_ = bases;
     values_ = std::move(values);
     return interpolator_->build(bases_, values_);
   }
@@ -160,7 +162,7 @@ public:
       // Set the values in the specified range
       std::fill(values.begin() + start_index, values.begin() + end_index + 1, value);
 
-      bool success = parent_.interpolator_->build(bases, values);
+      const auto success = parent_.interpolator_->build(bases, values);
       if (!success) {
         throw std::runtime_error(
           "Failed to build interpolator.");  // This Exception should not be thrown.
@@ -194,7 +196,7 @@ public:
   InterpolatedArray & operator=(const T & value)
   {
     std::fill(values_.begin(), values_.end(), value);
-    bool success = interpolator_->build(bases_, values_);
+    const auto success = interpolator_->build(bases_, values_);
     if (!success) {
       throw std::runtime_error(
         "Failed to build interpolator.");  // This Exception should not be thrown.
