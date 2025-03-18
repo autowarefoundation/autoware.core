@@ -16,13 +16,14 @@
 
 #include "autoware/trajectory/detail/helpers.hpp"
 #include "autoware/trajectory/forward.hpp"
+#include "autoware/trajectory/interpolator/spherical_linear.hpp"
 
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2/LinearMath/Vector3.h>
 
+#include <memory>
 #include <utility>
 #include <vector>
-
 namespace autoware::trajectory
 {
 using PointType = geometry_msgs::msg::Pose;
@@ -177,6 +178,29 @@ std::vector<PointType> Trajectory<PointType>::restore(const size_t min_points) c
     points.emplace_back(compute(s));
   }
   return points;
+}
+
+Trajectory<PointType>::Builder::Builder() : trajectory_(std::make_unique<Trajectory<PointType>>())
+{
+  defaults(trajectory_.get());
+}
+
+void Trajectory<PointType>::Builder::defaults(Trajectory<PointType> * trajectory)
+{
+  BaseClass::Builder::defaults(trajectory);
+  trajectory->orientation_interpolator_ = std::make_shared<interpolator::SphericalLinear>();
+}
+
+tl::expected<Trajectory<PointType>, interpolator::InterpolationFailure>
+Trajectory<PointType>::Builder::build(const std::vector<PointType> & points)
+{
+  auto trajectory_result = trajectory_->build(points);
+  if (trajectory_result) {
+    auto result = Trajectory(std::move(*trajectory_));
+    trajectory_.reset();
+    return result;
+  }
+  return tl::unexpected(trajectory_result.error());
 }
 
 }  // namespace autoware::trajectory

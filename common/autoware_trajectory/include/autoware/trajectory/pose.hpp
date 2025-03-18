@@ -16,7 +16,6 @@
 #define AUTOWARE__TRAJECTORY__POSE_HPP_
 
 #include "autoware/trajectory/interpolator/interpolator.hpp"
-#include "autoware/trajectory/interpolator/spherical_linear.hpp"
 #include "autoware/trajectory/point.hpp"
 
 #include <geometry_msgs/msg/pose.hpp>
@@ -84,14 +83,15 @@ public:
   private:
     std::unique_ptr<Trajectory> trajectory_;
 
-  public:
-    Builder() : trajectory_(std::make_unique<Trajectory>()) { defaults(trajectory_.get()); }
+  protected:
+    /**
+     * @brief create the default interpolator setting
+     * @note In addition to the base class, SphericalLinear for orientation
+     */
+    static void defaults(Trajectory * trajectory);
 
-    static void defaults(Trajectory * trajectory)
-    {
-      BaseClass::Builder::defaults(trajectory);
-      trajectory->orientation_interpolator_ = std::make_shared<interpolator::SphericalLinear>();
-    }
+  public:
+    Builder();
 
     template <class InterpolatorType, class... Args>
     Builder & set_xy_interpolator(Args &&... args)
@@ -120,16 +120,7 @@ public:
     }
 
     tl::expected<Trajectory, interpolator::InterpolationFailure> build(
-      const std::vector<PointType> & points)
-    {
-      auto trajectory_result = trajectory_->build(points);
-      if (trajectory_result) {
-        auto result = Trajectory(std::move(*trajectory_));
-        trajectory_.reset();
-        return result;
-      }
-      return tl::unexpected(trajectory_result.error());
-    }
+      const std::vector<PointType> & points);
   };
 };
 

@@ -16,9 +16,7 @@
 #define AUTOWARE__TRAJECTORY__POINT_HPP_
 
 #include "autoware/trajectory/forward.hpp"
-#include "autoware/trajectory/interpolator/cubic_spline.hpp"
 #include "autoware/trajectory/interpolator/interpolator.hpp"
-#include "autoware/trajectory/interpolator/linear.hpp"
 
 #include <Eigen/Dense>
 
@@ -26,7 +24,6 @@
 
 #include <cstddef>
 #include <memory>
-#include <optional>
 #include <utility>
 #include <vector>
 
@@ -129,15 +126,15 @@ public:
   private:
     std::unique_ptr<Trajectory> trajectory_;
 
-  public:
-    Builder() : trajectory_(std::make_unique<Trajectory>()) { defaults(trajectory_.get()); }
+  protected:
+    /**
+     * @brief create the default interpolator setting
+     * @note CubicSpline for x, y and Linear for z
+     */
+    static void defaults(Trajectory * trajectory);
 
-    static void defaults(Trajectory * trajectory)
-    {
-      trajectory->x_interpolator_ = std::make_shared<interpolator::CubicSpline>();
-      trajectory->y_interpolator_ = std::make_shared<interpolator::CubicSpline>();
-      trajectory->z_interpolator_ = std::make_shared<interpolator::Linear>();
-    }
+  public:
+    Builder();
 
     template <class InterpolatorType, class... Args>
     Builder & set_xy_interpolator(Args &&... args)
@@ -158,16 +155,7 @@ public:
     }
 
     tl::expected<Trajectory, interpolator::InterpolationFailure> build(
-      const std::vector<PointType> & points)
-    {
-      auto trajectory_result = trajectory_->build(points);
-      if (trajectory_result) {
-        auto result = Trajectory(std::move(*trajectory_));
-        trajectory_.reset();
-        return result;
-      }
-      return tl::unexpected(trajectory_result.error());
-    }
+      const std::vector<PointType> & points);
   };
 };
 

@@ -16,7 +16,6 @@
 #define AUTOWARE__TRAJECTORY__TRAJECTORY_POINT_HPP_
 
 #include "autoware/trajectory/detail/interpolated_array.hpp"
-#include "autoware/trajectory/interpolator/stairstep.hpp"
 #include "autoware/trajectory/pose.hpp"
 
 #include <autoware_planning_msgs/msg/trajectory.hpp>
@@ -125,25 +124,17 @@ public:
   private:
     std::unique_ptr<Trajectory> trajectory_;
 
-  public:
-    Builder() : trajectory_(std::make_unique<Trajectory>()) { defaults(trajectory_.get()); }
+  protected:
+    /**
+     * @brief create the default interpolator setting
+     * @note In addition to the base class, Stairstep for
+     * longitudinal_velocity_mps, lateral_velocity_mps, heading_rate_rps, acceleration_mps2,
+     * front_wheel_angle_rad, rear_wheel_angle_rad
+     */
+    static void defaults(Trajectory * trajectory);
 
-    static void defaults(Trajectory * trajectory)
-    {
-      BaseClass::Builder::defaults(trajectory);
-      trajectory->longitudinal_velocity_mps_ = std::make_shared<detail::InterpolatedArray<double>>(
-        std::make_shared<interpolator::Stairstep<double>>());
-      trajectory->lateral_velocity_mps_ = std::make_shared<detail::InterpolatedArray<double>>(
-        std::make_shared<interpolator::Stairstep<double>>());
-      trajectory->heading_rate_rps_ = std::make_shared<detail::InterpolatedArray<double>>(
-        std::make_shared<interpolator::Stairstep<double>>());
-      trajectory->acceleration_mps2_ = std::make_shared<detail::InterpolatedArray<double>>(
-        std::make_shared<interpolator::Stairstep<double>>());
-      trajectory->front_wheel_angle_rad_ = std::make_shared<detail::InterpolatedArray<double>>(
-        std::make_shared<interpolator::Stairstep<double>>());
-      trajectory->rear_wheel_angle_rad_ = std::make_shared<detail::InterpolatedArray<double>>(
-        std::make_shared<interpolator::Stairstep<double>>());
-    }
+  public:
+    Builder();
 
     template <class InterpolatorType, class... Args>
     Builder & set_xy_interpolator(Args &&... args)
@@ -220,16 +211,7 @@ public:
     }
 
     tl::expected<Trajectory, interpolator::InterpolationFailure> build(
-      const std::vector<PointType> & points)
-    {
-      auto trajectory_result = trajectory_->build(points);
-      if (trajectory_result) {
-        auto result = Trajectory(std::move(*trajectory_));
-        trajectory_.reset();
-        return result;
-      }
-      return tl::unexpected(trajectory_result.error());
-    }
+      const std::vector<PointType> & points);
   };
 };
 
