@@ -110,7 +110,7 @@ private:
   tf2_ros::TransformListener tf2_listener_;
 
   //!< @brief logger configure module
-  std::unique_ptr<autoware_utils::LoggerLevelConfigure> logger_configure_;
+  std::unique_ptr<autoware_utils_logging::LoggerLevelConfigure> logger_configure_;
 
   //!< @brief  extended kalman filter instance.
   std::unique_ptr<EKFModule> ekf_module_;
