@@ -2365,9 +2365,9 @@
 <span class="w">      </span><span class="n">autoware</span><span class="o">::</span><span class="n">planning_factor_interface</span><span class="o">::</span><span class="n">PlanningFactorInterface</span><span class="o">&gt;</span><span class="p">(</span>
 <span class="w">      </span><span class="o">&amp;</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="s">"obstacle_cruise_planner"</span><span class="p">)},</span>
 </code></pre></div>
-<p>code example from src/universe/autoware.universe/planning/autoware_obstacle_cruise_planner/include/autoware/obstacle_cruise_planner/planner_interface.hpp</p>
+<p>code example from src/universe/autoware_universe/planning/autoware_obstacle_cruise_planner/include/autoware/obstacle_cruise_planner/planner_interface.hpp</p>
 <h3 id="adding-planning-factors">Adding Planning Factors<a class="headerlink" href="#adding-planning-factors" title="Permanent link">#</a></h3>
-<p>The <code>add</code> method can be used to add planning factors. Here's an example from src/universe/autoware.universe/planning/autoware_obstacle_cruise_planner/src/pid_based_planner/pid_based_planner.cpp.</p>
+<p>The <code>add</code> method can be used to add planning factors. Here's an example from src/universe/autoware_universe/planning/autoware_obstacle_cruise_planner/src/pid_based_planner/pid_based_planner.cpp.</p>
 <div class="highlight"><pre><span></span><code><span class="n">planning_factor_interface_</span><span class="o">-&gt;</span><span class="n">add</span><span class="p">(</span>
 <span class="w">        </span><span class="n">stop_traj_points</span><span class="p">,</span><span class="w"> </span><span class="n">planner_data</span><span class="p">.</span><span class="n">ego_pose</span><span class="p">,</span><span class="w"> </span><span class="n">stop_traj_points</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="n">wall_idx</span><span class="p">).</span><span class="n">pose</span><span class="p">,</span>
 <span class="w">        </span><span class="n">autoware_internal_planning_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">PlanningFactor</span><span class="o">::</span><span class="n">NONE</span><span class="p">,</span>
