@@ -57,14 +57,14 @@ std::vector<geometry_msgs::msg::Point> to_geometry_msgs_points(
   return geometry_msgs_points;
 }
 
-lanelet::BasicPoints2d to_lanelet_points(
+lanelet::BasicPoints3d to_lanelet_points(
   const std::vector<geometry_msgs::msg::Point> & geometry_msgs_points)
 {
-  lanelet::BasicPoints2d lanelet_points{};
+  lanelet::BasicPoints3d lanelet_points{};
   lanelet_points.reserve(geometry_msgs_points.size());
   std::transform(
     geometry_msgs_points.begin(), geometry_msgs_points.end(), std::back_inserter(lanelet_points),
-    [](const auto & point) { return lanelet::BasicPoint2d{point.x, point.y}; });
+    [](const auto & point) { return lanelet::utils::conversion::toLaneletPoint(point); });
   return lanelet_points;
 }
 }  // namespace
@@ -247,14 +247,14 @@ std::optional<double> get_first_intersection_arc_length(
   const auto [s_end_left_bound, s_end_right_bound] =
     get_arc_length_on_bounds(lanelet_sequence, s_end);
 
-  const auto cropped_left_bound = to_lanelet_points(crop_line_string(
+  const auto cropped_left_bound = lanelet::utils::to2D(to_lanelet_points(crop_line_string(
     to_geometry_msgs_points(
       lanelet_sequence.leftBound2d().begin(), lanelet_sequence.leftBound2d().end()),
-    s_start_left_bound, s_end_left_bound));
-  const auto cropped_right_bound = to_lanelet_points(crop_line_string(
+    s_start_left_bound, s_end_left_bound)));
+  const auto cropped_right_bound = lanelet::utils::to2D(to_lanelet_points(crop_line_string(
     to_geometry_msgs_points(
       lanelet_sequence.rightBound2d().begin(), lanelet_sequence.rightBound2d().end()),
-    s_start_right_bound, s_end_right_bound));
+    s_start_right_bound, s_end_right_bound)));
 
   // self intersection
   {
@@ -318,11 +318,11 @@ std::optional<double> get_first_intersection_arc_length(
           return s_start_edge;
         }
         lanelet::BasicPoints2d start_edge_intersections;
-        boost::geometry::intersection(
-          start_edge,
-          lanelet::BasicLineString2d{std::next(bound.begin()), bound.end()},  // exclude start point
-          start_edge_intersections);
+        boost::geometry::intersection(start_edge, bound, start_edge_intersections);
         for (const auto & intersection : start_edge_intersections) {
+          if (boost::geometry::equals(intersection, bound.front())) {
+            continue;
+          }
           const auto s = lanelet::geometry::toArcCoordinates(bound, intersection).length;
           s_start_edge = s_start_edge ? std::min(*s_start_edge, s) : s;
         }
