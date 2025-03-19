@@ -15,7 +15,7 @@ TODO
 
 Given `bases` and `values`, the builder internally executes interpolation and return the result in the form of `expected<T, E>`. If successful, it contains the interpolator object.
 
-```cpp title="common/autoware_trajectory/examples/example_readme.cpp:43:62"
+```cpp title="./examples/example_readme.cpp:43:62"
 --8<--
 common/autoware_trajectory/examples/example_readme.cpp:43:62
 --8<--
@@ -23,7 +23,7 @@ common/autoware_trajectory/examples/example_readme.cpp:43:62
 
 Otherwise it contains the error object representing the failure reason. In the below snippet, cubic spline interpolation fails because the number of input points is 3, which is below the `minimum_required_points() = 4` of `CubicSpline`.
 
-```cpp title="common/autoware_trajectory/examples/example_readme.cpp:104:114"
+```cpp title="./examples/example_readme.cpp:104:114"
 --8<--
 common/autoware_trajectory/examples/example_readme.cpp:104:114
 --8<--
@@ -45,9 +45,9 @@ In such cases the result `expected` object contains `InterpolationFailure` type 
 
 `AkimaSpline` requires at least **5** points to interpolate.
 
-```cpp title="common/autoware_trajectory/examples/example_readme.cpp:131:145"
+```cpp title="./examples/example_readme.cpp:132:146"
 --8<--
-common/autoware_trajectory/examples/example_readme.cpp:131:145
+common/autoware_trajectory/examples/example_readme.cpp:132:146
 --8<--
 ```
 
@@ -56,9 +56,9 @@ common/autoware_trajectory/examples/example_readme.cpp:131:145
 
 `CubicSpline` requires at least **4** points to interpolate.
 
-```cpp title="common/autoware_trajectory/examples/example_readme.cpp:186:195"
+```cpp title="./examples/example_readme.cpp:187:196"
 --8<--
-common/autoware_trajectory/examples/example_readme.cpp:186:195
+common/autoware_trajectory/examples/example_readme.cpp:187:196
 --8<--
 ```
 
@@ -67,9 +67,9 @@ common/autoware_trajectory/examples/example_readme.cpp:186:195
 
 `Linear` requires at least **2** points to interpolate.
 
-```cpp title="common/autoware_trajectory/examples/example_readme.cpp:236:244"
+```cpp title="./examples/example_readme.cpp:237:245"
 --8<--
-common/autoware_trajectory/examples/example_readme.cpp:236:244
+common/autoware_trajectory/examples/example_readme.cpp:237:245
 --8<--
 ```
 
@@ -78,7 +78,7 @@ common/autoware_trajectory/examples/example_readme.cpp:236:244
 
 `StairStep` requires at least **2** points to interpolate.
 
-```cpp title="common/autoware_trajectory/examples/example_readme.cpp:286:295"
+```cpp title="./examples/example_readme.cpp:286:295"
 --8<--
 common/autoware_trajectory/examples/example_readme.cpp:286:295
 --8<--
