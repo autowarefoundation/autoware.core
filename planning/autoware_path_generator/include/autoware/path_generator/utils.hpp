@@ -171,8 +171,8 @@ std::array<double, 2> get_arc_length_on_bounds(
  * @return longitudinal distance of projected point (left / right)
  */
 std::array<std::optional<double>, 2> get_arc_length_on_centerline(
-  const lanelet::LaneletSequence & lanelet_sequence, const std::optional<double> s_left_bound,
-  const std::optional<double> s_right_bound);
+  const lanelet::LaneletSequence & lanelet_sequence, const std::optional<double> & s_left_bound,
+  const std::optional<double> & s_right_bound);
 
 /**
  * @brief Recreate the goal pose to prevent the goal point being too far from the lanelet, which
