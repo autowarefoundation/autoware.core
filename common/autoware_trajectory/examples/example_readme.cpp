@@ -152,8 +152,8 @@ int main_akima()
   ax1.set_xlim(Args(-1.0, 6.0));
   ax1.set_ylim(Args(-1.0, 6.0));
 
-  ax2.plot(Args(x, dy), Kwargs("color"_a = "orange", "label"_a = "1st derivative"));
-  ax2.plot(Args(x, ddy), Kwargs("color"_a = "orange", "label"_a = "2nd derivative"));
+  ax2.plot(Args(x, dy), Kwargs("color"_a = "magenta", "label"_a = "1st derivative"));
+  ax2.plot(Args(x, ddy), Kwargs("color"_a = "purple", "label"_a = "2nd derivative"));
   ax2.legend();
   ax2.grid();
   ax2.set_aspect(Args("equal"));
@@ -202,8 +202,8 @@ int main_cubic()
   ax1.set_xlim(Args(-1.0, 6.0));
   ax1.set_ylim(Args(-1.0, 6.0));
 
-  ax2.plot(Args(x, dy), Kwargs("color"_a = "orange", "label"_a = "1st derivative"));
-  ax2.plot(Args(x, ddy), Kwargs("color"_a = "orange", "label"_a = "2nd derivative"));
+  ax2.plot(Args(x, dy), Kwargs("color"_a = "magenta", "label"_a = "1st derivative"));
+  ax2.plot(Args(x, ddy), Kwargs("color"_a = "purple", "label"_a = "2nd derivative"));
   ax2.legend();
   ax2.grid();
   ax2.set_aspect(Args("equal"));
@@ -251,8 +251,8 @@ int main_linear()
   ax1.set_xlim(Args(-1.0, 6.0));
   ax1.set_ylim(Args(-1.0, 6.0));
 
-  ax2.plot(Args(x, dy), Kwargs("color"_a = "orange", "label"_a = "1st derivative"));
-  ax2.plot(Args(x, ddy), Kwargs("color"_a = "orange", "label"_a = "2nd derivative"));
+  ax2.plot(Args(x, dy), Kwargs("color"_a = "magenta", "label"_a = "1st derivative"));
+  ax2.plot(Args(x, ddy), Kwargs("color"_a = "purple", "label"_a = "2nd derivative"));
   ax2.legend();
   ax2.grid();
   ax2.set_aspect(Args("equal"));
@@ -301,8 +301,8 @@ int main_stairstep()
   ax1.set_xlim(Args(-1.0, 6.0));
   ax1.set_ylim(Args(-1.0, 6.0));
 
-  ax2.plot(Args(x, dy), Kwargs("color"_a = "orange", "label"_a = "1st derivative"));
-  ax2.plot(Args(x, ddy), Kwargs("color"_a = "orange", "label"_a = "2nd derivative"));
+  ax2.plot(Args(x, dy), Kwargs("color"_a = "magenta", "label"_a = "1st derivative"));
+  ax2.plot(Args(x, ddy), Kwargs("color"_a = "purple", "label"_a = "2nd derivative"));
   ax2.legend();
   ax2.grid();
   ax2.set_aspect(Args("equal"));
