@@ -87,8 +87,10 @@ public:
    * @param behavior of this planning factor.
    * @param safety factor.
    * @param driving direction.
-   * @param target velocity of the control point.
-   * @param shift length of the control point.
+   * @param target velocity of the 1st control point.
+   * @param target velocity of the 2nd control point.
+   * @param shift length of the 1st control point.
+   * @param shift length of the 2nd control point.
    * @param detail information.
    */
   template <class PointType>
@@ -153,8 +155,10 @@ public:
    * @param behavior of this planning factor.
    * @param safety factor.
    * @param driving direction.
-   * @param target velocity of the control point.
-   * @param shift length of the control point.
+   * @param target velocity of the 1st control point.
+   * @param target velocity of the 2nd control point.
+   * @param shift length of the 1st control point.
+   * @param shift length of the 2nd control point.
    * @param detail information.
    */
   void add(
