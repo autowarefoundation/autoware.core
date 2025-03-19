@@ -1,4 +1,4 @@
-# autoware.core
+# autoware_core
 
 - An [Autoware](https://github.com/autowarefoundation/autoware) repository that contains a basic set of high-quality, stable ROS packages for autonomous driving.
 

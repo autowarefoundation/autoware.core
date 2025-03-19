@@ -6,7 +6,7 @@ Changelog for package autoware_point_types
 ------------------
 * unify version to 0.1.0
 * update changelog
-* feat: port autoware_point_types from autoware.universe (`#151 <https://github.com/autowarefoundation/autoware.core/issues/151>`_)
+* feat: port autoware_point_types from autoware.universe (`#151 <https://github.com/autowarefoundation/autoware_core/issues/151>`_)
   * feat: port autoware_point_types from universe
   * chore: remove change log and reset version to 0.0.0
   * add myself as maintainer
@@ -18,7 +18,7 @@ Changelog for package autoware_point_types
   Co-authored-by: Yutaka Kondo <yutaka.kondo@youtalk.jp>
 * Contributors: Yutaka Kondo, cyn-liu
 
-* feat: port autoware_point_types from autoware.universe (`#151 <https://github.com/autowarefoundation/autoware.core/issues/151>`_)
+* feat: port autoware_point_types from autoware.universe (`#151 <https://github.com/autowarefoundation/autoware_core/issues/151>`_)
   * feat: port autoware_point_types from universe
   * chore: remove change log and reset version to 0.0.0
   * add myself as maintainer
