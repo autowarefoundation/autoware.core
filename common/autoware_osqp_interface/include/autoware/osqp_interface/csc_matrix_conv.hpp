@@ -33,6 +33,44 @@ struct OSQP_INTERFACE_PUBLIC CSC_Matrix
   std::vector<c_int> m_row_idxs;
   /// Vector of 'val' indices where each column starts. Ex: [0, 2, 4] (Eigen: 'outer')
   std::vector<c_int> m_col_idxs;
+
+  friend std::ostream & operator<<(std::ostream & os, const CSC_Matrix & matrix)
+  {
+    os << "CSC_Matrix: {\n";
+    os << "\tm_vals: [";
+
+    // Iterator-based loop for m_vals
+    for (auto it = std::begin(matrix.m_vals); it != std::end(matrix.m_vals); ++it) {
+      os << *it;  // Print the current element (dereference iterator)
+      if (std::next(it) != std::end(matrix.m_vals)) {  // Check if not the last element
+        os << ", ";
+      }
+    }
+    os << "],\n";
+
+    os << "\tm_row_idxs: [";
+    // Iterator-based loop for m_row_idxs
+    for (auto it = std::begin(matrix.m_row_idxs); it != std::end(matrix.m_row_idxs); ++it) {
+      os << *it;
+      if (std::next(it) != std::end(matrix.m_row_idxs)) {
+        os << ", ";
+      }
+    }
+    os << "],\n";
+
+    os << "\tm_col_idxs: [";
+    // Iterator-based loop for m_col_idxs
+    for (auto it = std::begin(matrix.m_col_idxs); it != std::end(matrix.m_col_idxs); ++it) {
+      os << *it;
+      if (std::next(it) != std::end(matrix.m_col_idxs)) {
+        os << ", ";
+      }
+    }
+    os << "]\n";
+
+    os << "}\n";
+    return os;
+  }
 };
 
 /// \brief Calculate CSC matrix from Eigen matrix

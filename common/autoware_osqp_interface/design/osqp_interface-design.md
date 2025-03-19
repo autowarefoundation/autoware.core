@@ -54,7 +54,7 @@ The interface can be used in several ways:
 
    ```cpp
    std::tuple<std::vector<double>, std::vector<double>> result = osqp_interface.optimize();
-   std::vector<double> param = std::get<0>(result);
+   std::vector<double> param = result.primal_solution;
    double x_0 = param[0];
    double x_1 = param[1];
    ```
