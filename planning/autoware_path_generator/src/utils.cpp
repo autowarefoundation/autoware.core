@@ -349,7 +349,7 @@ const geometry_msgs::msg::Pose refine_goal(
 // To perform smooth goal connection, we need to prepare the point before the goal point.
 // This function prepares the point before the goal point.
 // See the link below for more details:
-//   https://autowarefoundation.github.io/autoware.universe/main/planning/behavior_path_planner/autoware_behavior_path_goal_planner_module/#fixed_goal_planner
+//   https://autowarefoundation.github.io/autoware_universe/main/planning/behavior_path_planner/autoware_behavior_path_goal_planner_module/#fixed_goal_planner
 PathPointWithLaneId prepare_pre_goal(
   const geometry_msgs::msg::Pose & goal, const lanelet::ConstLanelets & lanes)
 {
@@ -425,7 +425,7 @@ std::optional<size_t> find_index_out_of_goal_search_range(
 // This function returns the cleaned up path. You need to add pre_goal and goal to the returned
 // path. This is because we'll do spline interpolation between the tail of the returned path and the
 // pre_goal later at this file.
-//   https://github.com/autowarefoundation/autoware.universe/blob/908cb7ee5cca01c367f03caf6db4562a620504fb/planning/behavior_path_planner/autoware_behavior_path_planner/src/behavior_path_planner_node.cpp#L724-L725
+//   https://github.com/autowarefoundation/autoware_universe/blob/908cb7ee5cca01c367f03caf6db4562a620504fb/planning/behavior_path_planner/autoware_behavior_path_planner/src/behavior_path_planner_node.cpp#L724-L725
 std::optional<PathWithLaneId> get_path_up_to_just_before_pre_goal(
   const PathWithLaneId & input, const geometry_msgs::msg::Pose & goal,
   const lanelet::Id goal_lane_id, const double search_radius_range)
