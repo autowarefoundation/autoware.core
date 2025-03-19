@@ -61,7 +61,7 @@ int main_cubic_normal()
   // In this case the cubic spline coefficients are calculated.
   const CubicSpline & trajectory = result.value();
 
-  // arbitrary value can be computed continously
+  // arbitrary value can be computed continuously
   std::vector<double> x;
   std::vector<double> y;
   for (double s = xs.front(); s <= xs.back(); s += 0.05) {
