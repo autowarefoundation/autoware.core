@@ -75,7 +75,7 @@ The goal of the [Autoware Planning Test Manager](https://autowarefoundation.gith
 
 ### Generate test data for unit testing
 
-As presented in this [PR description](https://github.com/autowarefoundation/autoware.universe/pull/9207), the user can save a snapshot of the scene to a yaml file while running Planning Simulation on the test map.
+As presented in this [PR description](https://github.com/autowarefoundation/autoware_universe/pull/9207), the user can save a snapshot of the scene to a yaml file while running Planning Simulation on the test map.
 
 ```bash
 ros2 launch autoware_test_utils psim_road_shoulder.launch.xml

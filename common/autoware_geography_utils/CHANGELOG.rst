@@ -27,7 +27,7 @@ Changelog for package autoware_geography_utils
   Co-authored-by: M. Fatih Cırıt <mfc@autoware.org>
 * docs(autoware_geography_utils): update `README.md` (`#111 <https://github.com/autowarefoundation/autoware_core/issues/111>`_)
   update readme
-* feat: port autoware_geography_utils from autoware.universe (`#100 <https://github.com/autowarefoundation/autoware_core/issues/100>`_)
+* feat: port autoware_geography_utils from autoware_universe (`#100 <https://github.com/autowarefoundation/autoware_core/issues/100>`_)
   Co-authored-by: Yutaka Kondo <yutaka.kondo@youtalk.jp>
 * Contributors: Ryohsuke Mitsudome, Yutaka Kondo, awf-autoware-bot[bot]
 
@@ -61,7 +61,7 @@ Changelog for package autoware_geography_utils
   Co-authored-by: M. Fatih Cırıt <mfc@autoware.org>
 * docs(autoware_geography_utils): update `README.md` (`#111 <https://github.com/autowarefoundation/autoware_core/issues/111>`_)
   update readme
-* feat: port autoware_geography_utils from autoware.universe (`#100 <https://github.com/autowarefoundation/autoware_core/issues/100>`_)
+* feat: port autoware_geography_utils from autoware_universe (`#100 <https://github.com/autowarefoundation/autoware_core/issues/100>`_)
   Co-authored-by: Yutaka Kondo <yutaka.kondo@youtalk.jp>
 * Contributors: Ryohsuke Mitsudome, Yutaka Kondo, awf-autoware-bot[bot]
 
