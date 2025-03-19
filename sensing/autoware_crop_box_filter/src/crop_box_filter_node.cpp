@@ -213,8 +213,7 @@ void CropBoxFilter::filter_pointcloud(const PointCloud2ConstPtr & cloud, PointCl
       point_preprocessed[0] > param_.min_x && point_preprocessed[0] < param_.max_x;
     if ((!param_.negative && point_is_inside) || (param_.negative && !point_is_inside)) {
       // apply post-transform if needed
-      if (need_postprocess_transform_) 
-      {
+      if (need_postprocess_transform_) {
         Eigen::Vector4f point_postprocessed = eigen_transform_postprocess_ * point_preprocessed;
 
         memcpy(&output.data[output_size], &cloud->data[global_offset], cloud->point_step);
@@ -222,9 +221,7 @@ void CropBoxFilter::filter_pointcloud(const PointCloud2ConstPtr & cloud, PointCl
         std::memcpy(&output.data[output_size + x_offset], &point_postprocessed[0], sizeof(float));
         std::memcpy(&output.data[output_size + y_offset], &point_postprocessed[1], sizeof(float));
         std::memcpy(&output.data[output_size + z_offset], &point_postprocessed[2], sizeof(float));
-      } 
-      else 
-      {
+      } else {
         memcpy(&output.data[output_size], &cloud->data[global_offset], cloud->point_step);
 
         if (need_preprocess_transform_) {

@@ -15,8 +15,10 @@
 // limitations under the License.
 
 #include "autoware/crop_box_filter/crop_box_filter_node.hpp"
-#include <memory>
+
 #include <gtest/gtest.h>
+
+#include <memory>
 
 TEST(CropBoxFilterTest, checkOutputPointcloud)
 {
