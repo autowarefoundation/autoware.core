@@ -33,7 +33,8 @@ class Trajectory<autoware_internal_planning_msgs::msg::PathPointWithLaneId>
   using PointType = autoware_internal_planning_msgs::msg::PathPointWithLaneId;
   using LaneIdType = std::vector<int64_t>;
 
-  std::shared_ptr<detail::InterpolatedArray<LaneIdType>> lane_ids_;  //!< Lane ID
+protected:
+  std::shared_ptr<detail::InterpolatedArray<LaneIdType>> lane_ids_{nullptr};  //!< Lane ID
 
 public:
   Trajectory() = default;

@@ -33,18 +33,19 @@ class Trajectory<autoware_planning_msgs::msg::TrajectoryPoint>
   using BaseClass = Trajectory<geometry_msgs::msg::Pose>;
   using PointType = autoware_planning_msgs::msg::TrajectoryPoint;
 
-  std::shared_ptr<detail::InterpolatedArray<double>>
-    longitudinal_velocity_mps_;  //!< Longitudinal velocity in m/s
-  std::shared_ptr<detail::InterpolatedArray<double>>
-    lateral_velocity_mps_;  //!< Lateral velocity in m/s
-  std::shared_ptr<detail::InterpolatedArray<double>>
-    heading_rate_rps_;  //!< Heading rate in rad/s};
-  std::shared_ptr<detail::InterpolatedArray<double>>
-    acceleration_mps2_;  //!< Longitudinal acceleration in m/s^2} Warning, this is not used
-  std::shared_ptr<detail::InterpolatedArray<double>>
-    front_wheel_angle_rad_;  //!< Front wheel angle in rad} Warning, this is not used
-  std::shared_ptr<detail::InterpolatedArray<double>>
-    rear_wheel_angle_rad_;  //!< Rear wheel angle in rad} Warning, this is not used
+protected:
+  std::shared_ptr<detail::InterpolatedArray<double>> longitudinal_velocity_mps_{
+    nullptr};  //!< Longitudinal velocity in m/s
+  std::shared_ptr<detail::InterpolatedArray<double>> lateral_velocity_mps_{
+    nullptr};  //!< Lateral velocity in m/s
+  std::shared_ptr<detail::InterpolatedArray<double>> heading_rate_rps_{
+    nullptr};  //!< Heading rate in rad/s};
+  std::shared_ptr<detail::InterpolatedArray<double>> acceleration_mps2_{
+    nullptr};  //!< Longitudinal acceleration in m/s^2} Warning, this is not used
+  std::shared_ptr<detail::InterpolatedArray<double>> front_wheel_angle_rad_{
+    nullptr};  //!< Front wheel angle in rad} Warning, this is not used
+  std::shared_ptr<detail::InterpolatedArray<double>> rear_wheel_angle_rad_{
+    nullptr};  //!< Rear wheel angle in rad} Warning, this is not used
 
 public:
   Trajectory() = default;

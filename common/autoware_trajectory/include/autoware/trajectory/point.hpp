@@ -35,18 +35,15 @@ namespace autoware::trajectory
 template <>
 class Trajectory<geometry_msgs::msg::Point>
 {
-  template <class PointType>
-  friend class Trajectory;
-
   using PointType = geometry_msgs::msg::Point;
 
 protected:
-  std::shared_ptr<interpolator::InterpolatorInterface<double>>
-    x_interpolator_;  //!< Interpolator for x
-  std::shared_ptr<interpolator::InterpolatorInterface<double>>
-    y_interpolator_;  //!< Interpolator for y
-  std::shared_ptr<interpolator::InterpolatorInterface<double>>
-    z_interpolator_;  //!< Interpolator for z
+  std::shared_ptr<interpolator::InterpolatorInterface<double>> x_interpolator_{
+    nullptr};  //!< Interpolator for x
+  std::shared_ptr<interpolator::InterpolatorInterface<double>> y_interpolator_{
+    nullptr};  //!< Interpolator for y
+  std::shared_ptr<interpolator::InterpolatorInterface<double>> z_interpolator_{
+    nullptr};  //!< Interpolator for z
 
   std::vector<double> bases_;  //!< Axis of the trajectory
 

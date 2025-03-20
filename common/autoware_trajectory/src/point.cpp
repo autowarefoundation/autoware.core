@@ -59,6 +59,11 @@ Trajectory<PointType> & Trajectory<PointType>::operator=(const Trajectory & rhs)
 interpolator::InterpolationResult Trajectory<PointType>::build(
   const std::vector<PointType> & points)
 {
+  if (!x_interpolator_ || !y_interpolator_ || !z_interpolator_) {
+    return tl::unexpected(
+      interpolator::InterpolationFailure{"xyz interpolators are nullptr! check Builder usage"});
+  }
+
   std::vector<double> xs;
   std::vector<double> ys;
   std::vector<double> zs;

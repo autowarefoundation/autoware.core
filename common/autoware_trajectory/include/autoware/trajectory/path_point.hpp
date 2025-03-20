@@ -34,12 +34,13 @@ class Trajectory<autoware_planning_msgs::msg::PathPoint>
   using BaseClass = Trajectory<geometry_msgs::msg::Pose>;
   using PointType = autoware_planning_msgs::msg::PathPoint;
 
-  std::shared_ptr<detail::InterpolatedArray<double>>
-    longitudinal_velocity_mps_;  //!< Longitudinal velocity in m/s
-  std::shared_ptr<detail::InterpolatedArray<double>>
-    lateral_velocity_mps_;  //!< Lateral velocity in m/s
-  std::shared_ptr<detail::InterpolatedArray<double>>
-    heading_rate_rps_;  //!< Heading rate in rad/s};
+protected:
+  std::shared_ptr<detail::InterpolatedArray<double>> longitudinal_velocity_mps_{
+    nullptr};  //!< Longitudinal velocity in m/s
+  std::shared_ptr<detail::InterpolatedArray<double>> lateral_velocity_mps_{
+    nullptr};  //!< Lateral velocity in m/s
+  std::shared_ptr<detail::InterpolatedArray<double>> heading_rate_rps_{
+    nullptr};  //!< Heading rate in rad/s};
 
 public:
   Trajectory() = default;

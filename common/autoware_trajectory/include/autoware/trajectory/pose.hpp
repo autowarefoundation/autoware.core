@@ -39,7 +39,7 @@ class Trajectory<geometry_msgs::msg::Pose> : public Trajectory<geometry_msgs::ms
 
 protected:
   std::shared_ptr<interpolator::InterpolatorInterface<geometry_msgs::msg::Quaternion>>
-    orientation_interpolator_;  //!< Interpolator for orientations
+    orientation_interpolator_{nullptr};  //!< Interpolator for orientations
 
 public:
   Trajectory() = default;

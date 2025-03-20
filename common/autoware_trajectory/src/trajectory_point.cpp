@@ -63,6 +63,14 @@ Trajectory<PointType> & Trajectory<PointType>::operator=(const Trajectory & rhs)
 interpolator::InterpolationResult Trajectory<PointType>::build(
   const std::vector<PointType> & points)
 {
+  if (
+    !longitudinal_velocity_mps_ || !lateral_velocity_mps_ || !heading_rate_rps_ ||
+    !acceleration_mps2_ || !front_wheel_angle_rad_ || !rear_wheel_angle_rad_) {
+    return tl::unexpected(interpolator::InterpolationFailure{
+      "longitudinal_velocity_mps/lateral_velocity_mps/heading_rate_rps/acceleration_mps2/"
+      "front_wheel_angle_rad/rear_wheel_angle_rad interpolator are nullptr! check Builder usage"});
+  }
+
   std::vector<geometry_msgs::msg::Pose> poses;
   std::vector<double> longitudinal_velocity_mps_values;
   std::vector<double> lateral_velocity_mps_values;
