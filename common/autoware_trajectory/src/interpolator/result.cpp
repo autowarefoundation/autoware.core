@@ -1,4 +1,4 @@
-// Copyright 2024 TIER IV, Inc.
+// Copyright 2025 TIER IV, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef AUTOWARE__TRAJECTORY__FORWARD_HPP_
-#define AUTOWARE__TRAJECTORY__FORWARD_HPP_
+#include "autoware/trajectory/interpolator/result.hpp"
 
-namespace autoware::trajectory
+#include <iostream>
+#include <sstream>
+
+namespace autoware::trajectory::interpolator
 {
 
-template <typename PointType>
-class Trajectory
+InterpolationFailure operator+(
+  const InterpolationFailure & primary, const InterpolationFailure & nested)
 {
-};
+  std::stringstream ss;
+  ss << primary.what << "." << std::endl << "\tReason: " << nested.what << std::endl;
+  return InterpolationFailure{ss.str()};
+}
 
-}  // namespace autoware::trajectory
-
-#endif  // AUTOWARE__TRAJECTORY__FORWARD_HPP_
+}  // namespace autoware::trajectory::interpolator

@@ -25,6 +25,7 @@
 #include <cmath>
 #include <cstddef>
 #include <memory>
+#include <utility>
 #include <vector>
 
 namespace autoware::trajectory
@@ -62,22 +63,27 @@ Trajectory<PointType> & Trajectory<PointType>::operator=(const Trajectory & rhs)
   return *this;
 }
 
-bool Trajectory<PointType>::build(const std::vector<PointType> & points)
+interpolator::InterpolationResult Trajectory<PointType>::build(
+  const std::vector<PointType> & points)
 {
   std::vector<double> xs;
   std::vector<double> ys;
   std::vector<double> zs;
 
   bases_.clear();
+  bases_.reserve(points.size() + 1);
+  xs.reserve(points.size() + 1);
+  ys.reserve(points.size() + 1);
+  zs.reserve(points.size() + 1);
+
   bases_.emplace_back(0.0);
   xs.emplace_back(points[0].x);
   ys.emplace_back(points[0].y);
   zs.emplace_back(points[0].z);
 
   for (size_t i = 1; i < points.size(); ++i) {
-    const Eigen::Vector2d p0(points[i - 1].x, points[i - 1].y);
-    const Eigen::Vector2d p1(points[i].x, points[i].y);
-    bases_.emplace_back(bases_.back() + (p1 - p0).norm());
+    const auto dist = std::hypot(points[i].x - points[i - 1].x, points[i].y - points[i - 1].y);
+    bases_.emplace_back(bases_.back() + dist);
     xs.emplace_back(points[i].x);
     ys.emplace_back(points[i].y);
     zs.emplace_back(points[i].z);
@@ -86,17 +92,24 @@ bool Trajectory<PointType>::build(const std::vector<PointType> & points)
   start_ = bases_.front();
   end_ = bases_.back();
 
-  bool is_valid = true;
-  is_valid &= x_interpolator_->build(bases_, xs);
-  is_valid &= y_interpolator_->build(bases_, ys);
-  is_valid &= z_interpolator_->build(bases_, zs);
-
-  return is_valid;
+  if (const auto result = x_interpolator_->build(bases_, std::move(xs)); !result) {
+    return tl::unexpected(
+      interpolator::InterpolationFailure{"failed to interpolate Point::x"} + result.error());
+  }
+  if (const auto result = y_interpolator_->build(bases_, std::move(ys)); !result) {
+    return tl::unexpected(
+      interpolator::InterpolationFailure{"failed to interpolate Point::y"} + result.error());
+  }
+  if (const auto result = z_interpolator_->build(bases_, std::move(zs)); !result) {
+    return tl::unexpected(
+      interpolator::InterpolationFailure{"failed to interpolate Point::z"} + result.error());
+  }
+  return interpolator::InterpolationSuccess{};
 }
 
 double Trajectory<PointType>::clamp(const double s, bool show_warning) const
 {
-  if ((s < 0 || s > length()) && show_warning) {
+  if (show_warning && (s < 0 || s > length())) {
     RCLCPP_WARN(
       rclcpp::get_logger("Trajectory"), "The arc length %f is out of the trajectory length %f", s,
       length());

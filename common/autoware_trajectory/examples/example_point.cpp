@@ -19,9 +19,12 @@
 #include "autoware/trajectory/utils/curvature_utils.hpp"
 #include "lanelet2_core/primitives/LineString.h"
 
+#include <autoware/pyplot/pyplot.hpp>
+
 #include <geometry_msgs/msg/point.hpp>
 
-#include <matplotlibcpp17/pyplot.h>
+#include <pybind11/embed.h>
+#include <pybind11/stl.h>
 
 #include <iostream>
 #include <vector>
@@ -38,7 +41,7 @@ int main()
 {
   pybind11::scoped_interpreter guard{};
 
-  auto plt = matplotlibcpp17::pyplot::import();
+  auto plt = autoware::pyplot::import();
 
   std::vector<geometry_msgs::msg::Point> points = {
     pose(0.49, 0.59), pose(0.61, 1.22), pose(0.86, 1.93), pose(1.20, 2.56), pose(1.51, 3.17),
@@ -140,6 +143,7 @@ int main()
   }
 
   plt.axis(Args("equal"));
+  plt.grid();
   plt.legend();
   plt.show();
 }

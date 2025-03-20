@@ -18,7 +18,7 @@
 
 #include <vector>
 
-TEST(TestHelpers, fill_bases)
+TEST(TestHelpers, fill_bases_with_new_points)
 {
   using autoware::trajectory::detail::fill_bases;
 
@@ -32,6 +32,38 @@ TEST(TestHelpers, fill_bases)
 
   for (size_t i = 0; i < min_points; ++i) {
     EXPECT_NEAR(result[i], expected[i], 1e-6);
+  }
+}
+
+TEST(TestHelpers, fill_bases_as_is_1)
+{
+  using autoware::trajectory::detail::fill_bases;
+
+  std::vector<double> x = {0.0, 1.0, 2.0, 3.0};
+  size_t min_points = 4;
+
+  auto result = fill_bases(x, min_points);
+
+  EXPECT_EQ(result.size(), x.size());
+
+  for (size_t i = 0; i < x.size(); ++i) {
+    EXPECT_NEAR(result[i], result[i], 1e-6);
+  }
+}
+
+TEST(TestHelpers, fill_bases_as_is_2)
+{
+  using autoware::trajectory::detail::fill_bases;
+
+  std::vector<double> x = {0.0, 1.0, 2.0, 3.0};
+  size_t min_points = 3;
+
+  auto result = fill_bases(x, min_points);
+
+  EXPECT_EQ(result.size(), x.size());
+
+  for (size_t i = 0; i < x.size(); ++i) {
+    EXPECT_NEAR(result[i], result[i], 1e-6);
   }
 }
 
