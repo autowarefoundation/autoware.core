@@ -23,8 +23,8 @@
 #include <autoware_planning_msgs/msg/path_point.hpp>
 
 #include <memory>
+#include <utility>
 #include <vector>
-
 namespace autoware::trajectory
 {
 
@@ -61,7 +61,8 @@ Trajectory<PointType> & Trajectory<PointType>::operator=(const Trajectory & rhs)
   return *this;
 }
 
-bool Trajectory<PointType>::build(const std::vector<PointType> & points)
+interpolator::InterpolationResult Trajectory<PointType>::build(
+  const std::vector<PointType> & points)
 {
   std::vector<geometry_msgs::msg::Pose> poses;
   std::vector<double> longitudinal_velocity_mps_values;
@@ -75,14 +76,30 @@ bool Trajectory<PointType>::build(const std::vector<PointType> & points)
     heading_rate_rps_values.emplace_back(point.heading_rate_rps);
   }
 
-  bool is_valid = true;
+  if (const auto result = Trajectory<geometry_msgs::msg::Pose>::build(poses); !result) {
+    return tl::unexpected(
+      interpolator::InterpolationFailure{"failed to interpolate PathPoint::pose"} + result.error());
+  }
+  if (const auto result = this->longitudinal_velocity_mps().build(
+        bases_, std::move(longitudinal_velocity_mps_values));
+      !result) {
+    return tl::unexpected(interpolator::InterpolationFailure{
+      "failed to interpolate PathPoint::longitudinal_velocity_mps"});
+  }
+  if (const auto result =
+        this->lateral_velocity_mps().build(bases_, std::move(lateral_velocity_mps_values));
+      !result) {
+    return tl::unexpected(
+      interpolator::InterpolationFailure{"failed to interpolate PathPoint::lateral_velocity_mps"});
+  }
+  if (const auto result =
+        this->heading_rate_rps().build(bases_, std::move(heading_rate_rps_values));
+      !result) {
+    return tl::unexpected(
+      interpolator::InterpolationFailure{"failed to interpolate PathPoint::heading_rate_rps"});
+  }
 
-  is_valid &= Trajectory<geometry_msgs::msg::Pose>::build(poses);
-  is_valid &= this->longitudinal_velocity_mps().build(bases_, longitudinal_velocity_mps_values);
-  is_valid &= this->lateral_velocity_mps().build(bases_, lateral_velocity_mps_values);
-  is_valid &= this->heading_rate_rps().build(bases_, heading_rate_rps_values);
-
-  return is_valid;
+  return interpolator::InterpolationSuccess{};
 }
 
 std::vector<double> Trajectory<PointType>::get_internal_bases() const
@@ -102,19 +119,19 @@ std::vector<double> Trajectory<PointType>::get_internal_bases() const
   return bases;
 }
 
-PointType Trajectory<PointType>::compute(double s) const
+PointType Trajectory<PointType>::compute(const double s) const
 {
   PointType result;
   result.pose = Trajectory<geometry_msgs::msg::Pose>::compute(s);
-  s = clamp(s);
+  const auto s_clamp = clamp(s);
   result.longitudinal_velocity_mps =
-    static_cast<float>(this->longitudinal_velocity_mps().compute(s));
-  result.lateral_velocity_mps = static_cast<float>(this->lateral_velocity_mps().compute(s));
-  result.heading_rate_rps = static_cast<float>(this->heading_rate_rps().compute(s));
+    static_cast<float>(this->longitudinal_velocity_mps().compute(s_clamp));
+  result.lateral_velocity_mps = static_cast<float>(this->lateral_velocity_mps().compute(s_clamp));
+  result.heading_rate_rps = static_cast<float>(this->heading_rate_rps().compute(s_clamp));
   return result;
 }
 
-std::vector<PointType> Trajectory<PointType>::restore(const size_t & min_points) const
+std::vector<PointType> Trajectory<PointType>::restore(const size_t min_points) const
 {
   std::vector<double> bases = get_internal_bases();
   bases = detail::fill_bases(bases, min_points);

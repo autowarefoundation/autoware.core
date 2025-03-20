@@ -20,10 +20,12 @@
   <depend>lanelet2_core</depend>
   <depend>rclcpp</depend>
   <depend>tf2</depend>
+  <depend>tl_expected</depend>
 
   <test_depend>ament_cmake_ros</test_depend>
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>autoware_lint_common</test_depend>
+  <test_depend>autoware_pyplot</test_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

@@ -16,7 +16,7 @@ target_link_libraries(${PROJECT_NAME}
   path_generator_parameters
 )
 
-target_compile_options(${PROJECT_NAME} PRIVATE
+target_compile_options(${PROJECT_NAME} PUBLIC
   -Wno-error=deprecated-declarations
 )
 
@@ -25,4 +25,18 @@ rclcpp_components_register_node(${PROJECT_NAME}
   EXECUTABLE path_generator_node
 )
 
-ament_auto_package()
+if(BUILD_TESTING)
+  ament_add_ros_isolated_gtest(test_${PROJECT_NAME}
+    test/test_path_generator_node_interface.cpp
+    test/test_lanelet.cpp
+  )
+  target_link_libraries(test_${PROJECT_NAME}
+    ${PROJECT_NAME}
+  )
+endif()
+
+ament_auto_package(
+  INSTALL_TO_SHARE
+    config
+    test_route
+)

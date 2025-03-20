@@ -122,6 +122,7 @@ public:
 private:
   void load_attrs();
   pybind11::module mod;
+  pybind11::object axis_attr;
   pybind11::object axes_attr;
   pybind11::object cla_attr;
   pybind11::object clf_attr;

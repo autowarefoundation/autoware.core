@@ -51,9 +51,21 @@ PathGenerator::PathGenerator(const rclcpp::NodeOptions & node_options)
 
   path_publisher_ = create_publisher<PathWithLaneId>("~/output/path", 1);
 
+  turn_signal_publisher_ =
+    create_publisher<TurnIndicatorsCommand>("~/output/turn_indicators_cmd", 1);
+
+  hazard_signal_publisher_ = create_publisher<HazardLightsCommand>("~/output/hazard_lights_cmd", 1);
+
   vehicle_info_ = autoware::vehicle_info_utils::VehicleInfoUtils(*this).getVehicleInfo();
 
   const auto params = param_listener_->get_params();
+
+  // Ensure that the refine_goal_search_radius_range and search_radius_decrement must be positive
+  if (params.refine_goal_search_radius_range <= 0 || params.search_radius_decrement <= 0) {
+    throw std::runtime_error(
+      "refine_goal_search_radius_range and search_radius_decrement must be positive");
+  }
+
   timer_ = rclcpp::create_timer(
     this, get_clock(), rclcpp::Rate(params.planning_hz).period(),
     std::bind(&PathGenerator::run, this));
@@ -67,11 +79,25 @@ void PathGenerator::run()
     return;
   }
 
-  const auto path = plan_path(input_data);
+  const auto param = param_listener_->get_params();
+  const auto path = plan_path(input_data, param);
   if (!path) {
     RCLCPP_ERROR_THROTTLE(get_logger(), *get_clock(), 5000, "output path is invalid");
     return;
   }
+
+  auto turn_signal = utils::get_turn_signal(
+    *path, planner_data_, input_data.odometry_ptr->pose.pose,
+    input_data.odometry_ptr->twist.twist.linear.x, param.turn_signal.search_distance,
+    param.turn_signal.search_time, param.turn_signal.angle_threshold_deg,
+    vehicle_info_.max_longitudinal_offset_m);
+  turn_signal.stamp = now();
+  turn_signal_publisher_->publish(turn_signal);
+
+  HazardLightsCommand hazard_signal;
+  hazard_signal.command = HazardLightsCommand::NO_COMMAND;
+  hazard_signal.stamp = now();
+  hazard_signal_publisher_->publish(hazard_signal);
 
   path_publisher_->publish(*path);
 }
@@ -182,10 +208,10 @@ bool PathGenerator::is_data_ready(const InputData & input_data)
   return true;
 }
 
-std::optional<PathWithLaneId> PathGenerator::plan_path(const InputData & input_data)
+std::optional<PathWithLaneId> PathGenerator::plan_path(
+  const InputData & input_data, const Params & params)
 {
-  const auto path =
-    generate_path(input_data.odometry_ptr->pose.pose, param_listener_->get_params());
+  const auto path = generate_path(input_data.odometry_ptr->pose.pose, params);
 
   if (!path) {
     RCLCPP_ERROR_THROTTLE(get_logger(), *get_clock(), 5000, "output path is invalid");
@@ -273,6 +299,9 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
     path_points_with_lane_id.push_back(std::move(path_point_with_lane_id));
   };
 
+  const auto s_bound_start = s_start - vehicle_info_.max_longitudinal_offset_m;
+  const auto s_bound_end = s_end + vehicle_info_.max_longitudinal_offset_m;
+
   const auto waypoint_groups = utils::get_waypoint_groups(
     lanelet_sequence, *planner_data_.lanelet_map_ptr, params.waypoint_group.separation_threshold,
     params.waypoint_group.interval_margin_ratio);
@@ -280,8 +309,30 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
   auto extended_lanelets = lanelet_sequence.lanelets();
   auto s_offset = 0.;
 
+  {
+    auto extended_lanelets_length = lanelet::geometry::length2d(lanelet_sequence);
+    while (extended_lanelets_length < s_bound_end) {
+      const auto next_lanelets =
+        planner_data_.routing_graph_ptr->following(extended_lanelets.back());
+      if (next_lanelets.empty()) {
+        break;
+      }
+      extended_lanelets.push_back(next_lanelets.front());
+      extended_lanelets_length += lanelet::geometry::length2d(next_lanelets.front());
+    }
+  }
+
+  while (s_offset + s_bound_start < 0.) {
+    const auto prev_lanelets = planner_data_.routing_graph_ptr->previous(extended_lanelets.front());
+    if (prev_lanelets.empty()) {
+      break;
+    }
+    extended_lanelets.insert(extended_lanelets.begin(), prev_lanelets.front());
+    s_offset += lanelet::geometry::length2d(prev_lanelets.front());
+  }
+
   for (const auto & [waypoints, interval] : waypoint_groups) {
-    if (interval.first > 0.) {
+    if (s_offset + interval.first > 0.) {
       continue;
     }
     const auto prev_lanelet =
@@ -290,8 +341,7 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
       break;
     }
     extended_lanelets.insert(extended_lanelets.begin(), *prev_lanelet);
-    s_offset = lanelet::geometry::length2d(*prev_lanelet);
-    break;
+    s_offset += lanelet::geometry::length2d(*prev_lanelet);
   }
 
   const lanelet::LaneletSequence extended_lanelet_sequence(extended_lanelets);
@@ -352,7 +402,10 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
     return std::nullopt;
   }
 
+  // Attach orientation for all the points
   trajectory->align_orientation_with_trajectory_direction();
+
+  // Refine the trajectory by cropping
   trajectory->crop(
     s_offset + s_start -
       get_arc_length_along_centerline(
@@ -360,23 +413,46 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
                                      path_points_with_lane_id.front().point.pose.position)),
     s_end - s_start);
 
-  PathWithLaneId path{};
-  path.header.frame_id = planner_data_.route_frame_id;
-  path.header.stamp = now();
-  path.points = trajectory->restore();
+  // Compose the polished path
+  PathWithLaneId preprocessed_path{};
+  preprocessed_path.points = trajectory->restore();
 
-  const auto get_path_bound = [&](const lanelet::CompoundLineString2d & lanelet_bound) {
-    const auto s_bound_start =
-      std::max(0., s_offset + s_start - vehicle_info_.max_longitudinal_offset_m);
-    const auto s_bound_end =
-      std::max(0., s_offset + s_end + vehicle_info_.max_longitudinal_offset_m);
-    return utils::get_path_bound(
-      lanelet_bound, extended_lanelet_sequence.centerline2d(), s_bound_start, s_bound_end);
-  };
-  path.left_bound = get_path_bound(extended_lanelet_sequence.leftBound2d());
-  path.right_bound = get_path_bound(extended_lanelet_sequence.rightBound2d());
+  PathWithLaneId finalized_path_with_lane_id{};
 
-  return path;
+  // Check if the goal point is in the search range
+  // Note: We only see if the goal is approaching the tail of the path.
+  const auto distance_to_goal = autoware_utils::calc_distance2d(
+    preprocessed_path.points.back().point.pose, planner_data_.goal_pose);
+
+  if (distance_to_goal < params.refine_goal_search_radius_range) {
+    // Perform smooth goal connection
+    const auto params = param_listener_->get_params();
+
+    finalized_path_with_lane_id = utils::modify_path_for_smooth_goal_connection(
+      std::move(preprocessed_path), planner_data_, params.refine_goal_search_radius_range);
+  } else {
+    finalized_path_with_lane_id = std::move(preprocessed_path);
+  }
+
+  // check if the path is empty
+  if (finalized_path_with_lane_id.points.empty()) {
+    return std::nullopt;
+  }
+
+  // Set header which is needed to engage
+  finalized_path_with_lane_id.header.frame_id = planner_data_.route_frame_id;
+  finalized_path_with_lane_id.header.stamp = now();
+
+  const auto s_bound_start_offset = std::max(0., s_offset + s_bound_start);
+  const auto s_bound_end_offset = std::max(0., s_offset + s_bound_end);
+  finalized_path_with_lane_id.left_bound = utils::get_path_bound(
+    extended_lanelet_sequence.leftBound(), extended_lanelet_sequence.centerline2d(),
+    s_bound_start_offset, s_bound_end_offset);
+  finalized_path_with_lane_id.right_bound = utils::get_path_bound(
+    extended_lanelet_sequence.rightBound(), extended_lanelet_sequence.centerline2d(),
+    s_bound_start_offset, s_bound_end_offset);
+
+  return finalized_path_with_lane_id;
 }
 }  // namespace autoware::path_generator
 
