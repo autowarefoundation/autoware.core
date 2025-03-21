@@ -2,8 +2,8 @@
 Changelog for package autoware_lanelet2_utils
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.3.0 (2025-03-21)
+------------------
 * chore: fix versions in package.xml
 * chore(lanelet2_utils): change header directory structure (`#274 <https://github.com/autowarefoundation/autoware.core/issues/274>`_)
 * feat(lanelet2_utility): add intersection/turn_direction definition (`#244 <https://github.com/autowarefoundation/autoware.core/issues/244>`_)

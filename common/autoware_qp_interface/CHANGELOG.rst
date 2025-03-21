@@ -2,8 +2,8 @@
 Changelog for package autoware_qp_interface
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.3.0 (2025-03-21)
+------------------
 * chore: rename from `autoware.core` to `autoware_core` (`#290 <https://github.com/autowarefoundation/autoware.core/issues/290>`_)
 * test(autoware_qp_interface): add unit tests for initializeProblem (`#237 <https://github.com/autowarefoundation/autoware.core/issues/237>`_)
   * test(autoware_qp_interface): add unit tests for QPInterface::initializeProblem

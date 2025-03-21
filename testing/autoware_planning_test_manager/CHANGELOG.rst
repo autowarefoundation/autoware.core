@@ -2,8 +2,8 @@
 Changelog for package autoware_planning_test_manager
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.3.0 (2025-03-21)
+------------------
 * chore: fix versions in package.xml
 * test(autoware_planning_test_manager): add tests (`#273 <https://github.com/autowarefoundation/autoware.core/issues/273>`_)
   * test(autoware_planning_test_manager): add tests

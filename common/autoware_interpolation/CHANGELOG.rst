@@ -2,8 +2,8 @@
 Changelog for package autoware_interpolation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.3.0 (2025-03-21)
+------------------
 * chore: fix versions in package.xml
 * fix(autoware_interpolation): add missing dependencies (`#235 <https://github.com/autowarefoundation/autoware.core/issues/235>`_)
 * feat: port autoware_interpolation from autoware.universe (`#149 <https://github.com/autowarefoundation/autoware.core/issues/149>`_)

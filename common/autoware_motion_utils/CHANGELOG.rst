@@ -2,8 +2,8 @@
 Changelog for package autoware_motion_utils
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.3.0 (2025-03-21)
+------------------
 * chore: fix versions in package.xml
 * test(autoware_motion_utils): add tests for missed lines (`#275 <https://github.com/autowarefoundation/autoware.core/issues/275>`_)
   Co-authored-by: Yutaka Kondo <yutaka.kondo@youtalk.jp>

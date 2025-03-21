@@ -2,8 +2,8 @@
 Changelog for package autoware_geography_utils
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.3.0 (2025-03-21)
+------------------
 * chore: fix CHANGELOG
 * chore: rename from `autoware.core` to `autoware_core` (`#290 <https://github.com/autowarefoundation/autoware.core/issues/290>`_)
 * feat(autoware_geography_utils): add support for local cartesian projection (`#181 <https://github.com/autowarefoundation/autoware.core/issues/181>`_)
