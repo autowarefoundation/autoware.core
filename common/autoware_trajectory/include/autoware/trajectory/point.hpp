@@ -24,7 +24,6 @@
 
 #include <cstddef>
 #include <memory>
-#include <optional>
 #include <utility>
 #include <vector>
 
@@ -36,18 +35,15 @@ namespace autoware::trajectory
 template <>
 class Trajectory<geometry_msgs::msg::Point>
 {
-  template <class PointType>
-  friend class Trajectory;
-
   using PointType = geometry_msgs::msg::Point;
 
 protected:
-  std::shared_ptr<interpolator::InterpolatorInterface<double>>
-    x_interpolator_;  //!< Interpolator for x
-  std::shared_ptr<interpolator::InterpolatorInterface<double>>
-    y_interpolator_;  //!< Interpolator for y
-  std::shared_ptr<interpolator::InterpolatorInterface<double>>
-    z_interpolator_;  //!< Interpolator for z
+  std::shared_ptr<interpolator::InterpolatorInterface<double>> x_interpolator_{
+    nullptr};  //!< Interpolator for x
+  std::shared_ptr<interpolator::InterpolatorInterface<double>> y_interpolator_{
+    nullptr};  //!< Interpolator for y
+  std::shared_ptr<interpolator::InterpolatorInterface<double>> z_interpolator_{
+    nullptr};  //!< Interpolator for z
 
   std::vector<double> bases_;  //!< Axis of the trajectory
 
@@ -68,10 +64,10 @@ public:
   Trajectory & operator=(Trajectory && rhs) = default;
 
   /**
-   * @brief Get the internal bases(arc lengths) of the trajectory
+   * @brief Get the underlying arc lengths of the trajectory
    * @return Vector of bases(arc lengths)
    */
-  virtual std::vector<double> get_internal_bases() const;
+  virtual std::vector<double> get_underlying_bases() const;
   /**
    * @brief Get the length of the trajectory
    * @return Length of the trajectory
@@ -84,6 +80,13 @@ public:
    * @return Point on the trajectory
    */
   PointType compute(const double s) const;
+
+  /**
+   * @brief Compute the points on the trajectory at given s values
+   * @param ss Arc lengths
+   * @return Points on the trajectory
+   */
+  std::vector<PointType> compute(const std::vector<double> & ss) const;
 
   /**
    * @brief Build the trajectory from the points
@@ -114,6 +117,13 @@ public:
   double curvature(const double s) const;
 
   /**
+   * @brief Get the curvature at a given s values
+   * @param ss Arc lengths
+   * @return Curvature
+   */
+  std::vector<double> curvature(const std::vector<double> & ss) const;
+
+  /**
    * @brief Restore the trajectory points
    * @param min_points Minimum number of points
    * @return Vector of points
@@ -122,13 +132,36 @@ public:
 
   void crop(const double start, const double length);
 
+  /**
+   * @brief return the list of base values from start_ to end_ with the given interval
+   * @param tick the length of interval
+   * @return array of double from start_ to end_ including the end_
+   */
+  std::vector<double> base_arange(const double tick) const
+  {
+    std::vector<double> ss;
+    for (double s = start_; s < end_; s += tick) {
+      ss.push_back(s);
+    }
+    if (ss.back() != end_) {
+      ss.push_back(end_);
+    }
+    return ss;
+  }
+
   class Builder
   {
   private:
     std::unique_ptr<Trajectory> trajectory_;
 
   public:
-    Builder() : trajectory_(std::make_unique<Trajectory>()) {}
+    Builder();
+
+    /**
+     * @brief create the default interpolator setting
+     * @note CubicSpline for x, y and Linear for z
+     */
+    static void defaults(Trajectory * trajectory);
 
     template <class InterpolatorType, class... Args>
     Builder & set_xy_interpolator(Args &&... args)
@@ -149,16 +182,7 @@ public:
     }
 
     tl::expected<Trajectory, interpolator::InterpolationFailure> build(
-      const std::vector<PointType> & points)
-    {
-      auto trajectory_result = trajectory_->build(points);
-      if (trajectory_result) {
-        auto result = Trajectory(std::move(*trajectory_));
-        trajectory_.reset();
-        return result;
-      }
-      return tl::unexpected(trajectory_result.error());
-    }
+      const std::vector<PointType> & points);
   };
 };
 

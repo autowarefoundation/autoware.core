@@ -39,7 +39,7 @@ class Trajectory<geometry_msgs::msg::Pose> : public Trajectory<geometry_msgs::ms
 
 protected:
   std::shared_ptr<interpolator::InterpolatorInterface<geometry_msgs::msg::Quaternion>>
-    orientation_interpolator_;  //!< Interpolator for orientations
+    orientation_interpolator_{nullptr};  //!< Interpolator for orientations
 
 public:
   Trajectory();
@@ -49,16 +49,13 @@ public:
   Trajectory & operator=(const Trajectory & rhs);
   Trajectory & operator=(Trajectory && rhs) = default;
 
-  // enable making trajectory from point trajectory
-  explicit Trajectory(const Trajectory<geometry_msgs::msg::Point> & point_trajectory);
-
   interpolator::InterpolationResult build(const std::vector<PointType> & points);
 
   /**
-   * @brief Get the internal bases(arc lengths) of the trajectory
+   * @brief Get the underlying arc lengths of the trajectory
    * @return Vector of bases(arc lengths)
    */
-  std::vector<double> get_internal_bases() const override;
+  std::vector<double> get_underlying_bases() const override;
 
   /**
    * @brief Compute the pose on the trajectory at a given s value
@@ -68,9 +65,12 @@ public:
   PointType compute(const double s) const;
 
   /**
-   * @brief Restore the trajectory poses
-   * @return Vector of poses
+   * @brief Compute the poses on the trajectory at given s values
+   * @param ss Arc lengths
+   * @return Poses on the trajectory
    */
+  std::vector<PointType> compute(const std::vector<double> & ss) const;
+
   std::vector<PointType> restore(const size_t min_points = 4) const;
 
   /**
@@ -78,13 +78,19 @@ public:
    */
   void align_orientation_with_trajectory_direction();
 
-  class Builder
+  class Builder : public BaseClass::Builder
   {
   private:
     std::unique_ptr<Trajectory> trajectory_;
 
   public:
-    Builder() : trajectory_(std::make_unique<Trajectory>()) {}
+    Builder();
+
+    /**
+     * @brief create the default interpolator setting
+     * @note In addition to the base class, SphericalLinear for orientation
+     */
+    static void defaults(Trajectory * trajectory);
 
     template <class InterpolatorType, class... Args>
     Builder & set_xy_interpolator(Args &&... args)
@@ -113,16 +119,7 @@ public:
     }
 
     tl::expected<Trajectory, interpolator::InterpolationFailure> build(
-      const std::vector<PointType> & points)
-    {
-      auto trajectory_result = trajectory_->build(points);
-      if (trajectory_result) {
-        auto result = Trajectory(std::move(*trajectory_));
-        trajectory_.reset();
-        return result;
-      }
-      return tl::unexpected(trajectory_result.error());
-    }
+      const std::vector<PointType> & points);
   };
 };
 
