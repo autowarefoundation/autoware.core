@@ -1,157 +1,157 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/CODE_OF_CONDUCT/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/CODE_OF_CONDUCT/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/CONTRIBUTING/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/CONTRIBUTING/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/DISCLAIMER/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/DISCLAIMER/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/common/autoware_component_interface_specs/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/common/autoware_component_interface_specs/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/common/autoware_geography_utils/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/common/autoware_geography_utils/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/common/autoware_interpolation/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/common/autoware_interpolation/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/common/autoware_kalman_filter/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/common/autoware_kalman_filter/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/common/autoware_lanelet2_utils/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/common/autoware_lanelet2_utils/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/common/autoware_motion_utils/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/common/autoware_motion_utils/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/common/autoware_motion_utils/docs/vehicle/vehicle/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/common/autoware_motion_utils/docs/vehicle/vehicle/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/common/autoware_node/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/common/autoware_node/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/common/autoware_object_recognition_utils/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/common/autoware_object_recognition_utils/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/common/autoware_osqp_interface/design/osqp_interface-design/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/common/autoware_osqp_interface/design/osqp_interface-design/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/common/autoware_point_types/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/common/autoware_point_types/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/common/autoware_qp_interface/design/qp_interface-design/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/common/autoware_qp_interface/design/qp_interface-design/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/common/autoware_trajectory/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/common/autoware_trajectory/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/common/autoware_vehicle_info_utils/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/common/autoware_vehicle_info_utils/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/control/autoware_simple_pure_pursuit/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/control/autoware_simple_pure_pursuit/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/demos/autoware_test_node/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/demos/autoware_test_node/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/localization/autoware_ekf_localizer/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/localization/autoware_ekf_localizer/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/localization/autoware_localization_util/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/localization/autoware_localization_util/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/planning/autoware_objects_of_interest_marker_interface/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/planning/autoware_objects_of_interest_marker_interface/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/planning/autoware_path_generator/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/planning/autoware_path_generator/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/planning/autoware_planning_factor_interface/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/planning/autoware_planning_factor_interface/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/planning/autoware_route_handler/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/planning/autoware_route_handler/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/sensing/autoware_gnss_poser/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/sensing/autoware_gnss_poser/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/testing/autoware_planning_test_manager/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/testing/autoware_planning_test_manager/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/testing/autoware_pyplot/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/testing/autoware_pyplot/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/testing/autoware_test_utils/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/testing/autoware_test_utils/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware.core/pr-292/testing/autoware_testing/design/autoware_testing-design/</loc>
+         <loc>https://autowarefoundation.github.io/autoware_core/pr-292/testing/autoware_testing/design/autoware_testing-design/</loc>
          <lastmod>2025-03-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
