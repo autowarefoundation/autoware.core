@@ -238,7 +238,8 @@ std::vector<std::pair<lanelet::ConstPoints3d, std::pair<double, double>>> get_wa
 }
 
 std::optional<double> get_first_intersection_arc_length(
-  const lanelet::LaneletSequence & lanelet_sequence, const double s_start, const double s_end)
+  const lanelet::LaneletSequence & lanelet_sequence, const double s_start, const double s_end,
+  const double vehicle_length)
 {
   std::optional<double> s_intersection = std::nullopt;
 
@@ -247,6 +248,10 @@ std::optional<double> get_first_intersection_arc_length(
   const auto [s_end_left_bound, s_end_right_bound] =
     get_arc_length_on_bounds(lanelet_sequence, s_end);
 
+  const auto cropped_centerline = lanelet::utils::to2D(to_lanelet_points(crop_line_string(
+    to_geometry_msgs_points(
+      lanelet_sequence.centerline2d().begin(), lanelet_sequence.centerline2d().end()),
+    s_start, s_end)));
   const auto cropped_left_bound = lanelet::utils::to2D(to_lanelet_points(crop_line_string(
     to_geometry_msgs_points(
       lanelet_sequence.leftBound2d().begin(), lanelet_sequence.leftBound2d().end()),
@@ -255,6 +260,9 @@ std::optional<double> get_first_intersection_arc_length(
     to_geometry_msgs_points(
       lanelet_sequence.rightBound2d().begin(), lanelet_sequence.rightBound2d().end()),
     s_start_right_bound, s_end_right_bound)));
+
+  const lanelet::BasicLineString2d start_edge{
+    cropped_left_bound.front(), cropped_right_bound.front()};
 
   // self intersection
   {
@@ -309,8 +317,6 @@ std::optional<double> get_first_intersection_arc_length(
 
   // intersection between start edge of drivable area and left / right bound
   {
-    const lanelet::BasicLineString2d start_edge{
-      cropped_left_bound.front(), cropped_right_bound.front()};
     const auto get_start_edge_intersection_arc_length =
       [&](const lanelet::BasicLineString2d & bound) {
         std::optional<double> s_start_edge = std::nullopt;
@@ -350,6 +356,26 @@ std::optional<double> get_first_intersection_arc_length(
       }
       return s_left ? s_left : s_right;
     }();
+    if (s_intersection && s_start_edge) {
+      s_intersection = std::min(s_intersection, s_start_edge);
+    } else if (s_start_edge) {
+      s_intersection = s_start_edge;
+    }
+  }
+
+  // intersection between start edge of drivable area and center line
+  {
+    std::optional<double> s_start_edge = std::nullopt;
+    lanelet::BasicPoints2d start_edge_intersections;
+    boost::geometry::intersection(start_edge, cropped_centerline, start_edge_intersections);
+    for (const auto & intersection : start_edge_intersections) {
+      auto s = lanelet::geometry::toArcCoordinates(cropped_centerline, intersection).length;
+      // Ignore intersections near the beginning of the centerline.
+      // It is impossible to make a turn shorter than the vehicle_length, so use it as a threshold.
+      if (s < vehicle_length) continue;
+      s += s_start;
+      s_start_edge = s_start_edge ? std::min(*s_start_edge, s) : s;
+    }
     if (s_intersection && s_start_edge) {
       s_intersection = std::min(s_intersection, s_start_edge);
     } else if (s_start_edge) {

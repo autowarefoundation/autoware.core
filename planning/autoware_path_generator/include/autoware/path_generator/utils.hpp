@@ -118,10 +118,12 @@ std::vector<std::pair<lanelet::ConstPoints3d, std::pair<double, double>>> get_wa
  * @param lanelet_sequence target lanelet sequence
  * @param s_start longitudinal distance of point to start searching for intersections
  * @param s_end longitudinal distance of point to end search
+ * @param vehicle_length vehicle length
  * @return longitudinal distance of intersecting point (std::nullopt if no intersection)
  */
 std::optional<double> get_first_intersection_arc_length(
-  const lanelet::LaneletSequence & lanelet_sequence, const double s_start, const double s_end);
+  const lanelet::LaneletSequence & lanelet_sequence, const double s_start, const double s_end,
+  const double vehicle_length);
 
 /**
  * @brief get position of first self-intersection (point where return
