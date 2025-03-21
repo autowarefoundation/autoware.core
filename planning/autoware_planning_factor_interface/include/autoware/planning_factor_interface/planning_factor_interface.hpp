@@ -87,16 +87,19 @@ public:
    * @param behavior of this planning factor.
    * @param safety factor.
    * @param driving direction.
-   * @param target velocity of the control point.
-   * @param shift length of the control point.
+   * @param target velocity of the 1st control point.
+   * @param target velocity of the 2nd control point.
+   * @param shift length of the 1st control point.
+   * @param shift length of the 2nd control point.
    * @param detail information.
    */
   template <class PointType>
   void add(
     const std::vector<PointType> & points, const Pose & ego_pose, const Pose & start_pose,
     const Pose & end_pose, const uint16_t behavior, const SafetyFactorArray & safety_factors,
-    const bool is_driving_forward = true, const double velocity = 0.0,
-    const double shift_length = 0.0, const std::string & detail = "")
+    const bool is_driving_forward = true, const double start_velocity = 0.0,
+    const double end_velocity = 0.0, const double start_shift_length = 0.0,
+    const double end_shift_length = 0.0, const std::string & detail = "")
   {
     const auto start_distance = static_cast<float>(
       autoware::motion_utils::calcSignedArcLength(points, ego_pose.position, start_pose.position));
@@ -104,7 +107,8 @@ public:
       autoware::motion_utils::calcSignedArcLength(points, ego_pose.position, end_pose.position));
     add(
       start_distance, end_distance, start_pose, end_pose, behavior, safety_factors,
-      is_driving_forward, velocity, shift_length, detail);
+      is_driving_forward, start_velocity, end_velocity, start_shift_length, end_shift_length,
+      detail);
   }
 
   /**
@@ -151,26 +155,29 @@ public:
    * @param behavior of this planning factor.
    * @param safety factor.
    * @param driving direction.
-   * @param target velocity of the control point.
-   * @param shift length of the control point.
+   * @param target velocity of the 1st control point.
+   * @param target velocity of the 2nd control point.
+   * @param shift length of the 1st control point.
+   * @param shift length of the 2nd control point.
    * @param detail information.
    */
   void add(
     const double start_distance, const double end_distance, const Pose & start_pose,
     const Pose & end_pose, const uint16_t behavior, const SafetyFactorArray & safety_factors,
-    const bool is_driving_forward = true, const double velocity = 0.0,
-    const double shift_length = 0.0, const std::string & detail = "")
+    const bool is_driving_forward = true, const double start_velocity = 0.0,
+    const double end_velocity = 0.0, const double start_shift_length = 0.0,
+    const double end_shift_length = 0.0, const std::string & detail = "")
   {
     const auto control_start_point = autoware_internal_planning_msgs::build<ControlPoint>()
                                        .pose(start_pose)
-                                       .velocity(velocity)
-                                       .shift_length(shift_length)
+                                       .velocity(start_velocity)
+                                       .shift_length(start_shift_length)
                                        .distance(start_distance);
 
     const auto control_end_point = autoware_internal_planning_msgs::build<ControlPoint>()
                                      .pose(end_pose)
-                                     .velocity(velocity)
-                                     .shift_length(shift_length)
+                                     .velocity(end_velocity)
+                                     .shift_length(end_shift_length)
                                      .distance(end_distance);
 
     const auto factor = autoware_internal_planning_msgs::build<PlanningFactor>()
@@ -227,15 +234,15 @@ extern template void
 PlanningFactorInterface::add<autoware_internal_planning_msgs::msg::PathPointWithLaneId>(
   const std::vector<autoware_internal_planning_msgs::msg::PathPointWithLaneId> &, const Pose &,
   const Pose &, const Pose &, const uint16_t behavior, const SafetyFactorArray &, const bool,
-  const double, const double, const std::string &);
+  const double, const double, const double, const double, const std::string &);
 extern template void PlanningFactorInterface::add<autoware_planning_msgs::msg::PathPoint>(
   const std::vector<autoware_planning_msgs::msg::PathPoint> &, const Pose &, const Pose &,
   const Pose &, const uint16_t behavior, const SafetyFactorArray &, const bool, const double,
-  const double, const std::string &);
+  const double, const double, const double, const std::string &);
 extern template void PlanningFactorInterface::add<autoware_planning_msgs::msg::TrajectoryPoint>(
   const std::vector<autoware_planning_msgs::msg::TrajectoryPoint> &, const Pose &, const Pose &,
   const Pose &, const uint16_t behavior, const SafetyFactorArray &, const bool, const double,
-  const double, const std::string &);
+  const double, const double, const double, const std::string &);
 
 }  // namespace autoware::planning_factor_interface
 
