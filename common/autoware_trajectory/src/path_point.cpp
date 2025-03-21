@@ -29,6 +29,11 @@ namespace autoware::trajectory
 
 using PointType = autoware_planning_msgs::msg::PathPoint;
 
+Trajectory<PointType>::Trajectory()
+{
+  Builder::defaults(this);
+}
+
 Trajectory<PointType>::Trajectory(const Trajectory & rhs)
 : BaseClass(rhs),
   longitudinal_velocity_mps_(
@@ -53,12 +58,6 @@ Trajectory<PointType> & Trajectory<PointType>::operator=(const Trajectory & rhs)
 interpolator::InterpolationResult Trajectory<PointType>::build(
   const std::vector<PointType> & points)
 {
-  if (!longitudinal_velocity_mps_ || !lateral_velocity_mps_ || !heading_rate_rps_) {
-    return tl::unexpected(interpolator::InterpolationFailure{
-      "longitudinal_velocity_mps/lateral_velocity_mps/heading_rate_rps interpolators are nullptr! "
-      "check Builder usage"});
-  }
-
   std::vector<geometry_msgs::msg::Pose> poses;
   std::vector<double> longitudinal_velocity_mps_values;
   std::vector<double> lateral_velocity_mps_values;

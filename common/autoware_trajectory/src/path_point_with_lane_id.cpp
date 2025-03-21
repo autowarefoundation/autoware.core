@@ -26,6 +26,11 @@ namespace autoware::trajectory
 
 using PointType = autoware_internal_planning_msgs::msg::PathPointWithLaneId;
 
+Trajectory<PointType>::Trajectory()
+{
+  Builder::defaults(this);
+}
+
 Trajectory<PointType> & Trajectory<PointType>::operator=(const Trajectory & rhs)
 {
   if (this != &rhs) {
@@ -38,11 +43,6 @@ Trajectory<PointType> & Trajectory<PointType>::operator=(const Trajectory & rhs)
 interpolator::InterpolationResult Trajectory<PointType>::build(
   const std::vector<PointType> & points)
 {
-  if (!lane_ids_) {
-    return tl::unexpected(
-      interpolator::InterpolationFailure{"lane_ids interpolator is nullptr! check Builder usage"});
-  }
-
   std::vector<autoware_planning_msgs::msg::PathPoint> path_points;
   std::vector<std::vector<int64_t>> lane_ids_values;
 

@@ -56,7 +56,7 @@ protected:
   double clamp(const double s, bool show_warning = false) const;
 
 public:
-  Trajectory() = default;
+  Trajectory();
   virtual ~Trajectory() = default;
   Trajectory(const Trajectory & rhs);
   Trajectory(Trajectory && rhs) = default;
@@ -123,15 +123,14 @@ public:
   private:
     std::unique_ptr<Trajectory> trajectory_;
 
-  protected:
+  public:
+    Builder();
+
     /**
      * @brief create the default interpolator setting
      * @note CubicSpline for x, y and Linear for z
      */
     static void defaults(Trajectory * trajectory);
-
-  public:
-    Builder();
 
     template <class InterpolatorType, class... Args>
     Builder & set_xy_interpolator(Args &&... args)

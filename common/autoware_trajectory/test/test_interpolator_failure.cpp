@@ -28,8 +28,7 @@ TEST(Point, PointFailure)
     return p;
   };
 
-  std::vector<geometry_msgs::msg::Point> points = {
-    pose(0.49, 0.59), pose(0.61, 1.22), pose(0.86, 1.93), pose(1.20, 2.56), pose(1.51, 3.17)};
+  std::vector<geometry_msgs::msg::Point> points = {pose(0.49, 0.59), pose(0.61, 1.22)};
 
   using autoware::trajectory::Trajectory;
 
@@ -48,8 +47,7 @@ TEST(Pose, PoseFailure)
     return p;
   };
 
-  std::vector<geometry_msgs::msg::Pose> points = {
-    pose(0.49, 0.59), pose(0.61, 1.22), pose(0.86, 1.93), pose(1.20, 2.56), pose(1.51, 3.17)};
+  std::vector<geometry_msgs::msg::Pose> points = {pose(0.49, 0.59), pose(0.61, 1.22)};
 
   using autoware::trajectory::Trajectory;
 
@@ -68,8 +66,7 @@ TEST(PathPoint, PathPointFailure)
     return p;
   };
 
-  std::vector<autoware_planning_msgs::msg::PathPoint> points = {
-    pose(0.49, 0.59), pose(0.61, 1.22), pose(0.86, 1.93), pose(1.20, 2.56), pose(1.51, 3.17)};
+  std::vector<autoware_planning_msgs::msg::PathPoint> points = {pose(0.49, 0.59), pose(0.61, 1.22)};
 
   using autoware::trajectory::Trajectory;
 
@@ -90,7 +87,7 @@ TEST(PathPointWithLaneId, PathPointWithLaneIdFailure)
   };
 
   std::vector<autoware_internal_planning_msgs::msg::PathPointWithLaneId> points = {
-    pose(0.49, 0.59), pose(0.61, 1.22), pose(0.86, 1.93), pose(1.20, 2.56), pose(1.51, 3.17)};
+    pose(0.49, 0.59), pose(0.61, 1.22)};
 
   using autoware::trajectory::Trajectory;
 
@@ -109,7 +106,7 @@ TEST(TrajectoryPoint, TrajectoryPointFailure)
   };
 
   std::vector<autoware_planning_msgs::msg::TrajectoryPoint> points = {
-    pose(0.49, 0.59), pose(0.61, 1.22), pose(0.86, 1.93), pose(1.20, 2.56), pose(1.51, 3.17)};
+    pose(0.49, 0.59), pose(0.61, 1.22)};
 
   using autoware::trajectory::Trajectory;
 

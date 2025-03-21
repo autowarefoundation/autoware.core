@@ -48,7 +48,7 @@ protected:
     nullptr};  //!< Rear wheel angle in rad} Warning, this is not used
 
 public:
-  Trajectory() = default;
+  Trajectory();
   ~Trajectory() override = default;
   Trajectory(const Trajectory & rhs);
   Trajectory(Trajectory && rhs) = default;
@@ -125,18 +125,17 @@ public:
   private:
     std::unique_ptr<Trajectory> trajectory_;
 
-  protected:
+  public:
+    Builder();
+
     /**
      * @brief create the default interpolator setting
      * @note In addition to the base class, Stairstep for
      * longitudinal_velocity_mps, lateral_velocity_mps, heading_rate_rps, acceleration_mps2,
      * front_wheel_angle_rad, rear_wheel_angle_rad
      */
+
     static void defaults(Trajectory * trajectory);
-
-  public:
-    Builder();
-
     template <class InterpolatorType, class... Args>
     Builder & set_xy_interpolator(Args &&... args)
     {

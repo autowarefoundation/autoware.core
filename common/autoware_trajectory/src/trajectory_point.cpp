@@ -31,6 +31,11 @@ namespace autoware::trajectory
 
 using PointType = autoware_planning_msgs::msg::TrajectoryPoint;
 
+Trajectory<PointType>::Trajectory()
+{
+  Builder::defaults(this);
+}
+
 Trajectory<PointType>::Trajectory(const Trajectory & rhs)
 : BaseClass(rhs),
   longitudinal_velocity_mps_(

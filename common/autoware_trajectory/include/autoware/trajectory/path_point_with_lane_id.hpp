@@ -37,7 +37,7 @@ protected:
   std::shared_ptr<detail::InterpolatedArray<LaneIdType>> lane_ids_{nullptr};  //!< Lane ID
 
 public:
-  Trajectory() = default;
+  Trajectory();
   ~Trajectory() override = default;
   Trajectory(const Trajectory & rhs) = default;
   Trajectory(Trajectory && rhs) = default;
@@ -76,15 +76,14 @@ public:
   private:
     std::unique_ptr<Trajectory> trajectory_;
 
-  protected:
+  public:
+    Builder();
+
     /**
      * @brief create the default interpolator setting
      * @note In addition to the base class, Stairstep for lane_ids
      */
     static void defaults(Trajectory * trajectory);
-
-  public:
-    Builder();
 
     template <class InterpolatorType, class... Args>
     Builder & set_xy_interpolator(Args &&... args)

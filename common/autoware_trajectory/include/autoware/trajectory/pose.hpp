@@ -42,7 +42,7 @@ protected:
     orientation_interpolator_{nullptr};  //!< Interpolator for orientations
 
 public:
-  Trajectory() = default;
+  Trajectory();
   ~Trajectory() override = default;
   Trajectory(const Trajectory & rhs);
   Trajectory(Trajectory && rhs) = default;
@@ -80,15 +80,14 @@ public:
   private:
     std::unique_ptr<Trajectory> trajectory_;
 
-  protected:
+  public:
+    Builder();
+
     /**
      * @brief create the default interpolator setting
      * @note In addition to the base class, SphericalLinear for orientation
      */
     static void defaults(Trajectory * trajectory);
-
-  public:
-    Builder();
 
     template <class InterpolatorType, class... Args>
     Builder & set_xy_interpolator(Args &&... args)

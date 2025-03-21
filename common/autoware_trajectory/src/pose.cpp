@@ -28,6 +28,11 @@ namespace autoware::trajectory
 {
 using PointType = geometry_msgs::msg::Pose;
 
+Trajectory<PointType>::Trajectory()
+{
+  Builder::defaults(this);
+}
+
 Trajectory<PointType>::Trajectory(const Trajectory & rhs)
 : BaseClass(rhs), orientation_interpolator_(rhs.orientation_interpolator_->clone())
 {
@@ -45,11 +50,6 @@ Trajectory<PointType> & Trajectory<PointType>::operator=(const Trajectory & rhs)
 interpolator::InterpolationResult Trajectory<PointType>::build(
   const std::vector<PointType> & points)
 {
-  if (!orientation_interpolator_) {
-    return tl::unexpected(interpolator::InterpolationFailure{
-      "orientation interpolator is nullptr! check Builder usage"});
-  }
-
   std::vector<geometry_msgs::msg::Point> path_points;
   std::vector<geometry_msgs::msg::Quaternion> orientations;
   path_points.reserve(points.size());
