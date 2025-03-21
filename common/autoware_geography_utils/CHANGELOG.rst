@@ -2,8 +2,13 @@
 Changelog for package autoware_geography_utils
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.1.0 (2025-01-09)
+0.2.0 (2025-02-07)
 ------------------
+* chore: humble to main sync (`#162 <https://github.com/autowarefoundation/autoware_core/issues/162>`_)
+  * update changelog
+  * 0.1.0
+  ---------
+  Co-authored-by: Ryohsuke Mitsudome <43976834+mitsudome-r@users.noreply.github.com>
 * refactor(autoware_geography_utils): apply modern C++17 style (`#109 <https://github.com/autowarefoundation/autoware_core/issues/109>`_)
   * use using
   * refactor height
@@ -31,13 +36,8 @@ Changelog for package autoware_geography_utils
   Co-authored-by: Yutaka Kondo <yutaka.kondo@youtalk.jp>
 * Contributors: Ryohsuke Mitsudome, Yutaka Kondo, awf-autoware-bot[bot]
 
-0.2.0 (2025-02-07)
+0.1.0 (2025-01-09)
 ------------------
-* chore: humble to main sync (`#162 <https://github.com/autowarefoundation/autoware_core/issues/162>`_)
-  * update changelog
-  * 0.1.0
-  ---------
-  Co-authored-by: Ryohsuke Mitsudome <43976834+mitsudome-r@users.noreply.github.com>
 * refactor(autoware_geography_utils): apply modern C++17 style (`#109 <https://github.com/autowarefoundation/autoware_core/issues/109>`_)
   * use using
   * refactor height
