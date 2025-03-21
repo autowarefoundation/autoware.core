@@ -2,6 +2,14 @@
 Changelog for package autoware_point_types
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* chore: rename from `autoware.core` to `autoware_core` (`#290 <https://github.com/autowarefoundation/autoware.core/issues/290>`_)
+* test(autoware_point_types): add tests for missed lines (`#260 <https://github.com/autowarefoundation/autoware.core/issues/260>`_)
+* feat(point_types): reimplemented the pointcloud preprocesor's memory layout checks (`#197 <https://github.com/autowarefoundation/autoware.core/issues/197>`_)
+  feat: reimplemented the pointcloud preprocesor's memory layout checks in the point types package to avoid depending on the pointcloud preprocessor
+* Contributors: Kenzo Lobos Tsunekawa, NorahXiong, Yutaka Kondo
+
 0.2.0 (2025-02-07)
 ------------------
 * unify version to 0.1.0

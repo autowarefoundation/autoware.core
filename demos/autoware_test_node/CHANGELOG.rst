@@ -2,6 +2,13 @@
 Changelog for package autoware_test_node
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* chore: fix CHANGELOG
+* chore: rename from `autoware.core` to `autoware_core` (`#290 <https://github.com/autowarefoundation/autoware.core/issues/290>`_)
+* feat(autoware_node): remove the lifecycle dependency (`#187 <https://github.com/autowarefoundation/autoware.core/issues/187>`_)
+* Contributors: Mete Fatih Cırıt, Yutaka Kondo, mitsudome-r
+
 0.2.0 (2025-02-07)
 ------------------
 * chore: humble to main sync (`#162 <https://github.com/autowarefoundation/autoware_core/issues/162>`_)
