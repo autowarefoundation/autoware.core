@@ -193,23 +193,33 @@ std::optional<double> get_first_self_intersection_arc_length(
 std::optional<double> get_first_self_intersection_arc_length(
   const lanelet::BasicLineString2d & line_string, const double s_start, const double s_end)
 {
-  const auto tree = lanelet::geometry::internal::makeIndexedSegmenTree(line_string);
-  std::optional<std::pair<size_t, double>> last_intersection = std::nullopt;
-  auto s = 0.;
+  // TODO(kosuke55):
+  // The difference between the lengths of the bound and the centerline is large for curves.
+  // Therefore, for an accurate calculation, we should check the intersection of bound at the length
+  // of the centerline up to the s_end and return the s of the centerline at that time
 
-  for (size_t i = 1; i < line_string.size() - 1; ++i) {
+  if (line_string.size() < 3) {
+    return std::nullopt;
+  }
+
+  const auto cropped_line_string = crop_basic_line_string(line_string, s_start, s_end);
+  if (cropped_line_string.size() < 3) {
+    return std::nullopt;
+  }
+
+  std::optional<std::pair<size_t, double>> last_intersection = std::nullopt;
+  const auto tree = lanelet::geometry::internal::makeIndexedSegmenTree(cropped_line_string);
+  double s = s_start;
+  for (size_t i = 1; i < cropped_line_string.size() - 1; ++i) {
     if (last_intersection && i == last_intersection->first) {
       return s + last_intersection->second;
     }
-    s += lanelet::geometry::distance2d(line_string.at(i - 1), line_string.at(i));
-    if (s < s_start) {
-      continue;
-    }
+    s += lanelet::geometry::distance2d(cropped_line_string.at(i - 1), cropped_line_string.at(i));
     if (s > s_end) {
       break;
     }
     const auto self_intersections = lanelet::geometry::internal::getSelfIntersectionsAt(
-      tree, 0, lanelet::BasicSegment2d{line_string.at(i - 1), line_string.at(i)});
+      tree, 0, lanelet::BasicSegment2d{cropped_line_string.at(i - 1), cropped_line_string.at(i)});
     if (self_intersections.empty()) {
       continue;
     }
@@ -218,6 +228,33 @@ std::optional<double> get_first_self_intersection_arc_length(
   }
 
   return std::nullopt;
+}
+
+lanelet::BasicLineString2d crop_basic_line_string(
+  const lanelet::BasicLineString2d & line_string, const double s_start, const double s_end)
+{
+  std::vector<geometry_msgs::msg::Point> line_string_points{};
+  line_string_points.reserve(line_string.size());
+  std::transform(
+    line_string.begin(), line_string.end(), std::back_inserter(line_string_points),
+    [](const auto & point) {
+      geometry_msgs::msg::Point p{};
+      p.x = point.x();
+      p.y = point.y();
+      p.z = 0.0;
+      return p;
+    });
+  auto trajectory = autoware::trajectory::Trajectory<geometry_msgs::msg::Point>::Builder().build(
+    line_string_points);
+  trajectory->crop(s_start, s_end);
+  const auto cropped_line_string_points = trajectory->restore();
+  lanelet::BasicLineString2d cropped_line_string{};
+  cropped_line_string.reserve(cropped_line_string_points.size());
+  std::transform(
+    cropped_line_string_points.begin(), cropped_line_string_points.end(),
+    std::back_inserter(cropped_line_string),
+    [](const auto & point) { return lanelet::BasicPoint2d(point.x, point.y); });
+  return cropped_line_string;
 }
 
 std::vector<std::pair<lanelet::ConstPoints3d, std::pair<double, double>>> get_waypoint_groups(
@@ -258,21 +295,78 @@ std::vector<std::pair<lanelet::ConstPoints3d, std::pair<double, double>>> get_wa
   return waypoint_groups;
 }
 
-std::vector<geometry_msgs::msg::Point> get_path_bound(
-  const lanelet::CompoundLineString3d & lanelet_bound,
-  const lanelet::CompoundLineString2d & lanelet_centerline, const double s_start,
-  const double s_end)
+std::pair<std::pair<double, double>, std::pair<double, double>> calc_bound_s_range(
+  const lanelet::LaneletSequence & lanelet_sequence, const double s_start_centerline,
+  const double s_end_centerline)
 {
-  const auto lanelet_bound_2d = lanelet::utils::to2D(lanelet_bound);
-  const auto s_bound_start =
-    lanelet::geometry::toArcCoordinates(
-      lanelet_bound_2d, lanelet::geometry::interpolatedPointAtDistance(lanelet_centerline, s_start))
-      .length;
-  const auto s_bound_end =
-    lanelet::geometry::toArcCoordinates(
-      lanelet_bound_2d, lanelet::geometry::interpolatedPointAtDistance(lanelet_centerline, s_end))
-      .length;
+  double s_centerline = 0.;
+  double s_left = 0.;
+  double s_right = 0.;
+  std::pair<double, double> s_left_range{0., 0.};
+  std::pair<double, double> s_right_range{0., 0.};
 
+  for (auto it = lanelet_sequence.begin(); it != lanelet_sequence.end(); ++it) {
+    const double centerline_length = lanelet::utils::getLaneletLength2d(*it);
+    const double right_length = lanelet::geometry::length(it->rightBound2d());
+    const double left_length = lanelet::geometry::length(it->leftBound2d());
+
+    // accumulate the length up to s_start_centerline
+    if (s_centerline + centerline_length < s_start_centerline) {
+      s_centerline += centerline_length;
+      s_right += right_length;
+      s_left += left_length;
+      continue;
+    }
+
+    // current lanelet contains s_start_centerline
+    if (s_centerline < s_start_centerline) {
+      const double s_start = s_start_centerline - s_centerline;
+      s_right_range.first =
+        s_right + lanelet::geometry::toArcCoordinates(
+                    it->centerline2d(),
+                    lanelet::geometry::interpolatedPointAtDistance(it->centerline2d(), s_start))
+                    .length;
+      s_left_range.first =
+        s_left + lanelet::geometry::toArcCoordinates(
+                   it->centerline2d(),
+                   lanelet::geometry::interpolatedPointAtDistance(it->centerline2d(), s_start))
+                   .length;
+    }
+
+    // accumulate the length up to s_end_centerline
+    if (s_centerline + centerline_length < s_end_centerline) {
+      s_centerline += centerline_length;
+      s_right += right_length;
+      s_left += left_length;
+      continue;
+    }
+
+    // current lanelet contains s_end_centerline
+    if (s_centerline < s_end_centerline) {
+      const double s_end = s_end_centerline - s_centerline;
+      s_right_range.second =
+        s_right + lanelet::geometry::toArcCoordinates(
+                    it->centerline2d(),
+                    lanelet::geometry::interpolatedPointAtDistance(it->centerline2d(), s_end))
+                    .length;
+      s_left_range.second =
+        s_left + lanelet::geometry::toArcCoordinates(
+                   it->centerline2d(),
+                   lanelet::geometry::interpolatedPointAtDistance(it->centerline2d(), s_end))
+                   .length;
+      return {s_left_range, s_right_range};
+    }
+  }
+
+  // If the loop ends without returning, it means that the lanelet_sequence is too short.
+  // In this case, we return the range up to the end of the lanelet_sequence.
+  return {s_left_range, s_right_range};
+}
+
+std::vector<geometry_msgs::msg::Point> get_path_bound(
+  const lanelet::CompoundLineString3d & lanelet_bound, const double s_bound_start,
+  const double s_bound_end)
+{
   std::vector<geometry_msgs::msg::Point> path_bound{};
   auto s = 0.;
 
