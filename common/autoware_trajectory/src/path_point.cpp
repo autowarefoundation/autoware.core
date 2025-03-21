@@ -15,7 +15,6 @@
 #include "autoware/trajectory/path_point.hpp"
 
 #include "autoware/trajectory/detail/helpers.hpp"
-#include "autoware/trajectory/detail/interpolated_array.hpp"
 #include "autoware/trajectory/forward.hpp"
 #include "autoware/trajectory/interpolator/stairstep.hpp"
 #include "autoware/trajectory/pose.hpp"
@@ -31,13 +30,8 @@ namespace autoware::trajectory
 using PointType = autoware_planning_msgs::msg::PathPoint;
 
 Trajectory<PointType>::Trajectory()
-: longitudinal_velocity_mps_(std::make_shared<detail::InterpolatedArray<double>>(
-    std::make_shared<interpolator::Stairstep<double>>())),
-  lateral_velocity_mps_(std::make_shared<detail::InterpolatedArray<double>>(
-    std::make_shared<interpolator::Stairstep<double>>())),
-  heading_rate_rps_(std::make_shared<detail::InterpolatedArray<double>>(
-    std::make_shared<interpolator::Stairstep<double>>()))
 {
+  Builder::defaults(this);
 }
 
 Trajectory<PointType>::Trajectory(const Trajectory & rhs)
@@ -102,7 +96,7 @@ interpolator::InterpolationResult Trajectory<PointType>::build(
   return interpolator::InterpolationSuccess{};
 }
 
-std::vector<double> Trajectory<PointType>::get_internal_bases() const
+std::vector<double> Trajectory<PointType>::get_underlying_bases() const
 {
   auto get_bases = [](const auto & interpolated_array) {
     auto [bases, values] = interpolated_array.get_data();
@@ -131,9 +125,19 @@ PointType Trajectory<PointType>::compute(const double s) const
   return result;
 }
 
+std::vector<PointType> Trajectory<PointType>::compute(const std::vector<double> & ss) const
+{
+  std::vector<PointType> points;
+  points.reserve(ss.size());
+  for (const auto s : ss) {
+    points.emplace_back(compute(s));
+  }
+  return points;
+}
+
 std::vector<PointType> Trajectory<PointType>::restore(const size_t min_points) const
 {
-  std::vector<double> bases = get_internal_bases();
+  std::vector<double> bases = get_underlying_bases();
   bases = detail::fill_bases(bases, min_points);
 
   std::vector<PointType> points;
@@ -142,6 +146,34 @@ std::vector<PointType> Trajectory<PointType>::restore(const size_t min_points) c
     points.emplace_back(compute(s));
   }
   return points;
+}
+
+Trajectory<PointType>::Builder::Builder() : trajectory_(std::make_unique<Trajectory<PointType>>())
+{
+  defaults(trajectory_.get());
+}
+
+void Trajectory<PointType>::Builder::defaults(Trajectory<PointType> * trajectory)
+{
+  BaseClass::Builder::defaults(trajectory);
+  trajectory->longitudinal_velocity_mps_ = std::make_shared<detail::InterpolatedArray<double>>(
+    std::make_shared<interpolator::Stairstep<double>>());
+  trajectory->lateral_velocity_mps_ = std::make_shared<detail::InterpolatedArray<double>>(
+    std::make_shared<interpolator::Stairstep<double>>());
+  trajectory->heading_rate_rps_ = std::make_shared<detail::InterpolatedArray<double>>(
+    std::make_shared<interpolator::Stairstep<double>>());
+}
+
+tl::expected<Trajectory<PointType>, interpolator::InterpolationFailure>
+Trajectory<PointType>::Builder::build(const std::vector<PointType> & points)
+{
+  auto trajectory_result = trajectory_->build(points);
+  if (trajectory_result) {
+    auto result = Trajectory(std::move(*trajectory_));
+    trajectory_.reset();
+    return result;
+  }
+  return tl::unexpected(trajectory_result.error());
 }
 
 }  // namespace autoware::trajectory
