@@ -2632,44 +2632,13 @@
 <p>This section describes Example Usage of <code>Trajectory&lt;autoware_planning_msgs::msg::PathPoint&gt;</code></p>
 <ul>
 <li>
-<p>Load Trajectory from point array</p>
-<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">"autoware/trajectory/path_point.hpp"</span>
-
-<span class="p">...</span>
-
-<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">autoware_planning_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">PathPoint</span><span class="o">&gt;</span><span class="w"> </span><span class="n">points</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="c1">// Load points from somewhere</span>
-
-<span class="k">using</span><span class="w"> </span><span class="n">autoware</span><span class="o">::</span><span class="n">trajectory</span><span class="o">::</span><span class="n">Trajectory</span><span class="p">;</span>
-
-<span class="n">std</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="n">Trajectory</span><span class="o">&lt;</span><span class="n">autoware_planning_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">PathPoint</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">trajectory</span><span class="w"> </span><span class="o">=</span>
-<span class="w">  </span><span class="n">Trajectory</span><span class="o">&lt;</span><span class="n">autoware_planning_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">PathPoint</span><span class="o">&gt;::</span><span class="n">Builder</span><span class="p">{}</span>
-<span class="w">    </span><span class="p">.</span><span class="n">build</span><span class="p">(</span><span class="n">points</span><span class="p">);</span>
-</code></pre></div>
-</li>
-</ul>
-<ul>
-<li>
-<p>You can also specify interpolation method</p>
+<p>You can also specify interpolation method to <code>Builder{}</code> before calling <code>.build(points)</code></p>
 <div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="n">autoware</span><span class="o">::</span><span class="n">trajectory</span><span class="o">::</span><span class="n">interpolator</span><span class="o">::</span><span class="n">CubicSpline</span><span class="p">;</span>
 
 <span class="n">std</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="n">Trajectory</span><span class="o">&lt;</span><span class="n">autoware_planning_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">PathPoint</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">trajectory</span><span class="w"> </span><span class="o">=</span>
 <span class="w">  </span><span class="n">Trajectory</span><span class="o">&lt;</span><span class="n">autoware_planning_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">PathPoint</span><span class="o">&gt;::</span><span class="n">Builder</span><span class="p">{}</span>
 <span class="w">    </span><span class="p">.</span><span class="n">set_xy_interpolator</span><span class="o">&lt;</span><span class="n">CubicSpline</span><span class="o">&gt;</span><span class="p">()</span><span class="w">  </span><span class="c1">// Set interpolator for x-y plane</span>
 <span class="w">    </span><span class="p">.</span><span class="n">build</span><span class="p">(</span><span class="n">points</span><span class="p">);</span>
-</code></pre></div>
-</li>
-</ul>
-<ul>
-<li>
-<p>Access point on Trajectory</p>
-<div class="highlight"><pre><span></span><code><span class="n">autoware_planning_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">PathPoint</span><span class="w"> </span><span class="n">point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trajectory</span><span class="o">-&gt;</span><span class="n">compute</span><span class="p">(</span><span class="mf">1.0</span><span class="p">);</span><span class="w">  </span><span class="c1">// Get point at s=0.0. s is distance from start point on Trajectory.</span>
-</code></pre></div>
-</li>
-</ul>
-<ul>
-<li>
-<p>Get length of Trajectory</p>
-<div class="highlight"><pre><span></span><code><span class="kt">double</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trajectory</span><span class="o">-&gt;</span><span class="n">length</span><span class="p">();</span>
 </code></pre></div>
 </li>
 </ul>
