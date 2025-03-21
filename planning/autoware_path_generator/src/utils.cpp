@@ -399,7 +399,7 @@ std::optional<double> get_first_self_intersection_arc_length(
   double s = 0.;
 
   for (size_t i = 1; i < line_string.size() - 1; ++i) {
-    if (first_self_intersection_long && i == first_self_intersection_long->idx) {
+    if (first_self_intersection_long && i == first_self_intersection_long->idx + 1) {
       return s + first_self_intersection_long->s;
     }
     s += lanelet::geometry::distance2d(line_string.at(i - 1), line_string.at(i));
