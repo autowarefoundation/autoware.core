@@ -274,7 +274,7 @@ std::optional<PathWithLaneId> PathGenerator::generate_path(
     if (
       const auto s_intersection = utils::get_first_intersection_arc_length(
         lanelet_sequence, std::max(0., s_start - vehicle_info_.max_longitudinal_offset_m),
-        s_end + vehicle_info_.max_longitudinal_offset_m)) {
+        s_end + vehicle_info_.max_longitudinal_offset_m, vehicle_info_.vehicle_length_m)) {
       s_end =
         std::min(s_end, std::max(0., *s_intersection - vehicle_info_.max_longitudinal_offset_m));
     }
