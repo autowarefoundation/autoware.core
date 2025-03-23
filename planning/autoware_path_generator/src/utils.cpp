@@ -241,7 +241,7 @@ std::optional<double> get_first_intersection_arc_length(
   const lanelet::LaneletSequence & lanelet_sequence, const double s_start, const double s_end,
   const double vehicle_length)
 {
-  std::optional<double> s_intersection = std::nullopt;
+  std::optional<double> s_intersection{std::nullopt};
 
   const auto [s_start_left_bound, s_start_right_bound] =
     get_arc_length_on_bounds(lanelet_sequence, s_start);
