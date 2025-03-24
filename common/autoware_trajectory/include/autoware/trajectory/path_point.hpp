@@ -40,7 +40,7 @@ protected:
   std::shared_ptr<detail::InterpolatedArray<double>> lateral_velocity_mps_{
     nullptr};  //!< Lateral velocity in m/s
   std::shared_ptr<detail::InterpolatedArray<double>> heading_rate_rps_{
-    nullptr};  //!< Heading rate in rad/s};
+    nullptr};  //!< Heading rate in rad/s;
 
 public:
   Trajectory();

@@ -134,7 +134,6 @@ public:
      * longitudinal_velocity_mps, lateral_velocity_mps, heading_rate_rps, acceleration_mps2,
      * front_wheel_angle_rad, rear_wheel_angle_rad
      */
-
     static void defaults(Trajectory * trajectory);
     template <class InterpolatorType, class... Args>
     Builder & set_xy_interpolator(Args &&... args)
