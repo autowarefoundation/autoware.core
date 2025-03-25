@@ -20,7 +20,6 @@
     <push-ros-namespace namespace="map"/>
 
     <node_container pkg="rclcpp_components" exec="$(var container_type)" name="map_container" namespace="" output="both">
-
       <composable_node pkg="autoware_map_loader" plugin="autoware::map_loader::Lanelet2MapLoaderNode" name="lanelet2_map_loader">
         <param from="$(var lanelet2_map_loader_param_path)"/>
         <param name="lanelet2_map_path" value="$(var lanelet2_map_path)"/>

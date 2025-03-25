@@ -53,5 +53,4 @@
   <group if="$(var launch_control)">
     <include file="$(find-pkg-share autoware_core)/launch/component/autoware_core_control.launch.xml"/>
   </group>
-
 </launch>
