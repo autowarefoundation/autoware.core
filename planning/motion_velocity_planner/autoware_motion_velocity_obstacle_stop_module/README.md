@@ -4,7 +4,6 @@
 
 The `obstacle_stop` module does the stop planning when there is a static obstacle near the trajectory.
 
-
 ## Design
 
 ### Obstacle Filtering
@@ -82,17 +81,19 @@ Red wall which means a safe distance to stop if the ego's front meets the wall i
 
 This module is activated if the launch parameter `launch_obstacle_stop_module` is set to true.
 e.g. launcher/autoware_launch/autoware_launch/config/planning/preset/default_preset.yaml
-``` yaml
-  # motion velocity planner modules
-  - arg:
-      name: launch_obstacle_stop_module
-      default: "true"
+
+```yaml
+# motion velocity planner modules
+- arg:
+    name: launch_obstacle_stop_module
+    default: "true"
 ```
+
 That will trigger autoware_universe/launch/tier4_planning_launch/launch/scenario_planning/lane_driving/motion_planning/motion_planning.launch.xml to assemble launch config for motion_velocity_planner.
 
 Finally motion_velocity_planner will load `obstacle_stop_module` as plugin.
 
-``` xml
+```xml
 <!-- assemble launch config for motion velocity planner -->
   <arg name="motion_velocity_planner_launch_modules" default="["/>
   <let

@@ -685,7 +685,7 @@ std::optional<StopObstacle> ObstacleStopModule::filter_outside_stop_obstacle_for
     return std::nullopt;
   }
 
-  // brkay54: For the pedestrians and bicycles, we need to check the collision point by thinking
+  // For the pedestrians and bicycles, we need to check the collision point by thinking
   // they will stop with a predefined deceleration rate to avoid unnecessary stops.
   double resample_time_horizon = 10.0;
   if (obj_label == ObjectClassification::PEDESTRIAN) {

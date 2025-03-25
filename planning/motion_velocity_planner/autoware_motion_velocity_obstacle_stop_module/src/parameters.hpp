@@ -99,7 +99,10 @@ struct ObstacleFilteringParam
   double crossing_obstacle_collision_time_margin{};
 
   ObstacleFilteringParam() = default;
-  explicit ObstacleFilteringParam(rclcpp::Node & node)
+  explicit ObstacleFilteringParam(rclcpp::Node & node) : inside_stop_object_types(
+    utils::get_target_object_type(node, "obstacle_stop.obstacle_filtering.object_type.inside.")),
+    outside_stop_object_types(
+  utils::get_target_object_type(node, "obstacle_stop.obstacle_filtering.object_type.outside."))
   {
     pointcloud_obstacle_filtering_param.pointcloud_voxel_grid_x = get_or_declare_parameter<double>(
       node, "obstacle_stop.obstacle_filtering.pointcloud.pointcloud_voxel_grid_x");
@@ -116,10 +119,6 @@ struct ObstacleFilteringParam
       node, "obstacle_stop.obstacle_filtering.pointcloud.pointcloud_max_cluster_size");
     use_pointcloud = get_or_declare_parameter<bool>(
       node, "obstacle_stop.obstacle_filtering.object_type.pointcloud");
-    inside_stop_object_types =
-      utils::get_target_object_type(node, "obstacle_stop.obstacle_filtering.object_type.inside.");
-    outside_stop_object_types =
-      utils::get_target_object_type(node, "obstacle_stop.obstacle_filtering.object_type.outside.");
 
     obstacle_velocity_threshold_to_stop = get_or_declare_parameter<double>(
       node, "obstacle_stop.obstacle_filtering.obstacle_velocity_threshold_to_stop");
