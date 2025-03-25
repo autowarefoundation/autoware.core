@@ -93,7 +93,7 @@ std::optional<lanelet::ConstLanelets> get_lanelets_within_route(
     return std::nullopt;
   }
 
-  lanelet::ConstLanelets lanelets(std::move(*backward_lanelets));
+  lanelet::ConstLanelets lanelets(*backward_lanelets);
   lanelets.push_back(lanelet);
   std::move(forward_lanelets->begin(), forward_lanelets->end(), std::back_inserter(lanelets));
 
