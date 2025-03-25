@@ -74,7 +74,6 @@ TEST(TreeStructuredParzenEstimatorTest, TPE_is_better_than_random_search_on_sphe
   ASSERT_LT(mean_scores[0], mean_scores[1]);
 }
 
-
 TEST(TreeStructuredParzenEstimatorTest, MinimizationTest)
 {
   auto quadratic_function = [](const TreeStructuredParzenEstimator::Input & input) {
@@ -89,7 +88,7 @@ TEST(TreeStructuredParzenEstimatorTest, MinimizationTest)
   TreeStructuredParzenEstimator estimator(
     TreeStructuredParzenEstimator::Direction::MINIMIZE, k_trials_num / 2, sample_mean,
     sample_stddev);
-  
+
   for (int64_t trial = 0; trial < k_trials_num; trial++) {
     const TreeStructuredParzenEstimator::Input input = estimator.get_next_input();
     const double score = quadratic_function(input);
@@ -114,7 +113,7 @@ TEST(TreeStructuredParzenEstimatorTest, SingleDimensionTest)
   TreeStructuredParzenEstimator estimator(
     TreeStructuredParzenEstimator::Direction::MAXIMIZE, k_trials_num / 2, sample_mean,
     sample_stddev);
-  
+
   for (int64_t trial = 0; trial < k_trials_num; trial++) {
     const TreeStructuredParzenEstimator::Input input = estimator.get_next_input();
     const double score = linear_function(input);
@@ -132,7 +131,7 @@ TEST(TreeStructuredParzenEstimatorTest, EmptyTrials)
 
   TreeStructuredParzenEstimator estimator(
     TreeStructuredParzenEstimator::Direction::MAXIMIZE, 10, sample_mean, sample_stddev);
-  
+
   // Should not crash when getting input without any trials
   const TreeStructuredParzenEstimator::Input input = estimator.get_next_input();
   EXPECT_EQ(input.size(), 2u);
@@ -145,11 +144,11 @@ TEST(TreeStructuredParzenEstimatorTest, SingleTrial)
 
   TreeStructuredParzenEstimator estimator(
     TreeStructuredParzenEstimator::Direction::MAXIMIZE, 0, sample_mean, sample_stddev);
-  
+
   // Add one trial
   const TreeStructuredParzenEstimator::Input first_input{1.0, 1.0};
   estimator.add_trial({first_input, 1.0});
-  
+
   // Should be able to get next input
   const TreeStructuredParzenEstimator::Input next_input = estimator.get_next_input();
   EXPECT_EQ(next_input.size(), 2u);
@@ -162,18 +161,18 @@ TEST(TreeStructuredParzenEstimatorTest, DifferentSampleStddev)
 
   TreeStructuredParzenEstimator estimator(
     TreeStructuredParzenEstimator::Direction::MAXIMIZE, 10, sample_mean, sample_stddev);
-  
+
   // Add some trials
   for (int i = 0; i < 5; ++i) {
     TreeStructuredParzenEstimator::Input input{0.1 * i, 0.01 * i, 1.0 * i};
     estimator.add_trial({input, static_cast<double>(i)});
   }
-  
+
   // Get next input and verify it's within reasonable bounds
   const TreeStructuredParzenEstimator::Input next_input = estimator.get_next_input();
-  EXPECT_NEAR(next_input[0], 0.0, 2.0);  // stddev = 1.0
-  EXPECT_NEAR(next_input[1], 0.0, 0.2);  // stddev = 0.1
-  EXPECT_NEAR(next_input[2], 0.0, 20.0); // stddev = 10.0
+  EXPECT_NEAR(next_input[0], 0.0, 2.0);   // stddev = 1.0
+  EXPECT_NEAR(next_input[1], 0.0, 0.2);   // stddev = 0.1
+  EXPECT_NEAR(next_input[2], 0.0, 20.0);  // stddev = 10.0
 }
 
 TEST(TreeStructuredParzenEstimatorTest, FixedIndexTest)
@@ -198,13 +197,13 @@ TEST(TreeStructuredParzenEstimatorTest, StartupTrialsBehavior)
   TreeStructuredParzenEstimator estimator(
     TreeStructuredParzenEstimator::Direction::MAXIMIZE, n_startup_trials, sample_mean,
     sample_stddev);
-  
+
   // Add startup trials
   for (int i = 0; i < n_startup_trials; ++i) {
     const auto input = estimator.get_next_input();
     estimator.add_trial({input, static_cast<double>(i)});
   }
-  
+
   // After startup trials, the algorithm should start using TPE
   const auto tpe_input = estimator.get_next_input();
   EXPECT_EQ(tpe_input.size(), 2u);
@@ -215,7 +214,7 @@ TEST(TreeStructuredParzenEstimatorTest, InputDimensionMatching)
   // Test that constructor throws if sample_mean and sample_stddev sizes don't match
   std::vector<double> sample_mean{0.0, 0.0};
   std::vector<double> sample_stddev{1.0};  // Mismatched size
-  
+
   EXPECT_THROW(
     {
       TreeStructuredParzenEstimator estimator(
