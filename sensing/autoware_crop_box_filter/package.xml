@@ -17,11 +17,6 @@
   <maintainer email="lxg19892021@gmail.com">Xingang Liu</maintainer>
   <license>Apache License 2.0</license>
 
-  <!-- Original authors -->
-  <author>Open Perception</author>
-  <author email="julius@kammerl.de">Julius Kammerl</author>
-  <author email="william@osrfoundation.org">William Woodall</author>
-
   <buildtool_depend>ament_cmake_auto</buildtool_depend>
   <buildtool_depend>autoware_cmake</buildtool_depend>
 
