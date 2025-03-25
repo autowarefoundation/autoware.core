@@ -32,6 +32,16 @@ namespace autoware::osqp_interface
 {
 constexpr c_float INF = 1e30;
 
+struct OSQPResult
+{
+  std::vector<double> primal_solution;
+  std::vector<double> lagrange_multipliers;
+  int polish_status;
+  int solution_status;
+  int iteration_status;
+  int exit_flag;
+};
+
 /**
  * Implementation of a native C++ interface for the OSQP solver.
  *
@@ -52,7 +62,7 @@ private:
   int64_t m_exitflag;
 
   // Runs the solver on the stored problem.
-  std::tuple<std::vector<double>, std::vector<double>, int64_t, int64_t, int64_t> solve();
+  OSQPResult solve();
 
   static void OSQPWorkspaceDeleter(OSQPWorkspace * ptr) noexcept;
 
@@ -93,10 +103,10 @@ public:
   /// \details        std::tuple<std::vector<double>, std::vector<double>> result;
   /// \details        result = osqp_interface.optimize();
   /// \details   4. Access the optimized parameters.
-  /// \details        std::vector<float> param = std::get<0>(result);
+  /// \details        std::vector<float> param = result.primal_solution;
   /// \details        double x_0 = param[0];
   /// \details        double x_1 = param[1];
-  std::tuple<std::vector<double>, std::vector<double>, int64_t, int64_t, int64_t> optimize();
+  OSQPResult optimize();
 
   /// \brief Solves convex quadratic programs (QPs) using the OSQP solver.
   /// \return The function returns a tuple containing the solution as two float vectors.
@@ -111,10 +121,10 @@ public:
   /// \details        std::tuple<std::vector<double>, std::vector<double>> result;
   /// \details        result = osqp_interface.optimize(P, A, q, l, u, 1e-6);
   /// \details   4. Access the optimized parameters.
-  /// \details        std::vector<float> param = std::get<0>(result);
+  /// \details        std::vector<float> param = result.primal_solution;
   /// \details        double x_0 = param[0];
   /// \details        double x_1 = param[1];
-  std::tuple<std::vector<double>, std::vector<double>, int64_t, int64_t, int64_t> optimize(
+  OSQPResult optimize(
     const Eigen::MatrixXd & P, const Eigen::MatrixXd & A, const std::vector<double> & q,
     const std::vector<double> & l, const std::vector<double> & u);
 

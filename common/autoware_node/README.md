@@ -6,7 +6,7 @@
 
 ## Overview
 
-AN is an `autoware.core` package designed to provide a base class for all future nodes in the
+AN is an `autoware_core` package designed to provide a base class for all future nodes in the
 system.
 
 ## Usage

@@ -43,11 +43,11 @@ public:
       &node, "obstacle_cruise_planner")},
 ```
 
-code example from src/universe/autoware.universe/planning/autoware_obstacle_cruise_planner/include/autoware/obstacle_cruise_planner/planner_interface.hpp
+code example from src/universe/autoware_universe/planning/autoware_obstacle_cruise_planner/include/autoware/obstacle_cruise_planner/planner_interface.hpp
 
 ### Adding Planning Factors
 
-The `add` method can be used to add planning factors. Here's an example from src/universe/autoware.universe/planning/autoware_obstacle_cruise_planner/src/pid_based_planner/pid_based_planner.cpp.
+The `add` method can be used to add planning factors. Here's an example from src/universe/autoware_universe/planning/autoware_obstacle_cruise_planner/src/pid_based_planner/pid_based_planner.cpp.
 
 ```cpp
 planning_factor_interface_->add(

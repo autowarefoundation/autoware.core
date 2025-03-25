@@ -19,7 +19,10 @@
 #include "autoware/trajectory/interpolator/nearest_neighbor.hpp"
 #include "autoware/trajectory/interpolator/stairstep.hpp"
 
-#include <matplotlibcpp17/pyplot.h>
+#include <autoware/pyplot/pyplot.hpp>
+
+#include <pybind11/embed.h>
+#include <pybind11/stl.h>
 
 #include <random>
 #include <vector>
@@ -27,7 +30,7 @@
 int main()
 {
   pybind11::scoped_interpreter guard{};
-  auto plt = matplotlibcpp17::pyplot::import();
+  auto plt = autoware::pyplot::import();
 
   // create random values
   std::vector<double> bases = {0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0};
@@ -110,6 +113,7 @@ int main()
     plt.plot(Args(x, y), Kwargs("label"_a = "Stairstep"));
   }
 
+  plt.grid();
   plt.legend();
   plt.show();
   return 0;
