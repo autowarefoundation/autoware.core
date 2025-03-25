@@ -17,7 +17,7 @@
 
 #include "autoware/signal_processing/lowpass_filter_1d.hpp"
 
-#include "geometry_msgs/msg/twist.hpp"
+#include <geometry_msgs/msg/twist.hpp>
 
 namespace autoware::signal_processing
 {
