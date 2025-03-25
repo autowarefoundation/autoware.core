@@ -146,6 +146,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://autowarefoundation.github.io/autoware_core/latest/sensing/autoware_crop_box_filter/</loc>
+         <lastmod>2025-03-25</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://autowarefoundation.github.io/autoware_core/latest/sensing/autoware_gnss_poser/</loc>
          <lastmod>2025-03-25</lastmod>
          <changefreq>daily</changefreq>
