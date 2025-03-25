@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.14)
 
 project(autoware_trajectory)
 
+find_package(pybind11_vendor REQUIRED)
+find_package(pybind11 REQUIRED)
 
 find_package(autoware_cmake REQUIRED)
 autoware_package()
@@ -9,6 +11,11 @@ autoware_package()
 ament_auto_add_library(autoware_trajectory SHARED
   DIRECTORY src
 )
+target_link_libraries(autoware_trajectory pybind11::embed)
+
+if(tf2_VERSION VERSION_LESS "0.40.0")
+  target_compile_definitions(autoware_trajectory PRIVATE AUTOWARE_TRAJECTORY_OLD_TF2_INCLUDES=1)
+endif()
 
 if(BUILD_TESTING)
   find_package(ament_cmake_ros REQUIRED)
