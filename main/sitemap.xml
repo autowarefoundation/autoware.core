@@ -106,11 +106,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://autowarefoundation.github.io/autoware_core/main/demos/autoware_test_node/</loc>
-         <lastmod>2025-03-25</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://autowarefoundation.github.io/autoware_core/main/localization/autoware_ekf_localizer/</loc>
          <lastmod>2025-03-25</lastmod>
          <changefreq>daily</changefreq>
@@ -167,6 +162,11 @@
     </url>
     <url>
          <loc>https://autowarefoundation.github.io/autoware_core/main/testing/autoware_pyplot/</loc>
+         <lastmod>2025-03-25</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://autowarefoundation.github.io/autoware_core/main/testing/autoware_test_node/</loc>
          <lastmod>2025-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
