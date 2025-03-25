@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef AUTOWARE__MOTION_VELOCITY_PLANNER_COMMON_UNIVERSE__UTILS_HPP_
-#define AUTOWARE__MOTION_VELOCITY_PLANNER_COMMON_UNIVERSE__UTILS_HPP_
+#ifndef AUTOWARE__MOTION_VELOCITY_PLANNER_COMMON__UTILS_HPP_
+#define AUTOWARE__MOTION_VELOCITY_PLANNER_COMMON__UTILS_HPP_
 
 #include "autoware_utils/geometry/geometry.hpp"
 #include "autoware_vehicle_info_utils/vehicle_info_utils.hpp"
@@ -145,4 +145,4 @@ double calc_possible_min_dist_from_obj_to_traj_poly(
   const std::vector<TrajectoryPoint> & traj_points, const VehicleInfo & vehicle_info);
 }  // namespace autoware::motion_velocity_planner::utils
 
-#endif  // AUTOWARE__MOTION_VELOCITY_PLANNER_COMMON_UNIVERSE__UTILS_HPP_
+#endif  // AUTOWARE__MOTION_VELOCITY_PLANNER_COMMON__UTILS_HPP_
