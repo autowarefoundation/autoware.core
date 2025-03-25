@@ -18,9 +18,9 @@
 #include "data.hpp"
 #include "grid_ground_filter.hpp"
 
-#include <autoware_utils/system/time_keeper.hpp>
-#include <autoware_utils/system/stop_watch.hpp>
 #include <autoware_utils/ros/debug_publisher.hpp>
+#include <autoware_utils/system/stop_watch.hpp>
+#include <autoware_utils/system/time_keeper.hpp>
 #include <autoware_vehicle_info_utils/vehicle_info.hpp>
 
 #include <sensor_msgs/msg/point_cloud2.hpp>
@@ -28,15 +28,14 @@
 #include <boost/thread/mutex.hpp>
 
 // PCL includes
-#include <pcl/filters/filter.h>
-#include <pcl/filters/extract_indices.h>
-#include <pcl/filters/voxel_grid.h>
-#include <pcl_conversions/pcl_conversions.h>
-
 #include <pcl_msgs/msg/point_indices.hpp>
+
+#include <pcl/filters/extract_indices.h>
+#include <pcl/filters/filter.h>
+#include <pcl/filters/voxel_grid.h>
 #include <pcl/pcl_base.h>
 #include <pcl/point_types.h>
-
+#include <pcl_conversions/pcl_conversions.h>
 #include <tf2/transform_datatypes.h>
 
 // PCL includes
@@ -185,13 +184,14 @@ private:
   virtual void subscribe();
 
   void filter(
-    const sensor_msgs::msg::PointCloud2::ConstSharedPtr & input, const pcl::IndicesPtr & indices, sensor_msgs::msg::PointCloud2 & output);
+    const sensor_msgs::msg::PointCloud2::ConstSharedPtr & input, const pcl::IndicesPtr & indices,
+    sensor_msgs::msg::PointCloud2 & output);
 
   // TODO(taisa1): Temporary Implementation: Remove this interface when all the filter nodes
   // conform to new API
   void faster_filter(
-    const sensor_msgs::msg::PointCloud2::ConstSharedPtr & input, [[maybe_unused]] const pcl::IndicesPtr & indices,
-    sensor_msgs::msg::PointCloud2 & output,
+    const sensor_msgs::msg::PointCloud2::ConstSharedPtr & input,
+    [[maybe_unused]] const pcl::IndicesPtr & indices, sensor_msgs::msg::PointCloud2 & output,
     [[maybe_unused]] const TransformInfo & transform_info);
 
   tf2_ros::Buffer tf_buffer_{get_clock()};
@@ -296,8 +296,8 @@ private:
    * @param out_object_cloud Resulting PointCloud with the indices kept
    */
   void extractObjectPoints(
-    const sensor_msgs::msg::PointCloud2::ConstSharedPtr & in_cloud_ptr, const pcl::PointIndices & in_indices,
-    sensor_msgs::msg::PointCloud2 & out_object_cloud) const;
+    const sensor_msgs::msg::PointCloud2::ConstSharedPtr & in_cloud_ptr,
+    const pcl::PointIndices & in_indices, sensor_msgs::msg::PointCloud2 & out_object_cloud) const;
 
   /** \brief Parameter service callback result : needed to be hold */
   rclcpp::Node::OnSetParametersCallbackHandle::SharedPtr set_param_res_;
@@ -314,21 +314,24 @@ private:
 
   /** \brief Get a matrix for conversion from the original frame to the target frame */
   /** \brief Synchronized input, and indices.*/
-  std::shared_ptr<message_filters::Synchronizer<message_filters::sync_policies::ApproximateTime<sensor_msgs::msg::PointCloud2, pcl_msgs::msg::PointIndices>>> sync_input_indices_a_;
-  std::shared_ptr<message_filters::Synchronizer<message_filters::sync_policies::ExactTime<sensor_msgs::msg::PointCloud2, pcl_msgs::msg::PointIndices>>> sync_input_indices_e_;
-
+  std::shared_ptr<message_filters::Synchronizer<message_filters::sync_policies::ApproximateTime<
+    sensor_msgs::msg::PointCloud2, pcl_msgs::msg::PointIndices>>>
+    sync_input_indices_a_;
+  std::shared_ptr<message_filters::Synchronizer<message_filters::sync_policies::ExactTime<
+    sensor_msgs::msg::PointCloud2, pcl_msgs::msg::PointIndices>>>
+    sync_input_indices_e_;
 
   bool calculate_transform_matrix(
     const std::string & target_frame, const sensor_msgs::msg::PointCloud2 & from,
     TransformInfo & transform_info /*output*/);
   bool convert_output_costly(std::unique_ptr<sensor_msgs::msg::PointCloud2> & output);
   void faster_input_indices_callback(
-    const sensor_msgs::msg::PointCloud2::ConstSharedPtr cloud, const pcl_msgs::msg::PointIndices::ConstSharedPtr indices);
+    const sensor_msgs::msg::PointCloud2::ConstSharedPtr cloud,
+    const pcl_msgs::msg::PointIndices::ConstSharedPtr indices);
 
   void setupTF();
 
 protected:
-
   /** \brief The original TF frame of the input pointcloud. */
   std::string tf_input_orig_frame_;
 
@@ -353,7 +356,8 @@ protected:
 
   // To validate if the pointcloud is valid
   inline bool isValid(
-    const sensor_msgs::msg::PointCloud2::ConstSharedPtr & cloud, const std::string & /*topic_name*/ = "input")
+    const sensor_msgs::msg::PointCloud2::ConstSharedPtr & cloud,
+    const std::string & /*topic_name*/ = "input")
   {
     if (cloud->width * cloud->height * cloud->point_step != cloud->data.size()) {
       RCLCPP_WARN(
@@ -368,7 +372,8 @@ protected:
   }
 
   inline bool isValid(
-    [[maybe_unused]] const pcl_msgs::msg::PointIndices::ConstSharedPtr & indices, const std::string & /*topic_name*/ = "indices")
+    [[maybe_unused]] const pcl_msgs::msg::PointIndices::ConstSharedPtr & indices,
+    const std::string & /*topic_name*/ = "indices")
   {
     return true;
   }

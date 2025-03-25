@@ -13,9 +13,9 @@
 // limitations under the License.
 
 #include "node.hpp"
-#include "rclcpp/rclcpp.hpp"
 
 #include "grid_ground_filter.hpp"
+#include "rclcpp/rclcpp.hpp"
 #include "sanity_check.hpp"
 
 #include <autoware_utils/geometry/geometry.hpp>
@@ -27,7 +27,8 @@
 #include <string>
 #include <vector>
 
-namespace {
+namespace
+{
 /** \brief For parameter service callback */
 template <typename T>
 bool get_param(const std::vector<rclcpp::Parameter> & p, const std::string & name, T & value)
@@ -41,7 +42,7 @@ bool get_param(const std::vector<rclcpp::Parameter> & p, const std::string & nam
   }
   return false;
 }
-}
+}  // namespace
 
 namespace autoware::pointcloud_filter
 {
@@ -65,33 +66,38 @@ ScanGroundFilterComponent::ScanGroundFilterComponent(const rclcpp::NodeOptions &
     elevation_grid_mode_ = rclcpp::Node::declare_parameter<bool>("elevation_grid_mode");
 
     // common parameters
-    radial_divider_angle_rad_ =
-      static_cast<float>(deg2rad(rclcpp::Node::declare_parameter<double>("radial_divider_angle_deg")));
+    radial_divider_angle_rad_ = static_cast<float>(
+      deg2rad(rclcpp::Node::declare_parameter<double>("radial_divider_angle_deg")));
     radial_dividers_num_ = std::ceil(2.0 * M_PI / radial_divider_angle_rad_);
 
     // common thresholds
-    global_slope_max_angle_rad_ =
-      static_cast<float>(deg2rad(rclcpp::Node::declare_parameter<double>("global_slope_max_angle_deg")));
-    local_slope_max_angle_rad_ =
-      static_cast<float>(deg2rad(rclcpp::Node::declare_parameter<double>("local_slope_max_angle_deg")));
+    global_slope_max_angle_rad_ = static_cast<float>(
+      deg2rad(rclcpp::Node::declare_parameter<double>("global_slope_max_angle_deg")));
+    local_slope_max_angle_rad_ = static_cast<float>(
+      deg2rad(rclcpp::Node::declare_parameter<double>("local_slope_max_angle_deg")));
     global_slope_max_ratio_ = std::tan(global_slope_max_angle_rad_);
     local_slope_max_ratio_ = std::tan(local_slope_max_angle_rad_);
-    split_points_distance_tolerance_ =
-      static_cast<float>(rclcpp::Node::declare_parameter<double>("split_points_distance_tolerance"));
+    split_points_distance_tolerance_ = static_cast<float>(
+      rclcpp::Node::declare_parameter<double>("split_points_distance_tolerance"));
 
     // vehicle info
     vehicle_info_ = VehicleInfoUtils(*this).getVehicleInfo();
 
     // non-grid parameters
     use_virtual_ground_point_ = rclcpp::Node::declare_parameter<bool>("use_virtual_ground_point");
-    split_height_distance_ = static_cast<float>(rclcpp::Node::declare_parameter<double>("split_height_distance"));
+    split_height_distance_ =
+      static_cast<float>(rclcpp::Node::declare_parameter<double>("split_height_distance"));
 
     // grid mode parameters
-    use_recheck_ground_cluster_ = rclcpp::Node::declare_parameter<bool>("use_recheck_ground_cluster");
+    use_recheck_ground_cluster_ =
+      rclcpp::Node::declare_parameter<bool>("use_recheck_ground_cluster");
     use_lowest_point_ = rclcpp::Node::declare_parameter<bool>("use_lowest_point");
-    detection_range_z_max_ = static_cast<float>(rclcpp::Node::declare_parameter<double>("detection_range_z_max"));
-    low_priority_region_x_ = static_cast<float>(rclcpp::Node::declare_parameter<double>("low_priority_region_x"));
-    center_pcl_shift_ = static_cast<float>(rclcpp::Node::declare_parameter<double>("center_pcl_shift"));
+    detection_range_z_max_ =
+      static_cast<float>(rclcpp::Node::declare_parameter<double>("detection_range_z_max"));
+    low_priority_region_x_ =
+      static_cast<float>(rclcpp::Node::declare_parameter<double>("low_priority_region_x"));
+    center_pcl_shift_ =
+      static_cast<float>(rclcpp::Node::declare_parameter<double>("center_pcl_shift"));
     non_ground_height_threshold_ =
       static_cast<float>(rclcpp::Node::declare_parameter<double>("non_ground_height_threshold"));
 
@@ -132,7 +138,8 @@ ScanGroundFilterComponent::ScanGroundFilterComponent(const rclcpp::NodeOptions &
   // initialize debug tool
   {
     stop_watch_ptr_ = std::make_unique<autoware_utils::StopWatch<std::chrono::milliseconds>>();
-    debug_publisher_ptr_ = std::make_unique<autoware_utils::DebugPublisher>(this, "scan_ground_filter");
+    debug_publisher_ptr_ =
+      std::make_unique<autoware_utils::DebugPublisher>(this, "scan_ground_filter");
     stop_watch_ptr_->tic("cyclic_time");
     stop_watch_ptr_->tic("processing_time");
 
@@ -182,7 +189,6 @@ ScanGroundFilterComponent::ScanGroundFilterComponent(const rclcpp::NodeOptions &
 
   published_time_publisher_ = std::make_unique<autoware_utils::PublishedTimePublisher>(this);
   RCLCPP_DEBUG(this->get_logger(), "[Filter Constructor] successfully created.");
-
 }
 
 void ScanGroundFilterComponent::setupTF()
@@ -210,19 +216,26 @@ void ScanGroundFilterComponent::subscribe()
       this, "indices", rclcpp::SensorDataQoS().keep_last(max_queue_size_).get_rmw_qos_profile());
 
     if (approximate_sync_) {
-      sync_input_indices_a_ = std::make_shared<message_filters::Synchronizer<message_filters::sync_policies::ApproximateTime<sensor_msgs::msg::PointCloud2, pcl_msgs::msg::PointIndices>>>(max_queue_size_);
+      sync_input_indices_a_ = std::make_shared<
+        message_filters::Synchronizer<message_filters::sync_policies::ApproximateTime<
+          sensor_msgs::msg::PointCloud2, pcl_msgs::msg::PointIndices>>>(max_queue_size_);
       sync_input_indices_a_->connectInput(sub_input_filter_, sub_indices_filter_);
-      sync_input_indices_a_->registerCallback(
-        std::bind(&ScanGroundFilterComponent::faster_input_indices_callback, this, std::placeholders::_1, std::placeholders::_2));
+      sync_input_indices_a_->registerCallback(std::bind(
+        &ScanGroundFilterComponent::faster_input_indices_callback, this, std::placeholders::_1,
+        std::placeholders::_2));
     } else {
-      sync_input_indices_e_ = std::make_shared<message_filters::Synchronizer<message_filters::sync_policies::ExactTime<sensor_msgs::msg::PointCloud2, pcl_msgs::msg::PointIndices>>>(max_queue_size_);
+      sync_input_indices_e_ =
+        std::make_shared<message_filters::Synchronizer<message_filters::sync_policies::ExactTime<
+          sensor_msgs::msg::PointCloud2, pcl_msgs::msg::PointIndices>>>(max_queue_size_);
       sync_input_indices_e_->connectInput(sub_input_filter_, sub_indices_filter_);
-      sync_input_indices_e_->registerCallback(
-        std::bind(&ScanGroundFilterComponent::faster_input_indices_callback, this, std::placeholders::_1, std::placeholders::_2));
+      sync_input_indices_e_->registerCallback(std::bind(
+        &ScanGroundFilterComponent::faster_input_indices_callback, this, std::placeholders::_1,
+        std::placeholders::_2));
     }
   } else {
-    std::function<void(const sensor_msgs::msg::PointCloud2::ConstSharedPtr msg)> cb =
-      std::bind(&ScanGroundFilterComponent::faster_input_indices_callback, this, std::placeholders::_1, pcl_msgs::msg::PointIndices::ConstSharedPtr());
+    std::function<void(const sensor_msgs::msg::PointCloud2::ConstSharedPtr msg)> cb = std::bind(
+      &ScanGroundFilterComponent::faster_input_indices_callback, this, std::placeholders::_1,
+      pcl_msgs::msg::PointIndices::ConstSharedPtr());
     sub_input_ = this->create_subscription<sensor_msgs::msg::PointCloud2>(
       "input", rclcpp::SensorDataQoS().keep_last(max_queue_size_), cb);
   }
@@ -294,7 +307,8 @@ bool ScanGroundFilterComponent::convert_output_costly(
 }
 
 void ScanGroundFilterComponent::faster_input_indices_callback(
-  const sensor_msgs::msg::PointCloud2::ConstSharedPtr cloud, const pcl_msgs::msg::PointIndices::ConstSharedPtr indices)
+  const sensor_msgs::msg::PointCloud2::ConstSharedPtr cloud,
+  const pcl_msgs::msg::PointIndices::ConstSharedPtr indices)
 {
   if (
     !is_data_layout_compatible_with_point_xyzircaedt(*cloud) &&
@@ -378,7 +392,8 @@ void ScanGroundFilterComponent::convertPointcloud(
   std::vector<PointCloudVector> & out_radial_ordered_points) const
 {
   std::unique_ptr<autoware_utils::ScopedTimeTrack> st_ptr;
-  if (time_keeper_) st_ptr = std::make_unique<autoware_utils::ScopedTimeTrack>(__func__, *time_keeper_);
+  if (time_keeper_)
+    st_ptr = std::make_unique<autoware_utils::ScopedTimeTrack>(__func__, *time_keeper_);
 
   out_radial_ordered_points.resize(radial_dividers_num_);
   PointData current_point;
@@ -391,7 +406,8 @@ void ScanGroundFilterComponent::convertPointcloud(
   {  // grouping pointcloud by its azimuth angle
     std::unique_ptr<autoware_utils::ScopedTimeTrack> inner_st_ptr;
     if (time_keeper_)
-      inner_st_ptr = std::make_unique<autoware_utils::ScopedTimeTrack>("azimuth_angle_grouping", *time_keeper_);
+      inner_st_ptr =
+        std::make_unique<autoware_utils::ScopedTimeTrack>("azimuth_angle_grouping", *time_keeper_);
 
     pcl::PointXYZ input_point;
     for (size_t data_index = 0; data_index + in_cloud_point_step <= in_cloud_data_size;
@@ -415,7 +431,8 @@ void ScanGroundFilterComponent::convertPointcloud(
 
   {  // sorting pointcloud by distance, on each azimuth angle group
     std::unique_ptr<autoware_utils::ScopedTimeTrack> inner_st_ptr;
-    if (time_keeper_) inner_st_ptr = std::make_unique<autoware_utils::ScopedTimeTrack>("sort", *time_keeper_);
+    if (time_keeper_)
+      inner_st_ptr = std::make_unique<autoware_utils::ScopedTimeTrack>("sort", *time_keeper_);
 
     for (size_t i = 0; i < radial_dividers_num_; ++i) {
       std::sort(
@@ -438,7 +455,8 @@ void ScanGroundFilterComponent::classifyPointCloud(
   pcl::PointIndices & out_no_ground_indices) const
 {
   std::unique_ptr<autoware_utils::ScopedTimeTrack> st_ptr;
-  if (time_keeper_) st_ptr = std::make_unique<autoware_utils::ScopedTimeTrack>(__func__, *time_keeper_);
+  if (time_keeper_)
+    st_ptr = std::make_unique<autoware_utils::ScopedTimeTrack>(__func__, *time_keeper_);
 
   out_no_ground_indices.indices.clear();
 
@@ -556,11 +574,12 @@ void ScanGroundFilterComponent::classifyPointCloud(
 }
 
 void ScanGroundFilterComponent::extractObjectPoints(
-  const sensor_msgs::msg::PointCloud2::ConstSharedPtr & in_cloud_ptr, const pcl::PointIndices & in_indices,
-  sensor_msgs::msg::PointCloud2 & out_object_cloud) const
+  const sensor_msgs::msg::PointCloud2::ConstSharedPtr & in_cloud_ptr,
+  const pcl::PointIndices & in_indices, sensor_msgs::msg::PointCloud2 & out_object_cloud) const
 {
   std::unique_ptr<autoware_utils::ScopedTimeTrack> st_ptr;
-  if (time_keeper_) st_ptr = std::make_unique<autoware_utils::ScopedTimeTrack>(__func__, *time_keeper_);
+  if (time_keeper_)
+    st_ptr = std::make_unique<autoware_utils::ScopedTimeTrack>(__func__, *time_keeper_);
 
   size_t output_data_size = 0;
 
@@ -573,12 +592,13 @@ void ScanGroundFilterComponent::extractObjectPoints(
 }
 
 void ScanGroundFilterComponent::faster_filter(
-  const sensor_msgs::msg::PointCloud2::ConstSharedPtr & input, [[maybe_unused]] const pcl::IndicesPtr & indices,
-  sensor_msgs::msg::PointCloud2 & output,
+  const sensor_msgs::msg::PointCloud2::ConstSharedPtr & input,
+  [[maybe_unused]] const pcl::IndicesPtr & indices, sensor_msgs::msg::PointCloud2 & output,
   [[maybe_unused]] const TransformInfo & transform_info)
 {
   std::unique_ptr<autoware_utils::ScopedTimeTrack> st_ptr;
-  if (time_keeper_) st_ptr = std::make_unique<autoware_utils::ScopedTimeTrack>(__func__, *time_keeper_);
+  if (time_keeper_)
+    st_ptr = std::make_unique<autoware_utils::ScopedTimeTrack>(__func__, *time_keeper_);
 
   std::scoped_lock lock(mutex_);
 
@@ -622,8 +642,8 @@ void ScanGroundFilterComponent::faster_filter(
 // TODO(taisa1): Temporary Implementation: Delete this function definition when all the filter
 // nodes conform to new API.
 void ScanGroundFilterComponent::filter(
-  const sensor_msgs::msg::PointCloud2::ConstSharedPtr & input, [[maybe_unused]] const pcl::IndicesPtr & indices,
-  sensor_msgs::msg::PointCloud2 & output)
+  const sensor_msgs::msg::PointCloud2::ConstSharedPtr & input,
+  [[maybe_unused]] const pcl::IndicesPtr & indices, sensor_msgs::msg::PointCloud2 & output)
 {
   (void)input;
   (void)indices;
@@ -644,7 +664,8 @@ rcl_interfaces::msg::SetParametersResult ScanGroundFilterComponent::onParameter(
     global_slope_max_angle_rad_ = deg2rad(global_slope_max_angle_deg);
     global_slope_max_ratio_ = std::tan(global_slope_max_angle_rad_);
     RCLCPP_DEBUG(
-      this->get_logger(), "Setting global_slope_max_angle_rad to: %f.", global_slope_max_angle_rad_);
+      this->get_logger(), "Setting global_slope_max_angle_rad to: %f.",
+      global_slope_max_angle_rad_);
     RCLCPP_DEBUG(
       this->get_logger(), "Setting global_slope_max_ratio to: %f.", global_slope_max_ratio_);
   }
@@ -664,8 +685,7 @@ rcl_interfaces::msg::SetParametersResult ScanGroundFilterComponent::onParameter(
     // grid_ptr_->initialize(grid_size_m_, radial_divider_angle_rad_, grid_mode_switch_radius_);
     RCLCPP_DEBUG(
       this->get_logger(), "Setting radial_divider_angle_rad to: %f.", radial_divider_angle_rad_);
-    RCLCPP_DEBUG(
-      this->get_logger(), "Setting radial_dividers_num to: %zu.", radial_dividers_num_);
+    RCLCPP_DEBUG(this->get_logger(), "Setting radial_dividers_num to: %zu.", radial_dividers_num_);
   }
   if (get_param(param, "split_points_distance_tolerance", split_points_distance_tolerance_)) {
     RCLCPP_DEBUG(
@@ -694,7 +714,8 @@ rcl_interfaces::msg::SetParametersResult ScanGroundFilterComponent::onParameter(
     RCLCPP_DEBUG(this->get_logger(), "Setting the input TF frame to: %s.", tf_input_frame_.c_str());
   }
   if (get_param(param, "output_frame", tf_output_frame_)) {
-    RCLCPP_DEBUG(this->get_logger(), "Setting the output TF frame to: %s.", tf_output_frame_.c_str());
+    RCLCPP_DEBUG(
+      this->get_logger(), "Setting the output TF frame to: %s.", tf_output_frame_.c_str());
   }
 
   // Finally return the result

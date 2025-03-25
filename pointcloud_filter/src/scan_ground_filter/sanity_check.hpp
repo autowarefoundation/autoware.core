@@ -37,4 +37,4 @@ bool is_data_layout_compatible_with_point_xyzircaedt(const sensor_msgs::msg::Poi
 
 }  // namespace autoware::pointcloud_filter
 
-#endif  // SANITY_CHECK_HPP_
+#endif  // SCAN_GROUND_FILTER__SANITY_CHECK_HPP_

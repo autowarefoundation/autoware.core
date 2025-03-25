@@ -8,9 +8,9 @@ The `autoware_pointcloud_filter` is a node that remove the ground points from th
 
 Detail description of each ground segmentation algorithm is in the following links.
 
-| Filter Name          | Description                                                                                                | Detail                               |
-| -------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| scan_ground_filter   | A method of removing the ground based on the geometrical relationship between points lined up on radiation | [link](docs/scan-ground-filter.md)   |
+| Filter Name        | Description                                                                                                | Detail                             |
+| ------------------ | ---------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| scan_ground_filter | A method of removing the ground based on the geometrical relationship between points lined up on radiation | [link](docs/scan-ground-filter.md) |
 
 ## Inputs / Outputs
 
