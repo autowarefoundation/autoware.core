@@ -8,20 +8,20 @@
       
       
       
-        <link rel="canonical" href="https://autowarefoundation.github.io/autoware_core/latest/testing/autoware_planning_test_manager/">
+        <link rel="canonical" href="https://autowarefoundation.github.io/autoware_core/latest/common/autoware_signal_processing/">
       
       
-        <link rel="prev" href="../../sensing/autoware_gnss_poser/">
+        <link rel="prev" href="../autoware_qp_interface/design/qp_interface-design/">
       
       
-        <link rel="next" href="../autoware_pyplot/">
+        <link rel="next" href="documentation/ButterworthFilter/">
       
       <link rel="icon" href="../../docs/assets/images/autoware-foundation.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.20">
     
     
       
-        <title>Autoware Planning Test Manager - Autoware Core Documentation</title>
+        <title>Signal Processing Methods - Autoware Core Documentation</title>
       
     
     
@@ -77,7 +77,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#autoware-planning-test-manager" class="md-skip">
+        <a href="#signal-processing-methods" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Autoware Planning Test Manager
+              Signal Processing Methods
             
           </span>
         </div>
@@ -208,6 +208,8 @@
         
   
   
+    
+  
 
 
   
@@ -219,7 +221,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../common/autoware_component_interface_specs/" class="md-tabs__link">
+      <a href="../autoware_component_interface_specs/" class="md-tabs__link md-tabs__link--active">
         Common
       </a>
     </li>
@@ -346,8 +348,6 @@
         
   
   
-    
-  
 
 
   
@@ -359,7 +359,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="./" class="md-tabs__link md-tabs__link--active">
+      <a href="../../testing/autoware_planning_test_manager/" class="md-tabs__link">
         Testing
       </a>
     </li>
@@ -424,16 +424,16 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
       
       
         
@@ -472,7 +472,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_1">
           <span class="md-nav__icon md-icon"></span>
           Common
@@ -507,7 +507,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_component_interface_specs/">Autoware component interface specs</a>
+          <a href="../autoware_component_interface_specs/">Autoware component interface specs</a>
           
         </div>
       
@@ -555,7 +555,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_geography_utils/">Autoware geography utils</a>
+          <a href="../autoware_geography_utils/">Autoware geography utils</a>
           
         </div>
       
@@ -603,7 +603,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_interpolation/">Autoware interpolation</a>
+          <a href="../autoware_interpolation/">Autoware interpolation</a>
           
         </div>
       
@@ -651,7 +651,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_kalman_filter/">Autoware kalman filter</a>
+          <a href="../autoware_kalman_filter/">Autoware kalman filter</a>
           
         </div>
       
@@ -699,7 +699,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_lanelet2_utils/">Autoware lanelet2 utils</a>
+          <a href="../autoware_lanelet2_utils/">Autoware lanelet2 utils</a>
           
         </div>
       
@@ -749,7 +749,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_motion_utils/">Autoware motion utils</a>
+          <a href="../autoware_motion_utils/">Autoware motion utils</a>
           
             <label for="__nav_1_6">
               <span class="md-nav__icon md-icon"></span>
@@ -838,7 +838,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../common/autoware_motion_utils/docs/vehicle/vehicle/" class="md-nav__link">
+      <a href="../autoware_motion_utils/docs/vehicle/vehicle/" class="md-nav__link">
         vehicle utils
       </a>
     </li>
@@ -895,7 +895,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_node/">Autoware node</a>
+          <a href="../autoware_node/">Autoware node</a>
           
         </div>
       
@@ -943,7 +943,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_object_recognition_utils/">Autoware object recognition utils</a>
+          <a href="../autoware_object_recognition_utils/">Autoware object recognition utils</a>
           
         </div>
       
@@ -1037,7 +1037,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../common/autoware_osqp_interface/design/osqp_interface-design/" class="md-nav__link">
+      <a href="../autoware_osqp_interface/design/osqp_interface-design/" class="md-nav__link">
         Interface for the OSQP library
       </a>
     </li>
@@ -1087,7 +1087,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_point_types/">Autoware point types</a>
+          <a href="../autoware_point_types/">Autoware point types</a>
           
         </div>
       
@@ -1181,7 +1181,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../common/autoware_qp_interface/design/qp_interface-design/" class="md-nav__link">
+      <a href="../autoware_qp_interface/design/qp_interface-design/" class="md-nav__link">
         Interface for QP solvers
       </a>
     </li>
@@ -1207,18 +1207,18 @@
               
   
   
+    
+  
   
     
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
       
       
       
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_12" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_12" checked>
       
       
         
@@ -1232,8 +1232,8 @@
       
         
         
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_signal_processing/">Autoware signal processing</a>
+        <div class="md-nav__link md-nav__link--index md-nav__link--active">
+          <a href="./">Autoware signal processing</a>
           
             <label for="__nav_1_12">
               <span class="md-nav__icon md-icon"></span>
@@ -1241,7 +1241,7 @@
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_12_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_12_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_1_12">
           <span class="md-nav__icon md-icon"></span>
           Autoware signal processing
@@ -1289,7 +1289,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../common/autoware_signal_processing/documentation/ButterworthFilter/" class="md-nav__link">
+      <a href="documentation/ButterworthFilter/" class="md-nav__link">
         ButterworthFilter
       </a>
     </li>
@@ -1339,7 +1339,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_trajectory/">Autoware trajectory</a>
+          <a href="../autoware_trajectory/">Autoware trajectory</a>
           
         </div>
       
@@ -1387,7 +1387,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_vehicle_info_utils/">Autoware vehicle info utils</a>
+          <a href="../autoware_vehicle_info_utils/">Autoware vehicle info utils</a>
           
         </div>
       
@@ -2064,16 +2064,16 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
       
       
         
@@ -2092,7 +2092,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_7">
           <span class="md-nav__icon md-icon"></span>
           Testing
@@ -2103,18 +2103,18 @@
               
   
   
-    
-  
   
     
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1" checked>
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_1" >
       
       
         
@@ -2126,12 +2126,12 @@
       
         
         
-        <div class="md-nav__link md-nav__link--index md-nav__link--active">
-          <a href="./">Autoware planning test manager</a>
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../testing/autoware_planning_test_manager/">Autoware planning test manager</a>
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_7_1">
           <span class="md-nav__icon md-icon"></span>
           Autoware planning test manager
@@ -2175,7 +2175,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_pyplot/">Autoware pyplot</a>
+          <a href="../../testing/autoware_pyplot/">Autoware pyplot</a>
           
         </div>
       
@@ -2223,7 +2223,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_test_utils/">Autoware test utils</a>
+          <a href="../../testing/autoware_test_utils/">Autoware test utils</a>
           
         </div>
       
@@ -2317,7 +2317,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autoware_testing/design/autoware_testing-design/" class="md-nav__link">
+      <a href="../../testing/autoware_testing/design/autoware_testing-design/" class="md-nav__link">
         autoware_testing
       </a>
     </li>
@@ -2372,70 +2372,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#background" class="md-nav__link">
-    Background
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#purpose" class="md-nav__link">
-    Purpose
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
-    Features
-  </a>
-  
-    <nav class="md-nav" aria-label="Features">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#confirmation-of-normal-operation" class="md-nav__link">
-    Confirmation of normal operation
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#robustness-confirmation-for-special-inputs" class="md-nav__link">
-    Robustness confirmation for special inputs
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#implemented-tests" class="md-nav__link">
-    Implemented tests
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#important-notes" class="md-nav__link">
-    Important Notes
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#future-extensions-unimplemented-parts" class="md-nav__link">
-    Future extensions / Unimplemented parts
+  <a href="#assumptions-known-limits" class="md-nav__link">
+    Assumptions / Known limits
   </a>
   
 </li>
@@ -2458,149 +2396,16 @@
   
 
 
-<div><h1 id="autoware-planning-test-manager">Autoware Planning Test Manager<a class="headerlink" href="#autoware-planning-test-manager" title="Permanent link">#</a></h1>
-<h2 id="background">Background<a class="headerlink" href="#background" title="Permanent link">#</a></h2>
-<p>In each node of the planning module, when exceptional input, such as unusual routes or significantly deviated ego-position, is given, the node may not be prepared for such input and could crash. As a result, debugging node crashes can be time-consuming. For example, if an empty trajectory is given as input and it was not anticipated during implementation, the node might crash due to the unaddressed exceptional input when changes are merged, during scenario testing or while the system is running on an actual vehicle.</p>
-<h2 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">#</a></h2>
-<p>The purpose is to provide a utility for implementing tests to ensure that node operates correctly when receiving exceptional input. By utilizing this utility and implementing tests for exceptional input, the purpose is to reduce bugs that are only discovered when actually running the system, by requiring measures for exceptional input before merging PRs.</p>
-<h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link">#</a></h2>
-<h3 id="confirmation-of-normal-operation">Confirmation of normal operation<a class="headerlink" href="#confirmation-of-normal-operation" title="Permanent link">#</a></h3>
-<p>For the test target node, confirm that the node operates correctly and publishes the required messages for subsequent nodes. To do this, test_node publish the necessary messages and confirm that the node's output is being published.</p>
-<h3 id="robustness-confirmation-for-special-inputs">Robustness confirmation for special inputs<a class="headerlink" href="#robustness-confirmation-for-special-inputs" title="Permanent link">#</a></h3>
-<p>After confirming normal operation, ensure that the test target node does not crash when given exceptional input. To do this, provide exceptional input from the test_node and confirm that the node does not crash.</p>
-<p>(WIP)</p>
-<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">#</a></h2>
-<div class="highlight"><pre><span></span><code><span class="n">TEST</span><span class="p">(</span><span class="n">PlanningModuleInterfaceTest</span><span class="p">,</span><span class="w"> </span><span class="n">NodeTestWithExceptionTrajectory</span><span class="p">)</span>
-<span class="p">{</span>
-<span class="w">  </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="k">nullptr</span><span class="p">);</span>
-
-<span class="w">  </span><span class="c1">// instantiate test_manager with PlanningInterfaceTestManager type</span>
-<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">test_manager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">autoware</span><span class="o">::</span><span class="n">planning_test_manager</span><span class="o">::</span><span class="n">PlanningInterfaceTestManager</span><span class="o">&gt;</span><span class="p">();</span>
-
-<span class="w">  </span><span class="c1">// get package directories for necessary configuration files</span>
-<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">autoware_test_utils_dir</span><span class="w"> </span><span class="o">=</span>
-<span class="w">    </span><span class="n">ament_index_cpp</span><span class="o">::</span><span class="n">get_package_share_directory</span><span class="p">(</span><span class="s">"autoware_test_utils"</span><span class="p">);</span>
-<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">target_node_dir</span><span class="w"> </span><span class="o">=</span>
-<span class="w">    </span><span class="n">ament_index_cpp</span><span class="o">::</span><span class="n">get_package_share_directory</span><span class="p">(</span><span class="s">"target_node"</span><span class="p">);</span>
-
-<span class="w">  </span><span class="c1">// set arguments to get the config file</span>
-<span class="w">  </span><span class="n">node_options</span><span class="p">.</span><span class="n">arguments</span><span class="p">(</span>
-<span class="w">    </span><span class="p">{</span><span class="s">"--ros-args"</span><span class="p">,</span><span class="w"> </span><span class="s">"--params-file"</span><span class="p">,</span>
-<span class="w">     </span><span class="n">autoware_test_utils_dir</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">"/config/test_vehicle_info.param.yaml"</span><span class="p">,</span><span class="w"> </span><span class="s">"--params-file"</span><span class="p">,</span>
-<span class="w">     </span><span class="n">autoware_planning_validator_dir</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">"/config/planning_validator.param.yaml"</span><span class="p">});</span>
-
-<span class="w">  </span><span class="c1">// instantiate the TargetNode with node_options</span>
-<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">test_target_node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">TargetNode</span><span class="o">&gt;</span><span class="p">(</span><span class="n">node_options</span><span class="p">);</span>
-
-<span class="w">  </span><span class="c1">// publish the necessary topics from test_manager second argument is topic name</span>
-<span class="w">  </span><span class="n">test_manager</span><span class="o">-&gt;</span><span class="n">publishOdometry</span><span class="p">(</span><span class="n">test_target_node</span><span class="p">,</span><span class="w"> </span><span class="s">"/localization/kinematic_state"</span><span class="p">);</span>
-<span class="w">  </span><span class="n">test_manager</span><span class="o">-&gt;</span><span class="n">publishMaxVelocity</span><span class="p">(</span>
-<span class="w">    </span><span class="n">test_target_node</span><span class="p">,</span><span class="w"> </span><span class="s">"velocity_smoother/input/external_velocity_limit_mps"</span><span class="p">);</span>
-
-<span class="w">  </span><span class="c1">// set scenario_selector's input topic name(this topic is changed to test node)</span>
-<span class="w">  </span><span class="n">test_manager</span><span class="o">-&gt;</span><span class="n">setTrajectoryInputTopicName</span><span class="p">(</span><span class="s">"input/parking/trajectory"</span><span class="p">);</span>
-
-<span class="w">  </span><span class="c1">// test with normal trajectory</span>
-<span class="w">  </span><span class="n">ASSERT_NO_THROW</span><span class="p">(</span><span class="n">test_manager</span><span class="o">-&gt;</span><span class="n">testWithNominalTrajectory</span><span class="p">(</span><span class="n">test_target_node</span><span class="p">));</span>
-
-<span class="w">  </span><span class="c1">// make sure target_node is running</span>
-<span class="w">  </span><span class="n">EXPECT_GE</span><span class="p">(</span><span class="n">test_manager</span><span class="o">-&gt;</span><span class="n">getReceivedTopicNum</span><span class="p">(),</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
-
-<span class="w">  </span><span class="c1">// test with trajectory input with empty/one point/overlapping point</span>
-<span class="w">  </span><span class="n">ASSERT_NO_THROW</span><span class="p">(</span><span class="n">test_manager</span><span class="o">-&gt;</span><span class="n">testWithAbnormalTrajectory</span><span class="p">(</span><span class="n">test_target_node</span><span class="p">));</span>
-
-<span class="w">  </span><span class="c1">// shutdown ROS context</span>
-<span class="w">  </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">shutdown</span><span class="p">();</span>
-<span class="p">}</span>
-</code></pre></div>
-<h2 id="implemented-tests">Implemented tests<a class="headerlink" href="#implemented-tests" title="Permanent link">#</a></h2>
-<table>
-<thead>
-<tr>
-<th>Node</th>
-<th>Test name</th>
-<th>exceptional input</th>
-<th>output</th>
-<th>Exceptional input pattern</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>autoware_planning_validator</td>
-<td>NodeTestWithExceptionTrajectory</td>
-<td>trajectory</td>
-<td>trajectory</td>
-<td>Empty, single point, path with duplicate points</td>
-</tr>
-<tr>
-<td>velocity_smoother</td>
-<td>NodeTestWithExceptionTrajectory</td>
-<td>trajectory</td>
-<td>trajectory</td>
-<td>Empty, single point, path with duplicate points</td>
-</tr>
-<tr>
-<td>obstacle_cruise_planner</td>
-<td>NodeTestWithExceptionTrajectory</td>
-<td>trajectory</td>
-<td>trajectory</td>
-<td>Empty, single point, path with duplicate points</td>
-</tr>
-<tr>
-<td>obstacle_stop_planner</td>
-<td>NodeTestWithExceptionTrajectory</td>
-<td>trajectory</td>
-<td>trajectory</td>
-<td>Empty, single point, path with duplicate points</td>
-</tr>
-<tr>
-<td>obstacle_velocity_limiter</td>
-<td>NodeTestWithExceptionTrajectory</td>
-<td>trajectory</td>
-<td>trajectory</td>
-<td>Empty, single point, path with duplicate points</td>
-</tr>
-<tr>
-<td>path_optimizer</td>
-<td>NodeTestWithExceptionTrajectory</td>
-<td>trajectory</td>
-<td>trajectory</td>
-<td>Empty, single point, path with duplicate points</td>
-</tr>
-<tr>
-<td>scenario_selector</td>
-<td>NodeTestWithExceptionTrajectoryLaneDrivingMode NodeTestWithExceptionTrajectoryParkingMode</td>
-<td>trajectory</td>
-<td>scenario</td>
-<td>Empty, single point, path with duplicate points for scenarios:LANEDRIVING and PARKING</td>
-</tr>
-<tr>
-<td>freespace_planner</td>
-<td>NodeTestWithExceptionRoute</td>
-<td>route</td>
-<td>trajectory</td>
-<td>Empty route</td>
-</tr>
-<tr>
-<td>behavior_path_planner</td>
-<td>NodeTestWithExceptionRoute NodeTestWithOffTrackEgoPose</td>
-<td>route</td>
-<td>route odometry</td>
-<td>Empty route Off-lane ego-position</td>
-</tr>
-<tr>
-<td>behavior_velocity_planner</td>
-<td>NodeTestWithExceptionPathWithLaneID</td>
-<td>path_with_lane_id</td>
-<td>path</td>
-<td>Empty path</td>
-</tr>
-</tbody>
-</table>
-<h2 id="important-notes">Important Notes<a class="headerlink" href="#important-notes" title="Permanent link">#</a></h2>
-<p>During test execution, when launching a node, parameters are loaded from the parameter file within each package. Therefore, when adding parameters, it is necessary to add the required parameters to the parameter file in the target node package. This is to prevent the node from being unable to launch if there are missing parameters when retrieving them from the parameter file during node launch.</p>
-<h2 id="future-extensions-unimplemented-parts">Future extensions / Unimplemented parts<a class="headerlink" href="#future-extensions-unimplemented-parts" title="Permanent link">#</a></h2>
-<p>(WIP)</p></div>
+<div><h1 id="signal-processing-methods">Signal Processing Methods<a class="headerlink" href="#signal-processing-methods" title="Permanent link">#</a></h1>
+<p>In this package, we present signal processing related methods for the Autoware applications. The following
+functionalities are available in the current version.</p>
+<ul>
+<li>an 1-D Low-pass filter,</li>
+<li><a href="documentation/ButterworthFilter/">Butterworth low-pass filter tools.</a></li>
+</ul>
+<p>low-pass filter currently supports only the 1-D low pass filtering.</p>
+<h2 id="assumptions-known-limits">Assumptions / Known limits<a class="headerlink" href="#assumptions-known-limits" title="Permanent link">#</a></h2>
+<p>TBD.</p></div>
 
 
 
@@ -2627,7 +2432,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../../sensing/autoware_gnss_poser/" class="md-footer__link md-footer__link--prev" aria-label="Previous: gnss_poser" rel="prev">
+          <a href="../autoware_qp_interface/design/qp_interface-design/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Interface for QP solvers" rel="prev">
             <div class="md-footer__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
             </div>
@@ -2636,20 +2441,20 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                gnss_poser
+                Interface for QP solvers
               </div>
             </div>
           </a>
         
         
           
-          <a href="../autoware_pyplot/" class="md-footer__link md-footer__link--next" aria-label="Next: autoware_pyplot" rel="next">
+          <a href="documentation/ButterworthFilter/" class="md-footer__link md-footer__link--next" aria-label="Next: ButterworthFilter" rel="next">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                autoware_pyplot
+                ButterworthFilter
               </div>
             </div>
             <div class="md-footer__button md-icon">
