@@ -121,6 +121,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://autowarefoundation.github.io/autoware_core/main/map/autoware_map_projection_loader/</loc>
+         <lastmod>2025-03-25</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://autowarefoundation.github.io/autoware_core/main/planning/autoware_objects_of_interest_marker_interface/</loc>
          <lastmod>2025-03-25</lastmod>
          <changefreq>daily</changefreq>

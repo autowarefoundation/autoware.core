@@ -8,20 +8,20 @@
       
       
       
-        <link rel="canonical" href="https://autowarefoundation.github.io/autoware_core/main/common/autoware_trajectory/">
+        <link rel="canonical" href="https://autowarefoundation.github.io/autoware_core/main/map/autoware_map_projection_loader/">
       
       
-        <link rel="prev" href="../autoware_signal_processing/documentation/ButterworthFilter/">
+        <link rel="prev" href="../../localization/autoware_localization_util/">
       
       
-        <link rel="next" href="../autoware_vehicle_info_utils/">
+        <link rel="next" href="../../planning/autoware_objects_of_interest_marker_interface/">
       
       <link rel="icon" href="../../docs/assets/images/autoware-foundation.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.20">
     
     
       
-        <title>Autoware Trajectory - Autoware Core Documentation</title>
+        <title>autoware_map_projection_loader - Autoware Core Documentation</title>
       
     
     
@@ -77,7 +77,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#autoware-trajectory" class="md-skip">
+        <a href="#autoware_map_projection_loader" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Autoware Trajectory
+              autoware_map_projection_loader
             
           </span>
         </div>
@@ -208,8 +208,6 @@
         
   
   
-    
-  
 
 
   
@@ -221,7 +219,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../autoware_component_interface_specs/" class="md-tabs__link md-tabs__link--active">
+      <a href="../../common/autoware_component_interface_specs/" class="md-tabs__link">
         Common
       </a>
     </li>
@@ -302,6 +300,8 @@
         
   
   
+    
+  
 
 
   
@@ -313,7 +313,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../map/autoware_map_projection_loader/" class="md-tabs__link">
+      <a href="./" class="md-tabs__link md-tabs__link--active">
         Map
       </a>
     </li>
@@ -447,16 +447,16 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
       
       
         
@@ -495,7 +495,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_1">
           <span class="md-nav__icon md-icon"></span>
           Common
@@ -530,7 +530,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_component_interface_specs/">Autoware component interface specs</a>
+          <a href="../../common/autoware_component_interface_specs/">Autoware component interface specs</a>
           
         </div>
       
@@ -578,7 +578,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_geography_utils/">Autoware geography utils</a>
+          <a href="../../common/autoware_geography_utils/">Autoware geography utils</a>
           
         </div>
       
@@ -626,7 +626,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_interpolation/">Autoware interpolation</a>
+          <a href="../../common/autoware_interpolation/">Autoware interpolation</a>
           
         </div>
       
@@ -674,7 +674,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_kalman_filter/">Autoware kalman filter</a>
+          <a href="../../common/autoware_kalman_filter/">Autoware kalman filter</a>
           
         </div>
       
@@ -722,7 +722,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_lanelet2_utils/">Autoware lanelet2 utils</a>
+          <a href="../../common/autoware_lanelet2_utils/">Autoware lanelet2 utils</a>
           
         </div>
       
@@ -772,7 +772,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_motion_utils/">Autoware motion utils</a>
+          <a href="../../common/autoware_motion_utils/">Autoware motion utils</a>
           
             <label for="__nav_1_6">
               <span class="md-nav__icon md-icon"></span>
@@ -861,7 +861,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autoware_motion_utils/docs/vehicle/vehicle/" class="md-nav__link">
+      <a href="../../common/autoware_motion_utils/docs/vehicle/vehicle/" class="md-nav__link">
         vehicle utils
       </a>
     </li>
@@ -918,7 +918,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_node/">Autoware node</a>
+          <a href="../../common/autoware_node/">Autoware node</a>
           
         </div>
       
@@ -966,7 +966,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_object_recognition_utils/">Autoware object recognition utils</a>
+          <a href="../../common/autoware_object_recognition_utils/">Autoware object recognition utils</a>
           
         </div>
       
@@ -1060,7 +1060,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autoware_osqp_interface/design/osqp_interface-design/" class="md-nav__link">
+      <a href="../../common/autoware_osqp_interface/design/osqp_interface-design/" class="md-nav__link">
         Interface for the OSQP library
       </a>
     </li>
@@ -1110,7 +1110,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_point_types/">Autoware point types</a>
+          <a href="../../common/autoware_point_types/">Autoware point types</a>
           
         </div>
       
@@ -1204,7 +1204,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autoware_qp_interface/design/qp_interface-design/" class="md-nav__link">
+      <a href="../../common/autoware_qp_interface/design/qp_interface-design/" class="md-nav__link">
         Interface for QP solvers
       </a>
     </li>
@@ -1256,7 +1256,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_signal_processing/">Autoware signal processing</a>
+          <a href="../../common/autoware_signal_processing/">Autoware signal processing</a>
           
             <label for="__nav_1_12">
               <span class="md-nav__icon md-icon"></span>
@@ -1312,7 +1312,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autoware_signal_processing/documentation/ButterworthFilter/" class="md-nav__link">
+      <a href="../../common/autoware_signal_processing/documentation/ButterworthFilter/" class="md-nav__link">
         ButterworthFilter
       </a>
     </li>
@@ -1338,18 +1338,18 @@
               
   
   
-    
-  
   
     
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_13" checked>
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_13" >
       
       
         
@@ -1361,12 +1361,12 @@
       
         
         
-        <div class="md-nav__link md-nav__link--index md-nav__link--active">
-          <a href="./">Autoware trajectory</a>
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../common/autoware_trajectory/">Autoware trajectory</a>
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_13_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_13_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_1_13">
           <span class="md-nav__icon md-icon"></span>
           Autoware trajectory
@@ -1410,7 +1410,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_vehicle_info_utils/">Autoware vehicle info utils</a>
+          <a href="../../common/autoware_vehicle_info_utils/">Autoware vehicle info utils</a>
           
         </div>
       
@@ -1759,16 +1759,16 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
       
       
         
@@ -1781,7 +1781,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_5">
           <span class="md-nav__icon md-icon"></span>
           Map
@@ -1792,18 +1792,18 @@
               
   
   
+    
+  
   
     
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
       
       
       
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_1" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1" checked>
       
       
         
@@ -1815,12 +1815,12 @@
       
         
         
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../map/autoware_map_projection_loader/">Autoware map projection loader</a>
+        <div class="md-nav__link md-nav__link--index md-nav__link--active">
+          <a href="./">Autoware map projection loader</a>
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_5_1">
           <span class="md-nav__icon md-icon"></span>
           Autoware map projection loader
@@ -2484,8 +2484,70 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#example-usage" class="md-nav__link">
-    Example Usage
+  <a href="#feature" class="md-nav__link">
+    Feature
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#map-projector-info-file-specification" class="md-nav__link">
+    Map projector info file specification
+  </a>
+  
+    <nav class="md-nav" aria-label="Map projector info file specification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-local-coordinate" class="md-nav__link">
+    Using local coordinate
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-mgrs" class="md-nav__link">
+    Using MGRS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-localcartesianutm" class="md-nav__link">
+    Using LocalCartesianUTM
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-localcartesian" class="md-nav__link">
+    Using LocalCartesian
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-transversemercator" class="md-nav__link">
+    Using TransverseMercator
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#published-topics" class="md-nav__link">
+    Published Topics
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    Parameters
   </a>
   
 </li>
@@ -2508,74 +2570,111 @@
   
 
 
-<div><h1 id="autoware-trajectory">Autoware Trajectory<a class="headerlink" href="#autoware-trajectory" title="Permanent link">#</a></h1>
-<p>This package provides classes to manage/manipulate Trajectory.</p>
-<h2 id="example-usage">Example Usage<a class="headerlink" href="#example-usage" title="Permanent link">#</a></h2>
-<p>This section describes Example Usage of <code>Trajectory&lt;autoware_planning_msgs::msg::PathPoint&gt;</code></p>
+<div><h1 id="autoware_map_projection_loader">autoware_map_projection_loader<a class="headerlink" href="#autoware_map_projection_loader" title="Permanent link">#</a></h1>
+<h2 id="feature">Feature<a class="headerlink" href="#feature" title="Permanent link">#</a></h2>
+<p><code>autoware_map_projection_loader</code> is responsible for publishing <code>map_projector_info</code> that defines in which kind of coordinate Autoware is operating.
+This is necessary information especially when you want to convert from global (geoid) to local coordinate or the other way around.</p>
 <ul>
-<li>
-<p>Load Trajectory from point array</p>
-<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">"autoware/trajectory/path_point.hpp"</span>
-
-<span class="p">...</span>
-
-<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">autoware_planning_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">PathPoint</span><span class="o">&gt;</span><span class="w"> </span><span class="n">points</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="c1">// Load points from somewhere</span>
-
-<span class="k">using</span><span class="w"> </span><span class="n">autoware</span><span class="o">::</span><span class="n">trajectory</span><span class="o">::</span><span class="n">Trajectory</span><span class="p">;</span>
-
-<span class="n">std</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="n">Trajectory</span><span class="o">&lt;</span><span class="n">autoware_planning_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">PathPoint</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">trajectory</span><span class="w"> </span><span class="o">=</span>
-<span class="w">  </span><span class="n">Trajectory</span><span class="o">&lt;</span><span class="n">autoware_planning_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">PathPoint</span><span class="o">&gt;::</span><span class="n">Builder</span><span class="p">{}</span>
-<span class="w">    </span><span class="p">.</span><span class="n">build</span><span class="p">(</span><span class="n">points</span><span class="p">);</span>
-</code></pre></div>
+<li>If <code>map_projector_info_path</code> DOES exist, this node loads it and publishes the map projection information accordingly.</li>
+<li>If <code>map_projector_info_path</code> does NOT exist, the node assumes that you are using the <code>MGRS</code> projection type, and loads the lanelet2 map instead to extract the MGRS grid.<ul>
+<li><strong>DEPRECATED WARNING: This interface that uses the lanelet2 map is not recommended. Please prepare the YAML file instead.</strong></li>
+</ul>
 </li>
 </ul>
-<ul>
-<li>
-<p>You can also specify interpolation method</p>
-<div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="n">autoware</span><span class="o">::</span><span class="n">trajectory</span><span class="o">::</span><span class="n">interpolator</span><span class="o">::</span><span class="n">CubicSpline</span><span class="p">;</span>
-
-<span class="n">std</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="n">Trajectory</span><span class="o">&lt;</span><span class="n">autoware_planning_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">PathPoint</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">trajectory</span><span class="w"> </span><span class="o">=</span>
-<span class="w">  </span><span class="n">Trajectory</span><span class="o">&lt;</span><span class="n">autoware_planning_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">PathPoint</span><span class="o">&gt;::</span><span class="n">Builder</span><span class="p">{}</span>
-<span class="w">    </span><span class="p">.</span><span class="n">set_xy_interpolator</span><span class="o">&lt;</span><span class="n">CubicSpline</span><span class="o">&gt;</span><span class="p">()</span><span class="w">  </span><span class="c1">// Set interpolator for x-y plane</span>
-<span class="w">    </span><span class="p">.</span><span class="n">build</span><span class="p">(</span><span class="n">points</span><span class="p">);</span>
+<h2 id="map-projector-info-file-specification">Map projector info file specification<a class="headerlink" href="#map-projector-info-file-specification" title="Permanent link">#</a></h2>
+<p>You need to provide a YAML file, namely <code>map_projector_info.yaml</code> under the <code>map_path</code> directory. For <code>pointcloud_map_metadata.yaml</code>, please refer to the Readme of <code>autoware_map_loader</code>.</p>
+<div class="highlight"><pre><span></span><code>sample-map-rosbag
+├──<span class="w"> </span>lanelet2_map.osm
+├──<span class="w"> </span>pointcloud_map.pcd
+├──<span class="w"> </span>map_projector_info.yaml
+└──<span class="w"> </span>pointcloud_map_metadata.yaml
 </code></pre></div>
-</li>
+<p>There are three types of transformations from latitude and longitude to XYZ coordinate system as shown in the figure below. Please refer to the following details for the necessary parameters for each projector type.</p>
+<p><img alt="node_diagram" src="docs/map_projector_type.svg"></p>
+<h3 id="using-local-coordinate">Using local coordinate<a class="headerlink" href="#using-local-coordinate" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># map_projector_info.yaml</span>
+<span class="nt">projector_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Local</span>
+</code></pre></div>
+<h4 id="limitation">Limitation<a class="headerlink" href="#limitation" title="Permanent link">#</a></h4>
+<p>The functionality that requires latitude and longitude will become unavailable.</p>
+<p>The currently identified unavailable functionalities are:</p>
+<ul>
+<li>GNSS localization</li>
+<li>Sending the self-position in latitude and longitude using ADAPI</li>
 </ul>
-<ul>
-<li>
-<p>Access point on Trajectory</p>
-<div class="highlight"><pre><span></span><code><span class="n">autoware_planning_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">PathPoint</span><span class="w"> </span><span class="n">point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trajectory</span><span class="o">-&gt;</span><span class="n">compute</span><span class="p">(</span><span class="mf">1.0</span><span class="p">);</span><span class="w">  </span><span class="c1">// Get point at s=0.0. s is distance from start point on Trajectory.</span>
+<h3 id="using-mgrs">Using MGRS<a class="headerlink" href="#using-mgrs" title="Permanent link">#</a></h3>
+<p>If you want to use MGRS, please specify the MGRS grid as well.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># map_projector_info.yaml</span>
+<span class="nt">projector_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MGRS</span>
+<span class="nt">vertical_datum</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WGS84</span>
+<span class="nt">mgrs_grid</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">54SUE</span>
 </code></pre></div>
-</li>
+<h4 id="limitation_1">Limitation<a class="headerlink" href="#limitation_1" title="Permanent link">#</a></h4>
+<p>It cannot be used with maps that span across two or more MGRS grids. Please use it only when it falls within the scope of a single MGRS grid.</p>
+<h3 id="using-localcartesianutm">Using LocalCartesianUTM<a class="headerlink" href="#using-localcartesianutm" title="Permanent link">#</a></h3>
+<p>If you want to use local cartesian UTM, please specify the map origin as well.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># map_projector_info.yaml</span>
+<span class="nt">projector_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LocalCartesianUTM</span>
+<span class="nt">vertical_datum</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WGS84</span>
+<span class="nt">map_origin</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">latitude</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">35.6762</span><span class="w"> </span><span class="c1"># [deg]</span>
+<span class="w">  </span><span class="nt">longitude</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">139.6503</span><span class="w"> </span><span class="c1"># [deg]</span>
+<span class="w">  </span><span class="nt">altitude</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span><span class="w"> </span><span class="c1"># [m]</span>
+</code></pre></div>
+<h3 id="using-localcartesian">Using LocalCartesian<a class="headerlink" href="#using-localcartesian" title="Permanent link">#</a></h3>
+<p>If you want to use local cartesian WGS84, please specify the map origin as well.</p>
+<p>Currently LocalCartesian can only be used in lanelet2_map_loader, packages like gnss_poser doesn't support it right now.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># map_projector_info.yaml</span>
+<span class="nt">projector_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LocalCartesian</span>
+<span class="nt">vertical_datum</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WGS84</span>
+<span class="nt">map_origin</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">latitude</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">35.6762</span><span class="w"> </span><span class="c1"># [deg]</span>
+<span class="w">  </span><span class="nt">longitude</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">139.6503</span><span class="w"> </span><span class="c1"># [deg]</span>
+<span class="w">  </span><span class="nt">altitude</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span><span class="w"> </span><span class="c1"># [m]</span>
+</code></pre></div>
+<h3 id="using-transversemercator">Using TransverseMercator<a class="headerlink" href="#using-transversemercator" title="Permanent link">#</a></h3>
+<p>If you want to use Transverse Mercator projection, please specify the map origin as well.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># map_projector_info.yaml</span>
+<span class="nt">projector_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TransverseMercator</span>
+<span class="nt">vertical_datum</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WGS84</span>
+<span class="nt">map_origin</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">latitude</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">35.6762</span><span class="w"> </span><span class="c1"># [deg]</span>
+<span class="w">  </span><span class="nt">longitude</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">139.6503</span><span class="w"> </span><span class="c1"># [deg]</span>
+<span class="w">  </span><span class="nt">altitude</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span><span class="w"> </span><span class="c1"># [m]</span>
+</code></pre></div>
+<h2 id="published-topics">Published Topics<a class="headerlink" href="#published-topics" title="Permanent link">#</a></h2>
+<ul>
+<li><code>~/map_projector_info</code> (autoware_map_msgs/MapProjectorInfo) : This topic shows the definition of map projector information</li>
 </ul>
-<ul>
-<li>
-<p>Get length of Trajectory</p>
-<div class="highlight"><pre><span></span><code><span class="kt">double</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trajectory</span><span class="o">-&gt;</span><span class="n">length</span><span class="p">();</span>
-</code></pre></div>
-</li>
-</ul>
-<ul>
-<li>
-<p>Set 3.0[m] ~ 5.0[m] part of velocity to 0.0</p>
-<div class="highlight"><pre><span></span><code><span class="n">trajectory</span><span class="o">-&gt;</span><span class="n">longitudinal_velocity_mps</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span><span class="w"> </span><span class="mf">5.0</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span>
-</code></pre></div>
-</li>
-</ul>
-<ul>
-<li>
-<p>Crop Trajectory from 1.0[m] to 2.0[m]</p>
-<div class="highlight"><pre><span></span><code><span class="n">trajectory</span><span class="o">-&gt;</span><span class="n">crop</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">);</span>
-</code></pre></div>
-</li>
-</ul>
-<ul>
-<li>
-<p>Restore points</p>
-<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">autoware_planning_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">PathPoint</span><span class="o">&gt;</span><span class="w"> </span><span class="n">points</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trajectory</span><span class="o">-&gt;</span><span class="n">restore</span><span class="p">();</span>
-</code></pre></div>
-</li>
-</ul></div>
+<h2 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">#</a></h2>
+<p>Note that these parameters are assumed to be passed from launch arguments, and it is not recommended to directly write them in <code>map_projection_loader.param.yaml</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+<th>Range</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>map_projector_info_path</td>
+<td>string</td>
+<td>The path where map_projector_info.yaml is located</td>
+<td>$(var map_projector_info_path)</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>lanelet2_map_path</td>
+<td>string</td>
+<td>The path where the lanelet2 map file (.osm) is located</td>
+<td>$(var lanelet2_map_path)</td>
+<td>N/A</td>
+</tr>
+</tbody>
+</table></div>
 
 
 
@@ -2602,7 +2701,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../autoware_signal_processing/documentation/ButterworthFilter/" class="md-footer__link md-footer__link--prev" aria-label="Previous: ButterworthFilter" rel="prev">
+          <a href="../../localization/autoware_localization_util/" class="md-footer__link md-footer__link--prev" aria-label="Previous: autoware_localization_util" rel="prev">
             <div class="md-footer__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
             </div>
@@ -2611,20 +2710,20 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                ButterworthFilter
+                autoware_localization_util
               </div>
             </div>
           </a>
         
         
           
-          <a href="../autoware_vehicle_info_utils/" class="md-footer__link md-footer__link--next" aria-label="Next: Vehicle Info Util" rel="next">
+          <a href="../../planning/autoware_objects_of_interest_marker_interface/" class="md-footer__link md-footer__link--next" aria-label="Next: Objects Of Interest Marker Interface" rel="next">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Vehicle Info Util
+                Objects Of Interest Marker Interface
               </div>
             </div>
             <div class="md-footer__button md-icon">
