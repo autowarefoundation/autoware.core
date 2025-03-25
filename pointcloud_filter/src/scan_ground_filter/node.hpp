@@ -25,10 +25,31 @@
 
 #include <sensor_msgs/msg/point_cloud2.hpp>
 
+#include <boost/thread/mutex.hpp>
+
+// PCL includes
+#include <pcl/filters/filter.h>
 #include <pcl/filters/extract_indices.h>
 #include <pcl/filters/voxel_grid.h>
 #include <pcl_conversions/pcl_conversions.h>
+
+#include <pcl_msgs/msg/point_indices.hpp>
+#include <pcl/pcl_base.h>
+#include <pcl/point_types.h>
+
 #include <tf2/transform_datatypes.h>
+
+// PCL includes
+#include <message_filters/subscriber.h>
+#include <message_filters/sync_policies/approximate_time.h>
+#include <message_filters/sync_policies/exact_time.h>
+#include <message_filters/synchronizer.h>
+
+// Include tier4 autoware utils
+#include <autoware_utils/ros/debug_publisher.hpp>
+#include <autoware_utils/ros/managed_transform_buffer.hpp>
+#include <autoware_utils/ros/published_time_publisher.hpp>
+#include <autoware_utils/system/stop_watch.hpp>
 
 #ifdef ROS_DISTRO_GALACTIC
 #include <tf2_eigen/tf2_eigen.h>
@@ -160,6 +181,9 @@ private:
     const std::vector<float> & getHeightListRef() const { return height_list; }
   };
 
+  /** \brief Lazy transport subscribe routine. */
+  virtual void subscribe();
+
   void filter(
     const sensor_msgs::msg::PointCloud2::ConstSharedPtr & input, const pcl::IndicesPtr & indices, sensor_msgs::msg::PointCloud2 & output);
 
@@ -210,6 +234,15 @@ private:
   float grid_mode_switch_radius_;  // non linear grid size switching distance
   uint16_t gnd_grid_buffer_size_;
   float virtual_lidar_z_;
+
+  // pointcloud parameters
+  std::string tf_input_frame_;
+  std::string tf_output_frame_;
+  bool has_static_tf_only_;
+  std::size_t max_queue_size_;
+  bool use_indices_;
+  bool latched_indices_;
+  bool approximate_sync_;
 
   // grid ground filter processor
   std::unique_ptr<GridGroundFilter> grid_ground_filter_ptr_;
@@ -276,6 +309,69 @@ private:
   // debugger
   std::unique_ptr<autoware_utils::StopWatch<std::chrono::milliseconds>> stop_watch_ptr_{nullptr};
   std::unique_ptr<autoware_utils::DebugPublisher> debug_publisher_ptr_{nullptr};
+
+  // For pointcloud
+
+  /** \brief Get a matrix for conversion from the original frame to the target frame */
+  /** \brief Synchronized input, and indices.*/
+  std::shared_ptr<message_filters::Synchronizer<message_filters::sync_policies::ApproximateTime<sensor_msgs::msg::PointCloud2, pcl_msgs::msg::PointIndices>>> sync_input_indices_a_;
+  std::shared_ptr<message_filters::Synchronizer<message_filters::sync_policies::ExactTime<sensor_msgs::msg::PointCloud2, pcl_msgs::msg::PointIndices>>> sync_input_indices_e_;
+
+
+  bool calculate_transform_matrix(
+    const std::string & target_frame, const sensor_msgs::msg::PointCloud2 & from,
+    TransformInfo & transform_info /*output*/);
+  bool convert_output_costly(std::unique_ptr<sensor_msgs::msg::PointCloud2> & output);
+  void faster_input_indices_callback(
+    const sensor_msgs::msg::PointCloud2::ConstSharedPtr cloud, const pcl_msgs::msg::PointIndices::ConstSharedPtr indices);
+
+  void setupTF();
+
+protected:
+
+  /** \brief The original TF frame of the input pointcloud. */
+  std::string tf_input_orig_frame_;
+
+  /** \brief Internal mutex for thread safe parameter setting */
+  std::mutex mutex_;
+
+  /** \brief The input PointCloud2 subscriber. */
+  rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr sub_input_;
+
+  /** \brief The output PointCloud2 publisher. */
+  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pub_output_;
+
+  /** \brief The message filter subscriber for PointCloud2. */
+  message_filters::Subscriber<sensor_msgs::msg::PointCloud2> sub_input_filter_;
+
+  /** \brief The message filter subscriber for PointIndices. */
+  message_filters::Subscriber<pcl_msgs::msg::PointIndices> sub_indices_filter_;
+
+  std::unique_ptr<autoware_utils::ManagedTransformBuffer> managed_tf_buffer_{nullptr};
+
+  std::unique_ptr<autoware_utils::PublishedTimePublisher> published_time_publisher_;
+
+  // To validate if the pointcloud is valid
+  inline bool isValid(
+    const sensor_msgs::msg::PointCloud2::ConstSharedPtr & cloud, const std::string & /*topic_name*/ = "input")
+  {
+    if (cloud->width * cloud->height * cloud->point_step != cloud->data.size()) {
+      RCLCPP_WARN(
+        this->get_logger(),
+        "Invalid PointCloud (data = %zu, width = %d, height = %d, step = %d) with stamp %f, "
+        "and frame %s received!",
+        cloud->data.size(), cloud->width, cloud->height, cloud->point_step,
+        rclcpp::Time(cloud->header.stamp).seconds(), cloud->header.frame_id.c_str());
+      return false;
+    }
+    return true;
+  }
+
+  inline bool isValid(
+    [[maybe_unused]] const pcl_msgs::msg::PointIndices::ConstSharedPtr & indices, const std::string & /*topic_name*/ = "indices")
+  {
+    return true;
+  }
 
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
