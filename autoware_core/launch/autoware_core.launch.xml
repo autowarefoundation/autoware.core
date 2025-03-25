@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <!-- Essential parameters -->
+  <arg name="map_path" description="point cloud and lanelet2 map directory path"/>
+  <arg name="pointcloud_container_name" default="pointcloud_container"/>
+
+  <!-- Global parameters -->
+  <arg name="use_sim_time" default="false" description="use_sim_time"/>
+
+  <!-- Optional parameters -->
+  <!-- Modules to be launched -->
+  <arg name="launch_map" default="true" description="launch map"/>
+  <arg name="launch_sensing" default="true" description="launch sensing"/>
+  <arg name="launch_localization" default="true" description="launch localization"/>
+  <arg name="launch_perception" default="true" description="launch perception"/>
+  <arg name="launch_planning" default="true" description="launch planning"/>
+  <arg name="launch_control" default="true" description="launch control"/>
+
+  <!-- Global parameters -->
+  <group scoped="false">
+    <include file="$(find-pkg-share autoware_global_parameter_loader)/launch/global_params.launch.py">
+      <arg name="use_sim_time" value="$(var use_sim_time)"/>
+      <arg name="vehicle_model" value="$(var vehicle_model)"/>
+    </include>
+  </group>
+
+  <!-- Map -->
+  <group if="$(var launch_map)">
+    <include file="$(find-pkg-share autoware_core)/launch/component/autoware_core_map.launch.xml"/>
+  </group>
+
+  <!-- Sensing -->
+  <group if="$(var launch_sensing)">
+    <include file="$(find-pkg-share autoware_core)/launch/component/autoware_core_sensing.launch.xml"/>
+  </group>
+
+  <!-- Localization -->
+  <group if="$(var launch_localization)">
+    <include file="$(find-pkg-share autoware_core)/launch/component/autoware_core_localization.launch.xml"/>
+  </group>
+
+  <!-- Perception -->
+  <group if="$(var launch_perception)">
+    <include file="$(find-pkg-share autoware_core)/launch/component/autoware_core_perception.launch.xml"/>
+  </group>
+
+  <!-- Planning -->
+  <group if="$(var launch_planning)">
+    <include file="$(find-pkg-share autoware_core)/launch/component/autoware_core_planning.launch.xml"/>
+  </group>
+
+  <!-- Control -->
+  <group if="$(var launch_control)">
+    <include file="$(find-pkg-share autoware_core)/launch/component/autoware_core_control.launch.xml"/>
+  </group>
+
+</launch>
