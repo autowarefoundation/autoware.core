@@ -124,8 +124,9 @@ double VehicleInfo::calcCurvatureFromSteerAngle(const double steer_angle) const
 {
   if (wheel_base_m < 1e-6) {
     RCLCPP_ERROR(
-      rclcpp::get_logger("vehicle_info"), "wheel_base_m %f should not be 0 or negative", wheel_base_m);
-    return std::numeric_limits <double>::quiet_NaN();
+      rclcpp::get_logger("vehicle_info"), "wheel_base_m %f should not be 0 or negative",
+      wheel_base_m);
+    return std::numeric_limits<double>::quiet_NaN();
   }
 
   // radius = wheel_base_m / std::tan(steer_angle)
