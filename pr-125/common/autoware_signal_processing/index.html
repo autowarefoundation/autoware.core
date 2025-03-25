@@ -8,20 +8,20 @@
       
       
       
-        <link rel="canonical" href="https://autowarefoundation.github.io/autoware_core/pr-125/planning/autoware_path_generator/">
+        <link rel="canonical" href="https://autowarefoundation.github.io/autoware_core/pr-125/common/autoware_signal_processing/">
       
       
-        <link rel="prev" href="../autoware_objects_of_interest_marker_interface/">
+        <link rel="prev" href="../autoware_qp_interface/design/qp_interface-design/">
       
       
-        <link rel="next" href="../autoware_planning_factor_interface/">
+        <link rel="next" href="documentation/ButterworthFilter/">
       
       <link rel="icon" href="../../docs/assets/images/autoware-foundation.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.20">
     
     
       
-        <title>Path Generator - Autoware Core Documentation</title>
+        <title>Signal Processing Methods - Autoware Core Documentation</title>
       
     
     
@@ -77,7 +77,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#path-generator" class="md-skip">
+        <a href="#signal-processing-methods" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Path Generator
+              Signal Processing Methods
             
           </span>
         </div>
@@ -208,6 +208,8 @@
         
   
   
+    
+  
 
 
   
@@ -219,7 +221,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../common/autoware_component_interface_specs/" class="md-tabs__link">
+      <a href="../autoware_component_interface_specs/" class="md-tabs__link md-tabs__link--active">
         Common
       </a>
     </li>
@@ -323,8 +325,6 @@
         
   
   
-    
-  
 
 
   
@@ -336,7 +336,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../autoware_objects_of_interest_marker_interface/" class="md-tabs__link md-tabs__link--active">
+      <a href="../../planning/autoware_objects_of_interest_marker_interface/" class="md-tabs__link">
         Planning
       </a>
     </li>
@@ -447,16 +447,16 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
       
       
         
@@ -495,7 +495,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_1">
           <span class="md-nav__icon md-icon"></span>
           Common
@@ -530,7 +530,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_component_interface_specs/">Autoware component interface specs</a>
+          <a href="../autoware_component_interface_specs/">Autoware component interface specs</a>
           
         </div>
       
@@ -578,7 +578,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_geography_utils/">Autoware geography utils</a>
+          <a href="../autoware_geography_utils/">Autoware geography utils</a>
           
         </div>
       
@@ -626,7 +626,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_interpolation/">Autoware interpolation</a>
+          <a href="../autoware_interpolation/">Autoware interpolation</a>
           
         </div>
       
@@ -674,7 +674,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_kalman_filter/">Autoware kalman filter</a>
+          <a href="../autoware_kalman_filter/">Autoware kalman filter</a>
           
         </div>
       
@@ -722,7 +722,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_lanelet2_utils/">Autoware lanelet2 utils</a>
+          <a href="../autoware_lanelet2_utils/">Autoware lanelet2 utils</a>
           
         </div>
       
@@ -772,7 +772,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_motion_utils/">Autoware motion utils</a>
+          <a href="../autoware_motion_utils/">Autoware motion utils</a>
           
             <label for="__nav_1_6">
               <span class="md-nav__icon md-icon"></span>
@@ -861,7 +861,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../common/autoware_motion_utils/docs/vehicle/vehicle/" class="md-nav__link">
+      <a href="../autoware_motion_utils/docs/vehicle/vehicle/" class="md-nav__link">
         vehicle utils
       </a>
     </li>
@@ -918,7 +918,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_node/">Autoware node</a>
+          <a href="../autoware_node/">Autoware node</a>
           
         </div>
       
@@ -966,7 +966,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_object_recognition_utils/">Autoware object recognition utils</a>
+          <a href="../autoware_object_recognition_utils/">Autoware object recognition utils</a>
           
         </div>
       
@@ -1060,7 +1060,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../common/autoware_osqp_interface/design/osqp_interface-design/" class="md-nav__link">
+      <a href="../autoware_osqp_interface/design/osqp_interface-design/" class="md-nav__link">
         Interface for the OSQP library
       </a>
     </li>
@@ -1110,7 +1110,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_point_types/">Autoware point types</a>
+          <a href="../autoware_point_types/">Autoware point types</a>
           
         </div>
       
@@ -1204,7 +1204,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../common/autoware_qp_interface/design/qp_interface-design/" class="md-nav__link">
+      <a href="../autoware_qp_interface/design/qp_interface-design/" class="md-nav__link">
         Interface for QP solvers
       </a>
     </li>
@@ -1230,18 +1230,18 @@
               
   
   
+    
+  
   
     
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
       
       
       
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_12" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_12" checked>
       
       
         
@@ -1255,8 +1255,8 @@
       
         
         
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_signal_processing/">Autoware signal processing</a>
+        <div class="md-nav__link md-nav__link--index md-nav__link--active">
+          <a href="./">Autoware signal processing</a>
           
             <label for="__nav_1_12">
               <span class="md-nav__icon md-icon"></span>
@@ -1264,7 +1264,7 @@
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_12_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_12_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_1_12">
           <span class="md-nav__icon md-icon"></span>
           Autoware signal processing
@@ -1312,7 +1312,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../common/autoware_signal_processing/documentation/ButterworthFilter/" class="md-nav__link">
+      <a href="documentation/ButterworthFilter/" class="md-nav__link">
         ButterworthFilter
       </a>
     </li>
@@ -1362,7 +1362,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_trajectory/">Autoware trajectory</a>
+          <a href="../autoware_trajectory/">Autoware trajectory</a>
           
         </div>
       
@@ -1410,7 +1410,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_vehicle_info_utils/">Autoware vehicle info utils</a>
+          <a href="../autoware_vehicle_info_utils/">Autoware vehicle info utils</a>
           
         </div>
       
@@ -1848,16 +1848,16 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
       
       
         
@@ -1876,7 +1876,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_6">
           <span class="md-nav__icon md-icon"></span>
           Planning
@@ -1911,7 +1911,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_objects_of_interest_marker_interface/">Autoware objects of interest marker interface</a>
+          <a href="../../planning/autoware_objects_of_interest_marker_interface/">Autoware objects of interest marker interface</a>
           
         </div>
       
@@ -1935,18 +1935,18 @@
               
   
   
-    
-  
   
     
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" checked>
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2" >
       
       
         
@@ -1958,12 +1958,12 @@
       
         
         
-        <div class="md-nav__link md-nav__link--index md-nav__link--active">
-          <a href="./">Autoware path generator</a>
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../planning/autoware_path_generator/">Autoware path generator</a>
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_6_2">
           <span class="md-nav__icon md-icon"></span>
           Autoware path generator
@@ -2007,7 +2007,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_planning_factor_interface/">Autoware planning factor interface</a>
+          <a href="../../planning/autoware_planning_factor_interface/">Autoware planning factor interface</a>
           
         </div>
       
@@ -2055,7 +2055,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_route_handler/">Autoware route handler</a>
+          <a href="../../planning/autoware_route_handler/">Autoware route handler</a>
           
         </div>
       
@@ -2484,36 +2484,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#path-generation" class="md-nav__link">
-    Path generation
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#flowchart" class="md-nav__link">
-    Flowchart
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#input-topics" class="md-nav__link">
-    Input topics
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#output-topics" class="md-nav__link">
-    Output topics
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parameters" class="md-nav__link">
-    Parameters
+  <a href="#assumptions-known-limits" class="md-nav__link">
+    Assumptions / Known limits
   </a>
   
 </li>
@@ -2536,115 +2508,16 @@
   
 
 
-<div><h1 id="path-generator">Path Generator<a class="headerlink" href="#path-generator" title="Permanent link">#</a></h1>
-<p>The <code>path_generator</code> node receives a route from <code>mission_planner</code> and converts the center line into a path.
-If the route has waypoints set, it generates a path passing through them.</p>
-<p>This package is a simple alternative of <code>behavior_path_generator</code>.</p>
-<h2 id="path-generation">Path generation<a class="headerlink" href="#path-generation" title="Permanent link">#</a></h2>
-<p>When input data is ready, it first searches for the lanelet closest to the vehicle.
-If found, it gets the lanelets within a distance of <code>backward_path_length</code> behind and <code>forward_path_length</code> in front.
-Their center lines are concatenated to generate a path.</p>
-<p>If waypoints exist in the route, it replaces the overlapped segment of the center line with them.
-The overlap interval is determined as shown in the following figure.</p>
-<p><img alt="waypoint_group_overlap_interval_determination" src="media/waypoint_group_overlap_interval_determination.drawio.svg"></p>
-<h2 id="flowchart">Flowchart<a class="headerlink" href="#flowchart" title="Permanent link">#</a></h2>
-<p><img alt="Flowchart" src="https://www.plantuml.com/plantuml/svg/RL91RiCW4BppYZqwNt0EZTHh_u0sOHAZKa2mJkhV5qDmN2cMB2spEyCCSCh2IUOVfyIA0wNPgmefDGf_GniMFgenGtHqx3tI4x9N6cok2vt0PZcGJF0qBCW71PT1Wmy7HPGbH0Llx5MfMmfpf5L9HvQfT1joGr5cGKU9nXlaquMCB5_iuI373TUk8La_h4pMww8XsFKVlCHWlUYgdbjdTSn-eTwayYFTsL5DdEcCecMeYt_yIqIqgSU4kmrpxZRUk2YJ-1Nir1fUZw5MZyawq70DYS2NYIvOtP2p7bJjjIsRxN17SXmZ39rt0MgwTpORg_jq2xq4dkFRuFwc-ZUoCTikcIJGUYqzMK_nbj_PbRfdxdcrgWUWQjc2g5UbnZYVdStJawxg6pgLWV9K_m00"></p>
-<p><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjb250ZW50U3R5bGVUeXBlPSJ0ZXh0L2NzcyIgZGF0YS1kaWFncmFtLXR5cGU9IkFDVElWSVRZIiBoZWlnaHQ9IjEwNzFweCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSIgc3R5bGU9IndpZHRoOjQ1OXB4O2hlaWdodDoxMDcxcHg7YmFja2dyb3VuZDojRkZGRkZGOyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgNDU5IDEwNzEiIHdpZHRoPSI0NTlweCIgem9vbUFuZFBhbj0ibWFnbmlmeSI+PHRpdGxlPnJ1bjwvdGl0bGU+PGRlZnMvPjxnPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIyNi44Mzc5IiB4PSIyMTQuODY4NCIgeT0iMzIuOTk1MSI+cnVuPC90ZXh0PjxlbGxpcHNlIGN4PSIyMzcuNDE3NyIgY3k9IjU3LjI5NjkiIGZpbGw9IiMyMjIyMjIiIHJ4PSIxMCIgcnk9IjEwIiBzdHlsZT0ic3Ryb2tlOiMyMjIyMjI7c3Ryb2tlLXdpZHRoOjE7Ii8+PHJlY3QgZmlsbD0iI0YxRjFGMSIgaGVpZ2h0PSIzMy45Njg4IiByeD0iMTIuNSIgcnk9IjEyLjUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgd2lkdGg9Ijc5LjQxOTkiIHg9IjE5Ny43MDc4IiB5PSI4Ny4yOTY5Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iNTkuNDE5OSIgeD0iMjA3LjcwNzgiIHk9IjEwOC40MzU1Ij50YWtlX2RhdGE8L3RleHQ+PHJlY3QgZmlsbD0iI0YxRjFGMSIgaGVpZ2h0PSIzMy45Njg4IiByeD0iMTIuNSIgcnk9IjEyLjUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgd2lkdGg9IjEyMy4yMDEyIiB4PSIxNzUuODE3MSIgeT0iMTQxLjI2NTYiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxMDMuMjAxMiIgeD0iMTg1LjgxNzEiIHk9IjE2Mi40MDQzIj5zZXRfcGxhbm5lcl9kYXRhPC90ZXh0Pjxwb2x5Z29uIGZpbGw9IiNGMUYxRjEiIHBvaW50cz0iMTk5LjM3NDMsMTk1LjIzNDQsMjc1LjQ2MTIsMTk1LjIzNDQsMjg3LjQ2MTIsMjA3LjIzNDQsMjc1LjQ2MTIsMjE5LjIzNDQsMTk5LjM3NDMsMjE5LjIzNDQsMTg3LjM3NDMsMjA3LjIzNDQsMTk5LjM3NDMsMTk1LjIzNDQiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjE5LjAwODMiIHg9IjI0MS40MTc3IiB5PSIyMjkuNDQ0OCI+eWVzPC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9Ijc2LjA4NjkiIHg9IjE5OS4zNzQzIiB5PSIyMTEuMDQyNSI+aXNfZGF0YV9yZWFkeTwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxMy43MDE3IiB4PSIyODcuNDYxMiIgeT0iMjA0LjY0MDEiPm5vPC90ZXh0PjxlbGxpcHNlIGN4PSIzMjMuMTYyOCIgY3k9IjIwNy4yMzQ0IiBmaWxsPSJub25lIiByeD0iMTEiIHJ5PSIxMSIgc3R5bGU9InN0cm9rZTojMjIyMjIyO3N0cm9rZS13aWR0aDoxOyIvPjxlbGxpcHNlIGN4PSIzMjMuMTYyOCIgY3k9IjIwNy4yMzQ0IiBmaWxsPSIjMjIyMjIyIiByeD0iNiIgcnk9IjYiIHN0eWxlPSJzdHJva2U6IzIyMjIyMjtzdHJva2Utd2lkdGg6MTsiLz48cmVjdCBmaWxsPSJub25lIiBoZWlnaHQ9IjcyMy4yMTA5IiBzdHlsZT0ic3Ryb2tlOiMwMDAwMDA7c3Ryb2tlLXdpZHRoOjEuNTsiIHdpZHRoPSI0MzcuNTc0NyIgeD0iMTEiIHk9IjI0MC45NDQ4Ii8+PHBhdGggZD0iTTkwLjA1NjYsMjQwLjk0NDggTDkwLjA1NjYsMjUwLjI0MTcgTDgwLjA1NjYsMjYwLjI0MTcgTDExLDI2MC4yNDE3IiBmaWxsPSJub25lIiBzdHlsZT0ic3Ryb2tlOiMwMDAwMDA7c3Ryb2tlLXdpZHRoOjEuNTsiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI2OS4wNTY2IiB4PSIxNCIgeT0iMjU0LjkzOTkiPnBsYW5fcGF0aDwvdGV4dD48cmVjdCBmaWxsPSJub25lIiBoZWlnaHQ9IjY4MS45MTQxIiBzdHlsZT0ic3Ryb2tlOiMwMDAwMDA7c3Ryb2tlLXdpZHRoOjEuNTsiIHdpZHRoPSI0MTcuNTc0NyIgeD0iMjEiIHk9IjI3MC4yNDE3Ii8+PHBhdGggZD0iTTEzMy4yNTIsMjcwLjI0MTcgTDEzMy4yNTIsMjc5LjUzODYgTDEyMy4yNTIsMjg5LjUzODYgTDIxLDI4OS41Mzg2IiBmaWxsPSJub25lIiBzdHlsZT0ic3Ryb2tlOiMwMDAwMDA7c3Ryb2tlLXdpZHRoOjEuNTsiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxMDIuMjUyIiB4PSIyNCIgeT0iMjg0LjIzNjgiPmdlbmVyYXRlX3BhdGg8L3RleHQ+PHJlY3QgZmlsbD0iI0YxRjFGMSIgaGVpZ2h0PSIzMy45Njg4IiByeD0iMTIuNSIgcnk9IjEyLjUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgd2lkdGg9IjEyNy44MDA4IiB4PSIxNzMuNTE3MyIgeT0iMzA2LjUzODYiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxMDcuODAwOCIgeD0iMTgzLjUxNzMiIHk9IjMyNy42NzcyIj5nZXRDbG9zZXN0TGFuZWxldDwvdGV4dD48cmVjdCBmaWxsPSIjRjFGMUYxIiBoZWlnaHQ9IjMzLjk2ODgiIHJ4PSIxMi41IiByeT0iMTIuNSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7IiB3aWR0aD0iMTczLjQyMTkiIHg9IjE1MC43MDY4IiB5PSIzNjAuNTA3MyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjE1My40MjE5IiB4PSIxNjAuNzA2OCIgeT0iMzgxLjY0NiI+Z2V0X2xhbmVsZXRzX3dpdGhpbl9yb3V0ZTwvdGV4dD48cmVjdCBmaWxsPSIjRjFGMUYxIiBoZWlnaHQ9IjMzLjk2ODgiIHJ4PSIxMi41IiByeT0iMTIuNSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7IiB3aWR0aD0iMTQ3Ljk0NTMiIHg9IjE2My40NDUxIiB5PSI0MTQuNDc2MSIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjEyNy45NDUzIiB4PSIxNzMuNDQ1MSIgeT0iNDM1LjYxNDciPmdldF93YXlwb2ludF9ncm91cHM8L3RleHQ+PHJlY3QgZmlsbD0iI0YxRjFGMSIgaGVpZ2h0PSIzMy45Njg4IiByeD0iMTIuNSIgcnk9IjEyLjUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgd2lkdGg9IjIyNC43MzgzIiB4PSIxMjUuMDQ4NiIgeT0iNTE2Ljg0NzIiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIyMDQuNzM4MyIgeD0iMTM1LjA0ODYiIHk9IjUzNy45ODU4Ij5nZXRfcHJldmlvdXNfbGFuZWxldF93aXRoaW5fcm91dGU8L3RleHQ+PHJlY3QgZmlsbD0iI0YxRjFGMSIgaGVpZ2h0PSIzMy45Njg4IiByeD0iMTIuNSIgcnk9IjEyLjUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgd2lkdGg9IjExMi45NTkiIHg9IjE4MC45MzgyIiB5PSI1ODUuODE1OSIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjkyLjk1OSIgeD0iMTkwLjkzODIiIHk9IjYwNi45NTQ2Ij5leHRlbmQgbGFuZWxldHM8L3RleHQ+PHBvbHlnb24gZmlsbD0iI0YxRjFGMSIgcG9pbnRzPSIxMTMuMjgzNyw0NjguNDQ0OCwzNjEuNTUxOCw0NjguNDQ0OCwzNzMuNTUxOCw0ODAuNDQ0OCwzNjEuNTUxOCw0OTIuNDQ0OCwxMTMuMjgzNyw0OTIuNDQ0OCwxMDEuMjgzNyw0ODAuNDQ0OCwxMTMuMjgzNyw0NjguNDQ0OCIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTkuMDA4MyIgeD0iMjQxLjQxNzciIHk9IjUwMi42NTUzIj55ZXM8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMjQ4LjI2ODEiIHg9IjExMy4yODM3IiB5PSI0ODQuMjUyOSI+YW55IHdheXBvaW50IGludGVydmFsIHN0YXJ0cyBiZWhpbmQgbGFuZWxldHM/PC90ZXh0Pjxwb2x5Z29uIGZpbGw9IiNGMUYxRjEiIHBvaW50cz0iMjM3LjQxNzcsNjM5Ljc4NDcsMjQ5LjQxNzcsNjUxLjc4NDcsMjM3LjQxNzcsNjYzLjc4NDcsMjI1LjQxNzcsNjUxLjc4NDcsMjM3LjQxNzcsNjM5Ljc4NDciIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIvPjxwb2x5Z29uIGZpbGw9IiNGMUYxRjEiIHBvaW50cz0iMTUwLjI0MjIsNzI3Ljc4NDcsMzI0LjU5MzMsNzI3Ljc4NDcsMzM2LjU5MzMsNzM5Ljc4NDcsMzI0LjU5MzMsNzUxLjc4NDcsMTUwLjI0MjIsNzUxLjc4NDcsMTM4LjI0MjIsNzM5Ljc4NDcsMTUwLjI0MjIsNzI3Ljc4NDciIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjE3NC4zNTExIiB4PSIxNTAuMjQyMiIgeT0iNzQzLjU5MjgiPm92ZXJsYXBwZWQgYnkgd2F5cG9pbnQgZ3JvdXA/PC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjE5LjAwODMiIHg9IjExOS4yMzM5IiB5PSI3MzcuMTkwNCI+eWVzPC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjEzLjcwMTciIHg9IjMzNi41OTMzIiB5PSI3MzcuMTkwNCI+bm88L3RleHQ+PHJlY3QgZmlsbD0iI0YxRjFGMSIgaGVpZ2h0PSIzMy45Njg4IiByeD0iMTIuNSIgcnk9IjEyLjUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgd2lkdGg9IjE1NC40ODQ0IiB4PSI1MSIgeT0iODEwLjE4NyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjEzNC40ODQ0IiB4PSI2MSIgeT0iODMxLjMyNTciPmFkZCB3YXlwb2ludHMgdG8gcGF0aDwvdGV4dD48cG9seWdvbiBmaWxsPSIjRjFGMUYxIiBwb2ludHM9IjY0LjEzNTUsNzYxLjc4NDcsMTkyLjM0ODksNzYxLjc4NDcsMjA0LjM0ODksNzczLjc4NDcsMTkyLjM0ODksNzg1Ljc4NDcsNjQuMTM1NSw3ODUuNzg0Nyw1Mi4xMzU1LDc3My43ODQ3LDY0LjEzNTUsNzYxLjc4NDciIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjEzLjcwMTciIHg9IjEzMi4yNDIyIiB5PSI3OTUuOTk1MSI+bm88L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTI4LjIxMzQiIHg9IjY0LjEzNTUiIHk9Ijc3Ny41OTI4Ij5wcmV2aW91c2x5IG92ZXJsYXBwZWQ/PC90ZXh0Pjxwb2x5Z29uIGZpbGw9IiNGMUYxRjEiIHBvaW50cz0iMTI4LjI0MjIsODY0LjE1NTgsMTQwLjI0MjIsODc2LjE1NTgsMTI4LjI0MjIsODg4LjE1NTgsMTE2LjI0MjIsODc2LjE1NTgsMTI4LjI0MjIsODY0LjE1NTgiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIvPjxyZWN0IGZpbGw9IiNGMUYxRjEiIGhlaWdodD0iMzMuOTY4OCIgcng9IjEyLjUiIHJ5PSIxMi41IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiIHdpZHRoPSIxMjMuOTYyOSIgeD0iMjg0LjYxMTgiIHk9Ijc2MS43ODQ3Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTAzLjk2MjkiIHg9IjI5NC42MTE4IiB5PSI3ODIuOTIzMyI+YWRkIHBvaW50IHRvIHBhdGg8L3RleHQ+PHBvbHlnb24gZmlsbD0iI0YxRjFGMSIgcG9pbnRzPSIyMzcuNDE3Nyw4OTQuMTU1OCwyNDkuNDE3Nyw5MDYuMTU1OCwyMzcuNDE3Nyw5MTguMTU1OCwyMjUuNDE3Nyw5MDYuMTU1OCwyMzcuNDE3Nyw4OTQuMTU1OCIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7Ii8+PHBvbHlnb24gZmlsbD0iI0YxRjFGMSIgcG9pbnRzPSIxNjcuOTUwNyw2ODMuNzg0NywzMDYuODg0OCw2ODMuNzg0NywzMTguODg0OCw2OTUuNzg0NywzMDYuODg0OCw3MDcuNzg0NywxNjcuOTUwNyw3MDcuNzg0NywxNTUuOTUwNyw2OTUuNzg0NywxNjcuOTUwNyw2ODMuNzg0NyIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTM4LjkzNDEiIHg9IjE2Ny45NTA3IiB5PSI2OTkuNTkyOCI+Zm9yIGVhY2ggY2VudGVyIGxpbmUgcG9pbnQ8L3RleHQ+PHJlY3QgZmlsbD0iI0YxRjFGMSIgaGVpZ2h0PSIzMy45Njg4IiByeD0iMTIuNSIgcnk9IjEyLjUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgd2lkdGg9Ijk0LjQ2MDkiIHg9IjE5MC4xODczIiB5PSI5ODQuMTU1OCIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9Ijc0LjQ2MDkiIHg9IjIwMC4xODczIiB5PSIxMDA1LjI5NDQiPnB1Ymxpc2ggcGF0aDwvdGV4dD48ZWxsaXBzZSBjeD0iMjM3LjQxNzciIGN5PSIxMDQ5LjEyNDUiIGZpbGw9Im5vbmUiIHJ4PSIxMSIgcnk9IjExIiBzdHlsZT0ic3Ryb2tlOiMyMjIyMjI7c3Ryb2tlLXdpZHRoOjE7Ii8+PGVsbGlwc2UgY3g9IjIzNy40MTc3IiBjeT0iMTA0OS4xMjQ1IiBmaWxsPSIjMjIyMjIyIiByeD0iNiIgcnk9IjYiIHN0eWxlPSJzdHJva2U6IzIyMjIyMjtzdHJva2Utd2lkdGg6MTsiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7IiB4MT0iMjM3LjQxNzciIHgyPSIyMzcuNDE3NyIgeTE9IjY3LjI5NjkiIHkyPSI4Ny4yOTY5Ii8+PHBvbHlnb24gZmlsbD0iIzE4MTgxOCIgcG9pbnRzPSIyMzMuNDE3Nyw3Ny4yOTY5LDIzNy40MTc3LDg3LjI5NjksMjQxLjQxNzcsNzcuMjk2OSwyMzcuNDE3Nyw4MS4yOTY5IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIgeDE9IjIzNy40MTc3IiB4Mj0iMjM3LjQxNzciIHkxPSIxMjEuMjY1NiIgeTI9IjE0MS4yNjU2Ii8+PHBvbHlnb24gZmlsbD0iIzE4MTgxOCIgcG9pbnRzPSIyMzMuNDE3NywxMzEuMjY1NiwyMzcuNDE3NywxNDEuMjY1NiwyNDEuNDE3NywxMzEuMjY1NiwyMzcuNDE3NywxMzUuMjY1NiIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiIHgxPSIyMzcuNDE3NyIgeDI9IjIzNy40MTc3IiB5MT0iMjE5LjIzNDQiIHkyPSIzMDYuNTM4NiIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iMjMzLjQxNzcsMjk2LjUzODYsMjM3LjQxNzcsMzA2LjUzODYsMjQxLjQxNzcsMjk2LjUzODYsMjM3LjQxNzcsMzAwLjUzODYiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7IiB4MT0iMjg3LjQ2MTIiIHgyPSIzMTIuMTYyOCIgeTE9IjIwNy4yMzQ0IiB5Mj0iMjA3LjIzNDQiLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjMwMi4xNjI4LDIwMy4yMzQ0LDMxMi4xNjI4LDIwNy4yMzQ0LDMwMi4xNjI4LDIxMS4yMzQ0LDMwNi4xNjI4LDIwNy4yMzQ0IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIgeDE9IjIzNy40MTc3IiB4Mj0iMjM3LjQxNzciIHkxPSIxNzUuMjM0NCIgeTI9IjE5NS4yMzQ0Ii8+PHBvbHlnb24gZmlsbD0iIzE4MTgxOCIgcG9pbnRzPSIyMzMuNDE3NywxODUuMjM0NCwyMzcuNDE3NywxOTUuMjM0NCwyNDEuNDE3NywxODUuMjM0NCwyMzcuNDE3NywxODkuMjM0NCIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiIHgxPSIyMzcuNDE3NyIgeDI9IjIzNy40MTc3IiB5MT0iMzQwLjUwNzMiIHkyPSIzNjAuNTA3MyIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iMjMzLjQxNzcsMzUwLjUwNzMsMjM3LjQxNzcsMzYwLjUwNzMsMjQxLjQxNzcsMzUwLjUwNzMsMjM3LjQxNzcsMzU0LjUwNzMiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7IiB4MT0iMjM3LjQxNzciIHgyPSIyMzcuNDE3NyIgeTE9IjM5NC40NzYxIiB5Mj0iNDE0LjQ3NjEiLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjIzMy40MTc3LDQwNC40NzYxLDIzNy40MTc3LDQxNC40NzYxLDI0MS40MTc3LDQwNC40NzYxLDIzNy40MTc3LDQwOC40NzYxIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIgeDE9IjIzNy40MTc3IiB4Mj0iMjM3LjQxNzciIHkxPSI1NTAuODE1OSIgeTI9IjU4NS44MTU5Ii8+PHBvbHlnb24gZmlsbD0iIzE4MTgxOCIgcG9pbnRzPSIyMzMuNDE3Nyw1NzUuODE1OSwyMzcuNDE3Nyw1ODUuODE1OSwyNDEuNDE3Nyw1NzUuODE1OSwyMzcuNDE3Nyw1NzkuODE1OSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiIHgxPSIyMzcuNDE3NyIgeDI9IjIzNy40MTc3IiB5MT0iNDkyLjQ0NDgiIHkyPSI1MTYuODQ3MiIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iMjMzLjQxNzcsNTA2Ljg0NzIsMjM3LjQxNzcsNTE2Ljg0NzIsMjQxLjQxNzcsNTA2Ljg0NzIsMjM3LjQxNzcsNTEwLjg0NzIiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7IiB4MT0iMzczLjU1MTgiIHgyPSIzODUuNTUxOCIgeTE9IjQ4MC40NDQ4IiB5Mj0iNDgwLjQ0NDgiLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjM4MS41NTE4LDU1OC4zMTU5LDM4NS41NTE4LDU2OC4zMTU5LDM4OS41NTE4LDU1OC4zMTU5LDM4NS41NTE4LDU2Mi4zMTU5IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIgeDE9IjM4NS41NTE4IiB4Mj0iMzg1LjU1MTgiIHkxPSI0ODAuNDQ0OCIgeTI9IjY1MS43ODQ3Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIgeDE9IjM4NS41NTE4IiB4Mj0iMjQ5LjQxNzciIHkxPSI2NTEuNzg0NyIgeTI9IjY1MS43ODQ3Ii8+PHBvbHlnb24gZmlsbD0iIzE4MTgxOCIgcG9pbnRzPSIyNTkuNDE3Nyw2NDcuNzg0NywyNDkuNDE3Nyw2NTEuNzg0NywyNTkuNDE3Nyw2NTUuNzg0NywyNTUuNDE3Nyw2NTEuNzg0NyIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiIHgxPSIyMzcuNDE3NyIgeDI9IjIzNy40MTc3IiB5MT0iNjE5Ljc4NDciIHkyPSI2MzkuNzg0NyIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iMjMzLjQxNzcsNjI5Ljc4NDcsMjM3LjQxNzcsNjM5Ljc4NDcsMjQxLjQxNzcsNjI5Ljc4NDcsMjM3LjQxNzcsNjMzLjc4NDciIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7IiB4MT0iMjM3LjQxNzciIHgyPSIyMzcuNDE3NyIgeTE9IjQ0OC40NDQ4IiB5Mj0iNDY4LjQ0NDgiLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjIzMy40MTc3LDQ1OC40NDQ4LDIzNy40MTc3LDQ2OC40NDQ4LDI0MS40MTc3LDQ1OC40NDQ4LDIzNy40MTc3LDQ2Mi40NDQ4IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIgeDE9IjEyOC4yNDIyIiB4Mj0iMTI4LjI0MjIiIHkxPSI3ODUuNzg0NyIgeTI9IjgxMC4xODciLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjEyNC4yNDIyLDgwMC4xODcsMTI4LjI0MjIsODEwLjE4NywxMzIuMjQyMiw4MDAuMTg3LDEyOC4yNDIyLDgwNC4xODciIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7IiB4MT0iMjA0LjM0ODkiIHgyPSIyMTYuMzQ4OSIgeTE9Ijc3My43ODQ3IiB5Mj0iNzczLjc4NDciLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjIxMi4zNDg5LDgxNy4xNzE0LDIxNi4zNDg5LDgyNy4xNzE0LDIyMC4zNDg5LDgxNy4xNzE0LDIxNi4zNDg5LDgyMS4xNzE0IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIgeDE9IjIxNi4zNDg5IiB4Mj0iMjE2LjM0ODkiIHkxPSI3NzMuNzg0NyIgeTI9Ijg3Ni4xNTU4Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIgeDE9IjIxNi4zNDg5IiB4Mj0iMTQwLjI0MjIiIHkxPSI4NzYuMTU1OCIgeTI9Ijg3Ni4xNTU4Ii8+PHBvbHlnb24gZmlsbD0iIzE4MTgxOCIgcG9pbnRzPSIxNTAuMjQyMiw4NzIuMTU1OCwxNDAuMjQyMiw4NzYuMTU1OCwxNTAuMjQyMiw4ODAuMTU1OCwxNDYuMjQyMiw4NzYuMTU1OCIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiIHgxPSIxMjguMjQyMiIgeDI9IjEyOC4yNDIyIiB5MT0iODQ0LjE1NTgiIHkyPSI4NjQuMTU1OCIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iMTI0LjI0MjIsODU0LjE1NTgsMTI4LjI0MjIsODY0LjE1NTgsMTMyLjI0MjIsODU0LjE1NTgsMTI4LjI0MjIsODU4LjE1NTgiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7IiB4MT0iMTM4LjI0MjIiIHgyPSIxMjguMjQyMiIgeTE9IjczOS43ODQ3IiB5Mj0iNzM5Ljc4NDciLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7IiB4MT0iMTI4LjI0MjIiIHgyPSIxMjguMjQyMiIgeTE9IjczOS43ODQ3IiB5Mj0iNzYxLjc4NDciLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjEyNC4yNDIyLDc1MS43ODQ3LDEyOC4yNDIyLDc2MS43ODQ3LDEzMi4yNDIyLDc1MS43ODQ3LDEyOC4yNDIyLDc1NS43ODQ3IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIgeDE9IjMzNi41OTMzIiB4Mj0iMzQ2LjU5MzMiIHkxPSI3MzkuNzg0NyIgeTI9IjczOS43ODQ3Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIgeDE9IjM0Ni41OTMzIiB4Mj0iMzQ2LjU5MzMiIHkxPSI3MzkuNzg0NyIgeTI9Ijc2MS43ODQ3Ii8+PHBvbHlnb24gZmlsbD0iIzE4MTgxOCIgcG9pbnRzPSIzNDIuNTkzMyw3NTEuNzg0NywzNDYuNTkzMyw3NjEuNzg0NywzNTAuNTkzMyw3NTEuNzg0NywzNDYuNTkzMyw3NTUuNzg0NyIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiIHgxPSIxMjguMjQyMiIgeDI9IjEyOC4yNDIyIiB5MT0iODg4LjE1NTgiIHkyPSI5MDYuMTU1OCIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiIHgxPSIxMjguMjQyMiIgeDI9IjIyNS40MTc3IiB5MT0iOTA2LjE1NTgiIHkyPSI5MDYuMTU1OCIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iMjE1LjQxNzcsOTAyLjE1NTgsMjI1LjQxNzcsOTA2LjE1NTgsMjE1LjQxNzcsOTEwLjE1NTgsMjE5LjQxNzcsOTA2LjE1NTgiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7IiB4MT0iMzQ2LjU5MzMiIHgyPSIzNDYuNTkzMyIgeTE9Ijc5NS43NTM0IiB5Mj0iOTA2LjE1NTgiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7IiB4MT0iMzQ2LjU5MzMiIHgyPSIyNDkuNDE3NyIgeTE9IjkwNi4xNTU4IiB5Mj0iOTA2LjE1NTgiLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjI1OS40MTc3LDkwMi4xNTU4LDI0OS40MTc3LDkwNi4xNTU4LDI1OS40MTc3LDkxMC4xNTU4LDI1NS40MTc3LDkwNi4xNTU4IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIgeDE9IjIzNy40MTc3IiB4Mj0iMjM3LjQxNzciIHkxPSI3MDcuNzg0NyIgeTI9IjcyNy43ODQ3Ii8+PHBvbHlnb24gZmlsbD0iIzE4MTgxOCIgcG9pbnRzPSIyMzMuNDE3Nyw3MTcuNzg0NywyMzcuNDE3Nyw3MjcuNzg0NywyNDEuNDE3Nyw3MTcuNzg0NywyMzcuNDE3Nyw3MjEuNzg0NyIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiIHgxPSIyMzcuNDE3NyIgeDI9IjIzNy40MTc3IiB5MT0iOTE4LjE1NTgiIHkyPSI5MjguMTU1OCIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiIHgxPSIyMzcuNDE3NyIgeDI9IjQyMi41NzQ3IiB5MT0iOTI4LjE1NTgiIHkyPSI5MjguMTU1OCIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iNDE4LjU3NDcsODIzLjE3MTQsNDIyLjU3NDcsODEzLjE3MTQsNDI2LjU3NDcsODIzLjE3MTQsNDIyLjU3NDcsODE5LjE3MTQiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7IiB4MT0iNDIyLjU3NDciIHgyPSI0MjIuNTc0NyIgeTE9IjY5NS43ODQ3IiB5Mj0iOTI4LjE1NTgiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7IiB4MT0iNDIyLjU3NDciIHgyPSIzMTguODg0OCIgeTE9IjY5NS43ODQ3IiB5Mj0iNjk1Ljc4NDciLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjMyOC44ODQ4LDY5MS43ODQ3LDMxOC44ODQ4LDY5NS43ODQ3LDMyOC44ODQ4LDY5OS43ODQ3LDMyNC44ODQ4LDY5NS43ODQ3IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIgeDE9IjE1NS45NTA3IiB4Mj0iMzciIHkxPSI2OTUuNzg0NyIgeTI9IjY5NS43ODQ3Ii8+PHBvbHlnb24gZmlsbD0iIzE4MTgxOCIgcG9pbnRzPSIzMyw4MDkuMTcxNCwzNyw4MTkuMTcxNCw0MSw4MDkuMTcxNCwzNyw4MTMuMTcxNCIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiIHgxPSIzNyIgeDI9IjM3IiB5MT0iNjk1Ljc4NDciIHkyPSI5NDAuMTU1OCIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiIHgxPSIzNyIgeDI9IjIzNy40MTc3IiB5MT0iOTQwLjE1NTgiIHkyPSI5NDAuMTU1OCIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiIHgxPSIyMzcuNDE3NyIgeDI9IjIzNy40MTc3IiB5MT0iOTQwLjE1NTgiIHkyPSI5ODQuMTU1OCIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iMjMzLjQxNzcsOTc0LjE1NTgsMjM3LjQxNzcsOTg0LjE1NTgsMjQxLjQxNzcsOTc0LjE1NTgsMjM3LjQxNzcsOTc4LjE1NTgiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7IiB4MT0iMjM3LjQxNzciIHgyPSIyMzcuNDE3NyIgeTE9IjY2My43ODQ3IiB5Mj0iNjgzLjc4NDciLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjIzMy40MTc3LDY3My43ODQ3LDIzNy40MTc3LDY4My43ODQ3LDI0MS40MTc3LDY3My43ODQ3LDIzNy40MTc3LDY3Ny43ODQ3IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIgeDE9IjIzNy40MTc3IiB4Mj0iMjM3LjQxNzciIHkxPSIxMDE4LjEyNDUiIHkyPSIxMDM4LjEyNDUiLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjIzMy40MTc3LDEwMjguMTI0NSwyMzcuNDE3NywxMDM4LjEyNDUsMjQxLjQxNzcsMTAyOC4xMjQ1LDIzNy40MTc3LDEwMzIuMTI0NSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIvPjwhLS1TUkM9W05QNURSZUdtMzhOdEVPTU5TMExjcUtNdGxLRmFjSm1XUWZINGlQYWZqb3k0UTFhTWFWcHhfRGJIaG01S2ZjWDRrUVduZFY4dGg2RmJjLWE0UWRGVzY1N3NhRS1meUw4VE15MWtSYWI3SDZmY0k2aUcxREo0cjJ2Z0FIajR2dGpaWGZBY0pBa0VwUXBaeFd6T0w1Y25uUmUxLVhjSUdGSUI4bUJxTGNDc1I5eE9ielZISHhscUFsUlNZLVVTVjVIUjVNTVp1cFpKYVEzYmVKbXZLRHJFdzh2NW16NFgtbDU2TnBMcG1URWRJT3gxcnhkdUtQbUtSbGtJaHo0bFRzcHdMMFp5NkVjMVRKODU3cTRMZlFybXdPYUlFNlN1a2Z5bUFfeXhwNWZ6aThJUF9YbHRpakVqRXRSa0pxajg0d3FkRlNXa1RUbDBRcXJxVE83THM2MUVia2RvVDB6VW5oc2Jfa3FsXS0tPjwvZz48L3N2Zz4=" class="uml" alt="uml diagram" title=""></p>
-<h2 id="input-topics">Input topics<a class="headerlink" href="#input-topics" title="Permanent link">#</a></h2>
-<table>
-<thead>
-<tr>
-<th align="left">Name</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left"><code>~/input/odometry</code></td>
-<td align="left"><code>nav_msgs::msg::Odometry</code></td>
-<td align="left">ego pose</td>
-</tr>
-<tr>
-<td align="left"><code>~/input/vector_map</code></td>
-<td align="left"><code>autoware_map_msgs::msg::LaneletMapBin</code></td>
-<td align="left">vector map information</td>
-</tr>
-<tr>
-<td align="left"><code>~/input/route</code></td>
-<td align="left"><code>autoware_planning_msgs::msg::LaneletRoute</code></td>
-<td align="left">current route from start to goal</td>
-</tr>
-</tbody>
-</table>
-<h2 id="output-topics">Output topics<a class="headerlink" href="#output-topics" title="Permanent link">#</a></h2>
-<table>
-<thead>
-<tr>
-<th align="left">Name</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-<th align="left">QoS Durability</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left"><code>~/output/path</code></td>
-<td align="left"><code>autoware_internal_planning_msgs::msg::PathWithLaneId</code></td>
-<td align="left">generated path</td>
-<td align="left"><code>volatile</code></td>
-</tr>
-</tbody>
-</table>
-<h2 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">#</a></h2>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-<th>Range</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>planning_hz</td>
-<td>float</td>
-<td>Planning frequency [Hz]</td>
-<td>10</td>
-<td>≥0.0</td>
-</tr>
-<tr>
-<td>backward_path_length</td>
-<td>float</td>
-<td>Length of generated path behind vehicle [m]</td>
-<td>5</td>
-<td>≥0.0</td>
-</tr>
-<tr>
-<td>forward_path_length</td>
-<td>float</td>
-<td>Length of generated path in front of vehicle [m]</td>
-<td>300</td>
-<td>≥0.0</td>
-</tr>
-<tr>
-<td>waypoint_group_separation_threshold</td>
-<td>float</td>
-<td>Maximum distance at which consecutive waypoints are considered to belong to the same group [m]</td>
-<td>1</td>
-<td>≥0.0</td>
-</tr>
-<tr>
-<td>waypoint_group_interval_margin_ratio</td>
-<td>float</td>
-<td>Ratio for determining length of switching section from centerline to waypoints</td>
-<td>10</td>
-<td>≥0.0</td>
-</tr>
-</tbody>
-</table></div>
+<div><h1 id="signal-processing-methods">Signal Processing Methods<a class="headerlink" href="#signal-processing-methods" title="Permanent link">#</a></h1>
+<p>In this package, we present signal processing related methods for the Autoware applications. The following
+functionalities are available in the current version.</p>
+<ul>
+<li>an 1-D Low-pass filter,</li>
+<li><a href="documentation/ButterworthFilter/">Butterworth low-pass filter tools.</a></li>
+</ul>
+<p>low-pass filter currently supports only the 1-D low pass filtering.</p>
+<h2 id="assumptions-known-limits">Assumptions / Known limits<a class="headerlink" href="#assumptions-known-limits" title="Permanent link">#</a></h2>
+<p>TBD.</p></div>
 
 
 
@@ -2671,7 +2544,7 @@ The overlap interval is determined as shown in the following figure.</p>
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../autoware_objects_of_interest_marker_interface/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Objects Of Interest Marker Interface" rel="prev">
+          <a href="../autoware_qp_interface/design/qp_interface-design/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Interface for QP solvers" rel="prev">
             <div class="md-footer__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
             </div>
@@ -2680,20 +2553,20 @@ The overlap interval is determined as shown in the following figure.</p>
                 Previous
               </span>
               <div class="md-ellipsis">
-                Objects Of Interest Marker Interface
+                Interface for QP solvers
               </div>
             </div>
           </a>
         
         
           
-          <a href="../autoware_planning_factor_interface/" class="md-footer__link md-footer__link--next" aria-label="Next: autoware_planning_factor_interface" rel="next">
+          <a href="documentation/ButterworthFilter/" class="md-footer__link md-footer__link--next" aria-label="Next: ButterworthFilter" rel="next">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                autoware_planning_factor_interface
+                ButterworthFilter
               </div>
             </div>
             <div class="md-footer__button md-icon">
