@@ -18,8 +18,6 @@
 #include "data.hpp"
 #include "grid_ground_filter.hpp"
 
-#include <autoware_utils/ros/debug_publisher.hpp>
-#include <autoware_utils/system/stop_watch.hpp>
 #include <autoware_utils/system/time_keeper.hpp>
 #include <autoware_vehicle_info_utils/vehicle_info.hpp>
 
