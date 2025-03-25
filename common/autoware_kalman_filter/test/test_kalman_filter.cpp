@@ -86,6 +86,22 @@ TEST(kalman_filter, kf)
   EXPECT_NEAR(x_update(1, 0), x_update_expected(1, 0), 1e-5);
   EXPECT_NEAR(P_update(0, 0), P_update_expected(0, 0), 1e-5);
   EXPECT_NEAR(P_update(1, 1), P_update_expected(1, 1), 1e-5);
+
+  // Add tests to cover missed lines
+
+  KalmanFilter kf_new(x_t, A_t, B_t, C_t, Q_t, R_t, P_t);
+  kf_new.init(x_t, P_t);
+  kf_new.setA(A_t);
+  kf_new.setB(B_t);
+  kf_new.setC(C_t);
+  kf_new.setQ(Q_t);
+  kf_new.setR(R_t);
+
+  EXPECT_TRUE(kf_new.predict(x_predict_expected, A_t));
+  P_predict_expected = A_t * P_t * A_t.transpose() + Q_t;
+  kf_new.getP(P_predict);
+  EXPECT_NEAR(P_predict(0, 0), P_predict_expected(0, 0), 1e-5);
+  EXPECT_NEAR(P_predict(1, 1), P_predict_expected(1, 1), 1e-5);
 }
 
 int main(int argc, char * argv[])

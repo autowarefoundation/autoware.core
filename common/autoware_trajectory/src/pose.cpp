@@ -21,6 +21,7 @@
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2/LinearMath/Vector3.h>
 
+#include <utility>
 #include <vector>
 
 namespace autoware::trajectory
@@ -61,7 +62,7 @@ Trajectory<PointType>::Trajectory(const Trajectory<geometry_msgs::msg::Point> & 
   for (size_t i = 0; i < bases_.size(); ++i) {
     orientations[i].w = 1.0;
   }
-  bool success = orientation_interpolator_->build(bases_, orientations);
+  const auto success = orientation_interpolator_->build(bases_, std::move(orientations));
 
   if (!success) {
     throw std::runtime_error(
@@ -72,7 +73,8 @@ Trajectory<PointType>::Trajectory(const Trajectory<geometry_msgs::msg::Point> & 
   align_orientation_with_trajectory_direction();
 }
 
-bool Trajectory<PointType>::build(const std::vector<PointType> & points)
+interpolator::InterpolationResult Trajectory<PointType>::build(
+  const std::vector<PointType> & points)
 {
   std::vector<geometry_msgs::msg::Point> path_points;
   std::vector<geometry_msgs::msg::Quaternion> orientations;
@@ -83,26 +85,33 @@ bool Trajectory<PointType>::build(const std::vector<PointType> & points)
     orientations.emplace_back(point.orientation);
   }
 
-  bool is_valid = true;
-  is_valid &= BaseClass::build(path_points);
-  is_valid &= orientation_interpolator_->build(bases_, orientations);
-  return is_valid;
+  if (const auto result = BaseClass::build(path_points); !result) {
+    return tl::unexpected(
+      interpolator::InterpolationFailure{"failed to interpolate Pose::points"} + result.error());
+  }
+  if (const auto result = orientation_interpolator_->build(bases_, std::move(orientations));
+      !result) {
+    return tl::unexpected(
+      interpolator::InterpolationFailure{"failed to interpolate Pose::orientation"} +
+      result.error());
+  }
+  return interpolator::InterpolationSuccess{};
 }
 
 std::vector<double> Trajectory<PointType>::get_internal_bases() const
 {
   auto bases = detail::crop_bases(bases_, start_, end_);
   std::transform(
-    bases.begin(), bases.end(), bases.begin(), [this](const double & s) { return s - start_; });
+    bases.begin(), bases.end(), bases.begin(), [this](const double s) { return s - start_; });
   return bases;
 }
 
-PointType Trajectory<PointType>::compute(double s) const
+PointType Trajectory<PointType>::compute(const double s) const
 {
   PointType result;
   result.position = BaseClass::compute(s);
-  s = clamp(s);
-  result.orientation = orientation_interpolator_->compute(s);
+  const auto s_clamp = clamp(s);
+  result.orientation = orientation_interpolator_->compute(s_clamp);
   return result;
 }
 
@@ -157,14 +166,14 @@ void Trajectory<PointType>::align_orientation_with_trajectory_direction()
 
     aligned_orientations.emplace_back(aligned_orientation);
   }
-  const bool success = orientation_interpolator_->build(bases_, aligned_orientations);
+  const auto success = orientation_interpolator_->build(bases_, std::move(aligned_orientations));
   if (!success) {
     throw std::runtime_error(
       "Failed to build orientation interpolator.");  // This exception should not be thrown.
   }
 }
 
-std::vector<PointType> Trajectory<PointType>::restore(const size_t & min_points) const
+std::vector<PointType> Trajectory<PointType>::restore(const size_t min_points) const
 {
   auto bases = get_internal_bases();
   bases = detail::fill_bases(bases, min_points);
