@@ -19,7 +19,6 @@
   <depend>geometry_msgs</depend>
   <depend>libboost-dev</depend>
   <depend>rclcpp</depend>
-  <build_export_depend>libboost-dev</build_export_depend>
 
   <test_depend>ament_cmake_ros</test_depend>
   <test_depend>ament_lint_auto</test_depend>
