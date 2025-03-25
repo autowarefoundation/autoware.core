@@ -2,6 +2,12 @@
 Changelog for package autoware_kalman_filter
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.0 (2025-03-21)
+------------------
+* chore: rename from `autoware.core` to `autoware_core` (`#290 <https://github.com/autowarefoundation/autoware.core/issues/290>`_)
+* test(autoware_kalman_filter): add tests for missed lines (`#263 <https://github.com/autowarefoundation/autoware.core/issues/263>`_)
+* Contributors: NorahXiong, Yutaka Kondo
+
 0.2.0 (2025-02-07)
 ------------------
 * unify version to 0.1.0
