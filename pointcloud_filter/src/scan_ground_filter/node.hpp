@@ -369,18 +369,20 @@ protected:
       return false;
     }
     return true;
-  } const
+  }
+  const
 
-  inline bool isValid(
-    [[maybe_unused]] const pcl_msgs::msg::PointIndices::ConstSharedPtr & indices,
-    const std::string & /*topic_name*/ = "indices")
+    inline bool
+    isValid(
+      [[maybe_unused]] const pcl_msgs::msg::PointIndices::ConstSharedPtr & indices,
+      const std::string & /*topic_name*/ = "indices")
   {
     return true;
-  } const
+  }
+const
 
-public:
-  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-  explicit ScanGroundFilterComponent(const rclcpp::NodeOptions & options);
+  public : EIGEN_MAKE_ALIGNED_OPERATOR_NEW explicit ScanGroundFilterComponent(
+             const rclcpp::NodeOptions & options);
 
   // for test
   friend ScanGroundFilterTest;
