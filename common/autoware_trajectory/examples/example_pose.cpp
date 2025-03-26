@@ -21,14 +21,8 @@
 #include <pybind11/embed.h>
 #include <pybind11/stl.h>
 
-// TODO(https://github.com/ros2/geometry2/pull/720) Use only .hpp
-#ifdef AUTOWARE_TRAJECTORY_OLD_TF2_INCLUDES
-#include <tf2/LinearMath/Quaternion.h>
-#include <tf2/LinearMath/Vector3.h>
-#else
 #include <tf2/LinearMath/Quaternion.hpp>
 #include <tf2/LinearMath/Vector3.hpp>
-#endif
 
 #include <vector>
 

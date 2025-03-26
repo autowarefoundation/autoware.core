@@ -13,10 +13,6 @@ ament_auto_add_library(autoware_trajectory SHARED
 )
 target_link_libraries(autoware_trajectory pybind11::embed)
 
-if(tf2_VERSION VERSION_LESS "0.40.0")
-  target_compile_definitions(autoware_trajectory PRIVATE AUTOWARE_TRAJECTORY_OLD_TF2_INCLUDES=1)
-endif()
-
 if(BUILD_TESTING)
   find_package(ament_cmake_ros REQUIRED)
 
