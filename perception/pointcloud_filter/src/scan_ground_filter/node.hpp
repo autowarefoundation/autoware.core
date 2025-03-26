@@ -179,7 +179,7 @@ private:
 
   void filter(
     const sensor_msgs::msg::PointCloud2::ConstSharedPtr & input, const pcl::IndicesPtr & indices,
-    sensor_msgs::msg::PointCloud2 & output) const;
+    const sensor_msgs::msg::PointCloud2 & output) const;
 
   // TODO(taisa1): Temporary Implementation: Remove this interface when all the filter nodes
   // conform to new API
