@@ -179,7 +179,7 @@ private:
 
   void filter(
     const sensor_msgs::msg::PointCloud2::ConstSharedPtr & input, const pcl::IndicesPtr & indices,
-    sensor_msgs::msg::PointCloud2 & output);
+    sensor_msgs::msg::PointCloud2 & output) const;
 
   // TODO(taisa1): Temporary Implementation: Remove this interface when all the filter nodes
   // conform to new API
@@ -351,7 +351,7 @@ protected:
   // To validate if the pointcloud is valid
   inline bool isValid(
     const sensor_msgs::msg::PointCloud2::ConstSharedPtr & cloud,
-    const std::string & /*topic_name*/ = "input")
+    const std::string & /*topic_name*/ = "input") const
   {
     // Ensure non-null
     if (cloud == nullptr) {
@@ -369,14 +369,14 @@ protected:
       return false;
     }
     return true;
-  } const
+  }
 
   inline bool isValid(
     [[maybe_unused]] const pcl_msgs::msg::PointIndices::ConstSharedPtr & indices,
-    const std::string & /*topic_name*/ = "indices")
+    const std::string & /*topic_name*/ = "indices") const
   {
     return true;
-  } const
+  }
 
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
