@@ -37,7 +37,6 @@
     - source: .prettierignore
     - source: .prettierrc.yaml
     - source: .yamllint.yaml
-    - source: codecov.yaml
     - source: CODE_OF_CONDUCT.md
     - source: CONTRIBUTING.md
     - source: CPPLINT.cfg
