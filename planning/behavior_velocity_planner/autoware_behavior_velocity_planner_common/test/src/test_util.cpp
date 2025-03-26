@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "utils.hpp"
 #include "autoware/behavior_velocity_planner_common/utilization/util.hpp"
 #include "autoware_test_utils/autoware_test_utils.hpp"
+#include "utils.hpp"
 
 #include <autoware_internal_planning_msgs/msg/path_with_lane_id.hpp>
 #include <autoware_planning_msgs/msg/path_point.hpp>

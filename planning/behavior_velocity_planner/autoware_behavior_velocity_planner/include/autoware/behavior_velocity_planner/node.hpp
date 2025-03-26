@@ -16,10 +16,10 @@
 #define AUTOWARE__BEHAVIOR_VELOCITY_PLANNER__NODE_HPP_
 
 #include "autoware/behavior_velocity_planner/planner_manager.hpp"
-#include <autoware_utils/ros/logger_level_configure.hpp>
-#include <autoware_utils/ros/polling_subscriber.hpp>
 
 #include <autoware/behavior_velocity_planner_common/planner_data.hpp>
+#include <autoware_utils/ros/logger_level_configure.hpp>
+#include <autoware_utils/ros/polling_subscriber.hpp>
 #include <autoware_utils/ros/published_time_publisher.hpp>
 #include <rclcpp/rclcpp.hpp>
 
