@@ -76,11 +76,7 @@ namespace autoware::pointcloud_filter
  */
 struct TransformInfo
 {
-  TransformInfo()
-  {
-    eigen_transform = Eigen::Matrix4f::Identity(4, 4);
-    need_transform = false;
-  }
+  TransformInfo() : eigen_transform(Eigen::Matrix4f::Identity(4, 4)), need_transform(false) {}
 
   Eigen::Matrix4f eigen_transform;
   bool need_transform;
@@ -179,7 +175,7 @@ private:
   };
 
   /** \brief Lazy transport subscribe routine. */
-  virtual void subscribe();
+  void subscribe();
 
   void filter(
     const sensor_msgs::msg::PointCloud2::ConstSharedPtr & input, const pcl::IndicesPtr & indices,
@@ -357,6 +353,12 @@ protected:
     const sensor_msgs::msg::PointCloud2::ConstSharedPtr & cloud,
     const std::string & /*topic_name*/ = "input")
   {
+    // Ensure non-null
+    if (cloud == nullptr) {
+      RCLCPP_WARN(this->get_logger(), "Received null PointCloud");
+      return false;
+    }
+
     if (cloud->width * cloud->height * cloud->point_step != cloud->data.size()) {
       RCLCPP_WARN(
         this->get_logger(),
@@ -367,14 +369,14 @@ protected:
       return false;
     }
     return true;
-  }
+  } const
 
   inline bool isValid(
     [[maybe_unused]] const pcl_msgs::msg::PointIndices::ConstSharedPtr & indices,
     const std::string & /*topic_name*/ = "indices")
   {
     return true;
-  }
+  } const
 
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW

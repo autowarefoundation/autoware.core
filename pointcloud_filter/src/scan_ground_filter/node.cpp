@@ -644,7 +644,7 @@ void ScanGroundFilterComponent::faster_filter(
 // nodes conform to new API.
 void ScanGroundFilterComponent::filter(
   const sensor_msgs::msg::PointCloud2::ConstSharedPtr & input,
-  [[maybe_unused]] const pcl::IndicesPtr & indices, sensor_msgs::msg::PointCloud2 & output)
+  [[maybe_unused]] const pcl::IndicesPtr & indices, sensor_msgs::msg::PointCloud2 & output) const
 {
   (void)input;
   (void)indices;
