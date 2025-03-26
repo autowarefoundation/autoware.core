@@ -6,12 +6,9 @@ project(autoware_trajectory)
 find_package(autoware_cmake REQUIRED)
 autoware_package()
 
-find_package(pybind11 REQUIRED)
-
 ament_auto_add_library(autoware_trajectory SHARED
   DIRECTORY src
 )
-target_link_libraries(autoware_trajectory pybind11::embed)
 
 if(BUILD_TESTING)
   find_package(ament_cmake_ros REQUIRED)
@@ -31,6 +28,7 @@ if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   find_package(autoware_pyplot REQUIRED)
   ament_lint_auto_find_test_dependencies()
+  find_package(pybind11 REQUIRED)
   include_directories(${autoware_pyplot_INCLUDE_DIRS})
   foreach(example_file ${example_files})
     get_filename_component(example_name ${example_file} NAME_WE)
@@ -40,6 +38,7 @@ if(BUILD_TESTING)
     target_link_libraries(${example_name}
       autoware_trajectory
       ${autoware_pyplot_LIBRARIES}
+      pybind11::embed
     )
   endforeach()
 endif()
