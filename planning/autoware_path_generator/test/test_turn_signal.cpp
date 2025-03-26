@@ -140,5 +140,9 @@ TEST_F(UtilsTest, getTurnSignalRequiredEndPoint)
     planner_data_.lanelet_map_ptr->laneletLayer.get(lane_id), angle_threshold_deg);
 
   ASSERT_TRUE(result);
+
+  constexpr double epsilon = 0.1;
+  EXPECT_NEAR(result.value().x(), 3760.894, epsilon);
+  EXPECT_NEAR(result.value().y(), 73749.359, epsilon);
 }
 }  // namespace autoware::path_generator
