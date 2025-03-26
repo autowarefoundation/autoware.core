@@ -43,7 +43,7 @@ Detail description of each ground segmentation algorithm is in the following lin
 
 ## Assumptions / Known limits
 
-`autoware::pointcloud_preprocessor::Filter` is implemented based on pcl_perception [1] because of [this issue](https://github.com/ros-perception/perception_pcl/issues/9).
+Implemented based on pcl_perception [1] because of [this issue](https://github.com/ros-perception/perception_pcl/issues/9).
 
 ## References/External links
 
