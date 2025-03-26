@@ -36,13 +36,12 @@
 #include <string>
 #include <vector>
 
-
 namespace autoware::motion_velocity_planner
 {
 class MotionVelocityPlannerManager
 {
-using Metric = autoware_internal_metric_msgs::msg::Metric;
-using MetricArray = autoware_internal_metric_msgs::msg::MetricArray;
+  using Metric = autoware_internal_metric_msgs::msg::Metric;
+  using MetricArray = autoware_internal_metric_msgs::msg::MetricArray;
 
 public:
   MotionVelocityPlannerManager();
