@@ -94,7 +94,7 @@ float pseudoTan(const float theta)
 }
 }  // namespace
 
-namespace autoware::pointcloud_filter
+namespace autoware::ground_filter
 {
 using autoware_utils::ScopedTimeTrack;
 
@@ -498,6 +498,6 @@ private:
   }
 };
 
-}  // namespace autoware::pointcloud_filter
+}  // namespace autoware::ground_filter
 
 #endif  // SCAN_GROUND_FILTER__GRID_HPP_

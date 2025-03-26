@@ -1,8 +1,8 @@
-# autoware_pointcloud_filter
+# autoware_ground_filter
 
 ## Purpose
 
-The `autoware_pointcloud_filter` is a node that remove the ground points from the input pointcloud.
+The `autoware_ground_filter` is a node that remove the ground points from the input pointcloud.
 
 ## Inner-workings / Algorithms
 

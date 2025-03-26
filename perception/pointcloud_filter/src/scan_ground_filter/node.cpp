@@ -45,7 +45,7 @@ bool get_param(const std::vector<rclcpp::Parameter> & p, const std::string & nam
 }
 }  // namespace
 
-namespace autoware::pointcloud_filter
+namespace autoware::ground_filter
 {
 // For PointCloud2
 using PointCloud2 = sensor_msgs::msg::PointCloud2;
@@ -727,7 +727,7 @@ rcl_interfaces::msg::SetParametersResult ScanGroundFilterComponent::onParameter(
 
   return result;
 }
-}  // namespace autoware::pointcloud_filter
+}  // namespace autoware::ground_filter
 
 #include <rclcpp_components/register_node_macro.hpp>
-RCLCPP_COMPONENTS_REGISTER_NODE(autoware::pointcloud_filter::ScanGroundFilterComponent)
+RCLCPP_COMPONENTS_REGISTER_NODE(autoware::ground_filter::ScanGroundFilterComponent)

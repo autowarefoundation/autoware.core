@@ -131,13 +131,13 @@ protected:
     options.parameter_overrides(parameters);
 
     scan_ground_filter_ =
-      std::make_shared<autoware::pointcloud_filter::ScanGroundFilterComponent>(options);
+      std::make_shared<autoware::ground_filter::ScanGroundFilterComponent>(options);
 
     // read pcd to pointcloud
     sensor_msgs::msg::PointCloud2::SharedPtr origin_input_msg_ptr =
       std::make_shared<sensor_msgs::msg::PointCloud2>();
     const auto share_dir =
-      ament_index_cpp::get_package_share_directory("autoware_pointcloud_filter");
+      ament_index_cpp::get_package_share_directory("autoware_ground_filter");
     const auto pcd_path = share_dir + "/data/test.pcd";
     pcl::PointCloud<pcl::PointXYZI> cloud;
     pcl::io::loadPCDFile<pcl::PointXYZI>(pcd_path, cloud);
@@ -167,7 +167,7 @@ protected:
   ~ScanGroundFilterTest() override { rclcpp::shutdown(); }
 
 public:
-  std::shared_ptr<autoware::pointcloud_filter::ScanGroundFilterComponent> scan_ground_filter_;
+  std::shared_ptr<autoware::ground_filter::ScanGroundFilterComponent> scan_ground_filter_;
   rclcpp::Node::SharedPtr dummy_node_;
   rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr input_pointcloud_pub_;
   rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr output_pointcloud_pub_;
@@ -177,14 +177,14 @@ public:
   // wrapper function to test private function filter
   void filter(sensor_msgs::msg::PointCloud2 & out_cloud)
   {
-    autoware::pointcloud_filter::TransformInfo transform_info;
+    autoware::ground_filter::TransformInfo transform_info;
     scan_ground_filter_->faster_filter(input_msg_ptr_, nullptr, out_cloud, transform_info);
   }
 
   void parse_yaml()
   {
     const auto share_dir =
-      ament_index_cpp::get_package_share_directory("autoware_pointcloud_filter");
+      ament_index_cpp::get_package_share_directory("autoware_ground_filter");
     const auto config_path = share_dir + "/config/scan_ground_filter.param.yaml";
     // std::cout << "config_path:" << config_path << std::endl;
     YAML::Node config = YAML::LoadFile(config_path);

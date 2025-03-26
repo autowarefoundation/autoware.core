@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(autoware_pointcloud_filter)
+project(autoware_ground_filter)
 
 find_package(autoware_cmake REQUIRED)
 autoware_package()
@@ -32,7 +32,7 @@ target_link_libraries(${PROJECT_NAME}
 # ========== Ground Filter ==========
 # -- Scan Ground Filter --
 rclcpp_components_register_node(${PROJECT_NAME}
-  PLUGIN "autoware::pointcloud_filter::ScanGroundFilterComponent"
+  PLUGIN "autoware::ground_filter::ScanGroundFilterComponent"
   EXECUTABLE scan_ground_filter_node)
 
 # Check if the directory exists

@@ -34,7 +34,7 @@ def launch_setup(context, *args, **kwargs):
         vehicle_info_param = yaml.safe_load(f)["/**"]["ros__parameters"]
 
     ground_segmentation_param_path = os.path.join(
-        get_package_share_directory("autoware_pointcloud_filter"),
+        get_package_share_directory("autoware_ground_filter"),
         "config",
         "ground_segmentation.param.yaml",
     )
@@ -44,8 +44,8 @@ def launch_setup(context, *args, **kwargs):
 
     nodes = [
         ComposableNode(
-            package="autoware_pointcloud_filter",
-            plugin="autoware::pointcloud_filter::ScanGroundFilterComponent",
+            package="autoware_ground_filter",
+            plugin="autoware::ground_filter::ScanGroundFilterComponent",
             name="scan_ground_filter",
             remappings=[
                 ("input", LaunchConfiguration("input/pointcloud")),

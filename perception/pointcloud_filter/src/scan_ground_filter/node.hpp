@@ -63,7 +63,7 @@
 
 class ScanGroundFilterTest;
 
-namespace autoware::pointcloud_filter
+namespace autoware::ground_filter
 {
 /**
  * This holds the coordinate transformation information of the point cloud.
@@ -385,6 +385,6 @@ public:
   // for test
   friend ScanGroundFilterTest;
 };
-}  // namespace autoware::pointcloud_filter
+}  // namespace autoware::ground_filter
 
 #endif  // SCAN_GROUND_FILTER__NODE_HPP_

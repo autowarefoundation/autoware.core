@@ -17,7 +17,7 @@
 
 #include <sensor_msgs/msg/point_cloud2.hpp>
 
-namespace autoware::pointcloud_filter
+namespace autoware::ground_filter
 {
 /** \brief Return whether the input PointCloud2 data has the same layout than PointXYZI. That is to
  * say whether you can memcpy from the PointCloud2 data buffer to a PointXYZI */
@@ -35,6 +35,6 @@ bool is_data_layout_compatible_with_point_xyziradrt(const sensor_msgs::msg::Poin
  * is to say whether you can memcpy from the PointCloud2 data buffer to a PointXYZIRCAEDT */
 bool is_data_layout_compatible_with_point_xyzircaedt(const sensor_msgs::msg::PointCloud2 & input);
 
-}  // namespace autoware::pointcloud_filter
+}  // namespace autoware::ground_filter
 
 #endif  // SCAN_GROUND_FILTER__SANITY_CHECK_HPP_

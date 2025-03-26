@@ -16,7 +16,7 @@
 
 #include <autoware/point_types/types.hpp>
 
-namespace autoware::pointcloud_filter
+namespace autoware::ground_filter
 {
 bool is_data_layout_compatible_with_point_xyzi(const sensor_msgs::msg::PointCloud2 & input)
 {
@@ -208,4 +208,4 @@ bool is_data_layout_compatible_with_point_xyzircaedt(const sensor_msgs::msg::Poi
   return same_layout;
 }
 
-}  // namespace autoware::pointcloud_filter
+}  // namespace autoware::ground_filter

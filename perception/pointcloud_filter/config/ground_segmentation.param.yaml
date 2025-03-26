@@ -1,7 +1,7 @@
 /**:
   ros__parameters:
     common_ground_filter:
-      plugin: "autoware::pointcloud_filter::ScanGroundFilterComponent"
+      plugin: "autoware::ground_filter::ScanGroundFilterComponent"
       parameters:
         global_slope_max_angle_deg: 10.0
         local_slope_max_angle_deg: 13.0 # recommended 30.0 for non elevation_grid_mode
