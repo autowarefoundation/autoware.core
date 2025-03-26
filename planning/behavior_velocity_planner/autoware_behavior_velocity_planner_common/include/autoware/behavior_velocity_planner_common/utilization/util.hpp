@@ -15,7 +15,7 @@
 #ifndef AUTOWARE__BEHAVIOR_VELOCITY_PLANNER_COMMON__UTILIZATION__UTIL_HPP_
 #define AUTOWARE__BEHAVIOR_VELOCITY_PLANNER_COMMON__UTILIZATION__UTIL_HPP_
 
-#include "autoware_utils/geometry/boost_geometry.hpp"
+#include <autoware_utils/geometry/boost_geometry.hpp>
 
 #include <autoware_internal_planning_msgs/msg/path_with_lane_id.hpp>
 #include <autoware_perception_msgs/msg/predicted_objects.hpp>
