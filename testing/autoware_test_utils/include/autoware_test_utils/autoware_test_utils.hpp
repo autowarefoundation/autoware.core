@@ -303,6 +303,18 @@ RouteSections combineConsecutiveRouteSections(
 LaneletRoute makeBehaviorNormalRoute();
 
 /**
+ * @brief Creates a predefined behavior Lanelet route with the goal on the left side.
+ *
+ * This function initializes a LaneletRoute with predefined start and goal poses,
+ * a list of lanelet segment IDs, and a fixed UUID.
+ * this is for the test lanelet2_map.osm
+ * file hash: a9f84cff03b55a64917bc066451276d2293b0a54f5c088febca0c7fdf2f245d5
+ *
+ * @return A LaneletRoute with the specified attributes.
+ */
+LaneletRoute makeBehaviorGoalOnLeftSideRoute();
+
+/**
  * @brief Spins multiple ROS nodes a specified number of times.
  *
  * This function spins the given test and target nodes for the specified number of iterations.
@@ -374,6 +386,7 @@ T generateTrajectory(
   using Point = typename T::_points_type::value_type;
 
   T traj;
+  traj.header.stamp = rclcpp::Clock{RCL_ROS_TIME}.now();
   for (size_t i = 0; i < num_points; ++i) {
     const double theta = init_theta + static_cast<double>(i) * delta_theta;
     const double x = static_cast<double>(i) * point_interval * std::cos(theta);
@@ -399,6 +412,7 @@ inline PathWithLaneId generateTrajectory<PathWithLaneId>(
   const double init_theta, const double delta_theta, const size_t overlapping_point_index)
 {
   PathWithLaneId traj;
+  traj.header.stamp = rclcpp::Clock{RCL_ROS_TIME}.now();
 
   for (size_t i = 0; i < num_points; i++) {
     const double theta = init_theta + static_cast<double>(i) * delta_theta;

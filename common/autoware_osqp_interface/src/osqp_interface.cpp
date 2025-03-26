@@ -359,11 +359,10 @@ int64_t OSQPInterface::initializeProblem(
   return m_exitflag;
 }
 
-std::tuple<std::vector<double>, std::vector<double>, int64_t, int64_t, int64_t>
-OSQPInterface::solve()
+OSQPResult OSQPInterface::solve()
 {
   // Solve Problem
-  osqp_solve(m_work.get());
+  int32_t exit_flag = osqp_solve(m_work.get());
 
   /********************
    * EXTRACT SOLUTION
@@ -378,25 +377,28 @@ OSQPInterface::solve()
   int64_t status_iteration = m_work->info->iter;
 
   // Result tuple
-  std::tuple<std::vector<double>, std::vector<double>, int64_t, int64_t, int64_t> result =
-    std::make_tuple(
-      sol_primal, sol_lagrange_multiplier, status_polish, status_solution, status_iteration);
+  OSQPResult result;
+
+  result.primal_solution = sol_primal;
+  result.lagrange_multipliers = sol_lagrange_multiplier;
+  result.polish_status = status_polish;
+  result.solution_status = status_solution;
+  result.iteration_status = status_iteration;
+  result.exit_flag = exit_flag;
 
   m_latest_work_info = *(m_work->info);
 
   return result;
 }
 
-std::tuple<std::vector<double>, std::vector<double>, int64_t, int64_t, int64_t>
-OSQPInterface::optimize()
+OSQPResult OSQPInterface::optimize()
 {
   // Run the solver on the stored problem representation.
-  std::tuple<std::vector<double>, std::vector<double>, int64_t, int64_t, int64_t> result = solve();
+  OSQPResult result = solve();
   return result;
 }
 
-std::tuple<std::vector<double>, std::vector<double>, int64_t, int64_t, int64_t>
-OSQPInterface::optimize(
+OSQPResult OSQPInterface::optimize(
   const Eigen::MatrixXd & P, const Eigen::MatrixXd & A, const std::vector<double> & q,
   const std::vector<double> & l, const std::vector<double> & u)
 {
@@ -404,7 +406,7 @@ OSQPInterface::optimize(
   initializeProblem(P, A, q, l, u);
 
   // Run the solver on the stored problem representation.
-  std::tuple<std::vector<double>, std::vector<double>, int64_t, int64_t, int64_t> result = solve();
+  OSQPResult result = solve();
 
   m_work.reset();
   m_work_initialized = false;

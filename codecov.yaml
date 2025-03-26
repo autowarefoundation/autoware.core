@@ -1,7 +1,3 @@
-# This file is automatically synced from:
-# https://github.com/autowarefoundation/sync-file-templates
-# To make changes, update the source repository and follow the guidelines in its README.
-
 coverage:
   status:
     project:
@@ -24,3 +20,9 @@ flag_management:
       - name_prefix: patch-
         type: patch
         target: auto
+
+ignore:
+  - "**/test/*"
+  - "**/test/**/*"
+  - "**/debug.*"
+  - tools/**

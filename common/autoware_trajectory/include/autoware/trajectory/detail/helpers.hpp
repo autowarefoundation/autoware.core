@@ -47,12 +47,12 @@ std::vector<double> merge_vectors(const Vectors &... vectors)
 }
 
 /**
- * @brief Ensures the vector has at least a specified number of points by linearly interpolating
- * values.
+ * @brief Ensures the output vector has at least a specified number of points by linearly
+ * interpolating values between each input intervals
  *
  * @param x Input vector of double values.
- * @param min_points Minimum number of points required.
- * @return A vector with at least `min_points` elements.
+ * @param output_size_at_least Minimum number of points required.
+ * @return A vector of size max(current_size, `output_size_at_least`)
  *
  * @note If `x.size() >= min_points`, the input vector is returned as-is.
  *
@@ -62,10 +62,9 @@ std::vector<double> merge_vectors(const Vectors &... vectors)
  * // result: {1.0, 2.0, 3.0, 4.0, 5.0, 6.0}
  * @endcode
  */
-std::vector<double> fill_bases(const std::vector<double> & x, const size_t & min_points);
+std::vector<double> fill_bases(const std::vector<double> & x, const size_t output_size_at_least);
 
-std::vector<double> crop_bases(
-  const std::vector<double> & x, const double & start, const double & end);
+std::vector<double> crop_bases(const std::vector<double> & x, const double start, const double end);
 }  // namespace helpers
 }  // namespace autoware::trajectory::detail
 

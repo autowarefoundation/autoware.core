@@ -44,25 +44,24 @@ TEST(TestOsqpInterface, BasicQp)
   using autoware::osqp_interface::calCSCMatrixTrapezoidal;
   using autoware::osqp_interface::CSC_Matrix;
 
-  auto check_result =
-    [](const std::tuple<std::vector<double>, std::vector<double>, int, int, int> & result) {
-      EXPECT_EQ(std::get<2>(result), 1);  // polish succeeded
-      EXPECT_EQ(std::get<3>(result), 1);  // solution succeeded
+  auto check_result = [](const autoware::osqp_interface::OSQPResult & result) {
+    EXPECT_EQ(result.polish_status, 1);    // polish succeeded
+    EXPECT_EQ(result.solution_status, 1);  // solution succeeded
 
-      static const auto ep = 1.0e-8;
+    static const auto ep = 1.0e-8;
 
-      const auto prime_val = std::get<0>(result);
-      ASSERT_EQ(prime_val.size(), size_t(2));
-      EXPECT_NEAR(prime_val[0], 0.3, ep);
-      EXPECT_NEAR(prime_val[1], 0.7, ep);
+    const auto prime_val = result.primal_solution;
+    ASSERT_EQ(prime_val.size(), size_t(2));
+    EXPECT_NEAR(prime_val[0], 0.3, ep);
+    EXPECT_NEAR(prime_val[1], 0.7, ep);
 
-      const auto dual_val = std::get<1>(result);
-      ASSERT_EQ(dual_val.size(), size_t(4));
-      EXPECT_NEAR(dual_val[0], -2.9, ep);
-      EXPECT_NEAR(dual_val[1], 0.0, ep);
-      EXPECT_NEAR(dual_val[2], 0.2, ep);
-      EXPECT_NEAR(dual_val[3], 0.0, ep);
-    };
+    const auto dual_val = result.lagrange_multipliers;
+    ASSERT_EQ(dual_val.size(), size_t(4));
+    EXPECT_NEAR(dual_val[0], -2.9, ep);
+    EXPECT_NEAR(dual_val[1], 0.0, ep);
+    EXPECT_NEAR(dual_val[2], 0.2, ep);
+    EXPECT_NEAR(dual_val[3], 0.0, ep);
+  };
 
   const Eigen::MatrixXd P = (Eigen::MatrixXd(2, 2) << 4, 1, 1, 2).finished();
   const Eigen::MatrixXd A = (Eigen::MatrixXd(4, 2) << 1, 1, 1, 0, 0, 1, 0, 1).finished();
@@ -73,20 +72,19 @@ TEST(TestOsqpInterface, BasicQp)
   {
     // Define problem during optimization
     autoware::osqp_interface::OSQPInterface osqp;
-    std::tuple<std::vector<double>, std::vector<double>, int, int, int> result =
-      osqp.optimize(P, A, q, l, u);
+    autoware::osqp_interface::OSQPResult result = osqp.optimize(P, A, q, l, u);
     check_result(result);
   }
 
   {
     // Define problem during initialization
     autoware::osqp_interface::OSQPInterface osqp(P, A, q, l, u, 1e-6);
-    std::tuple<std::vector<double>, std::vector<double>, int, int, int> result = osqp.optimize();
+    autoware::osqp_interface::OSQPResult result = osqp.optimize();
     check_result(result);
   }
 
   {
-    std::tuple<std::vector<double>, std::vector<double>, int, int, int> result;
+    autoware::osqp_interface::OSQPResult result;
     // Dummy initial problem
     Eigen::MatrixXd P_ini = Eigen::MatrixXd::Zero(2, 2);
     Eigen::MatrixXd A_ini = Eigen::MatrixXd::Zero(4, 2);
@@ -107,12 +105,12 @@ TEST(TestOsqpInterface, BasicQp)
     CSC_Matrix P_csc = calCSCMatrixTrapezoidal(P);
     CSC_Matrix A_csc = calCSCMatrix(A);
     autoware::osqp_interface::OSQPInterface osqp(P_csc, A_csc, q, l, u, 1e-6);
-    std::tuple<std::vector<double>, std::vector<double>, int, int, int> result = osqp.optimize();
+    autoware::osqp_interface::OSQPResult result = osqp.optimize();
     check_result(result);
   }
 
   {
-    std::tuple<std::vector<double>, std::vector<double>, int, int, int> result;
+    autoware::osqp_interface::OSQPResult result;
     // Dummy initial problem with csc matrix
     CSC_Matrix P_ini_csc = calCSCMatrixTrapezoidal(Eigen::MatrixXd::Zero(2, 2));
     CSC_Matrix A_ini_csc = calCSCMatrix(Eigen::MatrixXd::Zero(4, 2));
@@ -132,7 +130,7 @@ TEST(TestOsqpInterface, BasicQp)
 
   // add warm startup
   {
-    std::tuple<std::vector<double>, std::vector<double>, int, int, int> result;
+    autoware::osqp_interface::OSQPResult result;
     // Dummy initial problem with csc matrix
     CSC_Matrix P_ini_csc = calCSCMatrixTrapezoidal(Eigen::MatrixXd::Zero(2, 2));
     CSC_Matrix A_ini_csc = calCSCMatrix(Eigen::MatrixXd::Zero(4, 2));
@@ -150,8 +148,8 @@ TEST(TestOsqpInterface, BasicQp)
     check_result(result);
 
     osqp.updateCheckTermination(1);
-    const auto primal_val = std::get<0>(result);
-    const auto dual_val = std::get<1>(result);
+    const auto primal_val = result.primal_solution;
+    const auto dual_val = result.lagrange_multipliers;
     for (size_t i = 0; i < primal_val.size(); ++i) {
       std::cerr << primal_val.at(i) << std::endl;
     }
@@ -159,6 +157,42 @@ TEST(TestOsqpInterface, BasicQp)
     result = osqp.optimize();
     check_result(result);
     EXPECT_EQ(osqp.getTakenIter(), 1);
+  }
+
+  // update settings
+  {
+    autoware::osqp_interface::OSQPInterface osqp(P, A, q, l, u, 1e-6);
+
+    osqp.updateP(P);
+    osqp.updateCscP(calCSCMatrixTrapezoidal(P));
+    osqp.updateA(A);
+    osqp.updateCscA(calCSCMatrix(A));
+    osqp.updateQ(q);
+    osqp.updateL(l);
+    osqp.updateU(u);
+    osqp.updateBounds(l, u);
+    osqp.updateEpsAbs(1e-6);
+    osqp.updateEpsRel(1e-6);
+    osqp.updateMaxIter(1000);
+    osqp.updateVerbose(true);
+    osqp.updateRhoInterval(10);
+    osqp.updateRho(0.1);
+    osqp.updateAlpha(1.6);
+    osqp.updateScaling(10);
+    osqp.updatePolish(true);
+    osqp.updatePolishRefinementIteration(10);
+    osqp.updateCheckTermination(1);
+
+    EXPECT_NO_THROW(osqp.optimize());
+  }
+
+  // get status
+  {
+    autoware::osqp_interface::OSQPInterface osqp(P, A, q, l, u, 1e-6);
+    osqp.optimize();
+    osqp.updatePolish(true);
+    EXPECT_EQ(osqp.getStatus(), 1);
+    EXPECT_EQ(osqp.getStatusMessage(), "solved");
   }
 }
 }  // namespace

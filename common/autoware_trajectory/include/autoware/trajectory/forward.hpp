@@ -19,7 +19,9 @@ namespace autoware::trajectory
 {
 
 template <typename PointType>
-class Trajectory;
+class Trajectory
+{
+};
 
 }  // namespace autoware::trajectory
 

@@ -15,7 +15,10 @@
 #include "autoware/trajectory/path_point_with_lane_id.hpp"
 #include "autoware/trajectory/utils/find_intervals.hpp"
 
-#include <matplotlibcpp17/pyplot.h>
+#include <autoware/pyplot/pyplot.hpp>
+
+#include <pybind11/embed.h>
+#include <pybind11/stl.h>
 
 #include <vector>
 
@@ -35,7 +38,7 @@ autoware_internal_planning_msgs::msg::PathPointWithLaneId path_point_with_lane_i
 int main()
 {
   pybind11::scoped_interpreter guard{};
-  auto plt = matplotlibcpp17::pyplot::import();
+  auto plt = autoware::pyplot::import();
 
   std::vector<autoware_internal_planning_msgs::msg::PathPointWithLaneId> points{
     path_point_with_lane_id(0.41, 0.69, 0), path_point_with_lane_id(0.66, 1.09, 0),
@@ -102,6 +105,7 @@ int main()
     Args(x_cropped, y_cropped),
     Kwargs("color"_a = "red", "label"_a = "interval between lane_id = 1"));
 
+  plt.grid();
   plt.legend();
   plt.show();
 

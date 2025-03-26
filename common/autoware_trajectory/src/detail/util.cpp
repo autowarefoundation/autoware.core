@@ -21,22 +21,26 @@ namespace autoware::trajectory::detail
 {
 inline namespace helpers
 {
-std::vector<double> fill_bases(const std::vector<double> & x, const size_t & min_points)
+std::vector<double> fill_bases(const std::vector<double> & x, const size_t output_size_at_least)
 {
   const auto original_size = x.size();
 
-  if (original_size >= min_points) {
+  if (original_size >= output_size_at_least) {
     return x;
   }
 
-  const auto points_to_add = min_points - original_size;
-  const auto num_gaps = original_size - 1;
+  // Basically we will insert `new_points_per_interval` to each interval
+  const auto points_to_add = output_size_at_least - original_size;
+  const auto num_input_interval = original_size - 1;
+  const size_t new_points_per_interval = points_to_add / num_input_interval;
 
-  std::vector<size_t> points_per_gap(num_gaps, points_to_add / num_gaps);
-  std::fill_n(points_per_gap.begin(), points_to_add % num_gaps, points_per_gap[0] + 1);
+  // [`points_to_add / num_gaps`, `points_to_add / num_gaps`, ... `points_to_add / num_gaps`] of
+  // size `num_gaps`
+  std::vector<size_t> points_per_gap(num_input_interval, new_points_per_interval);
+  std::fill_n(points_per_gap.begin(), points_to_add % num_input_interval, points_per_gap[0] + 1);
 
   std::vector<double> result;
-  result.reserve(min_points);
+  result.reserve(output_size_at_least);
 
   for (size_t i = 0; i < original_size - 1; ++i) {
     result.push_back(x[i]);
@@ -55,8 +59,7 @@ std::vector<double> fill_bases(const std::vector<double> & x, const size_t & min
   return result;
 }
 
-std::vector<double> crop_bases(
-  const std::vector<double> & x, const double & start, const double & end)
+std::vector<double> crop_bases(const std::vector<double> & x, const double start, const double end)
 {
   std::vector<double> result;
 
