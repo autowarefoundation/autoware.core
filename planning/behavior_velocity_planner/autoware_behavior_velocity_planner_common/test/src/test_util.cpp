@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "./utils.hpp"
+#include "utils.hpp"
 #include "autoware/behavior_velocity_planner_common/utilization/util.hpp"
 #include "autoware_test_utils/autoware_test_utils.hpp"
 
