@@ -4,7 +4,6 @@ project(autoware_test_utils)
 find_package(autoware_cmake REQUIRED)
 autoware_package()
 
-find_package(yaml_cpp_vendor REQUIRED)
 find_package(yaml-cpp REQUIRED)
 
 ament_auto_add_library(autoware_test_utils SHARED
