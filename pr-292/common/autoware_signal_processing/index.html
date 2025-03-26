@@ -8,20 +8,20 @@
       
       
       
-        <link rel="canonical" href="https://autowarefoundation.github.io/autoware_core/pr-292/testing/autoware_test_utils/">
+        <link rel="canonical" href="https://autowarefoundation.github.io/autoware_core/pr-292/common/autoware_signal_processing/">
       
       
-        <link rel="prev" href="../autoware_test_node/">
+        <link rel="prev" href="../autoware_qp_interface/design/qp_interface-design/">
       
       
-        <link rel="next" href="../autoware_testing/design/autoware_testing-design/">
+        <link rel="next" href="documentation/ButterworthFilter/">
       
       <link rel="icon" href="../../docs/assets/images/autoware-foundation.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.20">
     
     
       
-        <title>Test Utils - Autoware Core Documentation</title>
+        <title>Signal Processing Methods - Autoware Core Documentation</title>
       
     
     
@@ -77,7 +77,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#test-utils" class="md-skip">
+        <a href="#signal-processing-methods" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Test Utils
+              Signal Processing Methods
             
           </span>
         </div>
@@ -208,6 +208,8 @@
         
   
   
+    
+  
 
 
   
@@ -219,7 +221,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../common/autoware_component_interface_specs/" class="md-tabs__link">
+      <a href="../autoware_component_interface_specs/" class="md-tabs__link md-tabs__link--active">
         Common
       </a>
     </li>
@@ -346,8 +348,6 @@
         
   
   
-    
-  
 
 
   
@@ -359,7 +359,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../autoware_planning_test_manager/" class="md-tabs__link md-tabs__link--active">
+      <a href="../../testing/autoware_planning_test_manager/" class="md-tabs__link">
         Testing
       </a>
     </li>
@@ -424,16 +424,16 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
       
       
         
@@ -472,7 +472,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_1">
           <span class="md-nav__icon md-icon"></span>
           Common
@@ -507,7 +507,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_component_interface_specs/">Autoware component interface specs</a>
+          <a href="../autoware_component_interface_specs/">Autoware component interface specs</a>
           
         </div>
       
@@ -555,7 +555,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_geography_utils/">Autoware geography utils</a>
+          <a href="../autoware_geography_utils/">Autoware geography utils</a>
           
         </div>
       
@@ -603,7 +603,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_interpolation/">Autoware interpolation</a>
+          <a href="../autoware_interpolation/">Autoware interpolation</a>
           
         </div>
       
@@ -651,7 +651,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_kalman_filter/">Autoware kalman filter</a>
+          <a href="../autoware_kalman_filter/">Autoware kalman filter</a>
           
         </div>
       
@@ -699,7 +699,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_lanelet2_utils/">Autoware lanelet2 utils</a>
+          <a href="../autoware_lanelet2_utils/">Autoware lanelet2 utils</a>
           
         </div>
       
@@ -749,7 +749,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_motion_utils/">Autoware motion utils</a>
+          <a href="../autoware_motion_utils/">Autoware motion utils</a>
           
             <label for="__nav_1_6">
               <span class="md-nav__icon md-icon"></span>
@@ -838,7 +838,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../common/autoware_motion_utils/docs/vehicle/vehicle/" class="md-nav__link">
+      <a href="../autoware_motion_utils/docs/vehicle/vehicle/" class="md-nav__link">
         vehicle utils
       </a>
     </li>
@@ -895,7 +895,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_node/">Autoware node</a>
+          <a href="../autoware_node/">Autoware node</a>
           
         </div>
       
@@ -943,7 +943,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_object_recognition_utils/">Autoware object recognition utils</a>
+          <a href="../autoware_object_recognition_utils/">Autoware object recognition utils</a>
           
         </div>
       
@@ -1037,7 +1037,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../common/autoware_osqp_interface/design/osqp_interface-design/" class="md-nav__link">
+      <a href="../autoware_osqp_interface/design/osqp_interface-design/" class="md-nav__link">
         Interface for the OSQP library
       </a>
     </li>
@@ -1087,7 +1087,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_point_types/">Autoware point types</a>
+          <a href="../autoware_point_types/">Autoware point types</a>
           
         </div>
       
@@ -1181,7 +1181,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../common/autoware_qp_interface/design/qp_interface-design/" class="md-nav__link">
+      <a href="../autoware_qp_interface/design/qp_interface-design/" class="md-nav__link">
         Interface for QP solvers
       </a>
     </li>
@@ -1207,18 +1207,18 @@
               
   
   
+    
+  
   
     
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
       
       
       
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_12" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_12" checked>
       
       
         
@@ -1232,8 +1232,8 @@
       
         
         
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_signal_processing/">Autoware signal processing</a>
+        <div class="md-nav__link md-nav__link--index md-nav__link--active">
+          <a href="./">Autoware signal processing</a>
           
             <label for="__nav_1_12">
               <span class="md-nav__icon md-icon"></span>
@@ -1241,7 +1241,7 @@
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_12_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_12_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_1_12">
           <span class="md-nav__icon md-icon"></span>
           Autoware signal processing
@@ -1289,7 +1289,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../common/autoware_signal_processing/documentation/ButterworthFilter/" class="md-nav__link">
+      <a href="documentation/ButterworthFilter/" class="md-nav__link">
         ButterworthFilter
       </a>
     </li>
@@ -1339,7 +1339,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_trajectory/">Autoware trajectory</a>
+          <a href="../autoware_trajectory/">Autoware trajectory</a>
           
         </div>
       
@@ -1387,7 +1387,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_vehicle_info_utils/">Autoware vehicle info utils</a>
+          <a href="../autoware_vehicle_info_utils/">Autoware vehicle info utils</a>
           
         </div>
       
@@ -2164,16 +2164,16 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
       
       
         
@@ -2194,7 +2194,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_7">
           <span class="md-nav__icon md-icon"></span>
           Testing
@@ -2229,7 +2229,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_planning_test_manager/">Autoware planning test manager</a>
+          <a href="../../testing/autoware_planning_test_manager/">Autoware planning test manager</a>
           
         </div>
       
@@ -2277,7 +2277,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_pyplot/">Autoware pyplot</a>
+          <a href="../../testing/autoware_pyplot/">Autoware pyplot</a>
           
         </div>
       
@@ -2325,7 +2325,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_test_node/">Autoware test node</a>
+          <a href="../../testing/autoware_test_node/">Autoware test node</a>
           
         </div>
       
@@ -2349,18 +2349,18 @@
               
   
   
-    
-  
   
     
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_4" checked>
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_4" >
       
       
         
@@ -2372,12 +2372,12 @@
       
         
         
-        <div class="md-nav__link md-nav__link--index md-nav__link--active">
-          <a href="./">Autoware test utils</a>
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../testing/autoware_test_utils/">Autoware test utils</a>
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_4_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_4_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_7_4">
           <span class="md-nav__icon md-icon"></span>
           Autoware test utils
@@ -2467,7 +2467,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../autoware_testing/design/autoware_testing-design/" class="md-nav__link">
+      <a href="../../testing/autoware_testing/design/autoware_testing-design/" class="md-nav__link">
         autoware_testing
       </a>
     </li>
@@ -2522,84 +2522,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#background" class="md-nav__link">
-    Background
+  <a href="#assumptions-known-limits" class="md-nav__link">
+    Assumptions / Known limits
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#purpose" class="md-nav__link">
-    Purpose
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#available-maps" class="md-nav__link">
-    Available Maps
-  </a>
-  
-    <nav class="md-nav" aria-label="Available Maps">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#common" class="md-nav__link">
-    Common
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-km-straight" class="md-nav__link">
-    2 km Straight
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#road_shoulders" class="md-nav__link">
-    road_shoulders
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#intersection" class="md-nav__link">
-    intersection
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#example-use-cases" class="md-nav__link">
-    Example use cases
-  </a>
-  
-    <nav class="md-nav" aria-label="Example use cases">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#autoware-planning-test-manager" class="md-nav__link">
-    Autoware Planning Test Manager
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#generate-test-data-for-unit-testing" class="md-nav__link">
-    Generate test data for unit testing
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -2621,75 +2546,16 @@
   
 
 
-<div><h1 id="test-utils">Test Utils<a class="headerlink" href="#test-utils" title="Permanent link">#</a></h1>
-<h2 id="background">Background<a class="headerlink" href="#background" title="Permanent link">#</a></h2>
-<p>Several Autoware's components and modules have already adopted unit testing, so a common library to ease the process of writing unit tests is necessary.</p>
-<h2 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">#</a></h2>
-<p>The objective of the <code>test_utils</code> is to develop a unit testing library for the Autoware components. This library will include</p>
+<div><h1 id="signal-processing-methods">Signal Processing Methods<a class="headerlink" href="#signal-processing-methods" title="Permanent link">#</a></h1>
+<p>In this package, we present signal processing related methods for the Autoware applications. The following
+functionalities are available in the current version.</p>
 <ul>
-<li>commonly used functions</li>
-<li>input/mock data parser</li>
-<li>maps for testing</li>
-<li>common routes and mock data for testing.</li>
+<li>an 1-D Low-pass filter,</li>
+<li><a href="documentation/ButterworthFilter/">Butterworth low-pass filter tools.</a></li>
 </ul>
-<h2 id="available-maps">Available Maps<a class="headerlink" href="#available-maps" title="Permanent link">#</a></h2>
-<p>The following maps are available <a href="https://github.com/autowarefoundation/autoware_core/tree/main/testing/autoware_test_utils/test_map">here</a></p>
-<h3 id="common">Common<a class="headerlink" href="#common" title="Permanent link">#</a></h3>
-<p>The common map contains multiple types of usable inputs, including shoulder lanes, intersections, and some regulatory elements. The common map is named <code>lanelet2_map.osm</code> in the folder.</p>
-<p><img alt="common" src="images/common.png"></p>
-<h3 id="2-km-straight">2 km Straight<a class="headerlink" href="#2-km-straight" title="Permanent link">#</a></h3>
-<p>The 2 km straight lanelet map consists of two lanes that run in the same direction. The map is named <code>2km_test.osm</code>.</p>
-<p><img alt="two_km" src="images/2km-test.png"></p>
-<p>The following illustrates the design of the map.</p>
-<p><img alt="straight_diagram" src="images/2km-test.svg"></p>
-<h3 id="road_shoulders">road_shoulders<a class="headerlink" href="#road_shoulders" title="Permanent link">#</a></h3>
-<p>The road_shoulders lanelet map consist of a variety of pick-up/drop-off site maps with road_shoulder tags including:</p>
-<ul>
-<li>pick-up/drop-off sites on the side of street lanes</li>
-<li>pick-up/drop-off sites on the side of curved lanes</li>
-<li>pick-up/drop-off sites inside a private area</li>
-</ul>
-<p><img alt="road_shoulder_test" src="images/road_shoulder_test_map.png"></p>
-<p>You can easily launch planning_simulator by</p>
-<div class="highlight"><pre><span></span><code>ros2<span class="w"> </span>launch<span class="w"> </span>autoware_test_utils<span class="w"> </span>psim_road_shoulder.launch.xml<span class="w"> </span>vehicle_model:<span class="o">=</span>&lt;&gt;<span class="w"> </span>sensor_model:<span class="o">=</span>&lt;&gt;<span class="w"> </span>use_sim_time:<span class="o">=</span><span class="nb">true</span>
-</code></pre></div>
-<h3 id="intersection">intersection<a class="headerlink" href="#intersection" title="Permanent link">#</a></h3>
-<p>The intersections lanelet map consist of a variety of intersections including:</p>
-<ul>
-<li>4-way crossing with traffic light</li>
-<li>4-way crossing without traffic light</li>
-<li>T-shape crossing without traffic light</li>
-<li>intersection with a loop</li>
-<li>complicated intersection</li>
-</ul>
-<p><img alt="intersection_test" src="images/intersection_test_map.png"></p>
-<p>You can easily launch planning_simulator by</p>
-<div class="highlight"><pre><span></span><code>ros2<span class="w"> </span>launch<span class="w"> </span>autoware_test_utils<span class="w"> </span>psim_intersection.launch.xml<span class="w"> </span>vehicle_model:<span class="o">=</span>&lt;&gt;<span class="w"> </span>sensor_model:<span class="o">=</span>&lt;&gt;<span class="w"> </span>use_sim_time:<span class="o">=</span><span class="nb">true</span>
-</code></pre></div>
-<h2 id="example-use-cases">Example use cases<a class="headerlink" href="#example-use-cases" title="Permanent link">#</a></h2>
-<h3 id="autoware-planning-test-manager">Autoware Planning Test Manager<a class="headerlink" href="#autoware-planning-test-manager" title="Permanent link">#</a></h3>
-<p>The goal of the <a href="https://autowarefoundation.github.io/autoware_core/main/testing/autoware_planning_test_manager/">Autoware Planning Test Manager</a> is to test planning module nodes. The <code>PlanningInterfaceTestManager</code> class (<a href="https://github.com/autowarefoundation/autoware_core/blob/main/testing/autoware_planning_test_manager/src/autoware_planning_test_manager.cpp">source code</a>) creates wrapper functions based on the <code>test_utils</code> functions.</p>
-<h3 id="generate-test-data-for-unit-testing">Generate test data for unit testing<a class="headerlink" href="#generate-test-data-for-unit-testing" title="Permanent link">#</a></h3>
-<p>As presented in this <a href="https://github.com/autowarefoundation/autoware_universe/pull/9207">PR description</a>, the user can save a snapshot of the scene to a yaml file while running Planning Simulation on the test map.</p>
-<div class="highlight"><pre><span></span><code>ros2<span class="w"> </span>launch<span class="w"> </span>autoware_test_utils<span class="w"> </span>psim_road_shoulder.launch.xml
-ros2<span class="w"> </span>launch<span class="w"> </span>autoware_test_utils<span class="w"> </span>psim_intersection.launch.xml
-</code></pre></div>
-<p>It uses the autoware <code>sample_vehicle_description</code> and <code>sample_sensor_kit</code> by default, and <code>autoware_test_utils/config/test_vehicle_info.param.yaml</code> is exactly the same as that of <code>sample_vehicle_description</code>. If specified, <code>vehicle_model</code>/<code>sensor_model</code> argument is available.</p>
-<div class="highlight"><pre><span></span><code>ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/autoware_test_utils/topic_snapshot_saver<span class="w"> </span>std_srvs/srv/Empty<span class="w"> </span><span class="se">\{\}</span>
-</code></pre></div>
-<p>The list and field names of the topics to be saved are specified in <code>config/sample_topic_snapshot.yaml</code>.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># setting</span>
-<span class="nt">fields</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">self_odometry</span><span class="w"> </span><span class="c1"># this is the field name for this topic</span>
-<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Odometry</span><span class="w"> </span><span class="c1"># the abbreviated type name of this topic</span>
-<span class="w">    </span><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/localization/kinematic_state</span><span class="w"> </span><span class="c1"># the name of this topic</span>
-
-<span class="c1"># output</span>
-<span class="nt">self_odometry</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">header</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-</code></pre></div>
-<p>Each field can be parsed to ROS message type using the functions defined in <code>autoware_test_utils/mock_data_parser.hpp</code></p></div>
+<p>low-pass filter currently supports only the 1-D low pass filtering.</p>
+<h2 id="assumptions-known-limits">Assumptions / Known limits<a class="headerlink" href="#assumptions-known-limits" title="Permanent link">#</a></h2>
+<p>TBD.</p></div>
 
 
 
@@ -2716,7 +2582,7 @@ ros2<span class="w"> </span>launch<span class="w"> </span>autoware_test_utils<sp
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../autoware_test_node/" class="md-footer__link md-footer__link--prev" aria-label="Previous: autoware_test_node" rel="prev">
+          <a href="../autoware_qp_interface/design/qp_interface-design/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Interface for QP solvers" rel="prev">
             <div class="md-footer__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
             </div>
@@ -2725,20 +2591,20 @@ ros2<span class="w"> </span>launch<span class="w"> </span>autoware_test_utils<sp
                 Previous
               </span>
               <div class="md-ellipsis">
-                autoware_test_node
+                Interface for QP solvers
               </div>
             </div>
           </a>
         
         
           
-          <a href="../autoware_testing/design/autoware_testing-design/" class="md-footer__link md-footer__link--next" aria-label="Next: autoware_testing" rel="next">
+          <a href="documentation/ButterworthFilter/" class="md-footer__link md-footer__link--next" aria-label="Next: ButterworthFilter" rel="next">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                autoware_testing
+                ButterworthFilter
               </div>
             </div>
             <div class="md-footer__button md-icon">
