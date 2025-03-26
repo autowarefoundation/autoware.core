@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include "autoware/motion_utils/marker/virtual_wall_marker_creator.hpp"
-#include "autoware_utils/geometry/geometry.hpp"
+#include <autoware_utils/geometry/geometry.hpp>
 #include "scene.hpp"
 
 namespace autoware::behavior_velocity_planner
