@@ -121,6 +121,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://autowarefoundation.github.io/autoware_core/latest/localization/autoware_twist2accel/</loc>
+         <lastmod>2025-03-26</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://autowarefoundation.github.io/autoware_core/latest/map/autoware_map_projection_loader/</loc>
          <lastmod>2025-03-26</lastmod>
          <changefreq>daily</changefreq>
