@@ -16,8 +16,8 @@
 
 #include "autoware/behavior_velocity_planner_common/utilization/boost_geometry_helper.hpp"
 #include "autoware/motion_utils/trajectory/trajectory.hpp"
-#include "autoware_lanelet2_extension/utility/query.hpp"
-#include "autoware_utils/geometry/geometry.hpp"
+#include <autoware_lanelet2_extension/utility/query.hpp>
+#include <autoware_utils/geometry/geometry.hpp>
 
 #include <autoware_planning_msgs/msg/path_point.hpp>
 
