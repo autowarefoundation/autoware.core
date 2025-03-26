@@ -50,6 +50,8 @@ file(DOWNLOAD
     "https://raw.githubusercontent.com/autowarefoundation/autoware_universe/5153fdd1739c2f95e4c0ecc17bcf4dce45ed46b8/perception/autoware_ground_segmentation/test/data/test.pcd"
     "${CMAKE_CURRENT_SOURCE_DIR}/test/data/test.pcd"
     EXPECTED_HASH SHA256=b433591e91d75d48911ab5e445f02034d93865a0e707fc6942494907c75dcda0
+    TIMEOUT 60               # Total time allowed for download
+    INACTIVITY_TIMEOUT 30    # Time in seconds with no data received
     STATUS status
     LOG log
 )
