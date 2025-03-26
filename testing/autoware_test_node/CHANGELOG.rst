@@ -2,10 +2,12 @@
 Changelog for package autoware_test_node
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.1.0 (2025-01-09)
+0.3.0 (2025-03-21)
 ------------------
-* feat: add autoware_node and autoware_test node (`#113 <https://github.com/autowarefoundation/autoware_core/issues/113>`_)
-* Contributors: M. Fatih Cırıt
+* chore: fix CHANGELOG
+* chore: rename from `autoware.core` to `autoware_core` (`#290 <https://github.com/autowarefoundation/autoware.core/issues/290>`_)
+* feat(autoware_node): remove the lifecycle dependency (`#187 <https://github.com/autowarefoundation/autoware.core/issues/187>`_)
+* Contributors: Mete Fatih Cırıt, Yutaka Kondo, mitsudome-r
 
 0.2.0 (2025-02-07)
 ------------------
@@ -16,6 +18,11 @@ Changelog for package autoware_test_node
   Co-authored-by: Ryohsuke Mitsudome <43976834+mitsudome-r@users.noreply.github.com>
 * feat: add autoware_node and autoware_test node (`#113 <https://github.com/autowarefoundation/autoware_core/issues/113>`_)
 * Contributors: M. Fatih Cırıt, Yutaka Kondo
+
+0.1.0 (2025-01-09)
+------------------
+* feat: add autoware_node and autoware_test node (`#113 <https://github.com/autowarefoundation/autoware_core/issues/113>`_)
+* Contributors: M. Fatih Cırıt
 
 0.0.0 (2024-12-02)
 ------------------

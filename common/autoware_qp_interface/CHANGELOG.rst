@@ -2,6 +2,19 @@
 Changelog for package autoware_qp_interface
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.0 (2025-03-21)
+------------------
+* chore: rename from `autoware.core` to `autoware_core` (`#290 <https://github.com/autowarefoundation/autoware.core/issues/290>`_)
+* test(autoware_qp_interface): add unit tests for initializeProblem (`#237 <https://github.com/autowarefoundation/autoware.core/issues/237>`_)
+  * test(autoware_qp_interface): add unit tests for QPInterface::initializeProblem
+  * test(autoware_qp_interface): add unit tests for class OSQPInterface
+  * test(autoware_qp_interface): add unit tests for class ProxQPInterface
+  * style(pre-commit): autofix
+  ---------
+  Co-authored-by: pre-commit-ci[bot] <66853113+pre-commit-ci[bot]@users.noreply.github.com>
+  Co-authored-by: Yutaka Kondo <yutaka.kondo@youtalk.jp>
+* Contributors: NorahXiong, Yutaka Kondo
+
 0.2.0 (2025-02-07)
 ------------------
 * unify version to 0.1.0
