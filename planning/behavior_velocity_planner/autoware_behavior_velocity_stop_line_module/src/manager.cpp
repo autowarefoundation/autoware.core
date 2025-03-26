@@ -14,7 +14,7 @@
 
 #include "manager.hpp"
 
-#include "autoware_utils/ros/parameter.hpp"
+#include <autoware_utils/ros/parameter.hpp>
 
 #include <lanelet2_core/primitives/BasicRegulatoryElements.h>
 
