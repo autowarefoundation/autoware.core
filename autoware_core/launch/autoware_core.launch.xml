@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
   <!-- Essential parameters -->
-  <arg name="map_path" description="point cloud and lanelet2 map directory path"/>
-  <arg name="pointcloud_container_name" default="pointcloud_container"/>
+  <arg name="map_path" description="lanelet2 map directory path"/>
 
   <!-- Global parameters -->
   <arg name="use_sim_time" default="false" description="use_sim_time"/>
@@ -17,40 +16,46 @@
   <arg name="launch_control" default="true" description="launch control"/>
 
   <!-- Global parameters -->
-  <group scoped="false">
+  <!-- <group scoped="false">
     <include file="$(find-pkg-share autoware_global_parameter_loader)/launch/global_params.launch.py">
       <arg name="use_sim_time" value="$(var use_sim_time)"/>
       <arg name="vehicle_model" value="$(var vehicle_model)"/>
     </include>
-  </group>
+  </group> -->
 
   <!-- Map -->
   <group if="$(var launch_map)">
-    <include file="$(find-pkg-share autoware_core)/launch/component/autoware_core_map.launch.xml"/>
+    <include file="$(find-pkg-share autoware_core)/launch/component/autoware_core_map.launch.xml">
+      <arg name="lanelet2_map_path" value="$(var map_path)/lanelet2_map.osm"/>
+      <arg name="map_projector_info_path" value="$(var map_path)/map_projector_info.yaml"/>
+      <arg name="lanelet2_map_loader_param_path" value="$(find-pkg-share autoware_core)/config/map/lanelet2_map_loader.param.yaml"/>
+      <arg name="map_projection_loader_param_path" value="$(find-pkg-share autoware_core)/config/map/map_projection_loader.param.yaml"/>
+    </include>
   </group>
 
   <!-- Sensing -->
-  <group if="$(var launch_sensing)">
+  <!-- <group if="$(var launch_sensing)">
     <include file="$(find-pkg-share autoware_core)/launch/component/autoware_core_sensing.launch.xml"/>
-  </group>
+  </group> -->
 
   <!-- Localization -->
-  <group if="$(var launch_localization)">
+  <!-- <group if="$(var launch_localization)">
     <include file="$(find-pkg-share autoware_core)/launch/component/autoware_core_localization.launch.xml"/>
-  </group>
+  </group> -->
 
   <!-- Perception -->
-  <group if="$(var launch_perception)">
+  <!-- <group if="$(var launch_perception)">
     <include file="$(find-pkg-share autoware_core)/launch/component/autoware_core_perception.launch.xml"/>
-  </group>
+  </group> -->
 
   <!-- Planning -->
-  <group if="$(var launch_planning)">
+  <!-- <group if="$(var launch_planning)">
     <include file="$(find-pkg-share autoware_core)/launch/component/autoware_core_planning.launch.xml"/>
-  </group>
+  </group> -->
 
   <!-- Control -->
-  <group if="$(var launch_control)">
+  <!-- <group if="$(var launch_control)">
     <include file="$(find-pkg-share autoware_core)/launch/component/autoware_core_control.launch.xml"/>
-  </group>
+  </group> -->
+
 </launch>

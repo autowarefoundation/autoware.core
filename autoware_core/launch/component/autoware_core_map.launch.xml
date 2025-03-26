@@ -1,15 +1,11 @@
 <launch>
   <!-- map files -->
-  <arg name="pointcloud_map_path"/>
-  <arg name="pointcloud_map_metadata_path"/>
   <arg name="lanelet2_map_path"/>
   <arg name="map_projector_info_path"/>
 
   <!-- Parameter files -->
-  <arg name="pointcloud_map_loader_param_path"/>
-  <arg name="lanelet2_map_loader_param_path"/>
-  <arg name="map_tf_generator_param_path"/>
-  <arg name="map_projection_loader_param_path"/>
+  <arg name="lanelet2_map_loader_param_path" default="$(find-pkg-share autoware_core)/config/map/lanelet2_map_loader.param.yaml"/>
+  <arg name="map_projection_loader_param_path" default="$(find-pkg-share autoware_core)/config/map/map_projection_loader.param.yaml"/>
 
   <!-- select container type -->
   <arg name="use_multithread" default="false"/>
@@ -31,9 +27,9 @@
         <remap from="output/lanelet2_map_marker" to="vector_map_marker"/>
       </composable_node>
 
-      <composable_node pkg="autoware_map_tf_generator" plugin="autoware::map_tf_generator::VectorMapTFGeneratorNode" name="vector_map_tf_generator">
+      <!-- <composable_node pkg="autoware_map_tf_generator" plugin="autoware::map_tf_generator::VectorMapTFGeneratorNode" name="vector_map_tf_generator">
         <param from="$(var map_tf_generator_param_path)"/>
-      </composable_node>
+      </composable_node> -->
     </node_container>
 
     <include file="$(find-pkg-share autoware_map_projection_loader)/launch/map_projection_loader.launch.xml">
