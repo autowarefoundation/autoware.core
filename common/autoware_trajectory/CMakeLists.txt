@@ -2,11 +2,10 @@ cmake_minimum_required(VERSION 3.14)
 
 project(autoware_trajectory)
 
-find_package(pybind11_vendor REQUIRED)
-find_package(pybind11 REQUIRED)
-
 find_package(autoware_cmake REQUIRED)
 autoware_package()
+
+find_package(pybind11 REQUIRED)
 
 ament_auto_add_library(autoware_trajectory SHARED
   DIRECTORY src
