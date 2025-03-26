@@ -35,6 +35,29 @@ rclcpp_components_register_node(${PROJECT_NAME}
   PLUGIN "autoware::pointcloud_filter::ScanGroundFilterComponent"
   EXECUTABLE scan_ground_filter_node)
 
+# Check if the directory exists
+if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test/data")
+    # Prepare .pcd file for test
+    file(MAKE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/test/data")
+endif()
+
+# Remove the file for idempotency
+file(REMOVE "${CMAKE_CURRENT_SOURCE_DIR}/test/data/test.pcd")
+
+# Download the file
+file(DOWNLOAD
+    # July 23, 2024
+    "https://raw.githubusercontent.com/autowarefoundation/autoware_universe/5153fdd1739c2f95e4c0ecc17bcf4dce45ed46b8/perception/autoware_ground_segmentation/test/data/test.pcd"
+    "${CMAKE_CURRENT_SOURCE_DIR}/test/data/test.pcd"
+    EXPECTED_HASH SHA256=b433591e91d75d48911ab5e445f02034d93865a0e707fc6942494907c75dcda0
+    STATUS status
+    LOG log
+)
+
+list(GET status 0 status_code)
+if(NOT status_code EQUAL 0)
+    message(FATAL_ERROR "Download failed: ${log}")
+endif()
 
 ament_auto_package(INSTALL_TO_SHARE
   launch
