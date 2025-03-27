@@ -29,11 +29,11 @@ In current Autoware Universe, only the plugin for Lanelet2 map format is support
 
 ### Services
 
-| Name                                                                | Type                                     | Description                                |
-| ------------------------------------------------------------------- | ---------------------------------------- | ------------------------------------------ |
-| `/planning/mission_planning/mission_planner/clear_route`            | autoware_internal_planning_msgs/srv/ClearRoute       | route clear request                        |
-| `/planning/mission_planning/mission_planner/set_waypoint_route`     | autoware_internal_planning_msgs/srv/SetWaypointRoute | route request with lanelet waypoints.      |
-| `/planning/mission_planning/mission_planner/set_lanelet_route`      | autoware_internal_planning_msgs/srv/SetLaneletRoute  | route request with pose waypoints.         |
+| Name                                                            | Type                                                 | Description                           |
+| --------------------------------------------------------------- | ---------------------------------------------------- | ------------------------------------- |
+| `/planning/mission_planning/mission_planner/clear_route`        | autoware_internal_planning_msgs/srv/ClearRoute       | route clear request                   |
+| `/planning/mission_planning/mission_planner/set_waypoint_route` | autoware_internal_planning_msgs/srv/SetWaypointRoute | route request with lanelet waypoints. |
+| `/planning/mission_planning/mission_planner/set_lanelet_route`  | autoware_internal_planning_msgs/srv/SetLaneletRoute  | route request with pose waypoints.    |
 
 ### Subscriptions
 
@@ -45,12 +45,12 @@ In current Autoware Universe, only the plugin for Lanelet2 map format is support
 
 ### Publications
 
-| Name                                                   | Type                                | Description              |
-| ------------------------------------------------------ | ----------------------------------- | ------------------------ |
-| `/planning/mission_planning/state`                     | autoware_internal_planning_msgs/msg/RouteState  | route state              |
-| `/planning/mission_planning/route`                     | autoware_planning_msgs/LaneletRoute | route                    |
-| `~/debug/route_marker`                                 | visualization_msgs/msg/MarkerArray  | route marker for debug   |
-| `~/debug/goal_footprint`                               | visualization_msgs/msg/MarkerArray  | goal footprint for debug |
+| Name                               | Type                                           | Description              |
+| ---------------------------------- | ---------------------------------------------- | ------------------------ |
+| `/planning/mission_planning/state` | autoware_internal_planning_msgs/msg/RouteState | route state              |
+| `/planning/mission_planning/route` | autoware_planning_msgs/LaneletRoute            | route                    |
+| `~/debug/route_marker`             | visualization_msgs/msg/MarkerArray             | route marker for debug   |
+| `~/debug/goal_footprint`           | visualization_msgs/msg/MarkerArray             | goal footprint for debug |
 
 ## Route section
 

@@ -29,12 +29,12 @@
 #include <autoware_adapi_v1_msgs/srv/set_route.hpp>
 #include <autoware_adapi_v1_msgs/srv/set_route_points.hpp>
 #include <autoware_internal_debug_msgs/msg/float64_stamped.hpp>
-#include <autoware_planning_msgs/msg/lanelet_route.hpp>
-#include <geometry_msgs/msg/pose_stamped.hpp>
 #include <autoware_internal_planning_msgs/msg/route_state.hpp>
 #include <autoware_internal_planning_msgs/srv/clear_route.hpp>
 #include <autoware_internal_planning_msgs/srv/set_lanelet_route.hpp>
 #include <autoware_internal_planning_msgs/srv/set_waypoint_route.hpp>
+#include <autoware_planning_msgs/msg/lanelet_route.hpp>
+#include <geometry_msgs/msg/pose_stamped.hpp>
 #include <visualization_msgs/msg/marker_array.hpp>
 
 #include <tf2_ros/buffer.h>
@@ -48,6 +48,10 @@ namespace autoware::mission_planner
 {
 
 using autoware_adapi_v1_msgs::msg::OperationModeState;
+using autoware_internal_planning_msgs::msg::RouteState;
+using autoware_internal_planning_msgs::srv::ClearRoute;
+using autoware_internal_planning_msgs::srv::SetLaneletRoute;
+using autoware_internal_planning_msgs::srv::SetWaypointRoute;
 using autoware_map_msgs::msg::LaneletMapBin;
 using autoware_planning_msgs::msg::LaneletPrimitive;
 using autoware_planning_msgs::msg::LaneletRoute;
@@ -57,10 +61,6 @@ using geometry_msgs::msg::Pose;
 using geometry_msgs::msg::PoseStamped;
 using nav_msgs::msg::Odometry;
 using std_msgs::msg::Header;
-using autoware_internal_planning_msgs::msg::RouteState;
-using autoware_internal_planning_msgs::srv::ClearRoute;
-using autoware_internal_planning_msgs::srv::SetLaneletRoute;
-using autoware_internal_planning_msgs::srv::SetWaypointRoute;
 using unique_identifier_msgs::msg::UUID;
 using visualization_msgs::msg::MarkerArray;
 
