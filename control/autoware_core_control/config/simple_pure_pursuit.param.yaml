@@ -3,5 +3,5 @@
     lookahead_gain: 1.0
     lookahead_min_distance: 1.0
     speed_proportional_gain: 1.0
-    use_external_target_vel: true
+    use_external_target_vel: false
     external_target_vel: 4.17
