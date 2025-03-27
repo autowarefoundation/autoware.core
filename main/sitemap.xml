@@ -141,6 +141,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://autowarefoundation.github.io/autoware_core/main/planning/autoware_mission_planner/</loc>
+         <lastmod>2025-03-27</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://autowarefoundation.github.io/autoware_core/main/planning/autoware_objects_of_interest_marker_interface/</loc>
          <lastmod>2025-03-27</lastmod>
          <changefreq>daily</changefreq>
