@@ -10,11 +10,6 @@ Therefore, the output topic is only published when the goal pose or check points
 The core implementation does not depend on a map format. Any planning algorithms can be added as plugin modules.
 In current Autoware Universe, only the plugin for Lanelet2 map format is supported.
 
-This package also manages routes for MRM. The `route_selector` node duplicates the `mission_planner` interface and provides it for normal and MRM respectively.
-It distributes route requests and planning results according to current MRM operation state.
-
-![architecture](./media/architecture.drawio.svg)
-
 ## Interfaces
 
 ### Parameters
@@ -39,12 +34,6 @@ It distributes route requests and planning results according to current MRM oper
 | `/planning/mission_planning/mission_planner/clear_route`            | autoware_internal_planning_msgs/srv/ClearRoute       | route clear request                        |
 | `/planning/mission_planning/mission_planner/set_waypoint_route`     | autoware_internal_planning_msgs/srv/SetWaypointRoute | route request with lanelet waypoints.      |
 | `/planning/mission_planning/mission_planner/set_lanelet_route`      | autoware_internal_planning_msgs/srv/SetLaneletRoute  | route request with pose waypoints.         |
-| `/planning/mission_planning/route_selector/main/clear_route`        | autoware_internal_planning_msgs/srv/ClearRoute       | main route clear request                   |
-| `/planning/mission_planning/route_selector/main/set_waypoint_route` | autoware_internal_planning_msgs/srv/SetWaypointRoute | main route request with lanelet waypoints. |
-| `/planning/mission_planning/route_selector/main/set_lanelet_route`  | autoware_internal_planning_msgs/srv/SetLaneletRoute  | main route request with pose waypoints.    |
-| `/planning/mission_planning/route_selector/mrm/clear_route`         | autoware_internal_planning_msgs/srv/ClearRoute       | mrm route clear request                    |
-| `/planning/mission_planning/route_selector/mrm/set_waypoint_route`  | autoware_internal_planning_msgs/srv/SetWaypointRoute | mrm route request with lanelet waypoints.  |
-| `/planning/mission_planning/route_selector/mrm/set_lanelet_route`   | autoware_internal_planning_msgs/srv/SetLaneletRoute  | mrm route request with pose waypoints.     |
 
 ### Subscriptions
 
@@ -61,10 +50,6 @@ It distributes route requests and planning results according to current MRM oper
 | ------------------------------------------------------ | ----------------------------------- | ------------------------ |
 | `/planning/mission_planning/state`                     | autoware_internal_planning_msgs/msg/RouteState  | route state              |
 | `/planning/mission_planning/route`                     | autoware_planning_msgs/LaneletRoute | route                    |
-| `/planning/mission_planning/route_selector/main/state` | autoware_internal_planning_msgs/msg/RouteState  | main route state         |
-| `/planning/mission_planning/route_selector/main/route` | autoware_planning_msgs/LaneletRoute | main route               |
-| `/planning/mission_planning/route_selector/mrm/state`  | autoware_internal_planning_msgs/msg/RouteState  | mrm route state          |
-| `/planning/mission_planning/route_selector/mrm/route`  | autoware_planning_msgs/LaneletRoute | mrm route                |
 | `~/debug/route_marker`                                 | visualization_msgs/msg/MarkerArray  | route marker for debug   |
 | `~/debug/goal_footprint`                               | visualization_msgs/msg/MarkerArray  | goal footprint for debug |
 

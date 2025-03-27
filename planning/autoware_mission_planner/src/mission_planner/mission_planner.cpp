@@ -551,9 +551,7 @@ bool MissionPlanner::check_reroute_safety(
     end_idx_target = start_idx_target + i;
   }
 
-  // at the very first transition from main/MRM to MRM/main, the requested route from the
-  // route_selector may not begin from ego current lane (because route_selector requests the
-  // previous route once, and then replan)
+  // make sure that ego is within the reroute target
   const bool ego_is_on_first_target_section = std::any_of(
     target_route.segments.front().primitives.begin(),
     target_route.segments.front().primitives.end(), [&](const auto & primitive) {
