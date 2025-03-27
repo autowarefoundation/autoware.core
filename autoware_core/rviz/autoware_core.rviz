@@ -10,6 +10,8 @@ Panels:
         - /Odometry1/Shape1
         - /TF1/Frames1
         - /Pose1
+        - /MarkerArray1
+        - /MarkerArray1/Topic1
       Splitter Ratio: 0.4440993666648865
     Tree Height: 746
   - Class: rviz_common/Selection
@@ -24,6 +26,7 @@ Panels:
   - Class: rviz_common/Views
     Expanded:
       - /Current View1
+      - /TopDownOrtho1
     Name: Views
     Splitter Ratio: 0.5
   - Class: rviz_common/Time
@@ -202,6 +205,35 @@ Visualization Manager:
         Reliability Policy: Reliable
         Value: /localization/pose
       Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: MarkerArray
+      Namespaces:
+        end_lanelets: true
+        goal_lanelets: true
+        lane_start_bound: true
+        left_lane_bound: true
+        right_lane_bound: true
+        route_lanelets: true
+      Topic:
+        Depth: 5
+        Durability Policy: Transient Local
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /planning/mission_planning/route_marker
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: MarkerArray
+      Namespaces:
+        "": true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /planning/behavior_velocity_planner/debug/path
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -247,7 +279,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: 0.5499998927116394
+      Angle: 0.6749999523162842
       Class: rviz_default_plugins/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
@@ -257,11 +289,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 14.29678726196289
-      Target Frame: base_link
+      Scale: 31.65850067138672
+      Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz_default_plugins)
-      X: 0
-      Y: 0
+      X: 81389.078125
+      Y: 49925.91796875
     Saved:
       - Angle: 0.47499993443489075
         Class: rviz_default_plugins/TopDownOrtho
