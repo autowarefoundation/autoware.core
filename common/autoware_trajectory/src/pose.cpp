@@ -18,8 +18,8 @@
 #include "autoware/trajectory/forward.hpp"
 #include "autoware/trajectory/interpolator/spherical_linear.hpp"
 
-#include <tf2/LinearMath/Quaternion.h>
-#include <tf2/LinearMath/Vector3.h>
+#include <tf2/LinearMath/Quaternion.hpp>
+#include <tf2/LinearMath/Vector3.hpp>
 
 #include <utility>
 #include <vector>
