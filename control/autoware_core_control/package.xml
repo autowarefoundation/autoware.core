@@ -6,6 +6,7 @@
   <description>The autoware_core_control package</description>
   <maintainer email="ryohsuke.mitsudome@tier4.jp">Ryohsuke Mitsudome</maintainer>
   <maintainer email="mfc@autoware.org">Mete Fatih Cırıt</maintainer>
+  <maintainer email="yutaka.kondo@tier4.jp">Yutaka Kondo</maintainer>
 
   <license>Apache License 2.0</license>
   <author email="ryohsuke.mitsudome@tier4.jp">Ryohsuke Mitsudome</author>
