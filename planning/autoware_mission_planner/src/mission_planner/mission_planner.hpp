@@ -89,8 +89,6 @@ private:
   rclcpp::Subscription<PoseWithUuidStamped>::SharedPtr sub_modified_goal_;
   rclcpp::Subscription<Odometry>::SharedPtr sub_odometry_;
   rclcpp::Subscription<OperationModeState>::SharedPtr sub_operation_mode_state_;
-  autoware_utils::InterProcessPollingSubscriber<RerouteAvailability> sub_reroute_availability_{
-    this, "~/input/reroute_availability"};
 
   rclcpp::Subscription<LaneletMapBin>::SharedPtr sub_vector_map_;
   rclcpp::Publisher<MarkerArray>::SharedPtr pub_marker_;
@@ -104,8 +102,6 @@ private:
   void on_odometry(const Odometry::ConstSharedPtr msg);
   void on_operation_mode_state(const OperationModeState::ConstSharedPtr msg);
   void on_map(const LaneletMapBin::ConstSharedPtr msg);
-  void on_reroute_availability(const RerouteAvailability::ConstSharedPtr msg);
-  void on_modified_goal(const PoseWithUuidStamped::ConstSharedPtr msg);
 
   void on_clear_route(
     const ClearRoute::Request::SharedPtr req, const ClearRoute::Response::SharedPtr res);
@@ -121,7 +117,6 @@ private:
   void cancel_route();
   LaneletRoute create_route(const SetLaneletRoute::Request & req);
   LaneletRoute create_route(const SetWaypointRoute::Request & req);
-  LaneletRoute create_route(const PoseWithUuidStamped & msg);
   LaneletRoute create_route(
     const Header & header, const std::vector<LaneletSegment> & segments, const Pose & goal_pose,
     const UUID & uuid, const bool allow_goal_modification);

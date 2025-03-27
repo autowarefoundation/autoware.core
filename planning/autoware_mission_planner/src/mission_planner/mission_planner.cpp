@@ -68,8 +68,6 @@ MissionPlanner::MissionPlanner(const rclcpp::NodeOptions & options)
   pub_marker_ = create_publisher<MarkerArray>("~/debug/route_marker", durable_qos);
 
   // NOTE: The route interface should be mutually exclusive by callback group.
-  sub_modified_goal_ = create_subscription<PoseWithUuidStamped>(
-    "~/input/modified_goal", durable_qos, std::bind(&MissionPlanner::on_modified_goal, this, _1));
   srv_clear_route = create_service<ClearRoute>(
     "~/clear_route", service_utils::handle_exception(&MissionPlanner::on_clear_route, this));
   srv_set_lanelet_route = create_service<SetLaneletRoute>(
@@ -183,42 +181,6 @@ void MissionPlanner::change_state(RouteState::_state_type state)
   pub_state_->publish(state_);
 }
 
-void MissionPlanner::on_modified_goal(const PoseWithUuidStamped::ConstSharedPtr msg)
-{
-  RCLCPP_INFO(get_logger(), "Received modified goal.");
-
-  if (state_.state != RouteState::SET) {
-    RCLCPP_ERROR(get_logger(), "The route hasn't set yet. Cannot reroute.");
-    return;
-  }
-  if (!is_mission_planner_ready_) {
-    RCLCPP_ERROR(get_logger(), "The mission planner is not ready.");
-    return;
-  }
-  if (!current_route_) {
-    RCLCPP_ERROR(get_logger(), "The route has not set yet.");
-    return;
-  }
-  if (current_route_->uuid != msg->uuid) {
-    RCLCPP_ERROR(get_logger(), "Goal uuid is incorrect.");
-    return;
-  }
-
-  change_state(RouteState::REROUTING);
-  const auto route = create_route(*msg);
-
-  if (route.segments.empty()) {
-    cancel_route();
-    change_state(RouteState::SET);
-    RCLCPP_ERROR(get_logger(), "The planned route is empty.");
-    return;
-  }
-
-  change_route(route);
-  change_state(RouteState::SET);
-  RCLCPP_INFO(get_logger(), "Changed the route with the modified goal");
-}
-
 void MissionPlanner::on_clear_route(
   const ClearRoute::Request::SharedPtr, const ClearRoute::Response::SharedPtr res)
 {
@@ -260,15 +222,6 @@ void MissionPlanner::on_set_lanelet_route(
   if (is_reroute && !allow_reroute_in_autonomous_mode_ && is_autonomous_driving) {
     throw service_utils::ServiceException(
       ResponseCode::ERROR_INVALID_STATE, "Reroute is not allowed in autonomous mode.");
-  }
-
-  if (is_reroute && is_autonomous_driving) {
-    const auto reroute_availability = sub_reroute_availability_.take_data();
-    if (!reroute_availability || !reroute_availability->availability) {
-      throw service_utils::ServiceException(
-        ResponseCode::ERROR_INVALID_STATE,
-        "Cannot reroute as the planner is not in lane following.");
-    }
   }
 
   change_state(is_reroute ? RouteState::REROUTING : RouteState::ROUTING);
@@ -319,15 +272,6 @@ void MissionPlanner::on_set_waypoint_route(
     operation_mode_state_ ? operation_mode_state_->mode == OperationModeState::AUTONOMOUS &&
                               operation_mode_state_->is_autoware_control_enabled
                           : false;
-
-  if (is_reroute && is_autonomous_driving) {
-    const auto reroute_availability = sub_reroute_availability_.take_data();
-    if (!reroute_availability || !reroute_availability->availability) {
-      throw service_utils::ServiceException(
-        ResponseCode::ERROR_INVALID_STATE,
-        "Cannot reroute as the planner is not in lane following.");
-    }
-  }
 
   change_state(is_reroute ? RouteState::REROUTING : RouteState::ROUTING);
   const auto route = create_route(*req);
@@ -409,30 +353,6 @@ LaneletRoute MissionPlanner::create_route(const SetWaypointRoute::Request & req)
 
   return create_route(
     header, waypoints, odometry_->pose.pose, goal_pose, uuid, allow_goal_modification);
-}
-
-LaneletRoute MissionPlanner::create_route(const PoseWithUuidStamped & msg)
-{
-  const auto & header = msg.header;
-  const auto & goal_pose = msg.pose;
-  const auto & uuid = msg.uuid;
-  const auto & allow_goal_modification = current_route_->allow_modification;
-
-  // NOTE: Reroute by modifed goal is assumed to be a slight modification near the goal lane.
-  //       It is assumed that ego and goal are on the extension of the current route at least.
-  //       Therefore, the start pose is the start pose of the current route if it exists.
-  //       This prevents the route from becoming shorter due to reroute.
-  //       Also, use start pose and waypoints that are on the preferred lanelet of the current route
-  //       as much as possible.
-  //       For this process, refer to RouteHandler::planPathLaneletsBetweenCheckpoints() or
-  //       https://github.com/autowarefoundation/autoware_universe/pull/8238 too.
-  const auto & start_pose = current_route_ ? current_route_->start_pose : odometry_->pose.pose;
-  std::vector<Pose> waypoints{};
-  if (current_route_) {
-    waypoints.push_back(odometry_->pose.pose);
-  }
-
-  return create_route(header, waypoints, start_pose, goal_pose, uuid, allow_goal_modification);
 }
 
 LaneletRoute MissionPlanner::create_route(

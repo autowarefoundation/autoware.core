@@ -11,7 +11,6 @@
       <remap from="~/input/vector_map" to="$(var map_topic_name)"/>
       <remap from="~/input/odometry" to="/localization/kinematic_state"/>
       <remap from="~/input/operation_mode_state" to="/system/operation_mode/state"/>
-      <remap from="~/input/reroute_availability" to="/planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/output/is_reroute_available"/>
       <remap from="~/route" to="route"/>
       <remap from="~/state" to="state"/>
       <remap from="~/debug/route_marker" to="$(var visualization_topic_name)"/>

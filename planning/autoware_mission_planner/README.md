@@ -40,7 +40,6 @@ In current Autoware Universe, only the plugin for Lanelet2 map format is support
 | Name                         | Type                                      | Description            |
 | ---------------------------- | ----------------------------------------- | ---------------------- |
 | `input/vector_map`           | autoware_map_msgs/msg/LaneletMapBin       | vector map of Lanelet2 |
-| `input/modified_goal`        | geometry_msgs/PoseWithUuidStamped         | modified goal pose     |
 | `input/operation_mode_state` | autoware_adapi_v1_msgs/OperationModeState | operation mode state   |
 | `input/odometry`             | nav_msgs/msg/Odometry                     | vehicle odometry       |
 
@@ -184,7 +183,6 @@ The new route generated here is sent to the AD API so that it can also be refere
 #### Rerouting Limitations
 
 - The safety judgment of rerouting is not guaranteed to the level of trajectory or control. Therefore, the distance to the reroute change must be large for the safety.
-- The validity of the `modified_goal` needs to be guaranteed by the behavior_path_planner, e.g., that it is not placed in the wrong lane, that it can be safely rerouted, etc.
 
 ## Limitations
 
