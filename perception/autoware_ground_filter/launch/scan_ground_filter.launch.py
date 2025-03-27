@@ -45,8 +45,8 @@ def launch_setup(context, *args, **kwargs):
     nodes = [
         ComposableNode(
             package="autoware_ground_filter",
-            plugin="autoware::ground_filter::ScanGroundFilterComponent",
-            name="scan_ground_filter",
+            plugin="autoware::ground_filter::GroundFilterComponent",
+            name="ground_filter",
             remappings=[
                 ("input", LaunchConfiguration("input/pointcloud")),
                 ("output", LaunchConfiguration("output/pointcloud")),
