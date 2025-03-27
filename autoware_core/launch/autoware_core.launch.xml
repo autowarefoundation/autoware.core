@@ -45,9 +45,9 @@
   </group>
 
   <!-- Perception -->
-  <!-- <group if="$(var launch_perception)">
-    <include file="$(find-pkg-share autoware_core)/launch/component/autoware_core_perception.launch.xml"/>
-  </group> -->
+  <group if="$(var launch_perception)">
+    <include file="$(find-pkg-share autoware_core_perception)/launch/autoware_core_perception.launch.xml"/>
+  </group>
 
   <!-- Planning -->
   <group if="$(var launch_planning)">
