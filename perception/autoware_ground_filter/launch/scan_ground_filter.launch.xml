@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="ground_segmentation_param_file" default="$(find-pkg-share autoware_ground_filter)/config/scan_ground_filter.param.yaml"/>
+  <arg name="ground_segmentation_param_file" default="$(find-pkg-share autoware_ground_filter)/config/ground_filter.param.yaml"/>
 
   <!-- vehicle info -->
   <arg name="vehicle_info_param_file" default="$(find-pkg-share autoware_vehicle_info_utils)/config/vehicle_info.param.yaml"/>
