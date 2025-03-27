@@ -50,9 +50,9 @@
   </group> -->
 
   <!-- Planning -->
-  <!-- <group if="$(var launch_planning)">
+  <group if="$(var launch_planning)">
     <include file="$(find-pkg-share autoware_core)/launch/component/autoware_core_planning.launch.xml"/>
-  </group> -->
+  </group>
 
   <!-- Control -->
   <!-- <group if="$(var launch_control)">
