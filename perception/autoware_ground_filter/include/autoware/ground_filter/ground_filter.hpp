@@ -140,11 +140,11 @@ struct GroundFilterParameter
   bool use_lowest_point;
   float detection_range_z_max;
   float non_ground_height_threshold;
-  const uint16_t gnd_grid_continual_thresh = 3;
+  const uint16_t ground_grid_continual_thresh = 3;
 
   float grid_size_m;
   float grid_mode_switch_radius;
-  int gnd_grid_buffer_size;
+  int ground_grid_buffer_size;
   float virtual_lidar_x;
   float virtual_lidar_y;
   float virtual_lidar_z;

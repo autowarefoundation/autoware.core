@@ -376,7 +376,7 @@ void GroundFilter::classify(pcl::PointIndices & out_no_ground_indices)
     // get current cell gradient and intercept
     std::vector<int> grid_idcs;
     {
-      const int search_count = param_.gnd_grid_buffer_size;
+      const int search_count = param_.ground_grid_buffer_size;
       const int check_cell_idx = cell.scan_grid_root_idx_;
       recursiveSearch(check_cell_idx, search_count, grid_idcs);
     }
@@ -389,8 +389,8 @@ void GroundFilter::classify(pcl::PointIndices & out_no_ground_indices)
         grid_ptr_->getCell(grid_idcs.back()).radial_idx_ + grid_idcs.size();
       const float radial_diff_between_cells = cell.center_radius_ - prev_cell.center_radius_;
 
-      if (radial_diff_between_cells < param_.gnd_grid_continual_thresh * cell.radial_size_) {
-        if (cell.radial_idx_ - front_radial_id < param_.gnd_grid_continual_thresh) {
+      if (radial_diff_between_cells < param_.ground_grid_continual_thresh * cell.radial_size_) {
+        if (cell.radial_idx_ - front_radial_id < param_.ground_grid_continual_thresh) {
           mode = SegmentationMode::CONTINUOUS;
         } else {
           mode = SegmentationMode::DISCONTINUOUS;

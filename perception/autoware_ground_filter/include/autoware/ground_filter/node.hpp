@@ -189,7 +189,7 @@ private:
   // data accessor
   PclDataAccessor data_accessor_;
 
-  const uint16_t gnd_grid_continual_thresh_ = 3;
+  const uint16_t ground_grid_continual_thresh_ = 3;
   bool elevation_grid_mode_;
   float non_ground_height_threshold_;
   float low_priority_region_x_;
@@ -221,7 +221,7 @@ private:
   // grid parameters
   float grid_size_m_;
   float grid_mode_switch_radius_;  // non linear grid size switching distance
-  uint16_t gnd_grid_buffer_size_;
+  uint16_t ground_grid_buffer_size_;
   float virtual_lidar_z_;
 
   // pointcloud parameters
