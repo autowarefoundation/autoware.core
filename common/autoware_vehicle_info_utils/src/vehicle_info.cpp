@@ -122,11 +122,17 @@ double VehicleInfo::calcMaxCurvature() const
 }
 double VehicleInfo::calcCurvatureFromSteerAngle(const double steer_angle) const
 {
-  if (std::abs(steer_angle) < 1e-6) {
-    return std::numeric_limits<double>::max();
+  if (wheel_base_m < 1e-6) {
+    RCLCPP_ERROR(
+      rclcpp::get_logger("vehicle_info"), "wheel_base_m %f should not be 0 or negative",
+      wheel_base_m);
+    return std::numeric_limits<double>::quiet_NaN();
   }
-  const double radius = wheel_base_m / std::tan(steer_angle);
-  const double curvature = 1.0 / radius;
+
+  // radius = wheel_base_m / std::tan(steer_angle)
+  // curvature = 1.0 / radius;
+  // Merge formulas and eliminate variable "radius" to avoid division by zero operations.
+  const double curvature = std::tan(steer_angle) / wheel_base_m;
   return curvature;
 }
 
