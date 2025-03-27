@@ -16,7 +16,7 @@
 
 #include "autoware/ground_filter/ground_filter.hpp"
 #include "autoware/ground_filter/sanity_check.hpp"
-#include "rclcpp/rclcpp.hpp"
+#include <rclcpp/rclcpp.hpp>
 
 #include <autoware_utils/geometry/geometry.hpp>
 #include <autoware_utils/math/normalization.hpp>
