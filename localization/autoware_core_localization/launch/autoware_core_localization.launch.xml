@@ -9,7 +9,7 @@
       <push-ros-namespace namespace="pose_estimator"/>
       <!-- place holder for pose_estimator-->
       <node pkg="topic_tools" exec="relay" name="pose_estimator_relay" output="log">
-        <param name="input_topic" value="/sensing/gnss/pose_with_covariance_modified"/>
+        <param name="input_topic" value="/sensing/gnss/pose_with_covariance"/>
         <param name="output_topic" value="/localization/pose_estimator/pose_with_covariance"/>
         <param name="type" value="geometry_msgs/msg/PoseWithCovarianceStamped"/>
         <param name="reliability" value="reliable"/>
