@@ -16,8 +16,11 @@
   <exec_depend>autoware_behavior_velocity_planner</exec_depend>
   <exec_depend>autoware_behavior_velocity_planner_stop_line_module</exec_depend>
   <exec_depend>autoware_mission_planner</exec_depend>
+  <exec_depend>autoware_motion_velocity_obstacle_stop_module</exec_depend>
+  <exec_depend>autoware_motion_velocity_planner</exec_depend>
   <exec_depend>autoware_path_generator</exec_depend>
   <exec_depend>autoware_planning_topic_converter</exec_depend>
+  <exec_depend>autoware_velocity_smoother</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>autoware_lint_common</test_depend>
