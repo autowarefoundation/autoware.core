@@ -11,15 +11,11 @@
     <push-ros-namespace namespace="map"/>
 
     <node pkg="autoware_map_loader" exec="autoware_lanelet2_map_loader" name="lanelet2_map_loader">
-      <param from="$(var lanelet2_map_loader_param_path)"/>
-      <param name="lanelet2_map_path" value="$(var lanelet2_map_path)"/>
-      <remap from="output/lanelet2_map" to="vector_map"/>
+      <param from="$(var lanelet2_map_loader_param_path)" allow_substs="true"/>
     </node>
 
-    <include file="$(find-pkg-share autoware_map_projection_loader)/launch/map_projection_loader.launch.xml">
-      <arg name="param_path" value="$(var map_projection_loader_param_path)"/>
-      <arg name="map_projector_info_path" value="$(var map_projector_info_path)"/>
-      <arg name="lanelet2_map_path" value="$(var lanelet2_map_path)"/>
-    </include>
+    <node pkg="autoware_map_projection_loader" exec="autoware_map_projection_loader_node" name="map_projection_loader">
+      <param from="$(var map_projection_loader_param_path)" allow_substs="true"/>
+    </node>
   </group>
 </launch>
