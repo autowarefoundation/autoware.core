@@ -15,10 +15,12 @@
 #ifndef TYPES_HPP_
 #define TYPES_HPP_
 
+#include "type_alias.hpp"
+
 #include <autoware/motion_utils/marker/marker_helper.hpp>
 #include <autoware/motion_utils/resample/resample.hpp>
 #include <autoware/motion_utils/trajectory/trajectory.hpp>
-#include "type_alias.hpp"
+#include <autoware/motion_velocity_planner_common/utils.hpp>
 
 #include <memory>
 #include <string>

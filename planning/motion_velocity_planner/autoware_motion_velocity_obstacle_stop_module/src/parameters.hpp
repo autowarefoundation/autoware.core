@@ -15,18 +15,17 @@
 #ifndef PARAMETERS_HPP_
 #define PARAMETERS_HPP_
 
-#include <autoware/motion_utils/marker/marker_helper.hpp>
-#include <autoware/motion_utils/resample/resample.hpp>
-#include <autoware/motion_utils/trajectory/trajectory.hpp>
-#include <autoware/motion_velocity_planner_common/utils.hpp>
-#include <autoware/object_recognition_utils/predicted_path_utils.hpp>
-#include <autoware_utils/ros/parameter.hpp>
-#include <autoware_utils/ros/update_param.hpp>
-#include <autoware_utils/system/stop_watch.hpp>
 #include "type_alias.hpp"
 #include "types.hpp"
 
+#include <autoware/motion_utils/marker/marker_helper.hpp>
+#include <autoware/motion_utils/resample/resample.hpp>
+#include <autoware/motion_utils/trajectory/trajectory.hpp>
+#include <autoware/object_recognition_utils/predicted_path_utils.hpp>
 #include <autoware/objects_of_interest_marker_interface/objects_of_interest_marker_interface.hpp>
+#include <autoware_utils/ros/parameter.hpp>
+#include <autoware_utils/ros/update_param.hpp>
+#include <autoware_utils/system/stop_watch.hpp>
 
 #include <algorithm>
 #include <memory>
