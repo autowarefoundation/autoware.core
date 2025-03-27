@@ -31,6 +31,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://autowarefoundation.github.io/autoware_core/latest/common/autoware_global_parameter_loader/Readme/</loc>
+         <lastmod>2025-03-27</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://autowarefoundation.github.io/autoware_core/latest/common/autoware_interpolation/</loc>
          <lastmod>2025-03-27</lastmod>
          <changefreq>daily</changefreq>
