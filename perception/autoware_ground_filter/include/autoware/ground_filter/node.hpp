@@ -47,7 +47,6 @@
 #include <autoware_utils/ros/managed_transform_buffer.hpp>
 #include <autoware_utils/ros/published_time_publisher.hpp>
 #include <autoware_utils/system/stop_watch.hpp>
-
 #include <tf2_eigen/tf2_eigen.hpp>
 
 #include <tf2_ros/transform_listener.h>
