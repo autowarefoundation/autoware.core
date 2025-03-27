@@ -29,8 +29,6 @@
     <include file="$(find-pkg-share autoware_core_map)/launch/autoware_core_map.launch.xml">
       <arg name="lanelet2_map_path" value="$(var map_path)/lanelet2_map.osm"/>
       <arg name="map_projector_info_path" value="$(var map_path)/map_projector_info.yaml"/>
-      <arg name="lanelet2_map_loader_param_path" value="$(find-pkg-share autoware_core)/config/map/lanelet2_map_loader.param.yaml"/>
-      <arg name="map_projection_loader_param_path" value="$(find-pkg-share autoware_core)/config/map/map_projection_loader.param.yaml"/>
     </include>
   </group>
 
