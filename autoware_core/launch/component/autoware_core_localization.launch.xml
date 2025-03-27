@@ -34,7 +34,5 @@
       <arg name="out_accel" value="/localization/acceleration"/>
       <arg name="param_file" value="$(var twist2accel_param_path)"/>
     </include>
-
-
   </group>
 </launch>

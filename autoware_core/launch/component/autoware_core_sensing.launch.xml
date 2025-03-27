@@ -1,5 +1,4 @@
 <launch>
-
   <group>
     <push-ros-namespace namespace="sensing"/>
     <include file="$(find-pkg-share autoware_vehicle_velocity_converter)/launch/vehicle_velocity_converter.launch.xml">

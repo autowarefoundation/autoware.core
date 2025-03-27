@@ -63,6 +63,4 @@
   <group>
     <node pkg="rviz2" exec="rviz2" name="rviz2" output="screen" args="-d $(find-pkg-share autoware_core)/rviz/autoware_core.rviz"/>
   </group>
-
-
 </launch>
