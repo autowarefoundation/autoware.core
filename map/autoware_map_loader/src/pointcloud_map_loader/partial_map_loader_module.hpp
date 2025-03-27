@@ -19,7 +19,7 @@
 
 #include <rclcpp/rclcpp.hpp>
 
-#include "autoware_map_msgs/srv/get_partial_point_cloud_map.hpp"
+#include <autoware_map_msgs/srv/get_partial_point_cloud_map.hpp>
 
 #include <pcl/common/common.h>
 #include <pcl/filters/voxel_grid.h>
