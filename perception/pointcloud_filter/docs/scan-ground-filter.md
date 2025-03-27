@@ -1,4 +1,8 @@
-# Scan Ground Filter
+# Autoware Ground Filter
+
+This package is a reimplementation of the following one
+- [autoware_ground_segmentation](https://github.com/autowarefoundation/autoware_universe/tree/4fbb66ac7b4dd2eae73eabbaa95a1bf6db50e2d2/perception/autoware_ground_segmentation)
+- I also reused portions of the code from [autoware_pointcloud_preprocessor](https://github.com/autowarefoundation/autoware_universe/tree/4fbb66ac7b4dd2eae73eabbaa95a1bf6db50e2d2/sensing/autoware_pointcloud_preprocessor) as a reference.
 
 ## Purpose
 
@@ -21,13 +25,13 @@ This algorithm works by following steps,
 
 ## Inputs / Outputs
 
-This implementation inherits `autoware::pointcloud_preprocessor::Filter` class, please refer [README](../README.md).
+This implementation inherits `rclcpp::Node` class, please refer [README](../README.md).
 
 ## Parameters
 
 ### Node Parameters
 
-This implementation inherits `autoware::pointcloud_preprocessor::Filter` class, please refer [README](../README.md).
+This implementation inherits `rclcpp::Node` class, please refer [README](../README.md).
 
 #### Core Parameters
 
