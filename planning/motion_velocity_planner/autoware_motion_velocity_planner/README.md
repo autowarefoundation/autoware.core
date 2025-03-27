@@ -37,8 +37,8 @@ This means that to stop before a wall, a stop point is inserted in the trajector
 
 ## Services
 
-| Name                      | Type                                                     | Description                  |
-| ------------------------- | -------------------------------------------------------- | ---------------------------- |
+| Name                      | Type                                                | Description                  |
+| ------------------------- | --------------------------------------------------- | ---------------------------- |
 | `~/service/load_plugin`   | autoware_motion_velocity_planner::srv::LoadPlugin   | To request loading a plugin  |
 | `~/service/unload_plugin` | autoware_motion_velocity_planner::srv::UnloadPlugin | To request unloaded a plugin |
 

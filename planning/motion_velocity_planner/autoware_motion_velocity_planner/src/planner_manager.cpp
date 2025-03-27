@@ -25,8 +25,7 @@ namespace autoware::motion_velocity_planner
 
 MotionVelocityPlannerManager::MotionVelocityPlannerManager()
 : plugin_loader_(
-    "autoware_motion_velocity_planner",
-    "autoware::motion_velocity_planner::PluginModuleInterface")
+    "autoware_motion_velocity_planner", "autoware::motion_velocity_planner::PluginModuleInterface")
 {
 }
 
