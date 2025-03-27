@@ -17,7 +17,7 @@
 
 #include <rclcpp/rclcpp.hpp>
 
-#include "autoware_internal_debug_msgs/msg/float32_multi_array_stamped.hpp"
+#include <autoware_internal_debug_msgs/msg/float32_multi_array_stamped.hpp>
 
 #include <array>
 

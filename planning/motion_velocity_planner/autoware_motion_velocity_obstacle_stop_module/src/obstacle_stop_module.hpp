@@ -15,11 +15,11 @@
 #ifndef OBSTACLE_STOP_MODULE_HPP_
 #define OBSTACLE_STOP_MODULE_HPP_
 
-#include "autoware/motion_velocity_planner_common/polygon_utils.hpp"
-#include "autoware/motion_velocity_planner_common/utils.hpp"
-#include "autoware/object_recognition_utils/predicted_path_utils.hpp"
-#include "autoware_utils/system/stop_watch.hpp"
-#include "autoware_utils/system/time_keeper.hpp"
+#include <autoware/motion_velocity_planner_common/polygon_utils.hpp>
+#include <autoware/motion_velocity_planner_common/utils.hpp>
+#include <autoware/object_recognition_utils/predicted_path_utils.hpp>
+#include <autoware_utils/system/stop_watch.hpp>
+#include <autoware_utils/system/time_keeper.hpp>
 #include "parameters.hpp"
 #include "stop_planning_debug_info.hpp"
 #include "type_alias.hpp"

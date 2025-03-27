@@ -15,14 +15,14 @@
 #ifndef PARAMETERS_HPP_
 #define PARAMETERS_HPP_
 
-#include "autoware/motion_utils/marker/marker_helper.hpp"
-#include "autoware/motion_utils/resample/resample.hpp"
-#include "autoware/motion_utils/trajectory/trajectory.hpp"
-#include "autoware/motion_velocity_planner_common/utils.hpp"
-#include "autoware/object_recognition_utils/predicted_path_utils.hpp"
-#include "autoware_utils/ros/parameter.hpp"
-#include "autoware_utils/ros/update_param.hpp"
-#include "autoware_utils/system/stop_watch.hpp"
+#include <autoware/motion_utils/marker/marker_helper.hpp>
+#include <autoware/motion_utils/resample/resample.hpp>
+#include <autoware/motion_utils/trajectory/trajectory.hpp>
+#include <autoware/motion_velocity_planner_common/utils.hpp>
+#include <autoware/object_recognition_utils/predicted_path_utils.hpp>
+#include <autoware_utils/ros/parameter.hpp>
+#include <autoware_utils/ros/update_param.hpp>
+#include <autoware_utils/system/stop_watch.hpp>
 #include "type_alias.hpp"
 #include "types.hpp"
 
@@ -99,10 +99,11 @@ struct ObstacleFilteringParam
   double crossing_obstacle_collision_time_margin{};
 
   ObstacleFilteringParam() = default;
-  explicit ObstacleFilteringParam(rclcpp::Node & node) : inside_stop_object_types(
-    utils::get_target_object_type(node, "obstacle_stop.obstacle_filtering.object_type.inside.")),
+  explicit ObstacleFilteringParam(rclcpp::Node & node)
+  : inside_stop_object_types(
+      utils::get_target_object_type(node, "obstacle_stop.obstacle_filtering.object_type.inside.")),
     outside_stop_object_types(
-  utils::get_target_object_type(node, "obstacle_stop.obstacle_filtering.object_type.outside."))
+      utils::get_target_object_type(node, "obstacle_stop.obstacle_filtering.object_type.outside."))
   {
     pointcloud_obstacle_filtering_param.pointcloud_voxel_grid_x = get_or_declare_parameter<double>(
       node, "obstacle_stop.obstacle_filtering.pointcloud.pointcloud_voxel_grid_x");
