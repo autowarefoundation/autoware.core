@@ -1,4 +1,5 @@
 # autoware_core_vehicle
+
 ## Overview
 
 The `autoware_core_vehicle` package is a part of the Autoware Core system, responsible for interfacing with vehicle hardware and managing vehicle-specific operations. This package provides essential functionalities for vehicle control and communication within the Autoware ecosystem.
