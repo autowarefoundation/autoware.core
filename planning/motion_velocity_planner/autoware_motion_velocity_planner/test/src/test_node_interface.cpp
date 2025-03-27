@@ -33,7 +33,7 @@ std::shared_ptr<PlanningInterfaceTestManager> generateTestManager()
 
   // set subscriber with topic name: motion_velocity_planner → test_node_
   test_manager->subscribeOutput<autoware_planning_msgs::msg::Trajectory>(
-    "motion_velocity_planner_node/output/trajectory");
+    "motion_velocity_planner/output/trajectory");
 
   return test_manager;
 }
@@ -45,7 +45,7 @@ std::shared_ptr<MotionVelocityPlannerNode> generateNode()
   const auto autoware_test_utils_dir =
     ament_index_cpp::get_package_share_directory("autoware_test_utils");
   const auto motion_velocity_planner_dir =
-    ament_index_cpp::get_package_share_directory("autoware_motion_velocity_planner_node");
+    ament_index_cpp::get_package_share_directory("autoware_motion_velocity_planner");
   const auto velocity_smoother_dir =
     ament_index_cpp::get_package_share_directory("autoware_velocity_smoother");
 
@@ -87,26 +87,26 @@ void publishMandatoryTopics(
   test_manager->publishInput(
     test_target_node, "/tf", autoware::test_utils::makeTFMsg(test_target_node, "base_link", "map"));
   test_manager->publishInput(
-    test_target_node, "motion_velocity_planner_node/input/accel",
+    test_target_node, "motion_velocity_planner/input/accel",
     geometry_msgs::msg::AccelWithCovarianceStamped{});
   test_manager->publishInput(
-    test_target_node, "motion_velocity_planner_node/input/dynamic_objects",
+    test_target_node, "motion_velocity_planner/input/dynamic_objects",
     autoware_perception_msgs::msg::PredictedObjects{});
   test_manager->publishInput(
-    test_target_node, "motion_velocity_planner_node/input/no_ground_pointcloud",
+    test_target_node, "motion_velocity_planner/input/no_ground_pointcloud",
     sensor_msgs::msg::PointCloud2{}.set__header(
       std_msgs::msg::Header{}.set__frame_id("base_link")));
   test_manager->publishInput(
-    test_target_node, "motion_velocity_planner_node/input/vehicle_odometry",
+    test_target_node, "motion_velocity_planner/input/vehicle_odometry",
     autoware::test_utils::makeOdometry());
   test_manager->publishInput(
-    test_target_node, "motion_velocity_planner_node/input/vector_map",
+    test_target_node, "motion_velocity_planner/input/vector_map",
     autoware::test_utils::makeMapBinMsg());
   test_manager->publishInput(
-    test_target_node, "motion_velocity_planner_node/input/traffic_signals",
+    test_target_node, "motion_velocity_planner/input/traffic_signals",
     autoware_perception_msgs::msg::TrafficLightGroupArray{});
   test_manager->publishInput(
-    test_target_node, "motion_velocity_planner_node/input/occupancy_grid",
+    test_target_node, "motion_velocity_planner/input/occupancy_grid",
     autoware::test_utils::makeCostMapMsg());
 }
 
@@ -118,7 +118,7 @@ TEST(PlanningModuleInterfaceTest, NodeTestWithExceptionTrajectory)
 
   publishMandatoryTopics(test_manager, test_target_node);
 
-  const std::string input_trajectory_topic = "motion_velocity_planner_node/input/trajectory";
+  const std::string input_trajectory_topic = "motion_velocity_planner/input/trajectory";
 
   // test with nominal trajectory
   ASSERT_NO_THROW_WITH_ERROR_MSG(
@@ -139,8 +139,8 @@ TEST(PlanningModuleInterfaceTest, NodeTestWithOffTrackEgoPose)
   auto test_target_node = generateNode();
   publishMandatoryTopics(test_manager, test_target_node);
 
-  const std::string input_trajectory_topic = "motion_velocity_planner_node/input/trajectory";
-  const std::string input_odometry_topic = "motion_velocity_planner_node/input/vehicle_odometry";
+  const std::string input_trajectory_topic = "motion_velocity_planner/input/trajectory";
+  const std::string input_odometry_topic = "motion_velocity_planner/input/vehicle_odometry";
 
   // test for normal trajectory
   ASSERT_NO_THROW_WITH_ERROR_MSG(

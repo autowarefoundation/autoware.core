@@ -18,8 +18,8 @@
 #include "planner_manager.hpp"
 
 #include <autoware/motion_velocity_planner_common/planner_data.hpp>
-#include <autoware_motion_velocity_planner_node/srv/load_plugin.hpp>
-#include <autoware_motion_velocity_planner_node/srv/unload_plugin.hpp>
+#include <autoware_motion_velocity_planner/srv/load_plugin.hpp>
+#include <autoware_motion_velocity_planner/srv/unload_plugin.hpp>
 #include <autoware_utils/ros/logger_level_configure.hpp>
 #include <autoware_utils/ros/polling_subscriber.hpp>
 #include <autoware_utils/ros/published_time_publisher.hpp>
@@ -51,8 +51,8 @@ namespace autoware::motion_velocity_planner
 using autoware_internal_planning_msgs::msg::VelocityLimit;
 using autoware_internal_planning_msgs::msg::VelocityLimitClearCommand;
 using autoware_map_msgs::msg::LaneletMapBin;
-using autoware_motion_velocity_planner_node::srv::LoadPlugin;
-using autoware_motion_velocity_planner_node::srv::UnloadPlugin;
+using autoware_motion_velocity_planner::srv::LoadPlugin;
+using autoware_motion_velocity_planner::srv::UnloadPlugin;
 using autoware_planning_msgs::msg::Trajectory;
 using TrajectoryPoints = std::vector<autoware_planning_msgs::msg::TrajectoryPoint>;
 

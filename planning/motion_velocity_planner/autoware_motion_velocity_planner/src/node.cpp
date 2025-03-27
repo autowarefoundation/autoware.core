@@ -56,7 +56,7 @@ rclcpp::SubscriptionOptions create_subscription_options(rclcpp::Node * node_ptr)
 namespace autoware::motion_velocity_planner
 {
 MotionVelocityPlannerNode::MotionVelocityPlannerNode(const rclcpp::NodeOptions & node_options)
-: Node("motion_velocity_planner_node", node_options),
+: Node("motion_velocity_planner", node_options),
   tf_buffer_(this->get_clock()),
   tf_listener_(tf_buffer_),
   planner_data_(*this)
