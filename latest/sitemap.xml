@@ -171,6 +171,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://autowarefoundation.github.io/autoware_core/latest/planning/motion_velocity_planner/autoware_motion_velocity_planner/</loc>
+         <lastmod>2025-03-27</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://autowarefoundation.github.io/autoware_core/latest/planning/motion_velocity_planner/autoware_motion_velocity_planner_common/</loc>
+         <lastmod>2025-03-27</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://autowarefoundation.github.io/autoware_core/latest/sensing/autoware_crop_box_filter/</loc>
          <lastmod>2025-03-27</lastmod>
          <changefreq>daily</changefreq>
