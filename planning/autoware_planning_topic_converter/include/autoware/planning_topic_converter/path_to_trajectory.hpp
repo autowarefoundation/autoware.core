@@ -15,8 +15,8 @@
 #ifndef AUTOWARE__PLANNING_TOPIC_CONVERTER__PATH_TO_TRAJECTORY_HPP_
 #define AUTOWARE__PLANNING_TOPIC_CONVERTER__PATH_TO_TRAJECTORY_HPP_
 
-#include "autoware/planning_topic_converter/converter_base.hpp"
-#include "rclcpp/rclcpp.hpp"
+#include <autoware/planning_topic_converter/converter_base.hpp>
+#include <rclcpp/rclcpp.hpp>
 
 #include <autoware_planning_msgs/msg/path.hpp>
 #include <autoware_planning_msgs/msg/trajectory.hpp>

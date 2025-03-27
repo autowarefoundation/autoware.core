@@ -15,7 +15,7 @@
 #ifndef AUTOWARE__PLANNING_TOPIC_CONVERTER__CONVERTER_BASE_HPP_
 #define AUTOWARE__PLANNING_TOPIC_CONVERTER__CONVERTER_BASE_HPP_
 
-#include "rclcpp/rclcpp.hpp"
+#include <rclcpp/rclcpp.hpp>
 
 #include <memory>
 #include <string>
