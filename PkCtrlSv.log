@@ -4,7 +4,7 @@
 2025/03/26 13:55:49 (INFO) (7f2563d2e5c0) last modified: 2025-3-26 4:55:49 UTC
 2025/03/26 13:55:49 (WARNING) (7f2563d2e5c0) The hostname or IP of the Time Server has not been configured. Please configure the Time Synchronization first.
 2025/03/26 13:55:49 (INFO) (7f2563d2e5c0) Agent enrollment initiated.
-2025/03/26 13:55:49 (INFO) (7f2563d2e5c0) RestEnrollmentController: ** Rest Enrollment started  ** 
+2025/03/26 13:55:49 (INFO) (7f2563d2e5c0) RestEnrollmentController: ** Rest Enrollment started  **
 2025/03/26 13:55:49 (INFO) (7f2563d2e5c0) CurlHttpClient::Get, ** cURL request started **
 2025/03/26 13:55:49 (INFO) (7f2563d2e5c0) CurlHttpClient::SendRequest, cURL calling endpoint: [ https://A008034.mobicontrol.cloud:443/enrollment/linux/discovery/708f4a73-dc6f-4c69-a9e3-e9544cfcd920 ]
 2025/03/26 13:55:50 (INFO) (7f2563d2e5c0) CurlHttpClient::SendRequest, cURL Response Code: 200
@@ -17,9 +17,9 @@
 2025/03/26 13:55:50 (INFO) (7f2563d2e5c0) CurlHttpClient::SendRequest, cURL calling endpoint: [ https://a008034.mobicontrol.cloud:443/mc/duas/oauth/2.0/token ]
 2025/03/26 13:55:50 (INFO) (7f2563d2e5c0) CurlHttpClient::SendRequest, cURL Response Code: 200
 2025/03/26 13:55:50 (INFO) (7f2563d2e5c0) CurlHttpClient::Post, ** cURL request finished **
-2025/03/26 13:55:50 (INFO) (7f2563d2e5c0) interface lo 
+2025/03/26 13:55:50 (INFO) (7f2563d2e5c0) interface lo
 
-2025/03/26 13:55:50 (INFO) (7f2563d2e5c0) interface wlp0s20f3 
+2025/03/26 13:55:50 (INFO) (7f2563d2e5c0) interface wlp0s20f3
 
 2025/03/26 13:55:50 (INFO) (7f2563d2e5c0) CurlHttpClient::Post, ** cURL request started **
 2025/03/26 13:55:50 (INFO) (7f2563d2e5c0) CurlHttpClient::SendRequest, cURL calling endpoint: [ https://A008034.mobicontrol.cloud:443/enrollment/linux/enroll ]
@@ -31,19 +31,19 @@
 2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) Starting running script command: writeprivateprofstring Comm CertId "MobiControl Intermediate CA.A24D45FFD38ECB47A3563590B05E1582"
 2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) writeprivateprofstring executed successfully
 2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) Finished running script command: writeprivateprofstring Comm CertId "MobiControl Intermediate CA.A24D45FFD38ECB47A3563590B05E1582"
-2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) Starting running script command: writeprivateprofstring Device EnrolledUserEmail 
+2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) Starting running script command: writeprivateprofstring Device EnrolledUserEmail
 2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) writeprivateprofstring executed successfully
-2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) Finished running script command: writeprivateprofstring Device EnrolledUserEmail 
+2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) Finished running script command: writeprivateprofstring Device EnrolledUserEmail
 2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) Starting running script command: writeprivateprofstring Device TCLink
 2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) writeprivateprofstring executed successfully
 2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) Finished running script command: writeprivateprofstring Device TCLink
 2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) Starting running script command: writeprivateprofstring Info TCFlag 0
 2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) writeprivateprofstring executed successfully
 2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) Finished running script command: writeprivateprofstring Info TCFlag 0
-2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) RestEnrollmentController: ** Rest Enrollment finished  ** 
+2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) RestEnrollmentController: ** Rest Enrollment finished  **
 2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) Agent enrollment successful.
 2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) RestartScript: Device is connected to Network
-2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) RestartScript::Starting Restart Script 
+2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) RestartScript::Starting Restart Script
 2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) LinuxConnectionController: Start...
 2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) LinuxConnectionController: Run
 2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) LinuxConnectionController: ConnectToServer
@@ -68,9 +68,9 @@
 2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) LinuxConnectionController: Received initial server ping successfully
 2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) LinuxConnectionController: ClearSnapshot
 2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) LinuxConnectionController: Sending device snapshot
-2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) interface lo 
+2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) interface lo
 
-2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) interface wlp0s20f3 
+2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) interface wlp0s20f3
 
 2025/03/26 13:55:52 (INFO) (7f2563d2e5c0) Creating partial snapshot (ID=1)
 
@@ -175,9 +175,9 @@
 2025/03/26 13:55:53 (INFO) (7f2563d2e5c0) Finished running script command: writeprivateprofstring DataCollection "I20" "PT=0;EX=`STDOUT://dmidecode --type system | grep -i serial | awk '{print $3}'`"
 2025/03/26 13:55:53 (INFO) (7f2563d2e5c0) Starting running script command: __reloadcollectionschedules
 2025/03/26 13:55:53 (INFO) (7f2563d2e5c0) Finished running script command: __reloadcollectionschedules
-2025/03/26 14:37:05 (INFO) (7f2563d2e5c0) interface lo 
+2025/03/26 14:37:05 (INFO) (7f2563d2e5c0) interface lo
 
-2025/03/26 14:37:05 (INFO) (7f2563d2e5c0) interface wlp0s20f3 
+2025/03/26 14:37:05 (INFO) (7f2563d2e5c0) interface wlp0s20f3
 
 2025/03/26 14:37:05 (INFO) (7f2563d2e5c0) Custom data:'hostname', value has been extracted successfully
 2025/03/26 14:37:05 (INFO) (7f2563d2e5c0) Custom data:'model', value has been extracted successfully
