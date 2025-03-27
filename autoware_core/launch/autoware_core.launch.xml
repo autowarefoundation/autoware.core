@@ -26,7 +26,7 @@
 
   <!-- Map -->
   <group if="$(var launch_map)">
-    <include file="$(find-pkg-share autoware_core)/launch/component/autoware_core_map.launch.xml">
+    <include file="$(find-pkg-share autoware_core_map)/launch/autoware_core_map.launch.xml">
       <arg name="lanelet2_map_path" value="$(var map_path)/lanelet2_map.osm"/>
       <arg name="map_projector_info_path" value="$(var map_path)/map_projector_info.yaml"/>
       <arg name="lanelet2_map_loader_param_path" value="$(find-pkg-share autoware_core)/config/map/lanelet2_map_loader.param.yaml"/>
@@ -36,12 +36,12 @@
 
   <!-- Sensing -->
   <group if="$(var launch_sensing)">
-    <include file="$(find-pkg-share autoware_core)/launch/component/autoware_core_sensing.launch.xml"/>
+    <include file="$(find-pkg-share autoware_core_sensing)/launch/autoware_core_sensing.launch.xml"/>
   </group>
 
   <!-- Localization -->
   <group if="$(var launch_localization)">
-    <include file="$(find-pkg-share autoware_core)/launch/component/autoware_core_localization.launch.xml"/>
+    <include file="$(find-pkg-share autoware_core_localization)/launch/autoware_core_localization.launch.xml"/>
   </group>
 
   <!-- Perception -->
@@ -51,12 +51,12 @@
 
   <!-- Planning -->
   <group if="$(var launch_planning)">
-    <include file="$(find-pkg-share autoware_core)/launch/component/autoware_core_planning.launch.xml"/>
+    <include file="$(find-pkg-share autoware_core_planning)/launch/autoware_core_planning.launch.xml"/>
   </group>
 
   <!-- Control -->
   <group if="$(var launch_control)">
-    <include file="$(find-pkg-share autoware_core)/launch/component/autoware_core_control.launch.xml"/>
+    <include file="$(find-pkg-share autoware_core_control)/launch/autoware_core_control.launch.xml"/>
   </group>
 
   <!-- Tools -->

@@ -4,8 +4,8 @@
   <arg name="map_projector_info_path"/>
 
   <!-- Parameter files -->
-  <arg name="lanelet2_map_loader_param_path" default="$(find-pkg-share autoware_core)/config/map/lanelet2_map_loader.param.yaml"/>
-  <arg name="map_projection_loader_param_path" default="$(find-pkg-share autoware_core)/config/map/map_projection_loader.param.yaml"/>
+  <arg name="lanelet2_map_loader_param_path" default="$(find-pkg-share autoware_core_map)/config/lanelet2_map_loader.param.yaml"/>
+  <arg name="map_projection_loader_param_path" default="$(find-pkg-share autoware_core_map)/config/map_projection_loader.param.yaml"/>
 
   <!-- select container type -->
   <arg name="use_multithread" default="false"/>

@@ -5,16 +5,16 @@
   <arg name="mission_planner_param_path" default="$(find-pkg-share autoware_mission_planner_universe)/config/mission_planner.param.yaml"/>
 
   <!-- common -->
-  <arg name="common_param_path" default="$(find-pkg-share autoware_core)/config/planning/common.param.yaml"/>
+  <arg name="common_param_path" default="$(find-pkg-share autoware_core_planning)/config/common.param.yaml"/>
   <arg name="vehicle_param_file" default="$(find-pkg-share $(var vehicle_model)_description)/config/vehicle_info.param.yaml"/>
-  <arg name="nearest_search_param_path" default="$(find-pkg-share autoware_core)/config/planning/nearest_search.param.yaml"/>
+  <arg name="nearest_search_param_path" default="$(find-pkg-share autoware_core_planning)/config/nearest_search.param.yaml"/>
 
   <!-- module config path -->
-  <arg name="velocity_smoother_param_path" default="$(find-pkg-share autoware_core)/config/planning/autoware_velocity_smoother/velocity_smoother.param.yaml"/>
-  <arg name="behavior_velocity_smoother_type_param_path" default="$(find-pkg-share autoware_core)/config/planning/autoware_velocity_smoother/Analytical.param.yaml"/>
-  <arg name="behavior_velocity_planner_param_path" default="$(find-pkg-share autoware_core)/config/planning/behavior_velocity_planner/behavior_velocity_planner.param.yaml"/>
-  <arg name="behavior_velocity_planner_common_param_path" default="$(find-pkg-share autoware_core)/config/planning/behavior_velocity_planner/behavior_velocity_planner_common.param.yaml"/>
-  <arg name="behavior_velocity_planner_stop_line_module_param_path" default="$(find-pkg-share autoware_core)/config/planning/behavior_velocity_planner/stop_line.param.yaml"/>
+  <arg name="velocity_smoother_param_path" default="$(find-pkg-share autoware_core_planning)/config/autoware_velocity_smoother/velocity_smoother.param.yaml"/>
+  <arg name="behavior_velocity_smoother_type_param_path" default="$(find-pkg-share autoware_core_planning)/config/autoware_velocity_smoother/Analytical.param.yaml"/>
+  <arg name="behavior_velocity_planner_param_path" default="$(find-pkg-share autoware_core_planning)/config/behavior_velocity_planner/behavior_velocity_planner.param.yaml"/>
+  <arg name="behavior_velocity_planner_common_param_path" default="$(find-pkg-share autoware_core_planning)/config/behavior_velocity_planner/behavior_velocity_planner_common.param.yaml"/>
+  <arg name="behavior_velocity_planner_stop_line_module_param_path" default="$(find-pkg-share autoware_core_planning)/config/behavior_velocity_planner/stop_line.param.yaml"/>
 
   <arg name="enable_all_modules_auto_mode" default="true"/>
   <arg name="is_simulation" default="false"/>
