@@ -1,4 +1,7 @@
 <launch>
+  <arg name="gnss_input_topic" default="/sensing/gnss/pose_with_covariance"/>
+  <arg name="vehicle_twist_input_topic" default="/sensing/vehicle_velocity_converter/twist_with_covariance"/>
+
   <arg name="ekf_localizer_param_path" default="$(find-pkg-share autoware_core_localization)/config/ekf_localizer.param.yaml"/>
   <arg name="stop_filter_param_path" default="$(find-pkg-share autoware_core_localization)/config/stop_filter.param.yaml"/>
   <arg name="twist2accel_param_path" default="$(find-pkg-share autoware_core_localization)/config/twist2accel.param.yaml"/>
@@ -9,7 +12,7 @@
       <push-ros-namespace namespace="pose_estimator"/>
       <!-- place holder for pose_estimator-->
       <node pkg="topic_tools" exec="relay" name="pose_estimator_relay" output="log">
-        <param name="input_topic" value="/sensing/gnss/pose_with_covariance"/>
+        <param name="input_topic" value="$(var gnss_input_topic)"/>
         <param name="output_topic" value="/localization/pose_estimator/pose_with_covariance"/>
         <param name="type" value="geometry_msgs/msg/PoseWithCovarianceStamped"/>
         <param name="reliability" value="reliable"/>
@@ -20,7 +23,7 @@
       <push-ros-namespace namespace="twist_estimator"/>
       <!-- place holder for twist_estimator-->
       <node pkg="topic_tools" exec="relay" name="twist_estimator_relay" output="log">
-        <param name="input_topic" value="/sensing/vehicle_velocity_converter/twist_with_covariance"/>
+        <param name="input_topic" value="$(var vehicle_twist_input_topic)"/>
         <param name="output_topic" value="/localization/twist_estimator/twist_with_covariance"/>
         <param name="type" value="geometry_msgs/msg/TwistWithCovarianceStamped"/>
         <param name="reliability" value="reliable"/>
