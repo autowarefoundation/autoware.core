@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <../src/lanelet2_plugins/utility_functions.hpp>
+#include "../src/lanelet2_plugins/utility_functions.hpp"
 #include <autoware_test_utils/autoware_test_utils.hpp>
 #include <autoware_utils/geometry/boost_geometry.hpp>
 #include <autoware_vehicle_info_utils/vehicle_info.hpp>
