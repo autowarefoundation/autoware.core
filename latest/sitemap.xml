@@ -156,6 +156,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://autowarefoundation.github.io/autoware_core/latest/planning/autoware_planning_topic_converter/</loc>
+         <lastmod>2025-03-27</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://autowarefoundation.github.io/autoware_core/latest/planning/autoware_route_handler/</loc>
          <lastmod>2025-03-27</lastmod>
          <changefreq>daily</changefreq>
