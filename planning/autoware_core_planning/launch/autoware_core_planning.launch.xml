@@ -119,7 +119,6 @@
       </node>
     </group>
 
-
     <!-- Velocity Smoothing -->
     <node pkg="autoware_velocity_smoother" exec="velocity_smoother_node" name="velocity_smoother" namespace="scenario_planning">
       <param name="algorithm_type" value="$(var velocity_smoother_type)"/>
@@ -137,6 +136,6 @@
       <remap from="~/input/operation_mode_state" to="/system/operation_mode/state"/>
       <remap from="~/output/current_velocity_limit_mps" to="/planning/scenario_planning/current_max_velocity"/>
     </node>
-
-  </group> <!--planning -->
+  </group>
+  <!--planning -->
 </launch>

@@ -1,27 +1,32 @@
+import math
+
+from geometry_msgs.msg import PoseWithCovarianceStamped
 import rclpy
 from rclpy.node import Node
-from geometry_msgs.msg import PoseWithCovarianceStamped
-import math
+
 
 class PoseSubscriber(Node):
 
     def __init__(self):
-        super().__init__('pose_subscriber')
+        super().__init__("pose_subscriber")
         self.subscription = self.create_subscription(
             PoseWithCovarianceStamped,
-            '/sensing/gnss/pose_with_covariance',  # Replace with your topic name
+            "/sensing/gnss/pose_with_covariance",  # Replace with your topic name
             self.listener_callback,
-            10)
+            10,
+        )
 
         self.publisher_ = self.create_publisher(
             PoseWithCovarianceStamped,
-            '/sensing/gnss/pose_with_covariance_modified',  # Replace with your desired output topic name
-            10)
+            "/sensing/gnss/pose_with_covariance_modified",  # Replace with your desired output topic name
+            10,
+        )
 
         # Initialize previous position
         self.prev_x = None
         self.prev_y = None
         self.prev_yaw = 0.0
+
     def listener_callback(self, msg):
         current_x = msg.pose.pose.position.x
         current_y = msg.pose.pose.position.y
@@ -50,7 +55,7 @@ class PoseSubscriber(Node):
         msg.pose.covariance[35] = 3.0  # yaw
 
         # Log the modified message
-        self.get_logger().info(f'Modified Pose: {msg}')
+        self.get_logger().info(f"Modified Pose: {msg}")
 
         # Publish the modified message
         self.publisher_.publish(msg)
@@ -59,6 +64,8 @@ class PoseSubscriber(Node):
         self.prev_x = current_x
         self.prev_y = current_y
         self.prev_yaw = current_yaw
+
+
 def main(args=None):
     rclpy.init(args=args)
     pose_subscriber = PoseSubscriber()
@@ -66,5 +73,6 @@ def main(args=None):
     pose_subscriber.destroy_node()
     rclpy.shutdown()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
