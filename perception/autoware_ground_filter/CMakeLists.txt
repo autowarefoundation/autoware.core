@@ -19,9 +19,9 @@ include_directories(
 )
 
 ament_auto_add_library(${PROJECT_NAME} SHARED
-  src/scan_ground_filter/node.cpp
-  src/scan_ground_filter/grid_ground_filter.cpp
-  src/scan_ground_filter/sanity_check.cpp
+  src/node.cpp
+  src/grid_ground_filter.cpp
+  src/sanity_check.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}
