@@ -69,7 +69,7 @@ autoware_control_msgs::msg::Control SimplePurePursuitNode::create_control_comman
   // when the ego reaches the goal
   if (closest_traj_point_idx == traj.points.size() - 1 || traj.points.size() <= 5) {
     autoware_control_msgs::msg::Control control_command;
-    control_command.stamp = get_clock()->now();
+    control_command.stamp = odom.header.stamp;
     control_command.longitudinal.velocity = 0.0;
     control_command.longitudinal.acceleration = -10.0;
     control_command.longitudinal.is_defined_acceleration = true;
