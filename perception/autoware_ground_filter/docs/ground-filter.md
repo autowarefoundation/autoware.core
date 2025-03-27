@@ -36,7 +36,7 @@ This implementation inherits `rclcpp::Node` class, please refer [README](../READ
 
 #### Core Parameters
 
-![scan_ground_parameter](./image/scan_ground_filter_parameters.drawio.svg)
+![ground_parameter](./image/ground_filter_parameters.drawio.svg)
 
 | Name                              | Type   | Default Value | Description                                                                                                                                                                                                                                                                                                                                                      |
 | --------------------------------- | ------ | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

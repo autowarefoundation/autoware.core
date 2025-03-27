@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef AUTOWARE__GROUND_FILTER__GRID_GROUND_FILTER_HPP_
-#define AUTOWARE__GROUND_FILTER__GRID_GROUND_FILTER_HPP_
+#ifndef AUTOWARE__GROUND_FILTER__GROUND_FILTER_HPP_
+#define AUTOWARE__GROUND_FILTER__GROUND_FILTER_HPP_
 
 #include "autoware/ground_filter/data.hpp"
 #include "autoware/ground_filter/grid.hpp"
@@ -126,7 +126,7 @@ struct PointsCentroid
   const std::vector<float> & getHeightListRef() const { return height_list; }
 };
 
-struct GridGroundFilterParameter
+struct GroundFilterParameter
 {
   // parameters
   float global_slope_max_angle_rad;
@@ -150,10 +150,10 @@ struct GridGroundFilterParameter
   float virtual_lidar_z;
 };
 
-class GridGroundFilter
+class GroundFilter
 {
 public:
-  explicit GridGroundFilter(GridGroundFilterParameter & param) : param_(param)
+  explicit GroundFilter(GroundFilterParameter & param) : param_(param)
   {
     // calculate derived parameters
     param_.global_slope_max_ratio = std::tan(param_.global_slope_max_angle_rad);
@@ -166,7 +166,7 @@ public:
     grid_ptr_->initialize(
       param_.grid_size_m, param_.radial_divider_angle_rad, param_.grid_mode_switch_radius);
   }
-  ~GridGroundFilter() = default;
+  ~GroundFilter() = default;
 
   void setTimeKeeper(std::shared_ptr<autoware_utils::TimeKeeper> time_keeper_ptr)
   {
@@ -186,7 +186,7 @@ public:
 
 private:
   // parameters
-  GridGroundFilterParameter param_;
+  GroundFilterParameter param_;
 
   // data
   PointCloud2ConstPtr in_cloud_;
@@ -218,4 +218,4 @@ private:
 
 }  // namespace autoware::ground_filter
 
-#endif  // AUTOWARE__GROUND_FILTER__GRID_GROUND_FILTER_HPP_
+#endif  // AUTOWARE__GROUND_FILTER__GROUND_FILTER_HPP_

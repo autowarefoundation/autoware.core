@@ -20,7 +20,7 @@ include_directories(
 
 ament_auto_add_library(${PROJECT_NAME} SHARED
   src/node.cpp
-  src/grid_ground_filter.cpp
+  src/ground_filter.cpp
   src/sanity_check.cpp
 )
 
@@ -32,8 +32,8 @@ target_link_libraries(${PROJECT_NAME}
 # ========== Ground Filter ==========
 # -- Scan Ground Filter --
 rclcpp_components_register_node(${PROJECT_NAME}
-  PLUGIN "autoware::ground_filter::ScanGroundFilterComponent"
-  EXECUTABLE scan_ground_filter_node)
+  PLUGIN "autoware::ground_filter::GroundFilterComponent"
+  EXECUTABLE ground_filter_node)
 
 ament_auto_package(INSTALL_TO_SHARE
   launch

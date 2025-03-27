@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "autoware/ground_filter/grid_ground_filter.hpp"
+#include "autoware/ground_filter/ground_filter.hpp"
 
 #include "autoware/ground_filter/data.hpp"
 
@@ -25,7 +25,7 @@ namespace autoware::ground_filter
 {
 
 // assign the pointcloud data to the grid
-void GridGroundFilter::convert()
+void GroundFilter::convert()
 {
   std::unique_ptr<ScopedTimeTrack> st_ptr;
   if (time_keeper_) st_ptr = std::make_unique<ScopedTimeTrack>(__func__, *time_keeper_);
@@ -43,7 +43,7 @@ void GridGroundFilter::convert()
 }
 
 // preprocess the grid data, set the grid connections
-void GridGroundFilter::preprocess()
+void GroundFilter::preprocess()
 {
   std::unique_ptr<ScopedTimeTrack> st_ptr;
   if (time_keeper_) st_ptr = std::make_unique<ScopedTimeTrack>(__func__, *time_keeper_);
@@ -53,7 +53,7 @@ void GridGroundFilter::preprocess()
 }
 
 // recursive search for the ground grid cell close to the grid origin
-bool GridGroundFilter::recursiveSearch(
+bool GroundFilter::recursiveSearch(
   const int check_idx, const int search_cnt, std::vector<int> & idx) const
 {
   // set the maximum search count
@@ -61,7 +61,7 @@ bool GridGroundFilter::recursiveSearch(
   return recursiveSearch(check_idx, search_cnt, idx, count_limit);
 }
 
-bool GridGroundFilter::recursiveSearch(
+bool GroundFilter::recursiveSearch(
   const int check_idx, const int search_cnt, std::vector<int> & idx, size_t count) const
 {
   if (count == 0) {
@@ -86,7 +86,7 @@ bool GridGroundFilter::recursiveSearch(
 }
 
 // fit the line from the ground grid cells
-void GridGroundFilter::fitLineFromGndGrid(const std::vector<int> & idx, float & a, float & b) const
+void GroundFilter::fitLineFromGndGrid(const std::vector<int> & idx, float & a, float & b) const
 {
   // if the idx is empty, the line is not defined
   if (idx.empty()) {
@@ -127,7 +127,7 @@ void GridGroundFilter::fitLineFromGndGrid(const std::vector<int> & idx, float & 
 }
 
 // process the grid data to initialize the ground cells prior to the ground segmentation
-void GridGroundFilter::initializeGround(pcl::PointIndices & out_no_ground_indices)
+void GroundFilter::initializeGround(pcl::PointIndices & out_no_ground_indices)
 {
   std::unique_ptr<ScopedTimeTrack> st_ptr;
   if (time_keeper_) st_ptr = std::make_unique<ScopedTimeTrack>(__func__, *time_keeper_);
@@ -190,7 +190,7 @@ void GridGroundFilter::initializeGround(pcl::PointIndices & out_no_ground_indice
 }
 
 // segment the point in the cell, logic for the continuous cell
-void GridGroundFilter::SegmentContinuousCell(
+void GroundFilter::SegmentContinuousCell(
   const Cell & cell, PointsCentroid & ground_bin, pcl::PointIndices & out_no_ground_indices)
 {
   const Cell & prev_cell = grid_ptr_->getCell(cell.scan_grid_root_idx_);
@@ -248,7 +248,7 @@ void GridGroundFilter::SegmentContinuousCell(
 }
 
 // segment the point in the cell, logic for the discontinuous cell
-void GridGroundFilter::SegmentDiscontinuousCell(
+void GroundFilter::SegmentDiscontinuousCell(
   const Cell & cell, PointsCentroid & ground_bin, pcl::PointIndices & out_no_ground_indices)
 {
   const Cell & prev_cell = grid_ptr_->getCell(cell.scan_grid_root_idx_);
@@ -308,7 +308,7 @@ void GridGroundFilter::SegmentDiscontinuousCell(
 }
 
 // segment the point in the cell, logic for the break cell
-void GridGroundFilter::SegmentBreakCell(
+void GroundFilter::SegmentBreakCell(
   const Cell & cell, PointsCentroid & ground_bin, pcl::PointIndices & out_no_ground_indices)
 {
   const Cell & prev_cell = grid_ptr_->getCell(cell.scan_grid_root_idx_);
@@ -354,7 +354,7 @@ void GridGroundFilter::SegmentBreakCell(
 }
 
 // classify the point cloud into ground and non-ground points
-void GridGroundFilter::classify(pcl::PointIndices & out_no_ground_indices)
+void GroundFilter::classify(pcl::PointIndices & out_no_ground_indices)
 {
   std::unique_ptr<ScopedTimeTrack> st_ptr;
   if (time_keeper_) st_ptr = std::make_unique<ScopedTimeTrack>(__func__, *time_keeper_);
@@ -464,7 +464,7 @@ void GridGroundFilter::classify(pcl::PointIndices & out_no_ground_indices)
 }
 
 // process the point cloud to segment the ground points
-void GridGroundFilter::process(
+void GroundFilter::process(
   const PointCloud2ConstPtr & in_cloud, pcl::PointIndices & out_no_ground_indices)
 {
   std::unique_ptr<ScopedTimeTrack> st_ptr;

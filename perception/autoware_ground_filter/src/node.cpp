@@ -14,7 +14,7 @@
 
 #include "autoware/ground_filter/node.hpp"
 
-#include "autoware/ground_filter/grid_ground_filter.hpp"
+#include "autoware/ground_filter/ground_filter.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "autoware/ground_filter/sanity_check.hpp"
 
@@ -58,8 +58,8 @@ using autoware_utils::normalize_degree;
 using autoware_utils::normalize_radian;
 using autoware_utils::ScopedTimeTrack;
 
-ScanGroundFilterComponent::ScanGroundFilterComponent(const rclcpp::NodeOptions & options)
-: rclcpp::Node("ScanGroundFilter", options)
+GroundFilterComponent::GroundFilterComponent(const rclcpp::NodeOptions & options)
+: rclcpp::Node("GroundFilter", options)
 {
   // set initial parameters
   {
@@ -111,7 +111,7 @@ ScanGroundFilterComponent::ScanGroundFilterComponent(const rclcpp::NodeOptions &
 
     // initialize grid filter
     {
-      GridGroundFilterParameter param;
+      GroundFilterParameter param;
       param.global_slope_max_angle_rad = global_slope_max_angle_rad_;
       param.local_slope_max_angle_rad = local_slope_max_angle_rad_;
       param.radial_divider_angle_rad = radial_divider_angle_rad_;
@@ -128,19 +128,19 @@ ScanGroundFilterComponent::ScanGroundFilterComponent(const rclcpp::NodeOptions &
       param.virtual_lidar_y = 0.0f;
       param.virtual_lidar_z = virtual_lidar_z_;
 
-      grid_ground_filter_ptr_ = std::make_unique<GridGroundFilter>(param);
+      ground_filter_ptr_ = std::make_unique<GroundFilter>(param);
     }
   }
 
   using std::placeholders::_1;
   set_param_res_ = this->add_on_set_parameters_callback(
-    std::bind(&ScanGroundFilterComponent::onParameter, this, _1));
+    std::bind(&GroundFilterComponent::onParameter, this, _1));
 
   // initialize debug tool
   {
     stop_watch_ptr_ = std::make_unique<autoware_utils::StopWatch<std::chrono::milliseconds>>();
     debug_publisher_ptr_ =
-      std::make_unique<autoware_utils::DebugPublisher>(this, "scan_ground_filter");
+      std::make_unique<autoware_utils::DebugPublisher>(this, "ground_filter");
     stop_watch_ptr_->tic("cyclic_time");
     stop_watch_ptr_->tic("processing_time");
 
@@ -153,7 +153,7 @@ ScanGroundFilterComponent::ScanGroundFilterComponent(const rclcpp::NodeOptions &
       time_keeper_ = std::make_shared<autoware_utils::TimeKeeper>(time_keeper);
 
       // set time keeper to grid
-      grid_ground_filter_ptr_->setTimeKeeper(time_keeper_);
+      ground_filter_ptr_->setTimeKeeper(time_keeper_);
     }
   }
 
@@ -192,7 +192,7 @@ ScanGroundFilterComponent::ScanGroundFilterComponent(const rclcpp::NodeOptions &
   RCLCPP_DEBUG(this->get_logger(), "[Filter Constructor] successfully created.");
 }
 
-void ScanGroundFilterComponent::setupTF()
+void GroundFilterComponent::setupTF()
 {
   // Always consider static TF if in & out frames are same
   if (tf_input_frame_ == tf_output_frame_) {
@@ -207,7 +207,7 @@ void ScanGroundFilterComponent::setupTF()
     std::make_unique<autoware_utils::ManagedTransformBuffer>(this, has_static_tf_only_);
 }
 
-void ScanGroundFilterComponent::subscribe()
+void GroundFilterComponent::subscribe()
 {
   if (use_indices_) {
     // Subscribe to the input using a filter
@@ -222,7 +222,7 @@ void ScanGroundFilterComponent::subscribe()
           sensor_msgs::msg::PointCloud2, pcl_msgs::msg::PointIndices>>>(max_queue_size_);
       sync_input_indices_a_->connectInput(sub_input_filter_, sub_indices_filter_);
       sync_input_indices_a_->registerCallback(std::bind(
-        &ScanGroundFilterComponent::faster_input_indices_callback, this, std::placeholders::_1,
+        &GroundFilterComponent::faster_input_indices_callback, this, std::placeholders::_1,
         std::placeholders::_2));
     } else {
       sync_input_indices_e_ =
@@ -230,19 +230,19 @@ void ScanGroundFilterComponent::subscribe()
           sensor_msgs::msg::PointCloud2, pcl_msgs::msg::PointIndices>>>(max_queue_size_);
       sync_input_indices_e_->connectInput(sub_input_filter_, sub_indices_filter_);
       sync_input_indices_e_->registerCallback(std::bind(
-        &ScanGroundFilterComponent::faster_input_indices_callback, this, std::placeholders::_1,
+        &GroundFilterComponent::faster_input_indices_callback, this, std::placeholders::_1,
         std::placeholders::_2));
     }
   } else {
     std::function<void(const sensor_msgs::msg::PointCloud2::ConstSharedPtr msg)> cb = std::bind(
-      &ScanGroundFilterComponent::faster_input_indices_callback, this, std::placeholders::_1,
+      &GroundFilterComponent::faster_input_indices_callback, this, std::placeholders::_1,
       pcl_msgs::msg::PointIndices::ConstSharedPtr());
     sub_input_ = this->create_subscription<sensor_msgs::msg::PointCloud2>(
       "input", rclcpp::SensorDataQoS().keep_last(max_queue_size_), cb);
   }
 }
 
-bool ScanGroundFilterComponent::calculate_transform_matrix(
+bool GroundFilterComponent::calculate_transform_matrix(
   const std::string & target_frame, const sensor_msgs::msg::PointCloud2 & from,
   TransformInfo & transform_info /*output*/)
 {
@@ -263,7 +263,7 @@ bool ScanGroundFilterComponent::calculate_transform_matrix(
   return true;
 }
 
-bool ScanGroundFilterComponent::convert_output_costly(
+bool GroundFilterComponent::convert_output_costly(
   std::unique_ptr<sensor_msgs::msg::PointCloud2> & output)
 {
   // In terms of performance, we should avoid using pcl_ros library function,
@@ -307,7 +307,7 @@ bool ScanGroundFilterComponent::convert_output_costly(
   return true;
 }
 
-void ScanGroundFilterComponent::faster_input_indices_callback(
+void GroundFilterComponent::faster_input_indices_callback(
   const sensor_msgs::msg::PointCloud2::ConstSharedPtr cloud,
   const pcl_msgs::msg::PointIndices::ConstSharedPtr indices)
 {
@@ -388,7 +388,7 @@ void ScanGroundFilterComponent::faster_input_indices_callback(
   published_time_publisher_->publish_if_subscribed(pub_output_, cloud->header.stamp);
 }
 
-void ScanGroundFilterComponent::convertPointcloud(
+void GroundFilterComponent::convertPointcloud(
   const sensor_msgs::msg::PointCloud2::ConstSharedPtr & in_cloud,
   std::vector<PointCloudVector> & out_radial_ordered_points) const
 {
@@ -443,14 +443,14 @@ void ScanGroundFilterComponent::convertPointcloud(
   }
 }
 
-void ScanGroundFilterComponent::calcVirtualGroundOrigin(pcl::PointXYZ & point) const
+void GroundFilterComponent::calcVirtualGroundOrigin(pcl::PointXYZ & point) const
 {
   point.x = vehicle_info_.wheel_base_m;
   point.y = 0;
   point.z = 0;
 }
 
-void ScanGroundFilterComponent::classifyPointCloud(
+void GroundFilterComponent::classifyPointCloud(
   const sensor_msgs::msg::PointCloud2::ConstSharedPtr & in_cloud,
   const std::vector<PointCloudVector> & in_radial_ordered_clouds,
   pcl::PointIndices & out_no_ground_indices) const
@@ -574,7 +574,7 @@ void ScanGroundFilterComponent::classifyPointCloud(
   }
 }
 
-void ScanGroundFilterComponent::extractObjectPoints(
+void GroundFilterComponent::extractObjectPoints(
   const sensor_msgs::msg::PointCloud2::ConstSharedPtr & in_cloud_ptr,
   const pcl::PointIndices & in_indices, sensor_msgs::msg::PointCloud2 & out_object_cloud) const
 {
@@ -592,7 +592,7 @@ void ScanGroundFilterComponent::extractObjectPoints(
   }
 }
 
-void ScanGroundFilterComponent::faster_filter(
+void GroundFilterComponent::faster_filter(
   const sensor_msgs::msg::PointCloud2::ConstSharedPtr & input,
   [[maybe_unused]] const pcl::IndicesPtr & indices, sensor_msgs::msg::PointCloud2 & output,
   [[maybe_unused]] const TransformInfo & transform_info)
@@ -607,13 +607,13 @@ void ScanGroundFilterComponent::faster_filter(
 
   if (!data_accessor_.isInitialized()) {
     data_accessor_.setField(input);
-    grid_ground_filter_ptr_->setDataAccessor(input);
+    ground_filter_ptr_->setDataAccessor(input);
   }
 
   pcl::PointIndices no_ground_indices;
 
   if (elevation_grid_mode_) {
-    grid_ground_filter_ptr_->process(input, no_ground_indices);
+    ground_filter_ptr_->process(input, no_ground_indices);
   } else {
     std::vector<PointCloudVector> radial_ordered_points;
     convertPointcloud(input, radial_ordered_points);
@@ -642,7 +642,7 @@ void ScanGroundFilterComponent::faster_filter(
 
 // TODO(taisa1): Temporary Implementation: Delete this function definition when all the filter
 // nodes conform to new API.
-void ScanGroundFilterComponent::filter(
+void GroundFilterComponent::filter(
   const sensor_msgs::msg::PointCloud2::ConstSharedPtr & input,
   [[maybe_unused]] const pcl::IndicesPtr & indices,
   const sensor_msgs::msg::PointCloud2 & output) const
@@ -652,7 +652,7 @@ void ScanGroundFilterComponent::filter(
   (void)output;
 }
 
-rcl_interfaces::msg::SetParametersResult ScanGroundFilterComponent::onParameter(
+rcl_interfaces::msg::SetParametersResult GroundFilterComponent::onParameter(
   const std::vector<rclcpp::Parameter> & param)
 {
   if (get_param(param, "grid_size_m", grid_size_m_)) {
@@ -730,4 +730,4 @@ rcl_interfaces::msg::SetParametersResult ScanGroundFilterComponent::onParameter(
 }  // namespace autoware::ground_filter
 
 #include <rclcpp_components/register_node_macro.hpp>
-RCLCPP_COMPONENTS_REGISTER_NODE(autoware::ground_filter::ScanGroundFilterComponent)
+RCLCPP_COMPONENTS_REGISTER_NODE(autoware::ground_filter::GroundFilterComponent)

@@ -10,7 +10,7 @@ Detail description of each ground segmentation algorithm is in the following lin
 
 | Filter Name        | Description                                                                                                | Detail                             |
 | ------------------ | ---------------------------------------------------------------------------------------------------------- | ---------------------------------- |
-| scan_ground_filter | A method of removing the ground based on the geometrical relationship between points lined up on radiation | [link](docs/scan-ground-filter.md) |
+| ground_filter      | A method of removing the ground based on the geometrical relationship between points lined up on radiation | [link](docs/ground-filter.md) |
 
 ## Inputs / Outputs
 

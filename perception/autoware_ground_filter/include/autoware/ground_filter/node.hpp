@@ -16,7 +16,7 @@
 #define AUTOWARE__GROUND_FILTER__NODE_HPP_
 
 #include "autoware/ground_filter/data.hpp"
-#include "autoware/ground_filter/grid_ground_filter.hpp"
+#include "autoware/ground_filter/ground_filter.hpp"
 
 #include <autoware_utils/system/time_keeper.hpp>
 #include <autoware_vehicle_info_utils/vehicle_info.hpp>
@@ -61,7 +61,7 @@
 #include <string>
 #include <vector>
 
-class ScanGroundFilterTest;
+class GroundFilterTest;
 
 namespace autoware::ground_filter
 {
@@ -82,7 +82,7 @@ struct TransformInfo
   bool need_transform;
 };
 
-class ScanGroundFilterComponent : public rclcpp::Node
+class GroundFilterComponent : public rclcpp::Node
 {
 private:
   // classified point label
@@ -239,7 +239,7 @@ private:
   bool approximate_sync_;
 
   // grid ground filter processor
-  std::unique_ptr<GridGroundFilter> grid_ground_filter_ptr_;
+  std::unique_ptr<GroundFilter> ground_filter_ptr_;
 
   // time keeper related
   rclcpp::Publisher<autoware_utils::ProcessingTimeDetail>::SharedPtr
@@ -380,10 +380,10 @@ protected:
 
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-  explicit ScanGroundFilterComponent(const rclcpp::NodeOptions & options);
+  explicit GroundFilterComponent(const rclcpp::NodeOptions & options);
 
   // for test
-  friend ScanGroundFilterTest;
+  friend GroundFilterTest;
 };
 }  // namespace autoware::ground_filter
 
