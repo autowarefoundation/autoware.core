@@ -8,27 +8,27 @@
       
       
       
-        <link rel="canonical" href="https://autowarefoundation.github.io/autoware_core/main/planning/autoware_velocity_smoother/">
+        <link rel="canonical" href="https://autowarefoundation.github.io/autoware_core/main/planning/behavior_velocity_planner/autoware_behavior_velocity_planner/">
       
       
-        <link rel="prev" href="../autoware_route_handler/">
+        <link rel="prev" href="../../autoware_velocity_smoother/">
       
       
-        <link rel="next" href="../behavior_velocity_planner/autoware_behavior_velocity_planner/">
+        <link rel="next" href="../autoware_behavior_velocity_planner_common/">
       
-      <link rel="icon" href="../../docs/assets/images/autoware-foundation.png">
+      <link rel="icon" href="../../../docs/assets/images/autoware-foundation.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.20">
     
     
       
-        <title>Velocity Smoother - Autoware Core Documentation</title>
+        <title>Behavior Velocity Planner - Autoware Core Documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.eebd395e.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.eebd395e.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ecc896b0.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ecc896b0.min.css">
       
       
 
@@ -44,11 +44,11 @@
       
     
     
-      <link rel="stylesheet" href="../../docs/assets/css/extra.css">
+      <link rel="stylesheet" href="../../../docs/assets/css/extra.css">
     
       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -77,7 +77,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#velocity-smoother" class="md-skip">
+        <a href="#behavior-velocity-planner" class="md-skip">
           Skip to content
         </a>
       
@@ -97,7 +97,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="Autoware Core Documentation" class="md-header__button md-logo" aria-label="Autoware Core Documentation" data-md-component="logo">
+    <a href="../../.." title="Autoware Core Documentation" class="md-header__button md-logo" aria-label="Autoware Core Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M135.2 117.4 109.1 192h293.8l-26.1-74.6c-4.5-12.8-16.6-21.4-30.2-21.4H165.4c-13.6 0-25.7 8.6-30.2 21.4zm-95.6 79.4L74.8 96.3C88.3 57.8 124.6 32 165.4 32h181.2c40.8 0 77.1 25.8 90.6 64.3l35.2 100.5c23.2 9.6 39.6 32.5 39.6 59.2v192c0 17.7-14.3 32-32 32h-32c-17.7 0-32-14.3-32-32v-48H96v48c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32V256c0-26.7 16.4-49.6 39.6-59.2zM128 288a32 32 0 1 0-64 0 32 32 0 1 0 64 0zm288 32a32 32 0 1 0 0-64 32 32 0 1 0 0 64z"/></svg>
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Velocity Smoother
+              Behavior Velocity Planner
             
           </span>
         </div>
@@ -219,7 +219,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../common/autoware_component_interface_specs/" class="md-tabs__link">
+      <a href="../../../common/autoware_component_interface_specs/" class="md-tabs__link">
         Common
       </a>
     </li>
@@ -242,7 +242,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../control/autoware_simple_pure_pursuit/" class="md-tabs__link">
+      <a href="../../../control/autoware_simple_pure_pursuit/" class="md-tabs__link">
         Control
       </a>
     </li>
@@ -265,7 +265,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../localization/autoware_ekf_localizer/" class="md-tabs__link">
+      <a href="../../../localization/autoware_ekf_localizer/" class="md-tabs__link">
         Localization
       </a>
     </li>
@@ -288,7 +288,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../map/autoware_map_projection_loader/" class="md-tabs__link">
+      <a href="../../../map/autoware_map_projection_loader/" class="md-tabs__link">
         Map
       </a>
     </li>
@@ -313,7 +313,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../autoware_objects_of_interest_marker_interface/" class="md-tabs__link md-tabs__link--active">
+      <a href="../../autoware_objects_of_interest_marker_interface/" class="md-tabs__link md-tabs__link--active">
         Planning
       </a>
     </li>
@@ -336,7 +336,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../sensing/autoware_crop_box_filter/" class="md-tabs__link">
+      <a href="../../../sensing/autoware_crop_box_filter/" class="md-tabs__link">
         Sensing
       </a>
     </li>
@@ -359,7 +359,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../testing/autoware_planning_test_manager/" class="md-tabs__link">
+      <a href="../../../testing/autoware_planning_test_manager/" class="md-tabs__link">
         Testing
       </a>
     </li>
@@ -395,7 +395,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Autoware Core Documentation" class="md-nav__button md-logo" aria-label="Autoware Core Documentation" data-md-component="logo">
+    <a href="../../.." title="Autoware Core Documentation" class="md-nav__button md-logo" aria-label="Autoware Core Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M135.2 117.4 109.1 192h293.8l-26.1-74.6c-4.5-12.8-16.6-21.4-30.2-21.4H165.4c-13.6 0-25.7 8.6-30.2 21.4zm-95.6 79.4L74.8 96.3C88.3 57.8 124.6 32 165.4 32h181.2c40.8 0 77.1 25.8 90.6 64.3l35.2 100.5c23.2 9.6 39.6 32.5 39.6 59.2v192c0 17.7-14.3 32-32 32h-32c-17.7 0-32-14.3-32-32v-48H96v48c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32V256c0-26.7 16.4-49.6 39.6-59.2zM128 288a32 32 0 1 0-64 0 32 32 0 1 0 64 0zm288 32a32 32 0 1 0 0-64 32 32 0 1 0 0 64z"/></svg>
@@ -507,7 +507,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_component_interface_specs/">Autoware component interface specs</a>
+          <a href="../../../common/autoware_component_interface_specs/">Autoware component interface specs</a>
           
         </div>
       
@@ -555,7 +555,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_geography_utils/">Autoware geography utils</a>
+          <a href="../../../common/autoware_geography_utils/">Autoware geography utils</a>
           
         </div>
       
@@ -603,7 +603,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_interpolation/">Autoware interpolation</a>
+          <a href="../../../common/autoware_interpolation/">Autoware interpolation</a>
           
         </div>
       
@@ -651,7 +651,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_kalman_filter/">Autoware kalman filter</a>
+          <a href="../../../common/autoware_kalman_filter/">Autoware kalman filter</a>
           
         </div>
       
@@ -699,7 +699,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_lanelet2_utils/">Autoware lanelet2 utils</a>
+          <a href="../../../common/autoware_lanelet2_utils/">Autoware lanelet2 utils</a>
           
         </div>
       
@@ -749,7 +749,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_motion_utils/">Autoware motion utils</a>
+          <a href="../../../common/autoware_motion_utils/">Autoware motion utils</a>
           
             <label for="__nav_1_6">
               <span class="md-nav__icon md-icon"></span>
@@ -838,7 +838,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../common/autoware_motion_utils/docs/vehicle/vehicle/" class="md-nav__link">
+      <a href="../../../common/autoware_motion_utils/docs/vehicle/vehicle/" class="md-nav__link">
         vehicle utils
       </a>
     </li>
@@ -895,7 +895,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_node/">Autoware node</a>
+          <a href="../../../common/autoware_node/">Autoware node</a>
           
         </div>
       
@@ -943,7 +943,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_object_recognition_utils/">Autoware object recognition utils</a>
+          <a href="../../../common/autoware_object_recognition_utils/">Autoware object recognition utils</a>
           
         </div>
       
@@ -1037,7 +1037,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../common/autoware_osqp_interface/design/osqp_interface-design/" class="md-nav__link">
+      <a href="../../../common/autoware_osqp_interface/design/osqp_interface-design/" class="md-nav__link">
         Interface for the OSQP library
       </a>
     </li>
@@ -1087,7 +1087,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_point_types/">Autoware point types</a>
+          <a href="../../../common/autoware_point_types/">Autoware point types</a>
           
         </div>
       
@@ -1181,7 +1181,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../common/autoware_qp_interface/design/qp_interface-design/" class="md-nav__link">
+      <a href="../../../common/autoware_qp_interface/design/qp_interface-design/" class="md-nav__link">
         Interface for QP solvers
       </a>
     </li>
@@ -1233,7 +1233,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_signal_processing/">Autoware signal processing</a>
+          <a href="../../../common/autoware_signal_processing/">Autoware signal processing</a>
           
             <label for="__nav_1_12">
               <span class="md-nav__icon md-icon"></span>
@@ -1289,7 +1289,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../common/autoware_signal_processing/documentation/ButterworthFilter/" class="md-nav__link">
+      <a href="../../../common/autoware_signal_processing/documentation/ButterworthFilter/" class="md-nav__link">
         ButterworthFilter
       </a>
     </li>
@@ -1339,7 +1339,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_trajectory/">Autoware trajectory</a>
+          <a href="../../../common/autoware_trajectory/">Autoware trajectory</a>
           
         </div>
       
@@ -1387,7 +1387,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../common/autoware_vehicle_info_utils/">Autoware vehicle info utils</a>
+          <a href="../../../common/autoware_vehicle_info_utils/">Autoware vehicle info utils</a>
           
         </div>
       
@@ -1476,7 +1476,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../control/autoware_simple_pure_pursuit/">Autoware simple pure pursuit</a>
+          <a href="../../../control/autoware_simple_pure_pursuit/">Autoware simple pure pursuit</a>
           
         </div>
       
@@ -1571,7 +1571,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../localization/autoware_ekf_localizer/">Autoware ekf localizer</a>
+          <a href="../../../localization/autoware_ekf_localizer/">Autoware ekf localizer</a>
           
         </div>
       
@@ -1619,7 +1619,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../localization/autoware_localization_util/">Autoware localization util</a>
+          <a href="../../../localization/autoware_localization_util/">Autoware localization util</a>
           
         </div>
       
@@ -1667,7 +1667,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../localization/autoware_stop_filter/">Autoware stop filter</a>
+          <a href="../../../localization/autoware_stop_filter/">Autoware stop filter</a>
           
         </div>
       
@@ -1715,7 +1715,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../localization/autoware_twist2accel/">Autoware twist2accel</a>
+          <a href="../../../localization/autoware_twist2accel/">Autoware twist2accel</a>
           
         </div>
       
@@ -1804,7 +1804,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../map/autoware_map_projection_loader/">Autoware map projection loader</a>
+          <a href="../../../map/autoware_map_projection_loader/">Autoware map projection loader</a>
           
         </div>
       
@@ -1903,7 +1903,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_objects_of_interest_marker_interface/">Autoware objects of interest marker interface</a>
+          <a href="../../autoware_objects_of_interest_marker_interface/">Autoware objects of interest marker interface</a>
           
         </div>
       
@@ -1951,7 +1951,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_path_generator/">Autoware path generator</a>
+          <a href="../../autoware_path_generator/">Autoware path generator</a>
           
         </div>
       
@@ -1999,7 +1999,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_planning_factor_interface/">Autoware planning factor interface</a>
+          <a href="../../autoware_planning_factor_interface/">Autoware planning factor interface</a>
           
         </div>
       
@@ -2047,7 +2047,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../autoware_route_handler/">Autoware route handler</a>
+          <a href="../../autoware_route_handler/">Autoware route handler</a>
           
         </div>
       
@@ -2055,54 +2055,6 @@
         <label class="md-nav__title" for="__nav_5_4">
           <span class="md-nav__icon md-icon"></span>
           Autoware route handler
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-    
-  
-  
-    
-      
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-      
-      
-      
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" checked>
-      
-      
-        
-          
-            
-          
-        
-      
-      
-        
-        
-        <div class="md-nav__link md-nav__link--index md-nav__link--active">
-          <a href="./">Autoware velocity smoother</a>
-          
-        </div>
-      
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="true">
-        <label class="md-nav__title" for="__nav_5_5">
-          <span class="md-nav__icon md-icon"></span>
-          Autoware velocity smoother
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -2130,7 +2082,55 @@
       
         
       
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_6" >
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_5" >
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../autoware_velocity_smoother/">Autoware velocity smoother</a>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5_5">
+          <span class="md-nav__icon md-icon"></span>
+          Autoware velocity smoother
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" checked>
       
       
         
@@ -2147,7 +2147,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_5_6">
           <span class="md-nav__icon md-icon"></span>
           Behavior velocity planner
@@ -2158,16 +2158,16 @@
               
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_6_1" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6_1" checked>
       
       
         
@@ -2179,12 +2179,12 @@
       
         
         
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../behavior_velocity_planner/autoware_behavior_velocity_planner/">Autoware behavior velocity planner</a>
+        <div class="md-nav__link md-nav__link--index md-nav__link--active">
+          <a href="./">Autoware behavior velocity planner</a>
           
         </div>
       
-      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_6_1_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_6_1_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_5_6_1">
           <span class="md-nav__icon md-icon"></span>
           Autoware behavior velocity planner
@@ -2226,7 +2226,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../behavior_velocity_planner/autoware_behavior_velocity_planner_common/">Autoware behavior velocity planner common</a>
+          <a href="../autoware_behavior_velocity_planner_common/">Autoware behavior velocity planner common</a>
           
         </div>
       
@@ -2272,7 +2272,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../behavior_velocity_planner/autoware_behavior_velocity_stop_line_module/">Autoware behavior velocity stop line module</a>
+          <a href="../autoware_behavior_velocity_stop_line_module/">Autoware behavior velocity stop line module</a>
           
         </div>
       
@@ -2370,7 +2370,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../sensing/autoware_crop_box_filter/">Autoware crop box filter</a>
+          <a href="../../../sensing/autoware_crop_box_filter/">Autoware crop box filter</a>
           
         </div>
       
@@ -2418,7 +2418,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../sensing/autoware_gnss_poser/">Autoware gnss poser</a>
+          <a href="../../../sensing/autoware_gnss_poser/">Autoware gnss poser</a>
           
         </div>
       
@@ -2515,7 +2515,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../testing/autoware_planning_test_manager/">Autoware planning test manager</a>
+          <a href="../../../testing/autoware_planning_test_manager/">Autoware planning test manager</a>
           
         </div>
       
@@ -2563,7 +2563,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../testing/autoware_pyplot/">Autoware pyplot</a>
+          <a href="../../../testing/autoware_pyplot/">Autoware pyplot</a>
           
         </div>
       
@@ -2611,7 +2611,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../testing/autoware_test_node/">Autoware test node</a>
+          <a href="../../../testing/autoware_test_node/">Autoware test node</a>
           
         </div>
       
@@ -2659,7 +2659,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../testing/autoware_test_utils/">Autoware test utils</a>
+          <a href="../../../testing/autoware_test_utils/">Autoware test utils</a>
           
         </div>
       
@@ -2753,7 +2753,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../testing/autoware_testing/design/autoware_testing-design/" class="md-nav__link">
+      <a href="../../../testing/autoware_testing/design/autoware_testing-design/" class="md-nav__link">
         autoware_testing
       </a>
     </li>
@@ -2808,180 +2808,36 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#purpose" class="md-nav__link">
-    Purpose
+  <a href="#overview" class="md-nav__link">
+    Overview
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#inner-workings-algorithms" class="md-nav__link">
-    Inner-workings / Algorithms
-  </a>
-  
-    <nav class="md-nav" aria-label="Inner-workings / Algorithms">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#flow-chart" class="md-nav__link">
-    Flow chart
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#inputs-outputs" class="md-nav__link">
-    Inputs / Outputs
-  </a>
-  
-    <nav class="md-nav" aria-label="Inputs / Outputs">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#input" class="md-nav__link">
-    Input
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#output" class="md-nav__link">
-    Output
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parameters" class="md-nav__link">
-    Parameters
-  </a>
-  
-    <nav class="md-nav" aria-label="Parameters">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#constraint-parameters" class="md-nav__link">
-    Constraint parameters
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#external-velocity-limit-parameter" class="md-nav__link">
-    External velocity limit parameter
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#curve-parameters" class="md-nav__link">
-    Curve parameters
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#engage-replan-parameters" class="md-nav__link">
-    Engage &amp; replan parameters
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#stopping-velocity-parameters" class="md-nav__link">
-    Stopping velocity parameters
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#extraction-parameters" class="md-nav__link">
-    Extraction parameters
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#resampling-parameters" class="md-nav__link">
-    Resampling parameters
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#resampling-parameters-for-post-process" class="md-nav__link">
-    Resampling parameters for post process
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#limit-steering-angle-rate-parameters" class="md-nav__link">
-    Limit steering angle rate parameters
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#weights-for-optimization" class="md-nav__link">
-    Weights for optimization
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#others" class="md-nav__link">
-    Others
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#assumptions-known-limits" class="md-nav__link">
-    Assumptions / Known limits
+  <a href="#input-topics" class="md-nav__link">
+    Input topics
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#optional-error-detection-and-handling" class="md-nav__link">
-    (Optional) Error detection and handling
+  <a href="#output-topics" class="md-nav__link">
+    Output topics
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#optional-performance-characterization" class="md-nav__link">
-    (Optional) Performance characterization
+  <a href="#node-parameters" class="md-nav__link">
+    Node parameters
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#optional-referencesexternal-links" class="md-nav__link">
-    (Optional) References/External links
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#optional-future-extensions-unimplemented-parts" class="md-nav__link">
-    (Optional) Future extensions / Unimplemented parts
+  <a href="#traffic-light-handling-in-simreal" class="md-nav__link">
+    Traffic Light Handling in sim/real
   </a>
   
 </li>
@@ -3004,91 +2860,30 @@
   
 
 
-<div><h1 id="velocity-smoother">Velocity Smoother<a class="headerlink" href="#velocity-smoother" title="Permanent link">#</a></h1>
-<h2 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">#</a></h2>
-<p><code>autoware_velocity_smoother</code> outputs a desired velocity profile on a reference trajectory.
-This module plans a velocity profile within the limitations of the velocity, the acceleration and the jerk to realize both the maximization of velocity and the ride quality.
-We call this module <code>autoware_velocity_smoother</code> because the limitations of the acceleration and the jerk means the smoothness of the velocity profile.</p>
-<h2 id="inner-workings-algorithms">Inner-workings / Algorithms<a class="headerlink" href="#inner-workings-algorithms" title="Permanent link">#</a></h2>
-<h3 id="flow-chart">Flow chart<a class="headerlink" href="#flow-chart" title="Permanent link">#</a></h3>
-<p><img alt="motion_velocity_smoother_flow" src="media/motion_velocity_smoother_flow.drawio.svg"></p>
-<h4 id="extract-trajectory">Extract trajectory<a class="headerlink" href="#extract-trajectory" title="Permanent link">#</a></h4>
-<p>For the point on the reference trajectory closest to the center of the rear wheel axle of the vehicle, it extracts the reference path between <code>extract_behind_dist</code> behind and <code>extract_ahead_dist</code> ahead.</p>
-<h4 id="apply-external-velocity-limit">Apply external velocity limit<a class="headerlink" href="#apply-external-velocity-limit" title="Permanent link">#</a></h4>
-<p>It applies the velocity limit input from the external of <code>autoware_velocity_smoother</code>.
-Remark that the external velocity limit is different from the velocity limit already set on the map and the reference trajectory.
-The external velocity is applied at the position that it is able to reach the velocity limit with the deceleration and the jerk constraints set as the parameter.</p>
-<h4 id="apply-stop-approaching-velocity">Apply stop approaching velocity<a class="headerlink" href="#apply-stop-approaching-velocity" title="Permanent link">#</a></h4>
-<p>It applies the velocity limit near the stopping point.
-This function is used to approach near the obstacle or improve the accuracy of stopping.</p>
-<h4 id="apply-lateral-acceleration-limit">Apply lateral acceleration limit<a class="headerlink" href="#apply-lateral-acceleration-limit" title="Permanent link">#</a></h4>
-<p>It applies the velocity limit to decelerate at the curve.
-It calculates the velocity limit from the curvature of the reference trajectory and the maximum lateral acceleration <code>max_lateral_accel</code>.
-The velocity limit is set as not to fall under <code>min_curve_velocity</code>.</p>
-<p>Note: velocity limit that requests larger than <code>nominal.jerk</code> is not applied. In other words, even if a sharp curve is planned just in front of the ego, no deceleration is performed.</p>
-<h4 id="apply-steering-rate-limit">Apply steering rate limit<a class="headerlink" href="#apply-steering-rate-limit" title="Permanent link">#</a></h4>
-<p>It calculates the desired steering angles of trajectory points. and it applies the steering rate limit. If the (<code>steering_angle_rate</code> &gt; <code>max_steering_angle_rate</code>), it decreases the velocity of the trajectory point to acceptable velocity.</p>
-<h4 id="resample-trajectory">Resample trajectory<a class="headerlink" href="#resample-trajectory" title="Permanent link">#</a></h4>
-<p>It resamples the points on the reference trajectory with designated time interval.
-Note that the range of the length of the trajectory is set between <code>min_trajectory_length</code> and <code>max_trajectory_length</code>, and the distance between two points is longer than <code>min_trajectory_interval_distance</code>.
-It samples densely up to the distance traveled between <code>resample_time</code> with the current velocity, then samples sparsely after that.
-By sampling according to the velocity, both calculation load and accuracy are achieved since it samples finely at low velocity and coarsely at high velocity.</p>
-<h4 id="calculate-initial-state">Calculate initial state<a class="headerlink" href="#calculate-initial-state" title="Permanent link">#</a></h4>
-<p>Calculate initial values for velocity planning.
-The initial values are calculated according to the situation as shown in the following table.</p>
-<table>
-<thead>
-<tr>
-<th>Situation</th>
-<th>Initial velocity</th>
-<th>Initial acceleration</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>First calculation</td>
-<td>Current velocity</td>
-<td>0.0</td>
-</tr>
-<tr>
-<td>Engaging</td>
-<td><code>engage_velocity</code></td>
-<td><code>engage_acceleration</code></td>
-</tr>
-<tr>
-<td>Deviate between the planned velocity and the current velocity</td>
-<td>Current velocity</td>
-<td>Previous planned value</td>
-</tr>
-<tr>
-<td>Normal</td>
-<td>Previous planned value</td>
-<td>Previous planned value</td>
-</tr>
-</tbody>
-</table>
-<h4 id="smooth-velocity">Smooth velocity<a class="headerlink" href="#smooth-velocity" title="Permanent link">#</a></h4>
-<p>It plans the velocity.
-The algorithm of velocity planning is chosen from <code>JerkFiltered</code>, <code>L2</code> and <code>Linf</code>, and it is set in the launch file.
-In these algorithms, they use OSQP[1] as the solver of the optimization.</p>
-<h5 id="jerkfiltered">JerkFiltered<a class="headerlink" href="#jerkfiltered" title="Permanent link">#</a></h5>
-<p>It minimizes the sum of the minus of the square of the velocity and the square of the violation of the velocity limit, the acceleration limit and the jerk limit.</p>
-<h5 id="l2">L2<a class="headerlink" href="#l2" title="Permanent link">#</a></h5>
-<p>It minimizes the sum of the minus of the square of the velocity, the square of the the pseudo-jerk[2] and the square of the violation of the velocity limit and the acceleration limit.</p>
-<h5 id="linf">Linf<a class="headerlink" href="#linf" title="Permanent link">#</a></h5>
-<p>It minimizes the sum of the minus of the square of the velocity, the maximum absolute value of the the pseudo-jerk[2] and the square of the violation of the velocity limit and the acceleration limit.</p>
-<h4 id="post-process">Post process<a class="headerlink" href="#post-process" title="Permanent link">#</a></h4>
-<p>It performs the post-process of the planned velocity.</p>
+<div><h1 id="behavior-velocity-planner">Behavior Velocity Planner<a class="headerlink" href="#behavior-velocity-planner" title="Permanent link">#</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">#</a></h2>
+<p><code>behavior_velocity_planner</code> is a planner that adjust velocity based on the traffic rules.
+It loads modules as plugins. Please refer to the links listed below for detail on each module.</p>
+<p><img alt="Architecture" src="docs/BehaviorVelocityPlanner-Architecture.drawio.svg"></p>
 <ul>
-<li>Set zero velocity ahead of the stopping point</li>
-<li>Set maximum velocity given in the config named <code>max_velocity</code></li>
-<li>Set velocity behind the current pose</li>
-<li>Resample trajectory (<code>post resampling</code>)</li>
-<li>Output debug data</li>
+<li><a href="https://autowarefoundation.github.io/autoware_universe/main/planning/behavior_velocity_planner/autoware_behavior_velocity_blind_spot_module/">Blind Spot</a></li>
+<li><a href="https://autowarefoundation.github.io/autoware_universe/main/planning/behavior_velocity_planner/autoware_behavior_velocity_crosswalk_module/">Crosswalk</a></li>
+<li><a href="https://autowarefoundation.github.io/autoware_universe/main/planning/behavior_velocity_planner/autoware_behavior_velocity_walkway_module/">Walkway</a></li>
+<li><a href="https://autowarefoundation.github.io/autoware_universe/main/planning/behavior_velocity_planner/autoware_behavior_velocity_detection_area_module/">Detection Area</a></li>
+<li><a href="https://autowarefoundation.github.io/autoware_universe/main/planning/behavior_velocity_planner/autoware_behavior_velocity_intersection_module/">Intersection</a></li>
+<li><a href="https://autowarefoundation.github.io/autoware_universe/main/planning/behavior_velocity_planner/autoware_behavior_velocity_intersection_module/#merge-from-private">MergeFromPrivate</a></li>
+<li><a href="../autoware_behavior_velocity_stop_line_module/">Stop Line</a></li>
+<li><a href="https://autowarefoundation.github.io/autoware_universe/main/planning/behavior_velocity_planner/autoware_behavior_velocity_virtual_traffic_light_module/">Virtual Traffic Light</a></li>
+<li><a href="https://autowarefoundation.github.io/autoware_universe/main/planning/behavior_velocity_planner/autoware_behavior_velocity_traffic_light_module/">Traffic Light</a></li>
+<li><a href="https://autowarefoundation.github.io/autoware_universe/main/planning/behavior_velocity_planner/autoware_behavior_velocity_occlusion_spot_module/">Occlusion Spot</a></li>
+<li><a href="https://autowarefoundation.github.io/autoware_universe/main/planning/behavior_velocity_planner/autoware_behavior_velocity_no_stopping_area_module/">No Stopping Area</a></li>
+<li><a href="https://autowarefoundation.github.io/autoware_universe/main/planning/behavior_velocity_planner/autoware_behavior_velocity_run_out_module/">Run Out</a></li>
+<li><a href="https://autowarefoundation.github.io/autoware_universe/main/planning/behavior_velocity_planner/autoware_behavior_velocity_speed_bump_module/">Speed Bump</a></li>
 </ul>
-<p>After the optimization, a resampling called <code>post resampling</code> is performed before passing the optimized trajectory to the next node. Since the required path interval from optimization may be different from the one for the next module, <code>post resampling</code> helps to fill this gap. Therefore, in <code>post resampling</code>, it is necessary to check the path specification of the following module to determine the parameters. Note that if the computational load of the optimization algorithm is high and the path interval is sparser than the path specification of the following module in the first resampling, <code>post resampling</code> would resample the trajectory densely. On the other hand, if the computational load of the optimization algorithm is small and the path interval is denser than the path specification of the following module in the first resampling, the path is sparsely resampled according to the specification of the following module.</p>
-<h2 id="inputs-outputs">Inputs / Outputs<a class="headerlink" href="#inputs-outputs" title="Permanent link">#</a></h2>
-<h3 id="input">Input<a class="headerlink" href="#input" title="Permanent link">#</a></h3>
+<p>When each module plans velocity, it considers based on <code>base_link</code>(center of rear-wheel axis) pose.
+So for example, in order to stop at a stop line with the vehicles' front on the stop line, it calculates <code>base_link</code> position from the distance between <code>base_link</code> to front and modifies path velocity from the <code>base_link</code> position.</p>
+<p><img alt="set_stop_velocity" src="docs/set_stop_velocity.drawio.svg"></p>
+<h2 id="input-topics">Input topics<a class="headerlink" href="#input-topics" title="Permanent link">#</a></h2>
 <table>
 <thead>
 <tr>
@@ -3099,33 +2894,43 @@ In these algorithms, they use OSQP[1] as the solver of the optimization.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>~/input/trajectory</code></td>
-<td><code>autoware_planning_msgs/Trajectory</code></td>
-<td>Reference trajectory</td>
+<td><code>~input/path_with_lane_id</code></td>
+<td>autoware_internal_planning_msgs::msg::PathWithLaneId</td>
+<td>path with lane_id</td>
 </tr>
 <tr>
-<td><code>/planning/scenario_planning/max_velocity</code></td>
-<td><code>std_msgs/Float32</code></td>
-<td>External velocity limit [m/s]</td>
+<td><code>~input/vector_map</code></td>
+<td>autoware_map_msgs::msg::LaneletMapBin</td>
+<td>vector map</td>
 </tr>
 <tr>
-<td><code>/localization/kinematic_state</code></td>
-<td><code>nav_msgs/Odometry</code></td>
-<td>Current odometry</td>
+<td><code>~input/vehicle_odometry</code></td>
+<td>nav_msgs::msg::Odometry</td>
+<td>vehicle velocity</td>
 </tr>
 <tr>
-<td><code>/tf</code></td>
-<td><code>tf2_msgs/TFMessage</code></td>
-<td>TF</td>
+<td><code>~input/dynamic_objects</code></td>
+<td>autoware_perception_msgs::msg::PredictedObjects</td>
+<td>dynamic objects</td>
 </tr>
 <tr>
-<td><code>/tf_static</code></td>
-<td><code>tf2_msgs/TFMessage</code></td>
-<td>TF static</td>
+<td><code>~input/no_ground_pointcloud</code></td>
+<td>sensor_msgs::msg::PointCloud2</td>
+<td>obstacle pointcloud</td>
+</tr>
+<tr>
+<td><code>~/input/compare_map_filtered_pointcloud</code></td>
+<td>sensor_msgs::msg::PointCloud2</td>
+<td>obstacle pointcloud filtered by compare map. Note that this is used only when the detection method of run out module is Points.</td>
+</tr>
+<tr>
+<td><code>~input/traffic_signals</code></td>
+<td>autoware_perception_msgs::msg::TrafficLightGroupArray</td>
+<td>traffic light states</td>
 </tr>
 </tbody>
 </table>
-<h3 id="output">Output<a class="headerlink" href="#output" title="Permanent link">#</a></h3>
+<h2 id="output-topics">Output topics<a class="headerlink" href="#output-topics" title="Permanent link">#</a></h2>
 <table>
 <thead>
 <tr>
@@ -3136,585 +2941,97 @@ In these algorithms, they use OSQP[1] as the solver of the optimization.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>~/output/trajectory</code></td>
-<td><code>autoware_planning_msgs/Trajectory</code></td>
-<td>Modified trajectory</td>
+<td><code>~output/path</code></td>
+<td>autoware_planning_msgs::msg::Path</td>
+<td>path to be followed</td>
 </tr>
 <tr>
-<td><code>/planning/scenario_planning/current_max_velocity</code></td>
-<td><code>std_msgs/Float32</code></td>
-<td>Current external velocity limit [m/s]</td>
-</tr>
-<tr>
-<td><code>~/closest_velocity</code></td>
-<td><code>std_msgs/Float32</code></td>
-<td>Planned velocity closest to ego base_link (for debug)</td>
-</tr>
-<tr>
-<td><code>~/closest_acceleration</code></td>
-<td><code>std_msgs/Float32</code></td>
-<td>Planned acceleration closest to ego base_link (for debug)</td>
-</tr>
-<tr>
-<td><code>~/closest_jerk</code></td>
-<td><code>std_msgs/Float32</code></td>
-<td>Planned jerk closest to ego base_link (for debug)</td>
-</tr>
-<tr>
-<td><code>~/debug/trajectory_raw</code></td>
-<td><code>autoware_planning_msgs/Trajectory</code></td>
-<td>Extracted trajectory (for debug)</td>
-</tr>
-<tr>
-<td><code>~/debug/trajectory_external_velocity_limited</code></td>
-<td><code>autoware_planning_msgs/Trajectory</code></td>
-<td>External velocity limited trajectory (for debug)</td>
-</tr>
-<tr>
-<td><code>~/debug/trajectory_lateral_acc_filtered</code></td>
-<td><code>autoware_planning_msgs/Trajectory</code></td>
-<td>Lateral acceleration limit filtered trajectory (for debug)</td>
-</tr>
-<tr>
-<td><code>~/debug/trajectory_steering_rate_limited</code></td>
-<td><code>autoware_planning_msgs/Trajectory</code></td>
-<td>Steering angle rate limit filtered trajectory (for debug)</td>
-</tr>
-<tr>
-<td><code>~/debug/trajectory_time_resampled</code></td>
-<td><code>autoware_planning_msgs/Trajectory</code></td>
-<td>Time resampled trajectory (for debug)</td>
-</tr>
-<tr>
-<td><code>~/distance_to_stopline</code></td>
-<td><code>std_msgs/Float32</code></td>
-<td>Distance to stop line from current ego pose (max 50 m) (for debug)</td>
-</tr>
-<tr>
-<td><code>~/stop_speed_exceeded</code></td>
-<td><code>std_msgs/Bool</code></td>
-<td>It publishes <code>true</code> if planned velocity on the point which the maximum velocity is zero is over threshold</td>
+<td><code>~output/stop_reasons</code></td>
+<td>tier4_planning_msgs::msg::StopReasonArray</td>
+<td>reasons that cause the vehicle to stop</td>
 </tr>
 </tbody>
 </table>
-<h2 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">#</a></h2>
-<h3 id="constraint-parameters">Constraint parameters<a class="headerlink" href="#constraint-parameters" title="Permanent link">#</a></h3>
+<h2 id="node-parameters">Node parameters<a class="headerlink" href="#node-parameters" title="Permanent link">#</a></h2>
 <table>
 <thead>
 <tr>
-<th align="left">Name</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-<th align="left">Default value</th>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left"><code>max_velocity</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Max velocity limit [m/s]</td>
-<td align="left">20.0</td>
+<td><code>launch_modules</code></td>
+<td>vector&lt;string&gt;</td>
+<td>module names to launch</td>
 </tr>
 <tr>
-<td align="left"><code>max_accel</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Max acceleration limit [m/ss]</td>
-<td align="left">1.0</td>
+<td><code>forward_path_length</code></td>
+<td>double</td>
+<td>forward path length</td>
 </tr>
 <tr>
-<td align="left"><code>min_decel</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Min deceleration limit [m/ss]</td>
-<td align="left">-0.5</td>
+<td><code>backward_path_length</code></td>
+<td>double</td>
+<td>backward path length</td>
 </tr>
 <tr>
-<td align="left"><code>stop_decel</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Stop deceleration value at a stop point [m/ss]</td>
-<td align="left">0.0</td>
+<td><code>max_accel</code></td>
+<td>double</td>
+<td>(to be a global parameter) max acceleration of the vehicle</td>
 </tr>
 <tr>
-<td align="left"><code>max_jerk</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Max jerk limit [m/sss]</td>
-<td align="left">1.0</td>
+<td><code>system_delay</code></td>
+<td>double</td>
+<td>(to be a global parameter) delay time until output control command</td>
 </tr>
 <tr>
-<td align="left"><code>min_jerk</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Min jerk limit [m/sss]</td>
-<td align="left">-0.5</td>
+<td><code>delay_response_time</code></td>
+<td>double</td>
+<td>(to be a global parameter) delay time of the vehicle's response to control commands</td>
 </tr>
 </tbody>
 </table>
-<h3 id="external-velocity-limit-parameter">External velocity limit parameter<a class="headerlink" href="#external-velocity-limit-parameter" title="Permanent link">#</a></h3>
+<h2 id="traffic-light-handling-in-simreal">Traffic Light Handling in sim/real<a class="headerlink" href="#traffic-light-handling-in-simreal" title="Permanent link">#</a></h2>
+<p>The handling of traffic light information varies depending on the usage. In the below table, the traffic signal topic element for the corresponding lane is denoted as <code>info</code>, and if <code>info</code> is not available, it is denoted as <code>null</code>.</p>
 <table>
 <thead>
 <tr>
-<th align="left">Name</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-<th align="left">Default value</th>
+<th align="left">module \ case</th>
+<th><code>info</code> is <code>null</code></th>
+<th><code>info</code> is not <code>null</code></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left"><code>margin_to_insert_external_velocity_limit</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">margin distance to insert external velocity limit [m]</td>
-<td align="left">0.3</td>
+<td align="left">intersection_occlusion(<code>is_simulation = *</code>) <ul> <li><code>info</code> is the latest non-<code>null</code> information</li></ul></td>
+<td>GO(occlusion is ignored)</td>
+<td>intersection_occlusion uses the latest non UNKNOWN observation in the queue up to present.<ul><li>If <code>info</code> is <code>GREEN or UNKNOWN</code>, occlusion is cared</li><li>If <code>info</code> is <code>RED or YELLOW</code>, occlusion is ignored(GO) </li> <li> NOTE: Currently timeout is not considered</li> </ul></td>
+</tr>
+<tr>
+<td align="left">traffic_light(sim, <code>is_simulation = true</code>) <ul> <li><code>info</code> is current information</li></ul></td>
+<td>GO</td>
+<td rowspan="2">traffic_light uses the perceived traffic light information at present directly. <ul><li>If <code>info</code> is timeout, STOP whatever the color is</li> <li>If <code>info</code> is not timeout, then act according to the color. If <code>info</code> is <code>UNKNOWN</code>, STOP</li></ul></td>
+</tr>
+<tr>
+<td align="left">traffic_light(real, <code>is_simulation = false</code>) <ul> <li><code>info</code> is current information</li></ul></td>
+<td>STOP</td>
+<td style="padding:0">⁠</td>
+</tr>
+<tr>
+<td align="left">crosswalk with Traffic Light(<code>is_simulation = *</code>) <ul> <li><code>info</code> is current information</li></ul></td>
+<td>default</td>
+<td><ul> <li>If <code>disable_yield_for_new_stopped_object</code> is true, each sub scene_module ignore newly detected pedestrians after module instantiation.</li> <li>If <code>ignore_with_traffic_light</code> is true, occlusion detection is skipped.</li></ul></td>
+</tr>
+<tr>
+<td align="left">map_based_prediction(<code>is_simulation = *</code>) <ul> <li><code>info</code> is current information</li></ul></td>
+<td>default</td>
+<td>If a pedestrian traffic light is<ul> <li>RED, surrounding pedestrians are not predicted.</li> <li>GREEN, stopped pedestrians are not predicted.</li></ul></td>
 </tr>
 </tbody>
-</table>
-<h3 id="curve-parameters">Curve parameters<a class="headerlink" href="#curve-parameters" title="Permanent link">#</a></h3>
-<table>
-<thead>
-<tr>
-<th align="left">Name</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-<th align="left">Default value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left"><code>enable_lateral_acc_limit</code></td>
-<td align="left"><code>bool</code></td>
-<td align="left">To toggle the lateral acceleration filter on and off. You can switch it dynamically at runtime.</td>
-<td align="left">true</td>
-</tr>
-<tr>
-<td align="left"><code>max_lateral_accel</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Max lateral acceleration limit [m/ss]</td>
-<td align="left">0.5</td>
-</tr>
-<tr>
-<td align="left"><code>min_curve_velocity</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Min velocity at lateral acceleration limit [m/ss]</td>
-<td align="left">2.74</td>
-</tr>
-<tr>
-<td align="left"><code>decel_distance_before_curve</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Distance to slowdown before a curve for lateral acceleration limit [m]</td>
-<td align="left">3.5</td>
-</tr>
-<tr>
-<td align="left"><code>decel_distance_after_curve</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Distance to slowdown after a curve for lateral acceleration limit [m]</td>
-<td align="left">2.0</td>
-</tr>
-<tr>
-<td align="left"><code>min_decel_for_lateral_acc_lim_filter</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Deceleration limit to avoid sudden braking by the lateral acceleration filter [m/ss]. Strong limitation degrades the deceleration response to the appearance of sharp curves due to obstacle avoidance, etc.</td>
-<td align="left">-2.5</td>
-</tr>
-</tbody>
-</table>
-<h3 id="engage-replan-parameters">Engage &amp; replan parameters<a class="headerlink" href="#engage-replan-parameters" title="Permanent link">#</a></h3>
-<table>
-<thead>
-<tr>
-<th align="left">Name</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-<th align="left">Default value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left"><code>replan_vel_deviation</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Velocity deviation to replan initial velocity [m/s]</td>
-<td align="left">5.53</td>
-</tr>
-<tr>
-<td align="left"><code>engage_velocity</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Engage velocity threshold [m/s] (if the trajectory velocity is higher than this value, use this velocity for engage vehicle speed)</td>
-<td align="left">0.25</td>
-</tr>
-<tr>
-<td align="left"><code>engage_acceleration</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Engage acceleration [m/ss] (use this acceleration when engagement)</td>
-<td align="left">0.1</td>
-</tr>
-<tr>
-<td align="left"><code>engage_exit_ratio</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Exit engage sequence to normal velocity planning when the velocity exceeds engage_exit_ratio x engage_velocity.</td>
-<td align="left">0.5</td>
-</tr>
-<tr>
-<td align="left"><code>stop_dist_to_prohibit_engage</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">If the stop point is in this distance, the speed is set to 0 not to move the vehicle [m]</td>
-<td align="left">0.5</td>
-</tr>
-</tbody>
-</table>
-<h3 id="stopping-velocity-parameters">Stopping velocity parameters<a class="headerlink" href="#stopping-velocity-parameters" title="Permanent link">#</a></h3>
-<table>
-<thead>
-<tr>
-<th align="left">Name</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-<th align="left">Default value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left"><code>stopping_velocity</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">change target velocity to this value before v=0 point [m/s]</td>
-<td align="left">2.778</td>
-</tr>
-<tr>
-<td align="left"><code>stopping_distance</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">distance for the stopping_velocity [m]. 0 means the stopping velocity is not applied.</td>
-<td align="left">0.0</td>
-</tr>
-</tbody>
-</table>
-<h3 id="extraction-parameters">Extraction parameters<a class="headerlink" href="#extraction-parameters" title="Permanent link">#</a></h3>
-<table>
-<thead>
-<tr>
-<th align="left">Name</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-<th align="left">Default value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left"><code>extract_ahead_dist</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Forward trajectory distance used for planning [m]</td>
-<td align="left">200.0</td>
-</tr>
-<tr>
-<td align="left"><code>extract_behind_dist</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">backward trajectory distance used for planning [m]</td>
-<td align="left">5.0</td>
-</tr>
-<tr>
-<td align="left"><code>delta_yaw_threshold</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Allowed delta yaw between ego pose and trajectory pose [radian]</td>
-<td align="left">1.0472</td>
-</tr>
-</tbody>
-</table>
-<h3 id="resampling-parameters">Resampling parameters<a class="headerlink" href="#resampling-parameters" title="Permanent link">#</a></h3>
-<table>
-<thead>
-<tr>
-<th align="left">Name</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-<th align="left">Default value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left"><code>max_trajectory_length</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Max trajectory length for resampling [m]</td>
-<td align="left">200.0</td>
-</tr>
-<tr>
-<td align="left"><code>min_trajectory_length</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Min trajectory length for resampling [m]</td>
-<td align="left">30.0</td>
-</tr>
-<tr>
-<td align="left"><code>resample_time</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Resample total time [s]</td>
-<td align="left">10.0</td>
-</tr>
-<tr>
-<td align="left"><code>dense_dt</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">resample time interval for dense sampling [s]</td>
-<td align="left">0.1</td>
-</tr>
-<tr>
-<td align="left"><code>dense_min_interval_distance</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">minimum points-interval length for dense sampling [m]</td>
-<td align="left">0.1</td>
-</tr>
-<tr>
-<td align="left"><code>sparse_dt</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">resample time interval for sparse sampling [s]</td>
-<td align="left">0.5</td>
-</tr>
-<tr>
-<td align="left"><code>sparse_min_interval_distance</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">minimum points-interval length for sparse sampling [m]</td>
-<td align="left">4.0</td>
-</tr>
-</tbody>
-</table>
-<h3 id="resampling-parameters-for-post-process">Resampling parameters for post process<a class="headerlink" href="#resampling-parameters-for-post-process" title="Permanent link">#</a></h3>
-<table>
-<thead>
-<tr>
-<th align="left">Name</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-<th align="left">Default value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left"><code>post_max_trajectory_length</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">max trajectory length for resampling [m]</td>
-<td align="left">300.0</td>
-</tr>
-<tr>
-<td align="left"><code>post_min_trajectory_length</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">min trajectory length for resampling [m]</td>
-<td align="left">30.0</td>
-</tr>
-<tr>
-<td align="left"><code>post_resample_time</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">resample total time for dense sampling [s]</td>
-<td align="left">10.0</td>
-</tr>
-<tr>
-<td align="left"><code>post_dense_dt</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">resample time interval for dense sampling [s]</td>
-<td align="left">0.1</td>
-</tr>
-<tr>
-<td align="left"><code>post_dense_min_interval_distance</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">minimum points-interval length for dense sampling [m]</td>
-<td align="left">0.1</td>
-</tr>
-<tr>
-<td align="left"><code>post_sparse_dt</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">resample time interval for sparse sampling [s]</td>
-<td align="left">0.1</td>
-</tr>
-<tr>
-<td align="left"><code>post_sparse_min_interval_distance</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">minimum points-interval length for sparse sampling [m]</td>
-<td align="left">1.0</td>
-</tr>
-</tbody>
-</table>
-<h3 id="limit-steering-angle-rate-parameters">Limit steering angle rate parameters<a class="headerlink" href="#limit-steering-angle-rate-parameters" title="Permanent link">#</a></h3>
-<table>
-<thead>
-<tr>
-<th align="left">Name</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-<th align="left">Default value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left"><code>enable_steering_rate_limit</code></td>
-<td align="left"><code>bool</code></td>
-<td align="left">To toggle the steer rate filter on and off. You can switch it dynamically at runtime.</td>
-<td align="left">true</td>
-</tr>
-<tr>
-<td align="left"><code>max_steering_angle_rate</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Maximum steering angle rate [degree/s]</td>
-<td align="left">40.0</td>
-</tr>
-<tr>
-<td align="left"><code>resample_ds</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Distance between trajectory points [m]</td>
-<td align="left">0.1</td>
-</tr>
-<tr>
-<td align="left"><code>curvature_threshold</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">If curvature &gt; curvature_threshold, steeringRateLimit is triggered [1/m]</td>
-<td align="left">0.02</td>
-</tr>
-<tr>
-<td align="left"><code>curvature_calculation_distance</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Distance of points while curvature is calculating [m]</td>
-<td align="left">1.0</td>
-</tr>
-</tbody>
-</table>
-<h3 id="weights-for-optimization">Weights for optimization<a class="headerlink" href="#weights-for-optimization" title="Permanent link">#</a></h3>
-<h4 id="jerkfiltered_1">JerkFiltered<a class="headerlink" href="#jerkfiltered_1" title="Permanent link">#</a></h4>
-<table>
-<thead>
-<tr>
-<th align="left">Name</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-<th align="left">Default value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left"><code>jerk_weight</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Weight for "smoothness" cost for jerk</td>
-<td align="left">10.0</td>
-</tr>
-<tr>
-<td align="left"><code>over_v_weight</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Weight for "over speed limit" cost</td>
-<td align="left">100000.0</td>
-</tr>
-<tr>
-<td align="left"><code>over_a_weight</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Weight for "over accel limit" cost</td>
-<td align="left">5000.0</td>
-</tr>
-<tr>
-<td align="left"><code>over_j_weight</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Weight for "over jerk limit" cost</td>
-<td align="left">1000.0</td>
-</tr>
-</tbody>
-</table>
-<h4 id="l2_1">L2<a class="headerlink" href="#l2_1" title="Permanent link">#</a></h4>
-<table>
-<thead>
-<tr>
-<th align="left">Name</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-<th align="left">Default value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left"><code>pseudo_jerk_weight</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Weight for "smoothness" cost</td>
-<td align="left">100.0</td>
-</tr>
-<tr>
-<td align="left"><code>over_v_weight</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Weight for "over speed limit" cost</td>
-<td align="left">100000.0</td>
-</tr>
-<tr>
-<td align="left"><code>over_a_weight</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Weight for "over accel limit" cost</td>
-<td align="left">1000.0</td>
-</tr>
-</tbody>
-</table>
-<h4 id="linf_1">Linf<a class="headerlink" href="#linf_1" title="Permanent link">#</a></h4>
-<table>
-<thead>
-<tr>
-<th align="left">Name</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-<th align="left">Default value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left"><code>pseudo_jerk_weight</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Weight for "smoothness" cost</td>
-<td align="left">100.0</td>
-</tr>
-<tr>
-<td align="left"><code>over_v_weight</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Weight for "over speed limit" cost</td>
-<td align="left">100000.0</td>
-</tr>
-<tr>
-<td align="left"><code>over_a_weight</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Weight for "over accel limit" cost</td>
-<td align="left">1000.0</td>
-</tr>
-</tbody>
-</table>
-<h3 id="others">Others<a class="headerlink" href="#others" title="Permanent link">#</a></h3>
-<table>
-<thead>
-<tr>
-<th align="left">Name</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-<th align="left">Default value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left"><code>over_stop_velocity_warn_thr</code></td>
-<td align="left"><code>double</code></td>
-<td align="left">Threshold to judge that the optimized velocity exceeds the input velocity on the stop point [m/s]</td>
-<td align="left">1.389</td>
-</tr>
-</tbody>
-</table>
-<!-- Write parameters of this package.
-
-Example:
-  ### Node Parameters
-
-  | Name                   | Type | Description                     |
-  | ---------------------- | ---- | ------------------------------- |
-  | `output_debug_markers` | bool | whether to output debug markers |
-
-  ### Core Parameters
-
-  | Name                 | Type     | Description                                                          |
-  | -------------------- | -------- | -------------------------------------------------------------------- |
-  | `min_object_size_m`  | `double` | minimum object size to be selected as avoidance target obstacles [m] |
-  | `avoidance_margin_m` | `double` | avoidance margin to obstacles [m]                                    |
--->
-
-<h2 id="assumptions-known-limits">Assumptions / Known limits<a class="headerlink" href="#assumptions-known-limits" title="Permanent link">#</a></h2>
-<ul>
-<li>Assume that the velocity limit or the stopping point is properly set at the point on the reference trajectory</li>
-<li>If the velocity limit set in the reference path cannot be achieved by the designated constraints of the deceleration and the jerk, decelerate while suppressing the velocity, the acceleration and the jerk deviation as much as possible</li>
-<li>The importance of the deviations is set in the config file</li>
-</ul>
-<h2 id="optional-error-detection-and-handling">(Optional) Error detection and handling<a class="headerlink" href="#optional-error-detection-and-handling" title="Permanent link">#</a></h2>
-<h2 id="optional-performance-characterization">(Optional) Performance characterization<a class="headerlink" href="#optional-performance-characterization" title="Permanent link">#</a></h2>
-<h2 id="optional-referencesexternal-links">(Optional) References/External links<a class="headerlink" href="#optional-referencesexternal-links" title="Permanent link">#</a></h2>
-<p>[1] B. Stellato, et al., "OSQP: an operator splitting solver for quadratic programs", Mathematical Programming Computation, 2020, <a href="https://link.springer.com/article/10.1007/s12532-020-00179-2">10.1007/s12532-020-00179-2</a>.</p>
-<p>[2] Y. Zhang, et al., "Toward a More Complete, Flexible, and Safer Speed Planning for Autonomous Driving via Convex Optimization", Sensors, vol. 18, no. 7, p. 2185, 2018, <a href="https://doi.org/10.3390/s18072185">10.3390/s18072185</a></p>
-<h2 id="optional-future-extensions-unimplemented-parts">(Optional) Future extensions / Unimplemented parts<a class="headerlink" href="#optional-future-extensions-unimplemented-parts" title="Permanent link">#</a></h2></div>
+</table></div>
 
 
 
@@ -3741,7 +3058,7 @@ Example:
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../autoware_route_handler/" class="md-footer__link md-footer__link--prev" aria-label="Previous: route handler" rel="prev">
+          <a href="../../autoware_velocity_smoother/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Velocity Smoother" rel="prev">
             <div class="md-footer__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
             </div>
@@ -3750,20 +3067,20 @@ Example:
                 Previous
               </span>
               <div class="md-ellipsis">
-                route handler
+                Velocity Smoother
               </div>
             </div>
           </a>
         
         
           
-          <a href="../behavior_velocity_planner/autoware_behavior_velocity_planner/" class="md-footer__link md-footer__link--next" aria-label="Next: Behavior Velocity Planner" rel="next">
+          <a href="../autoware_behavior_velocity_planner_common/" class="md-footer__link md-footer__link--next" aria-label="Next: Behavior Velocity Planner Common" rel="next">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Behavior Velocity Planner
+                Behavior Velocity Planner Common
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -3799,13 +3116,13 @@ Example:
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.expand", "navigation.indexes", "navigation.instant", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.footer"], "search": "../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.expand", "navigation.indexes", "navigation.instant", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.footer"], "search": "../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.220ee61c.min.js"></script>
       
         
-          <script src="../../docs/assets/js/mathjax.js"></script>
+          <script src="../../../docs/assets/js/mathjax.js"></script>
         
       
         
