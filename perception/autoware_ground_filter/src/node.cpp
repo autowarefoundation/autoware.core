@@ -15,8 +15,8 @@
 #include "autoware/ground_filter/node.hpp"
 
 #include "autoware/ground_filter/ground_filter.hpp"
-#include "rclcpp/rclcpp.hpp"
 #include "autoware/ground_filter/sanity_check.hpp"
+#include "rclcpp/rclcpp.hpp"
 
 #include <autoware_utils/geometry/geometry.hpp>
 #include <autoware_utils/math/normalization.hpp>
@@ -133,14 +133,13 @@ GroundFilterComponent::GroundFilterComponent(const rclcpp::NodeOptions & options
   }
 
   using std::placeholders::_1;
-  set_param_res_ = this->add_on_set_parameters_callback(
-    std::bind(&GroundFilterComponent::onParameter, this, _1));
+  set_param_res_ =
+    this->add_on_set_parameters_callback(std::bind(&GroundFilterComponent::onParameter, this, _1));
 
   // initialize debug tool
   {
     stop_watch_ptr_ = std::make_unique<autoware_utils::StopWatch<std::chrono::milliseconds>>();
-    debug_publisher_ptr_ =
-      std::make_unique<autoware_utils::DebugPublisher>(this, "ground_filter");
+    debug_publisher_ptr_ = std::make_unique<autoware_utils::DebugPublisher>(this, "ground_filter");
     stop_watch_ptr_->tic("cyclic_time");
     stop_watch_ptr_->tic("processing_time");
 
