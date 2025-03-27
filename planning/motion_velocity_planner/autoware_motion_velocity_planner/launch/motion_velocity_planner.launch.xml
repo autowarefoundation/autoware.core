@@ -15,7 +15,7 @@
   <!-- <arg name="motion_velocity_planner_template_module_param_path"/> -->
   <arg name="motion_velocity_planner_param_file" default="$(find-pkg-share autoware_motion_velocity_planner)/config/motion_velocity_planner.param.yaml"/>
 
-  <node pkg="autoware_motion_velocity_planner" exec="motion_velocity_planner_exe" name="motion_velocity_planner" output="screen">
+  <node pkg="autoware_motion_velocity_planner" exec="autoware_motion_velocity_planner_node" name="motion_velocity_planner" output="screen">
     <!-- topic remap -->
     <remap from="~/input/trajectory" to="trajectory"/>
     <remap from="~/input/vector_map" to="/map/vector_map"/>
