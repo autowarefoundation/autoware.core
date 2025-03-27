@@ -8,9 +8,9 @@ The `autoware_ground_filter` is a node that remove the ground points from the in
 
 Detail description of each ground segmentation algorithm is in the following links.
 
-| Filter Name        | Description                                                                                                | Detail                             |
-| ------------------ | ---------------------------------------------------------------------------------------------------------- | ---------------------------------- |
-| ground_filter      | A method of removing the ground based on the geometrical relationship between points lined up on radiation | [link](docs/ground-filter.md) |
+| Filter Name   | Description                                                                                                | Detail                        |
+| ------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------------- |
+| ground_filter | A method of removing the ground based on the geometrical relationship between points lined up on radiation | [link](docs/ground-filter.md) |
 
 ## Inputs / Outputs
 
