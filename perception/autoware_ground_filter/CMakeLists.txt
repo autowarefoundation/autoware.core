@@ -30,7 +30,6 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 # ========== Ground Filter ==========
-# -- Scan Ground Filter --
 rclcpp_components_register_node(${PROJECT_NAME}
   PLUGIN "autoware::ground_filter::GroundFilterComponent"
   EXECUTABLE ground_filter_node)
