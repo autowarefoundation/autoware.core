@@ -1,11 +1,15 @@
 <launch>
+  <arg name="ekf_localizer_param_path" default="$(find-pkg-share autoware_core)/config/localization/ekf_localizer.param.yaml"/>
+  <arg name="stop_filter_param_path" default="$(find-pkg-share autoware_core)/config/localization/stop_filter.param.yaml"/>
+  <arg name="twist2accel_param_path" default="$(find-pkg-share autoware_core)/config/localization/twist2accel.param.yaml"/>
+
   <group>
     <push-ros-namespace namespace="localization"/>
 
     <include file="$(find-pkg-share autoware_ekf_localizer)/launch/ekf_localizer.launch.xml">
       <arg name="input_initial_pose_name" value="/initialpose3d"/>
-      <arg name="input_pose_with_cov_name" value="/localization/pose_estimator/pose_with_covariance"/>
-      <arg name="input_twist_with_cov_name" value="/localization/twist_estimator/twist_with_covariance"/>
+      <arg name="input_pose_with_cov_name" value="/sensing/gnss/pose_with_covariance_modified"/>
+      <arg name="input_twist_with_cov_name" value="sensing/vehicle_velocity_converter/twist_with_covariance"/>
       <arg name="output_odom_name" value="kinematic_state"/>
       <arg name="output_pose_name" value="pose"/>
       <arg name="output_pose_with_covariance_name" value="/localization/pose_with_covariance"/>

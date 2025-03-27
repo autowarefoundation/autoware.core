@@ -5,6 +5,7 @@
 
   <!-- Global parameters -->
   <arg name="use_sim_time" default="false" description="use_sim_time"/>
+  <arg name="vehicle_model" description="vehicle model name"/>
 
   <!-- Optional parameters -->
   <!-- Modules to be launched -->
@@ -16,12 +17,12 @@
   <arg name="launch_control" default="true" description="launch control"/>
 
   <!-- Global parameters -->
-  <!-- <group scoped="false">
+  <group scoped="false">
     <include file="$(find-pkg-share autoware_global_parameter_loader)/launch/global_params.launch.py">
       <arg name="use_sim_time" value="$(var use_sim_time)"/>
       <arg name="vehicle_model" value="$(var vehicle_model)"/>
     </include>
-  </group> -->
+  </group>
 
   <!-- Map -->
   <group if="$(var launch_map)">
@@ -34,14 +35,14 @@
   </group>
 
   <!-- Sensing -->
-  <!-- <group if="$(var launch_sensing)">
+  <group if="$(var launch_sensing)">
     <include file="$(find-pkg-share autoware_core)/launch/component/autoware_core_sensing.launch.xml"/>
-  </group> -->
+  </group>
 
   <!-- Localization -->
-  <!-- <group if="$(var launch_localization)">
+  <group if="$(var launch_localization)">
     <include file="$(find-pkg-share autoware_core)/launch/component/autoware_core_localization.launch.xml"/>
-  </group> -->
+  </group>
 
   <!-- Perception -->
   <!-- <group if="$(var launch_perception)">
@@ -57,5 +58,11 @@
   <!-- <group if="$(var launch_control)">
     <include file="$(find-pkg-share autoware_core)/launch/component/autoware_core_control.launch.xml"/>
   </group> -->
+
+  <!-- Tools -->
+  <group>
+    <node pkg="rviz2" exec="rviz2" name="rviz2" output="screen" args="-d $(find-pkg-share autoware_core)/rviz/autoware_core.rviz"/>
+  </group>
+
 
 </launch>
