@@ -70,6 +70,7 @@ jobs:
         with:
           rosdistro: humble
           target-packages: ${{ steps.get-self-packages.outputs.self-packages }}
+          build-depends-repos: build_depends.repos
           build-pre-command: taskset --cpu-list 0-6
           underlay-workspace: /opt/autoware
 
@@ -91,6 +92,7 @@ jobs:
         with:
           rosdistro: humble
           target-packages: ${{ steps.get-self-packages.outputs.self-packages }}
+          build-depends-repos: build_depends.repos
           underlay-workspace: /opt/autoware
 
       - name: Upload coverage to CodeCov
