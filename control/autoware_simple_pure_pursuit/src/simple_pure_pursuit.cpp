@@ -84,7 +84,7 @@ autoware_control_msgs::msg::Control SimplePurePursuitNode::create_control_comman
 
   // calculate control command
   autoware_control_msgs::msg::Control control_command;
-  control_command.stamp = get_clock()->now();
+  control_command.stamp = odom.header.stamp;
   control_command.longitudinal = calc_longitudinal_control(odom, target_longitudinal_vel);
   control_command.lateral =
     calc_lateral_control(odom, traj, target_longitudinal_vel, closest_traj_point_idx);
