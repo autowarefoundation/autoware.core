@@ -67,7 +67,7 @@ def launch_setup(context, *args, **kwargs):
     )
 
     container = ComposableNodeContainer(
-        name="scan_ground_filter_container",
+        name="ground_filter_container",
         namespace="",
         package="rclcpp_components",
         executable="component_container",
