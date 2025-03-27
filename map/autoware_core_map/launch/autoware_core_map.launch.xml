@@ -7,21 +7,14 @@
   <arg name="lanelet2_map_loader_param_path" default="$(find-pkg-share autoware_core_map)/config/lanelet2_map_loader.param.yaml"/>
   <arg name="map_projection_loader_param_path" default="$(find-pkg-share autoware_core_map)/config/map_projection_loader.param.yaml"/>
 
-  <!-- select container type -->
-  <arg name="use_multithread" default="false"/>
-  <let name="container_type" value="component_container" unless="$(var use_multithread)"/>
-  <let name="container_type" value="component_container_mt" if="$(var use_multithread)"/>
-
   <group>
     <push-ros-namespace namespace="map"/>
 
-    <node_container pkg="rclcpp_components" exec="$(var container_type)" name="map_container" namespace="" output="both">
-      <composable_node pkg="autoware_map_loader" plugin="autoware::map_loader::Lanelet2MapLoaderNode" name="lanelet2_map_loader">
-        <param from="$(var lanelet2_map_loader_param_path)"/>
-        <param name="lanelet2_map_path" value="$(var lanelet2_map_path)"/>
-        <remap from="output/lanelet2_map" to="vector_map"/>
-      </composable_node>
-    </node_container>
+    <node pkg="autoware_map_loader" exec="autoware_lanelet2_map_loader" name="lanelet2_map_loader">
+      <param from="$(var lanelet2_map_loader_param_path)"/>
+      <param name="lanelet2_map_path" value="$(var lanelet2_map_path)"/>
+      <remap from="output/lanelet2_map" to="vector_map"/>
+    </node>
 
     <include file="$(find-pkg-share autoware_map_projection_loader)/launch/map_projection_loader.launch.xml">
       <arg name="param_path" value="$(var map_projection_loader_param_path)"/>
