@@ -15,8 +15,8 @@
 #ifndef SCAN_GROUND_FILTER__GRID_GROUND_FILTER_HPP_
 #define SCAN_GROUND_FILTER__GRID_GROUND_FILTER_HPP_
 
-#include "data.hpp"
-#include "grid.hpp"
+#include "autoware/ground_filter/data.hpp"
+#include "autoware/ground_filter/grid.hpp"
 
 #include <autoware_utils/system/time_keeper.hpp>
 #include <pcl/impl/point_types.hpp>

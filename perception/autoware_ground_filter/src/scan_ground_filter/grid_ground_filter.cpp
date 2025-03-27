@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "grid_ground_filter.hpp"
+#include "autoware/ground_filter/grid_ground_filter.hpp"
 
-#include "data.hpp"
+#include "autoware/ground_filter/data.hpp"
 
 #include <pcl/PointIndices.h>
 
