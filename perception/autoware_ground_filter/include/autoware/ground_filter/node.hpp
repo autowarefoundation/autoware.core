@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SCAN_GROUND_FILTER__NODE_HPP_
-#define SCAN_GROUND_FILTER__NODE_HPP_
+#ifndef AUTOWARE__GROUND_FILTER__NODE_HPP_
+#define AUTOWARE__GROUND_FILTER__NODE_HPP_
 
 #include "autoware/ground_filter/data.hpp"
 #include "autoware/ground_filter/grid_ground_filter.hpp"
@@ -387,4 +387,4 @@ public:
 };
 }  // namespace autoware::ground_filter
 
-#endif  // SCAN_GROUND_FILTER__NODE_HPP_
+#endif  // AUTOWARE__GROUND_FILTER__NODE_HPP_

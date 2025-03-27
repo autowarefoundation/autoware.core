@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SCAN_GROUND_FILTER__GRID_HPP_
-#define SCAN_GROUND_FILTER__GRID_HPP_
+#ifndef AUTOWARE__GROUND_FILTER__GRID_HPP_
+#define AUTOWARE__GROUND_FILTER__GRID_HPP_
 
 #include <autoware_utils/geometry/geometry.hpp>
 #include <autoware_utils/math/normalization.hpp>
@@ -500,4 +500,4 @@ private:
 
 }  // namespace autoware::ground_filter
 
-#endif  // SCAN_GROUND_FILTER__GRID_HPP_
+#endif  // AUTOWARE__GROUND_FILTER__GRID_HPP_
