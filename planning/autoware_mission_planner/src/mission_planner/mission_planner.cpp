@@ -47,6 +47,7 @@ MissionPlanner::MissionPlanner(const rclcpp::NodeOptions & options)
   using std::placeholders::_1;
   using std::placeholders::_2;
 
+  // cppcheck-suppress useInitializationList
   map_frame_ = declare_parameter<std::string>("map_frame");
   reroute_time_threshold_ = declare_parameter<double>("reroute_time_threshold");
   minimum_reroute_length_ = declare_parameter<double>("minimum_reroute_length");

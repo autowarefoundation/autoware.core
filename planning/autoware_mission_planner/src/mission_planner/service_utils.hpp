@@ -33,10 +33,8 @@ class ServiceException : public std::exception
 {
 public:
   ServiceException(ResponseStatusCode code, const std::string & message, bool success = false)
+  : success_(success), code_(code), message_(message)
   {
-    success_ = success;
-    code_ = code;
-    message_ = message;
   }
 
   template <class StatusT>
