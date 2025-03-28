@@ -66,17 +66,19 @@ autoware_map_msgs::msg::MapProjectorInfo load_info_from_yaml(const std::string &
   }
 
   // set scale factor
-  if(msg.projector_type == autoware_map_msgs::msg::MapProjectorInfo::TRANSVERSE_MERCATOR) {
+  if (msg.projector_type == autoware_map_msgs::msg::MapProjectorInfo::TRANSVERSE_MERCATOR) {
     if (data["scale_factor"]) {
       msg.scale_factor = data["scale_factor"].as<double>();
     } else {
       msg.scale_factor = 0.9996;
     }
-  } else if (msg.projector_type == autoware_map_msgs::msg::MapProjectorInfo::MGRS ||
-             msg.projector_type == autoware_map_msgs::msg::MapProjectorInfo::LOCAL_CARTESIAN_UTM) {
+  } else if (
+    msg.projector_type == autoware_map_msgs::msg::MapProjectorInfo::MGRS ||
+    msg.projector_type == autoware_map_msgs::msg::MapProjectorInfo::LOCAL_CARTESIAN_UTM) {
     msg.scale_factor = 0.9996;
-  } else if (msg.projector_type == autoware_map_msgs::msg::MapProjectorInfo::LOCAL ||
-             msg.projector_type == autoware_map_msgs::msg::MapProjectorInfo::LOCAL_CARTESIAN) {
+  } else if (
+    msg.projector_type == autoware_map_msgs::msg::MapProjectorInfo::LOCAL ||
+    msg.projector_type == autoware_map_msgs::msg::MapProjectorInfo::LOCAL_CARTESIAN) {
     msg.scale_factor = 1.0;
   }
 

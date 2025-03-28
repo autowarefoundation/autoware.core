@@ -31,6 +31,7 @@ There are three types of transformations from latitude and longitude to XYZ coor
 # map_projector_info.yaml
 projector_type: Local
 ```
+
 ※ Even if you input scale_factor, it will be overwritten to 1.0.
 
 #### Limitation
@@ -52,8 +53,8 @@ projector_type: MGRS
 vertical_datum: WGS84
 mgrs_grid: 54SUE
 ```
-※ Even if you input scale_factor, it will be overwritten to 0.9996.
 
+※ Even if you input scale_factor, it will be overwritten to 0.9996.
 
 #### Limitation
 
@@ -71,6 +72,7 @@ map_origin:
   latitude: 35.6762 # [deg]
   longitude: 139.6503 # [deg]
 ```
+
 ※ Even if you input scale_factor, it will be overwritten to 0.9996.
 
 ### Using LocalCartesian
@@ -87,6 +89,7 @@ map_origin:
   latitude: 35.6762 # [deg]
   longitude: 139.6503 # [deg]
 ```
+
 ※ Even if you input scale_factor, it will be overwritten to 1.0.
 
 ### Using TransverseMercator
