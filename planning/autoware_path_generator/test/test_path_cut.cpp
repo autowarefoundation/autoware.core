@@ -300,31 +300,31 @@ TEST_F(UtilsTest, GetArcLengthOnBounds)
   const auto epsilon = 1e-1;
 
   {  // lanelet sequence is empty
-    const auto result = utils::get_arc_length_on_bounds({}, {});
+    const auto [left, right] = utils::get_arc_length_on_bounds({}, {});
 
-    ASSERT_NEAR(result[0], {}, epsilon);
-    ASSERT_NEAR(result[1], {}, epsilon);
+    ASSERT_NEAR(left, {}, epsilon);
+    ASSERT_NEAR(right, {}, epsilon);
   }
 
   {  // normal case
-    const auto result = utils::get_arc_length_on_bounds(get_lanelets_from_ids({50}), 10.0);
+    const auto [left, right] = utils::get_arc_length_on_bounds(get_lanelets_from_ids({50}), 10.0);
 
-    ASSERT_NEAR(result[0], 11.293, epsilon);
-    ASSERT_NEAR(result[1], 8.823, epsilon);
+    ASSERT_NEAR(left, 11.293, epsilon);
+    ASSERT_NEAR(right, 8.823, epsilon);
   }
 
   {  // input arc length is negative
-    const auto result = utils::get_arc_length_on_bounds(get_lanelets_from_ids({50}), -10.0);
+    const auto [left, right] = utils::get_arc_length_on_bounds(get_lanelets_from_ids({50}), -10.0);
 
-    ASSERT_NEAR(result[0], 0.0, epsilon);
-    ASSERT_NEAR(result[1], 0.0, epsilon);
+    ASSERT_NEAR(left, 0.0, epsilon);
+    ASSERT_NEAR(right, 0.0, epsilon);
   }
 
   {  // input arc length exceeds lanelet length
-    const auto result = utils::get_arc_length_on_bounds(get_lanelets_from_ids({50}), 100.0);
+    const auto [left, right] = utils::get_arc_length_on_bounds(get_lanelets_from_ids({50}), 100.0);
 
-    ASSERT_NEAR(result[0], 100.0, epsilon);
-    ASSERT_NEAR(result[1], 100.0, epsilon);
+    ASSERT_NEAR(left, 100.0, epsilon);
+    ASSERT_NEAR(right, 100.0, epsilon);
   }
 }
 
@@ -333,49 +333,50 @@ TEST_F(UtilsTest, GetArcLengthOnCenterline)
   const auto epsilon = 1e-1;
 
   {  // lanelet sequence is empty
-    const auto result = utils::get_arc_length_on_centerline({}, {{}}, {{}});
+    const auto [left, right] = utils::get_arc_length_on_centerline({}, {{}}, {{}});
 
-    ASSERT_TRUE(result[0].has_value());
-    ASSERT_NEAR(*result[0], {}, epsilon);
-    ASSERT_TRUE(result[1].has_value());
-    ASSERT_NEAR(*result[1], {}, epsilon);
+    ASSERT_TRUE(left.has_value());
+    ASSERT_NEAR(*left, {}, epsilon);
+    ASSERT_TRUE(right.has_value());
+    ASSERT_NEAR(*right, {}, epsilon);
   }
 
   {  // normal case
-    const auto result =
+    const auto [left, right] =
       utils::get_arc_length_on_centerline(get_lanelets_from_ids({50}), 11.293, 8.823);
 
-    ASSERT_TRUE(result[0].has_value());
-    ASSERT_NEAR(*result[0], 10.0, epsilon);
-    ASSERT_TRUE(result[1].has_value());
-    ASSERT_NEAR(*result[1], 10.0, epsilon);
+    ASSERT_TRUE(left.has_value());
+    ASSERT_NEAR(*left, 10.0, epsilon);
+    ASSERT_TRUE(right.has_value());
+    ASSERT_NEAR(*right, 10.0, epsilon);
   }
 
   {  // input arc length is negative
-    const auto result = utils::get_arc_length_on_centerline(get_lanelets_from_ids({50}), -10, -10);
+    const auto [left, right] =
+      utils::get_arc_length_on_centerline(get_lanelets_from_ids({50}), -10, -10);
 
-    ASSERT_TRUE(result[0].has_value());
-    ASSERT_NEAR(*result[0], 0.0, epsilon);
-    ASSERT_TRUE(result[1].has_value());
-    ASSERT_NEAR(*result[1], 0.0, epsilon);
+    ASSERT_TRUE(left.has_value());
+    ASSERT_NEAR(*left, 0.0, epsilon);
+    ASSERT_TRUE(right.has_value());
+    ASSERT_NEAR(*right, 0.0, epsilon);
   }
 
   {  // input arc length exceeds lanelet length
-    const auto result =
+    const auto [left, right] =
       utils::get_arc_length_on_centerline(get_lanelets_from_ids({50}), 100.0, 100.0);
 
-    ASSERT_TRUE(result[0].has_value());
-    ASSERT_NEAR(*result[0], 100.0, epsilon);
-    ASSERT_TRUE(result[1].has_value());
-    ASSERT_NEAR(*result[1], 100.0, epsilon);
+    ASSERT_TRUE(left.has_value());
+    ASSERT_NEAR(*left, 100.0, epsilon);
+    ASSERT_TRUE(right.has_value());
+    ASSERT_NEAR(*right, 100.0, epsilon);
   }
 
   {  // input arc length is null
-    const auto result =
+    const auto [left, right] =
       utils::get_arc_length_on_centerline(get_lanelets_from_ids({50}), std::nullopt, std::nullopt);
 
-    ASSERT_FALSE(result[0].has_value());
-    ASSERT_FALSE(result[1].has_value());
+    ASSERT_FALSE(left.has_value());
+    ASSERT_FALSE(right.has_value());
   }
 }
 }  // namespace autoware::path_generator
