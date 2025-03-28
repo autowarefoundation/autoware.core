@@ -101,7 +101,6 @@ vertical_datum: WGS84
 map_origin:
   latitude: 35.6762 # [deg]
   longitude: 139.6503 # [deg]
-  altitude: 0.0 # [m]
 scale_factor: 0.9996
 ```
 
