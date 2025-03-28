@@ -3899,6 +3899,53 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#nomenclature" class="md-nav__link">
+    Nomenclature
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interpolators" class="md-nav__link">
+    Interpolators
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    API
+  </a>
+  
+    <nav class="md-nav" aria-label="API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interpolators_1" class="md-nav__link">
+    Interpolators
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#example-usage" class="md-nav__link">
     Example Usage
   </a>
@@ -3925,6 +3972,146 @@
 
 <div><h1 id="autoware-trajectory">Autoware Trajectory<a class="headerlink" href="#autoware-trajectory" title="Permanent link">#</a></h1>
 <p>This package provides classes to manage/manipulate Trajectory.</p>
+<h2 id="nomenclature">Nomenclature<a class="headerlink" href="#nomenclature" title="Permanent link">#</a></h2>
+<p>TODO</p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">#</a></h2>
+<h3 id="interpolators">Interpolators<a class="headerlink" href="#interpolators" title="Permanent link">#</a></h3>
+<p><img alt="interpolators" src="images/interpolators.drawio.svg">
+<a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware_core%2Flatest%2Fcommon%2Fautoware_trajectory%2Fimages%2Finterpolators.drawio.svg">View in Drawio</a></p>
+<p>Given <code>bases</code> and <code>values</code>, the builder internally executes interpolation and return the result in the form of <code>expected&lt;T, E&gt;</code>. If successful, it contains the interpolator object.</p>
+<div class="highlight"><span class="filename">./examples/example_readme.cpp:43:62</span><pre><span></span><code><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">xs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0</span><span class="p">,</span><span class="w"> </span><span class="mf">4.0</span><span class="p">,</span><span class="w"> </span><span class="mf">5.0</span><span class="p">};</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">ys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mf">0.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">noise</span><span class="p">(),</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">noise</span><span class="p">(),</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">noise</span><span class="p">(),</span>
+<span class="w">                            </span><span class="mf">3.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">noise</span><span class="p">(),</span><span class="w"> </span><span class="mf">4.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">noise</span><span class="p">(),</span><span class="w"> </span><span class="mf">5.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">noise</span><span class="p">()};</span>
+
+<span class="w">  </span><span class="c1">// You need to use the `Builder` to try to construct the interpolator</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">tl</span><span class="o">::</span><span class="n">expected</span><span class="o">&lt;</span><span class="n">CubicSpline</span><span class="p">,</span><span class="w"> </span><span class="n">InterpolationFailure</span><span class="o">&gt;</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="n">CubicSpline</span><span class="o">::</span><span class="n">Builder</span><span class="p">()</span>
+<span class="w">      </span><span class="p">.</span><span class="n">set_bases</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span><span class="w">   </span><span class="c1">// set the base</span>
+<span class="w">      </span><span class="p">.</span><span class="n">set_values</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span><span class="w">  </span><span class="c1">// set the value</span>
+<span class="w">      </span><span class="p">.</span><span class="n">build</span><span class="p">();</span><span class="w">        </span><span class="c1">// finally, call build()</span>
+
+<span class="w">  </span><span class="c1">// The result may be `InterpolationFailure` type if the input is not suitable</span>
+<span class="w">  </span><span class="c1">// for this interpolator</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">result</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// If successful, the interpolator is available.</span>
+<span class="w">  </span><span class="c1">// In this case the cubic spline coefficients are calculated.</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">CubicSpline</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">trajectory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">value</span><span class="p">();</span>
+</code></pre></div>
+<p>Otherwise it contains the error object representing the failure reason. In the below snippet, cubic spline interpolation fails because the number of input points is 3, which is below the <code>minimum_required_points() = 4</code> of <code>CubicSpline</code>.</p>
+<div class="highlight"><span class="filename">./examples/example_readme.cpp:104:114</span><pre><span></span><code><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">tl</span><span class="o">::</span><span class="n">expected</span><span class="o">&lt;</span><span class="n">CubicSpline</span><span class="p">,</span><span class="w"> </span><span class="n">InterpolationFailure</span><span class="o">&gt;</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="n">CubicSpline</span><span class="o">::</span><span class="n">Builder</span><span class="p">()</span>
+<span class="w">      </span><span class="p">.</span><span class="n">set_bases</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span><span class="w">   </span><span class="c1">// set the base</span>
+<span class="w">      </span><span class="p">.</span><span class="n">set_values</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span><span class="w">  </span><span class="c1">// set the value</span>
+<span class="w">      </span><span class="p">.</span><span class="n">build</span><span class="p">();</span><span class="w">        </span><span class="c1">// finally, call build()</span>
+
+<span class="w">  </span><span class="c1">// Access to the error reason</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">result</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// says "base size 3 is less than minimum required 4"</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">error</span><span class="p">().</span><span class="n">what</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+</code></pre></div>
+<p>In such cases the result <code>expected</code> object contains <code>InterpolationFailure</code> type with an error message like <strong>"base size 3 is less than minimum required 4"</strong>.</p>
+<h2 id="api">API<a class="headerlink" href="#api" title="Permanent link">#</a></h2>
+<h3 id="interpolators_1">Interpolators<a class="headerlink" href="#interpolators_1" title="Permanent link">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>method/function</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Common Functions</td>
+<td><code>minimum_required_points()</code></td>
+<td>return the number of points required for each concrete interpolator</td>
+</tr>
+<tr>
+<td></td>
+<td><code>compute(double s) -&gt; T</code></td>
+<td>compute the interpolated value at given base <span class="arithmatex">\(s\)</span>. <span class="arithmatex">\(s\)</span> is clamped to the underlying base range.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>compute(vector&lt;double&gt; s) -&gt; vector&lt;T&gt;</code></td>
+<td>compute the interpolated values at for each base values in <span class="arithmatex">\(s\)</span>.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>compute_first_derivative(double s) -&gt; double</code></td>
+<td>compute the first derivative of at given base <span class="arithmatex">\(s\)</span>. <span class="arithmatex">\(s\)</span> is clamped.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>compute_second_derivative(double s) -&gt; double</code></td>
+<td>compute the second derivative of at given base <span class="arithmatex">\(s\)</span>. <span class="arithmatex">\(s\)</span> is clamped.</td>
+</tr>
+</tbody>
+</table>
+<p><code>AkimaSpline</code> requires at least <strong>5</strong> points to interpolate.</p>
+<div class="highlight"><span class="filename">./examples/example_readme.cpp:132:146</span><pre><span></span><code><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">xs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0</span><span class="p">,</span><span class="w"> </span><span class="mf">4.0</span><span class="p">,</span><span class="w"> </span><span class="mf">5.0</span><span class="p">};</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">ys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mf">0.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">noise</span><span class="p">(),</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">noise</span><span class="p">(),</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">noise</span><span class="p">(),</span>
+<span class="w">                            </span><span class="mf">3.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">noise</span><span class="p">(),</span><span class="w"> </span><span class="mf">4.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">noise</span><span class="p">(),</span><span class="w"> </span><span class="mf">5.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">noise</span><span class="p">()};</span>
+
+<span class="w">  </span><span class="c1">// You need to use the `Builder` to try to construct the interpolator</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">tl</span><span class="o">::</span><span class="n">expected</span><span class="o">&lt;</span><span class="n">AkimaSpline</span><span class="p">,</span><span class="w"> </span><span class="n">InterpolationFailure</span><span class="o">&gt;</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="n">AkimaSpline</span><span class="o">::</span><span class="n">Builder</span><span class="p">()</span>
+<span class="w">      </span><span class="p">.</span><span class="n">set_bases</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span><span class="w">   </span><span class="c1">// set the base</span>
+<span class="w">      </span><span class="p">.</span><span class="n">set_values</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span><span class="w">  </span><span class="c1">// set the value</span>
+<span class="w">      </span><span class="p">.</span><span class="n">build</span><span class="p">();</span><span class="w">        </span><span class="c1">// finally, call build()</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">trajectory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">value</span><span class="p">();</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trajectory</span><span class="p">.</span><span class="n">base_arange</span><span class="p">(</span><span class="mf">0.05</span><span class="p">);</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trajectory</span><span class="p">.</span><span class="n">compute</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trajectory</span><span class="p">.</span><span class="n">compute_first_derivative</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">ddy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trajectory</span><span class="p">.</span><span class="n">compute_second_derivative</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+</code></pre></div>
+<p><img alt="akima_spline" src="images/akima_spline.drawio.svg">
+<a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware_core%2Flatest%2Fcommon%2Fautoware_trajectory%2Fimages%2Fakima_spline.drawio.svg">View in Drawio</a></p>
+<p><code>CubicSpline</code> requires at least <strong>4</strong> points to interpolate.</p>
+<div class="highlight"><span class="filename">./examples/example_readme.cpp:187:196</span><pre><span></span><code><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">tl</span><span class="o">::</span><span class="n">expected</span><span class="o">&lt;</span><span class="n">CubicSpline</span><span class="p">,</span><span class="w"> </span><span class="n">InterpolationFailure</span><span class="o">&gt;</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="n">CubicSpline</span><span class="o">::</span><span class="n">Builder</span><span class="p">()</span>
+<span class="w">      </span><span class="p">.</span><span class="n">set_bases</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span><span class="w">   </span><span class="c1">// set the base</span>
+<span class="w">      </span><span class="p">.</span><span class="n">set_values</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span><span class="w">  </span><span class="c1">// set the value</span>
+<span class="w">      </span><span class="p">.</span><span class="n">build</span><span class="p">();</span><span class="w">        </span><span class="c1">// finally, call build()</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">trajectory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">value</span><span class="p">();</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trajectory</span><span class="p">.</span><span class="n">base_arange</span><span class="p">(</span><span class="mf">0.05</span><span class="p">);</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trajectory</span><span class="p">.</span><span class="n">compute</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trajectory</span><span class="p">.</span><span class="n">compute_first_derivative</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">ddy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trajectory</span><span class="p">.</span><span class="n">compute_second_derivative</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+</code></pre></div>
+<p><img alt="cubic_spline" src="images/cubic_spline.drawio.svg">
+<a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware_core%2Flatest%2Fcommon%2Fautoware_trajectory%2Fimages%2Fcubic_spline.drawio.svg">View in Drawio</a></p>
+<p><code>Linear</code> requires at least <strong>2</strong> points to interpolate.</p>
+<div class="highlight"><span class="filename">./examples/example_readme.cpp:237:245</span><pre><span></span><code><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">tl</span><span class="o">::</span><span class="n">expected</span><span class="o">&lt;</span><span class="n">Linear</span><span class="p">,</span><span class="w"> </span><span class="n">InterpolationFailure</span><span class="o">&gt;</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Linear</span><span class="o">::</span><span class="n">Builder</span><span class="p">()</span>
+<span class="w">                                                              </span><span class="p">.</span><span class="n">set_bases</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span><span class="w">   </span><span class="c1">// set the base</span>
+<span class="w">                                                              </span><span class="p">.</span><span class="n">set_values</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span><span class="w">  </span><span class="c1">// set the value</span>
+<span class="w">                                                              </span><span class="p">.</span><span class="n">build</span><span class="p">();</span><span class="w">  </span><span class="c1">// finally, call build()</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">trajectory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">value</span><span class="p">();</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trajectory</span><span class="p">.</span><span class="n">base_arange</span><span class="p">(</span><span class="mf">0.05</span><span class="p">);</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trajectory</span><span class="p">.</span><span class="n">compute</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trajectory</span><span class="p">.</span><span class="n">compute_first_derivative</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">ddy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trajectory</span><span class="p">.</span><span class="n">compute_second_derivative</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+</code></pre></div>
+<p><img alt="linear" src="images/linear.drawio.svg">
+<a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware_core%2Flatest%2Fcommon%2Fautoware_trajectory%2Fimages%2Flinear.drawio.svg">View in Drawio</a></p>
+<p><code>StairStep</code> requires at least <strong>2</strong> points to interpolate.</p>
+<div class="highlight"><span class="filename">./examples/example_readme.cpp:286:295</span><pre><span></span><code><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">tl</span><span class="o">::</span><span class="n">expected</span><span class="o">&lt;</span><span class="n">Stairstep</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">InterpolationFailure</span><span class="o">&gt;</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="n">Stairstep</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;::</span><span class="n">Builder</span><span class="p">()</span>
+<span class="w">      </span><span class="p">.</span><span class="n">set_bases</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span><span class="w">   </span><span class="c1">// set the base</span>
+<span class="w">      </span><span class="p">.</span><span class="n">set_values</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span><span class="w">  </span><span class="c1">// set the value</span>
+<span class="w">      </span><span class="p">.</span><span class="n">build</span><span class="p">();</span><span class="w">        </span><span class="c1">// finally, call build()</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">trajectory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">value</span><span class="p">();</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trajectory</span><span class="p">.</span><span class="n">base_arange</span><span class="p">(</span><span class="mf">0.05</span><span class="p">);</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trajectory</span><span class="p">.</span><span class="n">compute</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trajectory</span><span class="p">.</span><span class="n">compute_first_derivative</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">ddy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trajectory</span><span class="p">.</span><span class="n">compute_second_derivative</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+</code></pre></div>
+<p><img alt="stairstep" src="images/stairstep.drawio.svg">
+<a href="https://app.diagrams.net/?lightbox=1#Uhttps%3A%2F%2Fautowarefoundation.github.io%2Fautoware_core%2Flatest%2Fcommon%2Fautoware_trajectory%2Fimages%2Fstairstep.drawio.svg">View in Drawio</a></p>
 <h2 id="example-usage">Example Usage<a class="headerlink" href="#example-usage" title="Permanent link">#</a></h2>
 <p>This section describes Example Usage of <code>Trajectory&lt;autoware_planning_msgs::msg::PathPoint&gt;</code></p>
 <ul>
