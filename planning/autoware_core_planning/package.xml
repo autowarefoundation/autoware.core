@@ -15,7 +15,7 @@
   <buildtool_depend>autoware_cmake</buildtool_depend>
 
   <exec_depend>autoware_behavior_velocity_planner</exec_depend>
-  <exec_depend>autoware_behavior_velocity_planner_stop_line_module</exec_depend>
+  <exec_depend>autoware_behavior_velocity_stop_line_module</exec_depend>
   <exec_depend>autoware_mission_planner</exec_depend>
   <exec_depend>autoware_motion_velocity_obstacle_stop_module</exec_depend>
   <exec_depend>autoware_motion_velocity_planner</exec_depend>
